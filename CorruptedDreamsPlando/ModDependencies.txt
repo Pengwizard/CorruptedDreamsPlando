@@ -1,0 +1,10 @@
+MoreDoors
+Randomizer 4
+ItemChangerDataLoader
+ItemChanger
+RandomizerCore
+RandomizerCore.Json
+SpellStaller
+RandoSettingsManager
+MenuChanger
+SFCore
