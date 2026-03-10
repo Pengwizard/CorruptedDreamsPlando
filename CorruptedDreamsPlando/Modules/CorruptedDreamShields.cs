@@ -28,18 +28,19 @@ namespace CorruptedDreamsPlando.Modules
 
         public override void Initialize()
         {
-            CorruptedDreamsPlandoMod.Instance.Log($"Adding edit scene hook");
             On.GameManager.OnNextLevelReady += onSceneChange;
         }
 
         public override void Unload()
         {
-            CorruptedDreamsPlandoMod.Instance.Log($"Removing edit scene hook");
             On.GameManager.OnNextLevelReady -= onSceneChange;
         }
 
 
-
+        public static bool isShieldActive()
+        {
+            return !CorruptedDreamsPlandoMod.LS.ColletedDetermination;
+        }
 
         private void onSceneChange(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
         {

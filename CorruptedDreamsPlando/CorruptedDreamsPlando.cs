@@ -1,3 +1,4 @@
+using CorruptedDreamsPlando.MapAlterations;
 using CorruptedDreamsPlando.Modules;
 using CorruptedDreamsPlando.Skills;
 using ItemChanger;
@@ -38,7 +39,9 @@ namespace CorruptedDreamsPlando
         {
             return new List<(string, string)> {
                 ("Abyss_05", "Dusk Knight/Shield"),
-                ("Crossroads_10_boss_defeated", "Prayer Room/FK Corpse/Dream Enter")
+                ("Crossroads_10_boss_defeated", "Prayer Room/FK Corpse/Dream Enter"),
+                ("Fungus3_23", "Cloth Corpse"),
+                ("Dream_01_False_Knight", "Dream Entry")
             };
         }
 
@@ -49,14 +52,21 @@ namespace CorruptedDreamsPlando
             MapAlterations.DungDoorAdder.AddDungDoor();
             Rando.RandoInterop.Hook();
             VoidCaster.InitializeHooks();
+            Determination.InitializeHooks();
 
             CorruptedDreamShields.ShieldPrefab = preloadedObjects[SceneNames.Abyss_05]["Dusk Knight/Shield"];
+            TraitorLordDream.DreamEnterPrefab = preloadedObjects[SceneNames.Crossroads_10_boss_defeated]["Prayer Room/FK Corpse/Dream Enter"];
+            // TraitorLordDream.Door1Prefab = preloadedObjects[SceneNames.Dream_01_False_Knight]["door1"];
+            TraitorLordDream.DreamEntry = preloadedObjects[SceneNames.Dream_01_False_Knight]["Dream Entry"];
+            TraitorLordDream.ClothCorpsePrefab = preloadedObjects[SceneNames.Fungus3_23]["Cloth Corpse"];
 
             RandoController.OnExportCompleted += AddModules;
+            TraitorLordDream.Initialize();
 
 
             Log("Initialized");
         }
+
         public void AddModules(RandoController rc)
         {
             ItemChangerMod.Modules.Add<CorruptedDreamShields>();

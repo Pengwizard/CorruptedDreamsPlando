@@ -29,7 +29,6 @@ namespace CorruptedDreamsPlando.Locations
             orig(self);
             if (self.gameObject.name == "Knight" && self.FsmName == "Dream Return")
             {
-                CorruptedDreamsPlandoMod.Instance.Log("Inside dream return");
                 FsmState summonState = self.GetValidState("Prostrate Grimm");
                 summonState.InsertCustomAction(() => {
                     GiveInfo gi = new()
