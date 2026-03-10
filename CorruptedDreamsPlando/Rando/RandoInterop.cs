@@ -36,6 +36,7 @@ namespace CorruptedDreamsPlando.Rando
         public static void DefineItems()
         {
             Finder.DefineCustomItem(new VoidCasterItem());
+            Finder.DefineCustomItem(new DeterminationItem());
         }
 
         public static string Clean(string name)

@@ -1,18 +1,7 @@
 ﻿using ItemChanger;
-using ItemChanger.Items;
 using ItemChanger.Tags;
 using ItemChanger.UIDefs;
-using RandomizerMod.RandomizerData;
-using SpellStaller.Charms;
-using Steamworks;
-using System;
-using System.Collections.Generic;
-using System.EnterpriseServices.Internal;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static Mono.Security.X509.X520;
 
 namespace CorruptedDreamsPlando.Skills
 {
@@ -48,20 +37,6 @@ namespace CorruptedDreamsPlando.Skills
             {
                 CorruptedDreamsPlandoMod.Instance.Log("Hero update called for false");
                 CorruptedDreamsPlandoMod.LS.CollectedVoidCaster = false;
-            }
-
-
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                CorruptedDreamsPlandoMod.Instance.Log("Hero update called for true");
-                CorruptedDreamsPlandoMod.LS.ColletedDetermination = true;
-            }
-
-
-            if (Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                CorruptedDreamsPlandoMod.Instance.Log("Hero update called for false");
-                CorruptedDreamsPlandoMod.LS.ColletedDetermination = false;
             }
         }
 

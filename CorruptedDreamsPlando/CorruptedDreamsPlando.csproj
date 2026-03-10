@@ -367,7 +367,4 @@
     <None Include=".gitignore" />
     <None Include="LocalOverrides.targets" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Skills\" />
-  </ItemGroup>
 </Project>

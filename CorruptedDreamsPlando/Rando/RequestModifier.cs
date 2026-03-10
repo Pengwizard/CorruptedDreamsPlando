@@ -1,5 +1,6 @@
 ﻿using CorruptedDreamsPlando.Skills;
 using RandomizerMod.RC;
+using System.Collections.Generic;
 
 namespace CorruptedDreamsPlando.Rando
 {
@@ -13,18 +14,21 @@ namespace CorruptedDreamsPlando.Rando
 
         private static void SetupItems(RequestBuilder rb)
         {
-                rb.EditItemRequest(VoidCaster.skillName, info =>
+            List<string> customSkillNames = new List<string>{ Determination.skillName, VoidCaster.skillName };
+            foreach (string name in customSkillNames) {
+                rb.EditItemRequest(name, info =>
                 {
                     info.getItemDef = () => new RandomizerMod.RandomizerData.ItemDef()
                     {
-                        Name = VoidCaster.skillName,
+                        Name = name,
                         Pool = "Skills",
                         MajorItem = true,
                         PriceCap = 1
                     };
                 });
 
-                rb.AddItemByName(VoidCaster.skillName);
+                rb.AddItemByName(name);
+            }
         }
 
         private static void CloneSettings(RequestBuilder rb)
