@@ -1,8 +1,10 @@
-﻿using CorruptedDreamsPlando.Skills;
+﻿using CorruptedDreamsPlando.Locations;
+using CorruptedDreamsPlando.Skills;
 using ItemChanger;
 using ItemChanger.Tags;
 using Modding;
 using RandomizerMod.RC;
+using UnityEngine;
 
 namespace CorruptedDreamsPlando.Rando
 {
@@ -16,6 +18,7 @@ namespace CorruptedDreamsPlando.Rando
             RandoController.OnExportCompleted += AddRgbModule;
 
             DefineItems();
+            AddCustomLocations();
 
             if (ModHooks.GetMod("RandoSettingsManager") is Mod)
             {
@@ -51,6 +54,21 @@ namespace CorruptedDreamsPlando.Rando
             tag.Properties["ModSource"] = CorruptedDreamsPlandoMod.Instance.GetName();
 
             return tag;
+        }
+
+        public static void AddCustomLocations()
+        {
+            CustomBossEssenceLocation scareLoc = new() { name = CustomBossEssenceLocation.nkgEssecnceLocation, sceneName = SceneNames.Grimm_Main_Tent };
+            DefineLoc(scareLoc, SceneNames.Grimm_Main_Tent, "DungDoor", 0, 0);
+        }
+
+        public static void DefineLoc(AbstractLocation loc, string sprite, string scene, float x, float y)
+        {
+            CorruptedDreamsPlandoMod.Instance.Log("Defining the location");
+            InteropTag tag = AddTag(loc);
+            tag.Properties["PinSprite"] = new EmbeddedSprite(sprite);
+            tag.Properties["WorldMapLocation"] = (scene, x, y);
+            Finder.DefineCustomLocation(loc);
         }
     }
 }

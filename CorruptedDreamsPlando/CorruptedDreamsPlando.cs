@@ -57,7 +57,6 @@ namespace CorruptedDreamsPlando
 
             Log("Initialized");
         }
-
         public void AddModules(RandoController rc)
         {
             ItemChangerMod.Modules.Add<CorruptedDreamShields>();

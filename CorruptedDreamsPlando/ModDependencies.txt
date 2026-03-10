@@ -8,3 +8,4 @@ SpellStaller
 RandoSettingsManager
 MenuChanger
 SFCore
+Satchel

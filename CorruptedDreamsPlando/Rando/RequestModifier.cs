@@ -1,6 +1,12 @@
-﻿using CorruptedDreamsPlando.Skills;
+﻿using CorruptedDreamsPlando.Locations;
+using CorruptedDreamsPlando.Skills;
+using ItemChanger;
+using RandomizerCore.Json;
+using RandomizerCore.Logic;
 using RandomizerMod.RC;
+using RandomizerMod.Settings;
 using System.Collections.Generic;
+using System.IO;
 
 namespace CorruptedDreamsPlando.Rando
 {
@@ -9,6 +15,7 @@ namespace CorruptedDreamsPlando.Rando
         public static void Hook()
         {
             RequestBuilder.OnUpdate.Subscribe(-499, SetupItems);
+            RequestBuilder.OnUpdate.Subscribe(-100, ApplyNkgRewardDef);
             RequestBuilder.OnUpdate.Subscribe(0, CloneSettings);
         }
 
@@ -37,6 +44,35 @@ namespace CorruptedDreamsPlando.Rando
             GlobalSettings g = CorruptedDreamsPlandoMod.GS;
 
             l.Enabled = g.Enabled;
+        }
+
+
+        public static void ApplyNkgRewardDef(RequestBuilder rb)
+        {
+            AddAndEditLocation(rb, CustomBossEssenceLocation.nkgEssecnceLocation, FlingType.Everywhere, false, SceneNames.Grimm_Main_Tent);
+        }
+
+        private static void AddAndEditLocation(RequestBuilder rb, string name, FlingType flingType, bool progressionPenalty, string scene)
+        {
+            rb.AddLocationByName(name);
+            rb.EditLocationRequest(name, info => {
+                info.customPlacementFetch = (factory, placement) => {
+                    if (factory.TryFetchPlacement(name, out AbstractPlacement ap1))
+                        return ap1;
+                    AbstractLocation absLoc = Finder.GetLocation(name);
+                    absLoc.flingType = flingType;
+                    AbstractPlacement ap = absLoc.Wrap();
+                    factory.AddPlacement(ap);
+                    return ap;
+                };
+                info.getLocationDef = () => new()
+                {
+                    Name = name,
+                    FlexibleCount = false,
+                    AdditionalProgressionPenalty = progressionPenalty,
+                    SceneName = scene
+                };
+            });
         }
     }
 }
