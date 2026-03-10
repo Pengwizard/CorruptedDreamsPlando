@@ -28,14 +28,12 @@ namespace CorruptedDreamsPlando.Skills
             orig(self);
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                CorruptedDreamsPlandoMod.Instance.Log("Hero update called for true");
                 CorruptedDreamsPlandoMod.LS.CollectedVoidCaster = true;
             }
 
 
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                CorruptedDreamsPlandoMod.Instance.Log("Hero update called for false");
                 CorruptedDreamsPlandoMod.LS.CollectedVoidCaster = false;
             }
         }

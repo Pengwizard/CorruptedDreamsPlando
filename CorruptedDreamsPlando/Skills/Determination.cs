@@ -26,14 +26,12 @@ namespace CorruptedDreamsPlando.Skills
             orig(self);
             if (Input.GetKeyDown(KeyCode.Alpha5))
             {
-                CorruptedDreamsPlandoMod.Instance.Log("Hero update called for true");
                 CorruptedDreamsPlandoMod.LS.ColletedDetermination = true;
             }
 
 
             if (Input.GetKeyDown(KeyCode.Alpha6))
             {
-                CorruptedDreamsPlandoMod.Instance.Log("Hero update called for false");
                 CorruptedDreamsPlandoMod.LS.ColletedDetermination = false;
             }
         }
