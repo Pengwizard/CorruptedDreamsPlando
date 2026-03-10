@@ -368,7 +368,6 @@
     <None Include="LocalOverrides.targets" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modules\" />
     <Folder Include="Skills\" />
   </ItemGroup>
 </Project>

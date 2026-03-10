@@ -1,3 +1,4 @@
+using CorruptedDreamsPlando.Modules;
 using CorruptedDreamsPlando.Skills;
 using ItemChanger;
 using ItemChanger.Locations;
@@ -5,6 +6,8 @@ using Modding;
 using MoreDoors.Data;
 using RandomizerMod.RC;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace CorruptedDreamsPlando
 {
@@ -31,7 +34,15 @@ namespace CorruptedDreamsPlando
             _instance = this;
         }
 
-        public override void Initialize()
+        public override List<(string, string)> GetPreloadNames()
+        {
+            return new List<(string, string)> {
+                ("Abyss_05", "Dusk Knight/Shield"),
+                ("Crossroads_10_boss_defeated", "Prayer Room/FK Corpse/Dream Enter")
+            };
+        }
+
+        public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
             Log("Initializing");
 
@@ -39,9 +50,18 @@ namespace CorruptedDreamsPlando
             Rando.RandoInterop.Hook();
             VoidCaster.InitializeHooks();
 
+            CorruptedDreamShields.ShieldPrefab = preloadedObjects[SceneNames.Abyss_05]["Dusk Knight/Shield"];
+
+            RandoController.OnExportCompleted += AddModules;
+
+
             Log("Initialized");
         }
 
+        public void AddModules(RandoController rc)
+        {
+            ItemChangerMod.Modules.Add<CorruptedDreamShields>();
+        }
 
         public static LocalSettings LS { get; set; } = new();
         public void OnLoadLocal(LocalSettings s) => LS = s;

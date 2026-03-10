@@ -49,25 +49,36 @@ namespace CorruptedDreamsPlando.Skills
                 CorruptedDreamsPlandoMod.Instance.Log("Hero update called for false");
                 CorruptedDreamsPlandoMod.LS.CollectedVoidCaster = false;
             }
+
+
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                CorruptedDreamsPlandoMod.Instance.Log("Hero update called for true");
+                CorruptedDreamsPlandoMod.LS.ColletedDetermination = true;
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                CorruptedDreamsPlandoMod.Instance.Log("Hero update called for false");
+                CorruptedDreamsPlandoMod.LS.ColletedDetermination = false;
+            }
         }
 
         public static void LimitSpellLevel(
     On.HutongGames.PlayMaker.Actions.IntCompare.orig_OnEnter orig,
     HutongGames.PlayMaker.Actions.IntCompare self)
         {
-                CorruptedDreamsPlandoMod.Instance.Log("Trying to change level");
                 if (self.Fsm.FsmComponent.gameObject.name.Contains("Knight") &&
                         self.Fsm.Name == "Spell Control" &&
                         self.State.Name.Contains("Level Check"))
                 {
                 if (!CorruptedDreamsPlandoMod.LS.CollectedVoidCaster)
                 {
-                    CorruptedDreamsPlandoMod.Instance.Log("Changed event");
                     // Change all events passing to be into the "less than" because that goes into level 1.
                     self.integer2 = 3;
                 } else
                 {
-                    CorruptedDreamsPlandoMod.Instance.Log("Changing back");
                     self.integer2 = 1;
                 }
             }
