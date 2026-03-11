@@ -41,7 +41,8 @@ namespace CorruptedDreamsPlando
                 ("Abyss_05", "Dusk Knight/Shield"),
                 ("Crossroads_10_boss_defeated", "Prayer Room/FK Corpse/Dream Enter"),
                 ("Fungus3_23", "Cloth Corpse"),
-                ("Dream_01_False_Knight", "Dream Entry")
+                ("Dream_01_False_Knight", "Dream Entry"),
+                (SceneNames.Abyss_19, "IK Remains/Dream Enter")
             };
         }
 
@@ -62,6 +63,7 @@ namespace CorruptedDreamsPlando
 
             RandoController.OnExportCompleted += AddModules;
             TraitorLordDream.Initialize();
+            LoopTransitions.Initialize();
 
 
             Log("Initialized");

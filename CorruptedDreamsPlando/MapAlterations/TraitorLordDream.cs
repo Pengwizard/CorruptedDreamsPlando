@@ -265,7 +265,7 @@ namespace CorruptedDreamsPlando.MapAlterations
             // TODO: Actually place shield
             if (CorruptedDreamShields.isShieldActive())
             {
-                return;
+                CorruptedDreamShields.PlaceShieldIfNeeded(dreamEnterPosition);
             }
 
 
