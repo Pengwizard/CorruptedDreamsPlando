@@ -1,4 +1,5 @@
-﻿using ItemChanger;
+﻿using CorruptedDreamsPlando.MapAlterations;
+using ItemChanger;
 using ItemChanger.Tags;
 using ItemChanger.UIDefs;
 using UnityEngine;
@@ -33,6 +34,11 @@ namespace CorruptedDreamsPlando.Skills
             if (Input.GetKeyDown(KeyCode.Alpha6))
             {
                 CorruptedDreamsPlandoMod.LS.ColletedDetermination = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                TraitorLordDream.killedTraitorLordInDream = true;
             }
         }
     }
