@@ -17,9 +17,9 @@ namespace CorruptedDreamsPlando.MapAlterations
     public class TraitorLordDream
     {
         public static GameObject DreamEnterPrefab;
-        public static GameObject Door1Prefab;
         public static GameObject DreamEntry;
         public static GameObject ClothCorpsePrefab;
+        public static GameObject DreamArenaBorder;
 
         // BeginSceneTransition sceneName
         public static string sourceRoom = SceneNames.Crossroads_10_boss_defeated;
@@ -48,7 +48,8 @@ namespace CorruptedDreamsPlando.MapAlterations
 
         public static void Initialize()
         {
-            On.GameManager.OnNextLevelReady += onSceneChange;
+            On.GameManager.OnNextLevelReady += setupOverworldState;
+            On.GameManager.OnNextLevelReady += lateSetupDreamState;
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged += setupDreamState;
             On.GameManager.GetCurrentMapZone += GameManagerOnGetCurrentMapZone;
             On.PlayerData.GetBool += OverrideTraitorLordFight;
@@ -57,7 +58,8 @@ namespace CorruptedDreamsPlando.MapAlterations
 
         public static void Unload()
         {
-            On.GameManager.OnNextLevelReady -= onSceneChange;
+            On.GameManager.OnNextLevelReady -= setupOverworldState;
+            On.GameManager.OnNextLevelReady -= lateSetupDreamState;
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged -= setupDreamState;
             // Cleanup just to be sure
             On.GameManager.GetCurrentMapZone -= GameManagerOnGetCurrentMapZone;
@@ -176,8 +178,41 @@ namespace CorruptedDreamsPlando.MapAlterations
             dreamReturnDoor.respawnMarker = dreamReturnHazardRespawn;
         }
 
+        private static void lateSetupDreamState(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
+        {
+            orig(self);
+            if (self.sceneName != destRoom)
+            {
+                // Not our room to change.
+                return;
+            }
+
+            if (!loadedLateDreamEnter)
+            {
+                // We loaded in with a dream so we can skip everything.
+                return;
+            }
+
+            var transitionRight = GameObject.Find("right1");
+            var right1Body = transitionRight.GetComponent<BoxCollider2D>();
+            right1Body.isTrigger = false;
+            transitionRight.layer = LayerMask.NameToLayer("Terrain");
+
+            var transitionLeft = GameObject.Find("left1");
+            var left1Body = transitionLeft.GetComponent<BoxCollider2D>();
+            left1Body.isTrigger = false;
+            transitionLeft.layer = LayerMask.NameToLayer("Terrain");
+
+            
+            GameObject dg1 = UObject.Instantiate(DreamArenaBorder, transitionRight.transform.position + new Vector3(0, 0, 0.2f), Quaternion.identity);
+            dg1.SetActive(true);
+            GameObject dg2 = UObject.Instantiate(DreamArenaBorder, transitionLeft.transform.position + new Vector3(0, 0, 0.2f), Quaternion.identity);
+            dg2.SetActive(true);
+        }
+
         private static void setupOverworldState(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
         {
+            orig(self);
             if (self.sceneName != destRoom)
             {
                 // Not our room to change.
@@ -248,11 +283,5 @@ namespace CorruptedDreamsPlando.MapAlterations
             Satchel.FsmUtil.InsertAction(changeSceneState, setMyBool, 0);
         }
 
-        private static void onSceneChange(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
-        {
-            orig(self);
-            setupOverworldState(orig, self);
-
-        }
     }
 }

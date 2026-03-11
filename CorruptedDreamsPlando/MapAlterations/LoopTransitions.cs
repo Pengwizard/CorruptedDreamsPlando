@@ -13,8 +13,9 @@ namespace CorruptedDreamsPlando.MapAlterations
     {
         private static Dictionary<string, List<string>> roomsToModify = new Dictionary<string, List<string>>
         {
-            {SceneNames.Mines_03, new List<string>{"top1"} },
-            {SceneNames.Deepnest_East_02, new List<string>{ "right1" } }
+            {SceneNames.Mines_03, new List<string>{ "_Transition Gates/top1" } },
+            {SceneNames.Deepnest_East_02, new List<string>{ "_Transition Gates/right1" } },
+            {SceneNames.Deepnest_10, new List<string>{ "door2" } }
         };
 
         public static void Initialize()
@@ -38,14 +39,21 @@ namespace CorruptedDreamsPlando.MapAlterations
 
             foreach (string transitionName in roomsToModify[self.sceneName])
             {
-                var transitionObj = GameObject.Find($"_Transition Gates/{transitionName}");
+                var transitionObj = GameObject.Find(transitionName);                  
                 var transitionPoint = transitionObj.GetComponent<TransitionPoint>();
                 if (transitionPoint == null)
                 {
                     continue;
                 }
 
-                transitionPoint.entryPoint = transitionName;
+                if (transitionPoint.isADoor)
+                {
+                    // for some reason looping doesnt work for me on doors?
+                    transitionObj.SetActive(false);
+                    continue;
+                }
+
+                transitionPoint.entryPoint = transitionObj.name;
                 transitionPoint.targetScene = self.sceneName;
             }
         }

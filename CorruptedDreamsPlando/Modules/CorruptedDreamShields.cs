@@ -22,6 +22,7 @@ namespace CorruptedDreamsPlando.Modules
     public class CorruptedDreamShields : ItemChanger.Modules.Module
     {
         public static GameObject ShieldPrefab;
+        public static GameObject GrimmShieldPrefab;
         public static Dictionary<string, string> StandardDreamEnters = new Dictionary<string, string>
         {
             { SceneNames.Crossroads_10_boss_defeated, "Prayer Room/FK Corpse/Dream Enter" },
@@ -82,6 +83,29 @@ namespace CorruptedDreamsPlando.Modules
             {
                 var dreamEnter = GameObject.Find("Dung Defender_Sleep");
                 dreamEnter.SetActive(true);
+            }
+
+            if (self.sceneName == SceneNames.Grimm_Main_Tent)
+            {
+                // This entire tent is a special case...
+                if (!PlayerData.instance.gotGrimmNotch)
+                {
+                    // player didn't get notch, nothing special here...
+                    return;
+                }
+
+                var backroomMask = GameObject.Find("Backroom Mask");
+                // No masks, no problems.
+                backroomMask.SetActive(false);
+
+                var dreamEnter = GameObject.Find("Dream Enter Grimm");
+                // var sleepShield = GameObject.Find("Grimm_sleep_shield");
+
+                dreamEnter.SetActive(CorruptedDreamsPlandoMod.LS.ColletedDetermination);
+                GameObject shield = UObject.Instantiate(GrimmShieldPrefab, new Vector3(167.89f, 12.7f, -0.008f), Quaternion.identity);
+                // sleepShield.SetActive(!CorruptedDreamsPlandoMod.LS.ColletedDetermination);
+                shield.GetComponent<DeactivateIfPlayerdataTrue>().enabled = false;
+                shield.SetActive(!CorruptedDreamsPlandoMod.LS.ColletedDetermination);
             }
         }
 

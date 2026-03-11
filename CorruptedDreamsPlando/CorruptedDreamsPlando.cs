@@ -42,7 +42,9 @@ namespace CorruptedDreamsPlando
                 ("Crossroads_10_boss_defeated", "Prayer Room/FK Corpse/Dream Enter"),
                 ("Fungus3_23", "Cloth Corpse"),
                 ("Dream_01_False_Knight", "Dream Entry"),
-                (SceneNames.Abyss_19, "IK Remains/Dream Enter")
+                (SceneNames.Abyss_19, "IK Remains/Dream Enter"),
+                (SceneNames.Grimm_Main_Tent, "Grimm_sleep_shield"),
+                (SceneNames.Fungus3_40, "Dream Gate")
             };
         }
 
@@ -58,9 +60,12 @@ namespace CorruptedDreamsPlando
             BirthplaceAccess.InitializeHooks();
 
             CorruptedDreamShields.ShieldPrefab = preloadedObjects[SceneNames.Abyss_05]["Dusk Knight/Shield"];
+            CorruptedDreamShields.GrimmShieldPrefab = preloadedObjects[SceneNames.Grimm_Main_Tent]["Grimm_sleep_shield"];
+
             TraitorLordDream.DreamEnterPrefab = preloadedObjects[SceneNames.Crossroads_10_boss_defeated]["Prayer Room/FK Corpse/Dream Enter"];
             TraitorLordDream.DreamEntry = preloadedObjects[SceneNames.Dream_01_False_Knight]["Dream Entry"];
             TraitorLordDream.ClothCorpsePrefab = preloadedObjects[SceneNames.Fungus3_23]["Cloth Corpse"];
+            TraitorLordDream.DreamArenaBorder = preloadedObjects[SceneNames.Fungus3_40]["Dream Gate"];
 
             RandoController.OnExportCompleted += AddModules;
             TraitorLordDream.Initialize();

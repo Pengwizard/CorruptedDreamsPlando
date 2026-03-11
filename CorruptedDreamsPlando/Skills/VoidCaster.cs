@@ -1,6 +1,7 @@
 ﻿using ItemChanger;
 using ItemChanger.Tags;
 using ItemChanger.UIDefs;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CorruptedDreamsPlando.Skills
@@ -20,9 +21,24 @@ namespace CorruptedDreamsPlando.Skills
         public static void InitializeHooks()
         {
             On.HeroController.Update += HeroController_Update;
+            On.PlayerData.GetInt += PlayerData_GetInt;
             On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter += LimitSpellLevel;
         }
 
+        static List<string> spellLevelInts = new List<string>{ "fireballLevel", "screamLevel", "quakeLevel" };
+
+        private static int PlayerData_GetInt(On.PlayerData.orig_GetInt orig, PlayerData self, string intName)
+        {
+            if (spellLevelInts.Contains(intName)) {
+                if (!CorruptedDreamsPlandoMod.LS.CollectedVoidCaster)
+                {
+                    // Change all events passing to be into the "less than" because that goes into level 1.
+                    return 1;
+                }
+            }
+
+            return orig(self, intName);
+        }
 
         private static void HeroController_Update(On.HeroController.orig_Update orig, HeroController self)
         {
@@ -50,10 +66,10 @@ namespace CorruptedDreamsPlando.Skills
                 if (!CorruptedDreamsPlandoMod.LS.CollectedVoidCaster)
                 {
                     // Change all events passing to be into the "less than" because that goes into level 1.
-                    self.integer2 = 3;
+                    // self.integer2 = 3;
                 } else
                 {
-                    self.integer2 = 1;
+                    // self.integer2 = 1;
                 }
             }
             orig(self);
