@@ -4,6 +4,8 @@ using HutongGames.PlayMaker.Actions;
 using ItemChanger;
 using ItemChanger.Extensions;
 using ItemChanger.Modules;
+using Satchel;
+using Satchel.Futils;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -34,6 +36,14 @@ namespace CorruptedDreamsPlando.MapAlterations
         public static Vector3 door1Position = new Vector3(93f, 5.4f, 0.0f);
 
         public static bool loadedDreamEnter = false;
+        // We need the "late" dream enter because some thing need to be overriden only after we enter the dream.
+        public static bool loadedLateDreamEnter = false;
+        public static bool killedTraitorLordInDream = false;
+
+        public static bool IsTargetScene(string sceneName)
+        {
+            return sceneName == "Fungus3_23_boss" || sceneName == "Fungus3_23";
+        }
 
         public static void Initialize()
         {
@@ -41,23 +51,29 @@ namespace CorruptedDreamsPlando.MapAlterations
             On.GameManager.OnNextLevelReady += onSceneChange;
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged += setupDreamState;
             On.GameManager.GetCurrentMapZone += GameManagerOnGetCurrentMapZone;
+            On.PlayerData.GetBool += OverrideTraitorLordFight;
+            On.PlayerData.SetBool += OverrideTraitorKill;
         }
-
 
         public static void Unload()
         {
             CorruptedDreamsPlandoMod.Instance.Log($"Removing edit scene hook for TL");
             On.GameManager.OnNextLevelReady -= onSceneChange;
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged -= setupDreamState;
+            // Cleanup just to be sure
             On.GameManager.GetCurrentMapZone -= GameManagerOnGetCurrentMapZone;
+            On.PlayerData.GetBool -= OverrideTraitorLordFight;
+            On.PlayerData.SetBool -= OverrideTraitorKill;
         }
 
+
+        // Need this to lie to the game that we are in a dream state.
+        // Important for dying in the fight.
         private static string GameManagerOnGetCurrentMapZone(On.GameManager.orig_GetCurrentMapZone orig, GameManager self)
         {
-            CorruptedDreamsPlandoMod.Instance.Log($"Getting map zone for {self.sceneName} {self.sceneName == destRoom}");
-            if (self.sceneName == destRoom)
+            if (self.sceneName.Contains(destRoom))
             {
-                if (loadedDreamEnter)
+                if (loadedLateDreamEnter)
                 {
                     return MapZone.DREAM_WORLD.ToString();
                 }
@@ -65,76 +81,141 @@ namespace CorruptedDreamsPlando.MapAlterations
             return orig(self);
         }
 
-
         private static void setupDreamState(Scene prev, Scene next)
         {
-            GameObject obj3 = new("door_dreamReturn");
-            var dreamReturnDoor = obj3.AddComponent<TransitionPoint>();
-            dreamReturnDoor.isADoor = false;
-            dreamReturnDoor.dontWalkOutOfDoor = true;
-            dreamReturnDoor.gameObject.transform.position = dreamReturnPosition;
-
-            GameObject obj4 = new("dreamReturnHazardRespawn");
-            var dreamReturnHazardRespawn = obj4.AddComponent<HazardRespawnMarker>();
-            dreamReturnHazardRespawn.gameObject.transform.position = door1Position;
-
-            dreamReturnDoor.respawnMarker = dreamReturnHazardRespawn;
-
-            if (next.name != destRoom)
+            if (!next.name.Contains(destRoom))
             {
                 return;
             }
 
-            var sm = GameManager.instance.sm;
+            //GameObject obj3 = new("door_dreamReturn");
+            //var dreamReturnDoor = obj3.AddComponent<TransitionPoint>();
+            //dreamReturnDoor.isADoor = false;
+            //dreamReturnDoor.dontWalkOutOfDoor = true;
+            //dreamReturnDoor.gameObject.transform.position = dreamReturnPosition;
+
+            //GameObject obj4 = new("dreamReturnHazardRespawn");
+            //var dreamReturnHazardRespawn = obj4.AddComponent<HazardRespawnMarker>();
+            //dreamReturnHazardRespawn.gameObject.transform.position = door1Position;
+
+            //dreamReturnDoor.respawnMarker = dreamReturnHazardRespawn;
+
+            setupDreamReturnDoor();
+
             // We got here via not-dreamnail.
             if (prev.name != next.name)
             {
+                CorruptedDreamsPlandoMod.Instance.Log($"{prev.name} != {next.name}");
                 loadedDreamEnter = false;
+                loadedLateDreamEnter = false;
                 return;
             }
 
-            if (prev.name == next.name && loadedDreamEnter)
+            if (prev.name == next.name && loadedLateDreamEnter)
             {
-                // Died in h
+                // Died in the dream-fight
+                CorruptedDreamsPlandoMod.Instance.Log($"{prev.name} == {next.name}");
                 loadedDreamEnter = false;
+                loadedLateDreamEnter = false;
                 return;
             }
 
-            if (sm.mapZone == GlobalEnums.MapZone.DREAM_WORLD)
-            {
-                // What?
-                return;
-            }
-
-            loadedDreamEnter = true;
-
+            loadedLateDreamEnter = true;
             CorruptedDreamsPlandoMod.Instance.Log($"Loaded via dream {GameManager.instance.GetCurrentMapZone()}");
-            GameObject obj = new("door1");
-            var door1 = obj.AddComponent<TransitionPoint>();
-            door1.isADoor = false;
-            door1.dontWalkOutOfDoor = true;
-            door1.gameObject.transform.position = door1Position;
+            setupDoor1();
 
-            GameObject obj2 = new("dreamHazardRespawn");
-            var dreamHazardRespawn = obj.AddComponent<HazardRespawnMarker>();
-            dreamHazardRespawn.gameObject.transform.position = door1Position;
+            //GameObject obj = new("door1");
+            //var door1 = obj.AddComponent<TransitionPoint>();
+            //door1.isADoor = false;
+            //door1.dontWalkOutOfDoor = true;
+            //door1.gameObject.transform.position = door1Position;
 
-            door1.respawnMarker = dreamHazardRespawn;
+            //GameObject obj2 = new("dreamHazardRespawn");
+            //var dreamHazardRespawn = obj.AddComponent<HazardRespawnMarker>();
+            //dreamHazardRespawn.gameObject.transform.position = door1Position;
 
+            //door1.respawnMarker = dreamHazardRespawn;
+
+            //GameObject dreamEntry = UObject.Instantiate(DreamEntry, door1Position, Quaternion.identity);
+            //dreamEntry.name = "Dream Entry";
+            //CorruptedDreamsPlandoMod.Instance.Log($"Created dream entry {dreamEntry}");
+            //dreamEntry.SetActive(CorruptedDreamsPlandoMod.LS.ColletedDetermination);
+            setupDreamEntry();
+        }
+
+        private static void OverrideTraitorKill(On.PlayerData.orig_SetBool orig, PlayerData self, string boolName, bool value)
+        {
+            if (GameManager.instance.sceneName.Contains(destRoom) && boolName == "killedTraitorLord")
+            {
+                CorruptedDreamsPlandoMod.Instance.Log($"Trying to set TL kill in scene {destRoom}");
+                if (loadedDreamEnter || GameManager.instance.GetCurrentMapZone() == MapZone.DREAM_WORLD.ToString())
+                {
+                    CorruptedDreamsPlandoMod.Instance.Log($"Trying to set TL kill in a dream to {value}");
+                    // We are in the dream state, and in our special room.
+                    killedTraitorLordInDream = value;
+                }
+            }
+
+            orig(self, boolName, value);
+        }
+
+        private static bool OverrideTraitorLordFight(On.PlayerData.orig_GetBool orig, PlayerData self, string boolName)
+        {
+            if (GameManager.instance.sceneName.Contains(destRoom) && boolName == "killedTraitorLord")
+            {
+                CorruptedDreamsPlandoMod.Instance.Log($"Trying to get TL kill in scene {destRoom}");
+                if (loadedDreamEnter || GameManager.instance.GetCurrentMapZone() == MapZone.DREAM_WORLD.ToString())
+                {
+                    CorruptedDreamsPlandoMod.Instance.Log($"Trying to get TL kill in a dream which is {killedTraitorLordInDream}");
+                    // We are in the dream state, and in our special room.
+                    return killedTraitorLordInDream;
+                }
+                return false;
+            }
+
+            return orig(self, boolName);
+        }
+
+        // Need this to have something "catch" the knight entering via dream.
+        private static void setupDreamEntry()
+        {
             GameObject dreamEntry = UObject.Instantiate(DreamEntry, door1Position, Quaternion.identity);
             dreamEntry.name = "Dream Entry";
             CorruptedDreamsPlandoMod.Instance.Log($"Created dream entry {dreamEntry}");
             dreamEntry.SetActive(CorruptedDreamsPlandoMod.LS.ColletedDetermination);
         }
 
+        // Door 1 is used for dream entrance.
+        private static void setupDoor1()
+        {
+            GameObject doorObj = new("door1");
+            var door1 = doorObj.AddComponent<TransitionPoint>();
+            door1.isADoor = false;
+            door1.dontWalkOutOfDoor = true;
+            door1.gameObject.transform.position = door1Position;
+
+            var dreamHazardRespawn = doorObj.AddComponent<HazardRespawnMarker>();
+            dreamHazardRespawn.gameObject.transform.position = door1Position;
+            door1.respawnMarker = dreamHazardRespawn;
+        }
+
+        private static void setupDreamReturnDoor()
+        {
+            GameObject door_dreamReturn = new("door_dreamReturn");
+            var dreamReturnDoor = door_dreamReturn.AddComponent<TransitionPoint>();
+            dreamReturnDoor.isADoor = false;
+            dreamReturnDoor.dontWalkOutOfDoor = true;
+            dreamReturnDoor.gameObject.transform.position = dreamReturnPosition;
+
+            var dreamReturnHazardRespawn = door_dreamReturn.AddComponent<HazardRespawnMarker>();
+            dreamReturnHazardRespawn.gameObject.transform.position = dreamReturnPosition;
+            dreamReturnDoor.respawnMarker = dreamReturnHazardRespawn;
+        }
+
         private static void setupOverworldState(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
         {
-            var sm = GameManager.instance.sm;
             if (loadedDreamEnter)
             {
-                CorruptedDreamsPlandoMod.Instance.Log($"Loaded via dream {GameManager.instance.GetCurrentMapZone()}");
-                // sm.mapZone = GlobalEnums.MapZone.DREAM_WORLD;
-                // GameManager.instance.SetMapZoneToSpecific("DREAM_WORLD");
                 return;
             }
 
@@ -144,20 +225,13 @@ namespace CorruptedDreamsPlando.MapAlterations
                 return;
             }
 
-            if (sm.mapZone != GlobalEnums.MapZone.ROYAL_GARDENS)
-            {
-                return;
-            }
-
             try
             {
-                if (HeroController.instance.playerData.killedTraitorLord)
-                {
-                    GameObject corpseCloth = UObject.Instantiate(ClothCorpsePrefab, corpsePosition, Quaternion.identity);
-                    // corpseCloth.GetComponent<DeactivateIfPlayerdataFalse>().enabled = false;
-                    corpseCloth.GetComponent<DeactivateIfPlayerdataFalse>().boolName = "killedTraitorLord";
-                    corpseCloth.SetActive(HeroController.instance.playerData.killedTraitorLord);
-                }
+                GameObject corpseCloth = UObject.Instantiate(ClothCorpsePrefab, corpsePosition, Quaternion.identity);
+                Component.Destroy(corpseCloth.GetComponent<DeactivateIfPlayerdataFalse>());
+                // corpseCloth.GetComponent<DeactivateIfPlayerdataFalse>().enabled = false;
+                // corpseCloth.GetComponent<DeactivateIfPlayerdataFalse>().boolName = "killedTraitorLord";
+                corpseCloth.SetActive(true);
             }
             catch (Exception)
             {
@@ -166,21 +240,20 @@ namespace CorruptedDreamsPlando.MapAlterations
 
             // Shield is active, no need to add the dream enter.
             // TODO: Add dream glowy effect?
+            // TODO: Actually place shield
             if (CorruptedDreamShields.isShieldActive())
             {
                 return;
             }
 
 
+            // Creating the dream enter object - this is what actually yeets you into the dream.
             GameObject dreamEnter = UObject.Instantiate(DreamEnterPrefab, dreamEnterPosition, Quaternion.identity);
             dreamEnter.name = "Dream Enter";
-            CorruptedDreamsPlandoMod.Instance.Log($"Created dream enter {dreamEnter}");
             dreamEnter.SetActive(CorruptedDreamsPlandoMod.LS.ColletedDetermination);
-            CorruptedDreamsPlandoMod.Instance.Log($"dream enter active: {CorruptedDreamsPlandoMod.LS.ColletedDetermination}");
-            // We are manually settting up/removing the shield, no need for this.
             // Re-target the load scene of the dream
             var changeSceneFsm = dreamEnter.LocateMyFSM("Control");
-            var changeSceneState = changeSceneFsm.GetState(targetState);
+            var changeSceneState = ItemChanger.Extensions.PlayMakerExtensions.GetState(changeSceneFsm, targetState);
             var changeSceneAction = changeSceneState.Actions[changeSceneState.Actions.Length - 1];
             if (changeSceneAction is BeginSceneTransition)
             {
@@ -188,34 +261,28 @@ namespace CorruptedDreamsPlando.MapAlterations
                 (changeSceneAction as BeginSceneTransition).sceneName = destRoom;
             }
 
-            var impactState = changeSceneFsm.GetState("Impact");
+            // Setting up where to return to
+            var impactState = ItemChanger.Extensions.PlayMakerExtensions.GetState(changeSceneFsm, "Impact");
             var dreamReturnSceneAction = impactState.Actions[2];
             if (dreamReturnSceneAction is SetPlayerDataString)
             {
                 (dreamReturnSceneAction as SetPlayerDataString).value = self.sceneName;
             }
+
+            // Setting up something to let us know very early in room load that we are in a dream.
+            CustomFsmAction setMyBool = new CustomFsmAction();
+            setMyBool.method = () =>
+            {
+                CorruptedDreamsPlandoMod.Instance.Log($"Setting loadedDreamEnter to true!");
+                loadedDreamEnter = true;
+            };
+            Satchel.FsmUtil.InsertAction(changeSceneState, setMyBool, 0);
         }
 
         private static void onSceneChange(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
         {
-            CorruptedDreamsPlandoMod.Instance.Log($"Loading into {self.sceneName}");
             orig(self);
-            if (self.sceneName != destRoom)
-            {
-                
-                return;
-            }
-
-            //GameObject dreamEntrance = UObject.Instantiate(Door1Prefab, door1Position, Quaternion.identity);
-            //dreamEntrance.name = "door1";
-            //dreamEntrance.SetActive(true);
-
-            if (loadedDreamEnter)
-            {
-            } else
-            {
-                setupOverworldState(orig, self);
-            }
+            setupOverworldState(orig, self);
 
         }
     }
