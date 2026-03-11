@@ -7,10 +7,11 @@ namespace CorruptedDreamsPlando.Skills
 {
     public class VoidCaster
     {
-        public static string skillName = "CorruptedDreams_VoidCaster";
-        public static string uiName = "Void Caster";
+        public static string baseName = "Void_Caster";
+        public static string skillName = SkillCommon.MakeItemName(baseName);
+        public static string uiName = SkillCommon.CleanName(baseName);
         public static string take = "You have collected";
-        public static string description = "Developed by early inventors in Hallownest<br>Infuses one's soul projections with Void";
+        public static string description = "Developed by early inventors in Hallownest. Infuses one's soul projections with Void";
         public static string description1 = "Developed by early inventors in Hallownest";
         public static string description2 = "Infuses one's soul projections with Void";
         public static ISprite pickupSprite = new EmbeddedSprite("VoidCaster");

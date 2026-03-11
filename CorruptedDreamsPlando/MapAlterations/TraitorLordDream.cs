@@ -48,7 +48,6 @@ namespace CorruptedDreamsPlando.MapAlterations
 
         public static void Initialize()
         {
-            CorruptedDreamsPlandoMod.Instance.Log($"Adding edit scene hook for TL");
             On.GameManager.OnNextLevelReady += onSceneChange;
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged += setupDreamState;
             On.GameManager.GetCurrentMapZone += GameManagerOnGetCurrentMapZone;
@@ -58,7 +57,6 @@ namespace CorruptedDreamsPlando.MapAlterations
 
         public static void Unload()
         {
-            CorruptedDreamsPlandoMod.Instance.Log($"Removing edit scene hook for TL");
             On.GameManager.OnNextLevelReady -= onSceneChange;
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged -= setupDreamState;
             // Cleanup just to be sure
@@ -89,18 +87,6 @@ namespace CorruptedDreamsPlando.MapAlterations
                 return;
             }
 
-            //GameObject obj3 = new("door_dreamReturn");
-            //var dreamReturnDoor = obj3.AddComponent<TransitionPoint>();
-            //dreamReturnDoor.isADoor = false;
-            //dreamReturnDoor.dontWalkOutOfDoor = true;
-            //dreamReturnDoor.gameObject.transform.position = dreamReturnPosition;
-
-            //GameObject obj4 = new("dreamReturnHazardRespawn");
-            //var dreamReturnHazardRespawn = obj4.AddComponent<HazardRespawnMarker>();
-            //dreamReturnHazardRespawn.gameObject.transform.position = door1Position;
-
-            //dreamReturnDoor.respawnMarker = dreamReturnHazardRespawn;
-
             setupDreamReturnDoor();
             setupDoor1();
 
@@ -111,43 +97,8 @@ namespace CorruptedDreamsPlando.MapAlterations
                 return;
             }
 
-            //// We got here via not-dreamnail.
-            //if (prev.name != next.name)
-            //{
-            //    CorruptedDreamsPlandoMod.Instance.Log($"{prev.name} != {next.name}");
-            //    loadedDreamEnter = false;
-            //    loadedLateDreamEnter = false;
-            //    return;
-            //}
-
-            //if (prev.name == next.name && loadedLateDreamEnter)
-            //{
-            //    // Died in the dream-fight
-            //    CorruptedDreamsPlandoMod.Instance.Log($"{prev.name} == {next.name}");
-            //    loadedDreamEnter = false;
-            //    loadedLateDreamEnter = false;
-            //    return;
-            //}
-
             loadedLateDreamEnter = true;
-            CorruptedDreamsPlandoMod.Instance.Log($"Loaded via dream {GameManager.instance.GetCurrentMapZone()}");
 
-            //GameObject obj = new("door1");
-            //var door1 = obj.AddComponent<TransitionPoint>();
-            //door1.isADoor = false;
-            //door1.dontWalkOutOfDoor = true;
-            //door1.gameObject.transform.position = door1Position;
-
-            //GameObject obj2 = new("dreamHazardRespawn");
-            //var dreamHazardRespawn = obj.AddComponent<HazardRespawnMarker>();
-            //dreamHazardRespawn.gameObject.transform.position = door1Position;
-
-            //door1.respawnMarker = dreamHazardRespawn;
-
-            //GameObject dreamEntry = UObject.Instantiate(DreamEntry, door1Position, Quaternion.identity);
-            //dreamEntry.name = "Dream Entry";
-            //CorruptedDreamsPlandoMod.Instance.Log($"Created dream entry {dreamEntry}");
-            //dreamEntry.SetActive(CorruptedDreamsPlandoMod.LS.ColletedDetermination);
             setupDreamEntry();
         }
 
@@ -195,7 +146,6 @@ namespace CorruptedDreamsPlando.MapAlterations
         {
             GameObject dreamEntry = UObject.Instantiate(DreamEntry, door1Position, Quaternion.identity);
             dreamEntry.name = "Dream Entry";
-            CorruptedDreamsPlandoMod.Instance.Log($"Created dream entry {dreamEntry}");
             dreamEntry.SetActive(CorruptedDreamsPlandoMod.LS.ColletedDetermination);
         }
 
@@ -251,8 +201,6 @@ namespace CorruptedDreamsPlando.MapAlterations
             {
                 GameObject corpseCloth = UObject.Instantiate(ClothCorpsePrefab, corpsePosition, Quaternion.identity);
                 Component.Destroy(corpseCloth.GetComponent<DeactivateIfPlayerdataFalse>());
-                // corpseCloth.GetComponent<DeactivateIfPlayerdataFalse>().enabled = false;
-                // corpseCloth.GetComponent<DeactivateIfPlayerdataFalse>().boolName = "killedTraitorLord";
                 corpseCloth.SetActive(true);
             }
             catch (Exception)
@@ -295,7 +243,6 @@ namespace CorruptedDreamsPlando.MapAlterations
             CustomFsmAction setMyBool = new CustomFsmAction();
             setMyBool.method = () =>
             {
-                CorruptedDreamsPlandoMod.Instance.Log($"Setting loadingInWithDream to true!");
                 loadingInWithDream = true;
             };
             Satchel.FsmUtil.InsertAction(changeSceneState, setMyBool, 0);

@@ -21,7 +21,7 @@ namespace CorruptedDreamsPlando.Rando
 
         private static void SetupItems(RequestBuilder rb)
         {
-            List<string> customSkillNames = new List<string>{ Determination.skillName, VoidCaster.skillName };
+            List<string> customSkillNames = new List<string>{ Determination.skillName, VoidCaster.skillName, BirthplaceAccess.skillName };
             foreach (string name in customSkillNames) {
                 rb.EditItemRequest(name, info =>
                 {
@@ -49,7 +49,8 @@ namespace CorruptedDreamsPlando.Rando
 
         public static void ApplyNkgRewardDef(RequestBuilder rb)
         {
-            AddAndEditLocation(rb, CustomBossEssenceLocation.nkgEssecnceLocation, FlingType.Everywhere, false, SceneNames.Grimm_Main_Tent);
+            AddAndEditLocation(rb, CustomBossEssenceLocation.nkgEssecnceLocation, FlingType.Everywhere, false, SceneNames.Town);
+            AddAndEditLocation(rb, CustomBossEssenceLocation.tlEssecnceLocation, FlingType.Everywhere, false, SceneNames.Fungus3_23);
         }
 
         private static void AddAndEditLocation(RequestBuilder rb, string name, FlingType flingType, bool progressionPenalty, string scene)

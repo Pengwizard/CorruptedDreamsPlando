@@ -22,23 +22,26 @@ namespace CorruptedDreamsPlando.Modules
     public class CorruptedDreamShields : ItemChanger.Modules.Module
     {
         public static GameObject ShieldPrefab;
-        public static Dictionary<string, string> VanillaDreamBossCorpseRoomsToObject = new Dictionary<string, string>
+        public static Dictionary<string, string> StandardDreamEnters = new Dictionary<string, string>
         {
             { SceneNames.Crossroads_10_boss_defeated, "Prayer Room/FK Corpse/Dream Enter" },
             { SceneNames.Crossroads_10, "Prayer Room/FK Corpse/Dream Enter" },
             { SceneNames.Abyss_19, "IK Remains/Dream Enter" },
             { SceneNames.Ruins1_24, "Mage Lord Remains/Dream Enter" },
             { SceneNames.Ruins1_24_boss_defeated, "Mage Lord Remains/Dream Enter" },
+            { SceneNames.Waterways_15, "Dung Defender_Sleep/Dream Enter" },
         };
 
         public override void Initialize()
         {
             On.GameManager.OnNextLevelReady += onSceneChange;
+            UnityEngine.SceneManagement.SceneManager.activeSceneChanged += handleSpecialConditions;
         }
 
         public override void Unload()
         {
             On.GameManager.OnNextLevelReady -= onSceneChange;
+            UnityEngine.SceneManagement.SceneManager.activeSceneChanged -= handleSpecialConditions;
         }
 
 
@@ -47,24 +50,38 @@ namespace CorruptedDreamsPlando.Modules
             return !CorruptedDreamsPlandoMod.LS.ColletedDetermination;
         }
 
+        private void handleSpecialConditions(Scene prev, Scene next)
+        {
+            if (next.name == SceneNames.Waterways_05)
+            {
+                // We want dung defender to always be there, either with a shield or entry, but that guy is napping.
+                // Yes he will be there even if we didn't beat him but idc this is a plando :)
+                HeroController.instance.playerData.dungDefenderSleeping = true;
+            }
+        }
+
         private void onSceneChange(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
         {
             orig(self);
-            if (VanillaDreamBossCorpseRoomsToObject.Keys.Contains(self.sceneName))
+            if (StandardDreamEnters.Keys.Contains(self.sceneName))
             {
-                var dreamEnter = GameObject.Find(VanillaDreamBossCorpseRoomsToObject[self.sceneName]);
+                var dreamEnter = GameObject.Find(StandardDreamEnters[self.sceneName]);
                 if (dreamEnter != null)
                 {
                     dreamEnter.SetActive(CorruptedDreamsPlandoMod.LS.ColletedDetermination);
+                    PlaceShieldIfNeeded(dreamEnter.transform.position);
                 }
+            }
 
-                PlaceShieldIfNeeded(dreamEnter.transform.position);
-                //GameObject shield = UObject.Instantiate(ShieldPrefab, dreamEnter.transform.position, Quaternion.identity);
-                //shield.name = "Corrupted Dream Shield";
-                //shield.SetActive(!CorruptedDreamsPlandoMod.LS.ColletedDetermination);
-                //var shieldDeactivateFsm = shield.LocateMyFSM("deactivate");
-                //// We are manually settting up/removing the shield, no need for this.
-                //shieldDeactivateFsm.enabled = false;
+            lateLoadSpecialCondition(self);
+        }
+
+        private void lateLoadSpecialCondition(GameManager self)
+        {
+            if (self.sceneName == SceneNames.Waterways_05)
+            {
+                var dreamEnter = GameObject.Find("Dung Defender_Sleep");
+                dreamEnter.SetActive(true);
             }
         }
 

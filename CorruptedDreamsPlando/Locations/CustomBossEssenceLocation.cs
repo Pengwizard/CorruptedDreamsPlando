@@ -15,13 +15,11 @@ namespace CorruptedDreamsPlando.Locations
 
         protected override void OnLoad()
         {
-            CorruptedDreamsPlandoMod.Instance.Log("CustomBossEssenceLocation load");
             On.PlayMakerFSM.OnEnable += AddEssenceRewardsTriggers;
         }
 
         protected override void OnUnload()
         {
-            CorruptedDreamsPlandoMod.Instance.Log("CustomBossEssenceLocation unload");
             On.PlayMakerFSM.OnEnable -= AddEssenceRewardsTriggers;
         }
 

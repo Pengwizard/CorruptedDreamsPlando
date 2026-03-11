@@ -1,6 +1,8 @@
 ﻿using CorruptedDreamsPlando.Locations;
+using CorruptedDreamsPlando.MapAlterations;
 using CorruptedDreamsPlando.Skills;
 using ItemChanger;
+using ItemChanger.Items;
 using ItemChanger.Tags;
 using Modding;
 using RandomizerMod.RC;
@@ -10,6 +12,7 @@ namespace CorruptedDreamsPlando.Rando
 {
     internal static class RandoInterop
     {
+
         public static void Hook()
         {
             RequestModifier.Hook();
@@ -40,11 +43,7 @@ namespace CorruptedDreamsPlando.Rando
         {
             Finder.DefineCustomItem(new VoidCasterItem());
             Finder.DefineCustomItem(new DeterminationItem());
-        }
-
-        public static string Clean(string name)
-        {
-            return name.Replace("-", " - ");
+            Finder.DefineCustomItem(new BirthplaceAccessItem());
         }
 
         public static InteropTag AddTag(TaggableObject obj)
@@ -58,13 +57,15 @@ namespace CorruptedDreamsPlando.Rando
 
         public static void AddCustomLocations()
         {
-            CustomBossEssenceLocation scareLoc = new() { name = CustomBossEssenceLocation.nkgEssecnceLocation, sceneName = SceneNames.Grimm_Main_Tent };
-            DefineLoc(scareLoc, SceneNames.Grimm_Main_Tent, "DungDoor", 0, 0);
+            CustomBossEssenceLocation scareLoc = new() { name = CustomBossEssenceLocation.nkgEssecnceLocation };
+            CustomBossEssenceLocation scare2Loc = new() { name = CustomBossEssenceLocation.tlEssecnceLocation };
+
+            DefineLoc(scare2Loc, SceneNames.Fungus3_23, "EssenceIcon", 2, 2);
+            DefineLoc(scareLoc, SceneNames.Town, "EssenceIcon", TraitorLordDream.dreamEnterPosition.x, TraitorLordDream.dreamEnterPosition.y);
         }
 
-        public static void DefineLoc(AbstractLocation loc, string sprite, string scene, float x, float y)
+        public static void DefineLoc(AbstractLocation loc, string scene, string sprite, float x, float y)
         {
-            CorruptedDreamsPlandoMod.Instance.Log("Defining the location");
             InteropTag tag = AddTag(loc);
             tag.Properties["PinSprite"] = new EmbeddedSprite(sprite);
             tag.Properties["WorldMapLocation"] = (scene, x, y);
