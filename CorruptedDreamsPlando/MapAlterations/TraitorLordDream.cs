@@ -39,6 +39,7 @@ namespace CorruptedDreamsPlando.MapAlterations
         // We need the "late" dream enter because some thing need to be overriden only after we enter the dream.
         public static bool loadedLateDreamEnter = false;
         public static bool killedTraitorLordInDream = false;
+        public static bool loadingInWithDream = false;
 
         public static bool IsTargetScene(string sceneName)
         {
@@ -83,7 +84,7 @@ namespace CorruptedDreamsPlando.MapAlterations
 
         private static void setupDreamState(Scene prev, Scene next)
         {
-            if (!next.name.Contains(destRoom))
+            if (next.name != destRoom)
             {
                 return;
             }
@@ -101,28 +102,35 @@ namespace CorruptedDreamsPlando.MapAlterations
             //dreamReturnDoor.respawnMarker = dreamReturnHazardRespawn;
 
             setupDreamReturnDoor();
+            setupDoor1();
 
-            // We got here via not-dreamnail.
-            if (prev.name != next.name)
+            if (!loadingInWithDream)
             {
-                CorruptedDreamsPlandoMod.Instance.Log($"{prev.name} != {next.name}");
-                loadedDreamEnter = false;
+                // Loaded in not via dream, erase late dream load state.
                 loadedLateDreamEnter = false;
                 return;
             }
 
-            if (prev.name == next.name && loadedLateDreamEnter)
-            {
-                // Died in the dream-fight
-                CorruptedDreamsPlandoMod.Instance.Log($"{prev.name} == {next.name}");
-                loadedDreamEnter = false;
-                loadedLateDreamEnter = false;
-                return;
-            }
+            //// We got here via not-dreamnail.
+            //if (prev.name != next.name)
+            //{
+            //    CorruptedDreamsPlandoMod.Instance.Log($"{prev.name} != {next.name}");
+            //    loadedDreamEnter = false;
+            //    loadedLateDreamEnter = false;
+            //    return;
+            //}
+
+            //if (prev.name == next.name && loadedLateDreamEnter)
+            //{
+            //    // Died in the dream-fight
+            //    CorruptedDreamsPlandoMod.Instance.Log($"{prev.name} == {next.name}");
+            //    loadedDreamEnter = false;
+            //    loadedLateDreamEnter = false;
+            //    return;
+            //}
 
             loadedLateDreamEnter = true;
             CorruptedDreamsPlandoMod.Instance.Log($"Loaded via dream {GameManager.instance.GetCurrentMapZone()}");
-            setupDoor1();
 
             //GameObject obj = new("door1");
             //var door1 = obj.AddComponent<TransitionPoint>();
@@ -147,12 +155,15 @@ namespace CorruptedDreamsPlando.MapAlterations
         {
             if (GameManager.instance.sceneName.Contains(destRoom) && boolName == "killedTraitorLord")
             {
-                CorruptedDreamsPlandoMod.Instance.Log($"Trying to set TL kill in scene {destRoom}");
-                if (loadedDreamEnter || GameManager.instance.GetCurrentMapZone() == MapZone.DREAM_WORLD.ToString())
+                CorruptedDreamsPlandoMod.Instance.Log($"Trying to set TL kill in scene {GameManager.instance.sceneName}");
+                if (loadingInWithDream || GameManager.instance.GetCurrentMapZone() == MapZone.DREAM_WORLD.ToString())
                 {
                     CorruptedDreamsPlandoMod.Instance.Log($"Trying to set TL kill in a dream to {value}");
                     // We are in the dream state, and in our special room.
                     killedTraitorLordInDream = value;
+                } else
+                {
+                    CorruptedDreamsPlandoMod.Instance.Log($"Setting TL kill but not in dream");
                 }
             }
 
@@ -163,14 +174,17 @@ namespace CorruptedDreamsPlando.MapAlterations
         {
             if (GameManager.instance.sceneName.Contains(destRoom) && boolName == "killedTraitorLord")
             {
-                CorruptedDreamsPlandoMod.Instance.Log($"Trying to get TL kill in scene {destRoom}");
-                if (loadedDreamEnter || GameManager.instance.GetCurrentMapZone() == MapZone.DREAM_WORLD.ToString())
+                CorruptedDreamsPlandoMod.Instance.Log($"Trying to get TL kill in scene {GameManager.instance.sceneName}");
+                if (loadingInWithDream || GameManager.instance.GetCurrentMapZone() == MapZone.DREAM_WORLD.ToString())
                 {
                     CorruptedDreamsPlandoMod.Instance.Log($"Trying to get TL kill in a dream which is {killedTraitorLordInDream}");
                     // We are in the dream state, and in our special room.
                     return killedTraitorLordInDream;
+                } else
+                {
+                    CorruptedDreamsPlandoMod.Instance.Log($"Getting TL kill but not in dream");
+                    return false;
                 }
-                return false;
             }
 
             return orig(self, boolName);
@@ -214,8 +228,16 @@ namespace CorruptedDreamsPlando.MapAlterations
 
         private static void setupOverworldState(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
         {
-            if (loadedDreamEnter)
+            if (self.sceneName != destRoom)
             {
+                // Not our room to change.
+                return;
+            }
+
+            loadingInWithDream = false;
+            if (loadedLateDreamEnter)
+            {
+                // We loaded in with a dream so we can skip everything.
                 return;
             }
 
@@ -273,8 +295,8 @@ namespace CorruptedDreamsPlando.MapAlterations
             CustomFsmAction setMyBool = new CustomFsmAction();
             setMyBool.method = () =>
             {
-                CorruptedDreamsPlandoMod.Instance.Log($"Setting loadedDreamEnter to true!");
-                loadedDreamEnter = true;
+                CorruptedDreamsPlandoMod.Instance.Log($"Setting loadingInWithDream to true!");
+                loadingInWithDream = true;
             };
             Satchel.FsmUtil.InsertAction(changeSceneState, setMyBool, 0);
         }
