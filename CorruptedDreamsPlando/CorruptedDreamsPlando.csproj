@@ -47,14 +47,18 @@
     <None Remove="Resources\Determination.png" />
     <None Remove="Resources\DungDoor.png" />
     <None Remove="Resources\DungKey.png" />
+    <None Remove="Resources\EssenceIcon.png" />
     <None Remove="Resources\logic.json" />
+    <None Remove="Resources\LostKinBadge.png" />
     <None Remove="Resources\VoidCaster.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Determination.png" />
     <EmbeddedResource Include="Resources\DungDoor.png" />
     <EmbeddedResource Include="Resources\DungKey.png" />
+    <EmbeddedResource Include="Resources\EssenceIcon.png" />
     <EmbeddedResource Include="Resources\logic.json" />
+    <EmbeddedResource Include="Resources\LostKinBadge.png" />
     <EmbeddedResource Include="Resources\VoidCaster.png" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +79,9 @@
     </Reference>
     <Reference Include="ItemChangerDataLoader">
       <HintPath>$(HollowKnightRefs)/Mods/ItemChangerDataLoader/ItemChangerDataLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="MapChanger">
+      <HintPath>$(HollowKnightRefs)/Mods/MapChanger/MapChanger.dll</HintPath>
     </Reference>
     <Reference Include="MenuChanger">
       <HintPath>$(HollowKnightRefs)/Mods/MenuChanger/MenuChanger.dll</HintPath>

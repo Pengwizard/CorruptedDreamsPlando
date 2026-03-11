@@ -1,4 +1,5 @@
-﻿using HutongGames.PlayMaker;
+﻿using CorruptedDreamsPlando.MapAlterations;
+using HutongGames.PlayMaker;
 using ItemChanger;
 using ItemChanger.Internal;
 using ItemChanger.Locations;
@@ -15,30 +16,45 @@ namespace CorruptedDreamsPlando.Locations
         protected override void OnLoad()
         {
             CorruptedDreamsPlandoMod.Instance.Log("CustomBossEssenceLocation load");
-            On.PlayMakerFSM.OnEnable += AddNkgReward;
+            On.PlayMakerFSM.OnEnable += AddEssenceRewardsTriggers;
         }
 
         protected override void OnUnload()
         {
             CorruptedDreamsPlandoMod.Instance.Log("CustomBossEssenceLocation unload");
-            On.PlayMakerFSM.OnEnable -= AddNkgReward;
+            On.PlayMakerFSM.OnEnable -= AddEssenceRewardsTriggers;
         }
 
-        private void AddNkgReward(On.PlayMakerFSM.orig_OnEnable orig, PlayMakerFSM self)
+        private void AddEssenceRewardsTriggers(On.PlayMakerFSM.orig_OnEnable orig, PlayMakerFSM self)
         {
             orig(self);
             if (self.gameObject.name == "Knight" && self.FsmName == "Dream Return")
             {
-                FsmState summonState = self.GetValidState("Prostrate Grimm");
+                FsmState summonState = self.GetValidState("Ready");
                 summonState.InsertCustomAction(() => {
-                    GiveInfo gi = new()
+                    if (PlayerData.instance.killedNightmareGrimm)
                     {
-                        FlingType = FlingType.Everywhere,
-                        Container = Container.Unknown,
-                        MessageType = MessageType.Corner,
-                        Transform = self.gameObject.transform
-                    };
-                    Ref.Settings.Placements[nkgEssecnceLocation].GiveAll(gi);
+                        GiveInfo gi = new()
+                        {
+                            FlingType = FlingType.Everywhere,
+                            Container = Container.Unknown,
+                            MessageType = MessageType.Corner,
+                            Transform = self.gameObject.transform
+                        };
+                        Ref.Settings.Placements[nkgEssecnceLocation].GiveAll(gi);
+                    }
+
+                    if (TraitorLordDream.killedTraitorLordInDream)
+                    {
+                        GiveInfo gi = new()
+                        {
+                            FlingType = FlingType.Everywhere,
+                            Container = Container.Unknown,
+                            MessageType = MessageType.Corner,
+                            Transform = self.gameObject.transform
+                        };
+                        Ref.Settings.Placements[tlEssecnceLocation].GiveAll(gi);
+                    }
                 }, summonState.Actions.Length);
             }
         }
