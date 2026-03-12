@@ -3,6 +3,7 @@ using CorruptedDreamsPlando.Modules;
 using CorruptedDreamsPlando.Skills;
 using ItemChanger;
 using ItemChanger.Locations;
+using MapChanger;
 using Modding;
 using MoreDoors.Data;
 using RandomizerMod.RC;
@@ -48,6 +49,23 @@ namespace CorruptedDreamsPlando
             };
         }
 
+        private static void OnSetGameMap(GameObject goMap)
+        {
+            try
+            {
+                VmmPinManager.MakePins(goMap);
+            }
+            catch (Exception e)
+            {
+                Instance.LogError(e);
+            }
+        }
+
+        private static void OnEnterGame()
+        {
+            MapChanger.Events.OnSetGameMap += OnSetGameMap;
+        }
+
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
             Log("Initializing");
@@ -70,6 +88,8 @@ namespace CorruptedDreamsPlando
             RandoController.OnExportCompleted += AddModules;
             // TraitorLordDream.Initialize();
             LoopTransitions.Initialize();
+
+            MapChanger.Events.OnEnterGame += OnEnterGame;
 
 
             Log("Initialized");
@@ -96,6 +116,7 @@ namespace CorruptedDreamsPlando
         public bool CollectedVoidCaster = false;
         public bool ColletedDetermination = false;
         public bool CollectedBirthplaceAccess = false;
+        public bool CollectedDreamerMap = false;
     }
 
     public class GlobalSettings
