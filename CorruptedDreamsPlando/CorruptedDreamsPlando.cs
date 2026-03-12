@@ -116,7 +116,7 @@ namespace CorruptedDreamsPlando
         public bool CollectedVoidCaster = false;
         public bool ColletedDetermination = false;
         public bool CollectedBirthplaceAccess = false;
-        public bool CollectedDreamerMap = false;
+        public bool CollectedDreamerMap = true;
     }
 
     public class GlobalSettings
