@@ -42,17 +42,17 @@ namespace CorruptedDreamsPlando.Locations
                         Ref.Settings.Placements[nkgEssecnceLocation].GiveAll(gi);
                     }
 
-                    if (TraitorLordDream.killedTraitorLordInDream)
-                    {
-                        GiveInfo gi = new()
-                        {
-                            FlingType = FlingType.Everywhere,
-                            Container = Container.Unknown,
-                            MessageType = MessageType.Corner,
-                            Transform = self.gameObject.transform
-                        };
-                        Ref.Settings.Placements[tlEssecnceLocation].GiveAll(gi);
-                    }
+                    //if (TraitorLordDream.killedTraitorLordInDream)
+                    //{
+                    //    GiveInfo gi = new()
+                    //    {
+                    //        FlingType = FlingType.Everywhere,
+                    //        Container = Container.Unknown,
+                    //        MessageType = MessageType.Corner,
+                    //        Transform = self.gameObject.transform
+                    //    };
+                    //    Ref.Settings.Placements[tlEssecnceLocation].GiveAll(gi);
+                    //}
                 }, summonState.Actions.Length);
             }
         }

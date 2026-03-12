@@ -14,8 +14,8 @@ namespace CorruptedDreamsPlando.MapAlterations
         private static Dictionary<string, List<string>> roomsToModify = new Dictionary<string, List<string>>
         {
             {SceneNames.Mines_03, new List<string>{ "_Transition Gates/top1" } },
-            {SceneNames.Deepnest_East_02, new List<string>{ "_Transition Gates/right1" } },
             {SceneNames.Deepnest_10, new List<string>{ "door2" } }
+            // {SceneNames.Deepnest_East_02, new List<string>{ "_Transition Gates/right1" } },
         };
 
         public static void Initialize()

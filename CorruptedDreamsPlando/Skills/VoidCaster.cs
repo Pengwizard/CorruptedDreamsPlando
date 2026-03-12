@@ -1,6 +1,7 @@
 ﻿using ItemChanger;
 using ItemChanger.Tags;
 using ItemChanger.UIDefs;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ namespace CorruptedDreamsPlando.Skills
                 if (!CorruptedDreamsPlandoMod.LS.CollectedVoidCaster)
                 {
                     // Change all events passing to be into the "less than" because that goes into level 1.
-                    return 1;
+                    return Math.Min(1, orig(self, intName));
                 }
             }
 

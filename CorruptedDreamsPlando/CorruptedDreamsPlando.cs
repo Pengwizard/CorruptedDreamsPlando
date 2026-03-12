@@ -68,7 +68,7 @@ namespace CorruptedDreamsPlando
             TraitorLordDream.DreamArenaBorder = preloadedObjects[SceneNames.Fungus3_40]["Dream Gate"];
 
             RandoController.OnExportCompleted += AddModules;
-            TraitorLordDream.Initialize();
+            // TraitorLordDream.Initialize();
             LoopTransitions.Initialize();
 
 

@@ -2,9 +2,9 @@
   {
     "name": "Boss_Essence-NKG",
     "logic": "*Charm_Notch-Grimm"
-  },
-  {
-    "name": "Boss_Essence-Traitor_Lord",
-    "logic": "*Queen_Fragment"
   }
+  //{
+  //  "name": "Boss_Essence-Traitor_Lord",
+  //  "logic": "*Queen_Fragment"
+  //}
 ]
