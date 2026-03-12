@@ -49,6 +49,7 @@ namespace CorruptedDreamsPlando.Rando
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("ANY_SPELL_STALL", "Spell_Stabilizer + (SCREAM | FIREBALL)"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("NARROW_SPELL_STALL", "Spell_Stabilizer + (SCREAM | FIREBALL>1)"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("EXTRA_CAST", "VESSELFRAGMENTS>2 | Spell_Twister"));
+            lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("TWO_EXTRA_CAST", "VESSELFRAGMENTS>5 | (Spell_Twister + VESSELFRAGMENTS>2)"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("FULL_CAST", "VESSELFRAGMENTS>8 + Spell_Twister"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("EXTRA_SPELL_STALL", "ANY_SPELL_STALL + EXTRA_CAST"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("FULL_SPELL_STALL", "ANY_SPELL_STALL + FULL_CAST"));
@@ -60,6 +61,14 @@ namespace CorruptedDreamsPlando.Rando
 
 
             // Logic overrides
+            lmb.AddLogicDef(new RawLogicDef("Fungus1_28[left1]", "Fungus1_28[left1] | Fungus1_28[left2] + ((NARROW_SPELL_STALL)|(FULL_SPELL_STALL + DREAMGATE))"));
+            lmb.AddLogicDef(new RawLogicDef("Deepnest_43[bot1]", "(Deepnest_43[bot1] + NARROW_SPELL_STALL) | (Deepnest_43[left1] | Deepnest_43[right1]) + (ANYCLAW | WINGS | ENEMYPOGOS + DANGEROUSSKIPS + LEFTDASH)"));
+            lmb.AddLogicDef(new RawLogicDef("Tutorial_01", "(Tutorial_01[right1] + TWO_EXTRA_CAST) | Tutorial_01[top1] | Tutorial_01[top2]"));
+            lmb.AddLogicDef(new RawLogicDef("Cliffs_02", "(Cliffs_02[bot1] + NARROW_SPELL_STALL) | (Cliffs_02[door1] | Cliffs_02[left1]) + (ANYCLAW | WINGS | ENEMYPOGOS) | Cliffs_02[left2]"));
+            lmb.AddLogicDef(new RawLogicDef("Shape_of_Unn", "Fungus1_Slug[right1] + FULLDASH + EXTRA_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Fungus1_Slug[right1]", "FULLDASH + EXTRA_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Wanderer's_Journal-Greenpath_Lower", "Fungus1_11 + NARROW_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Wanderer's_Journal-Fungal_Wastes_Thorns_Gauntlet", "Fungus2_04 + Lever-Fungal_Wastes_Thorns_Gauntlet | Fungus2_04 + NARROW_SPELL_STALL"));
 
         }
     }
