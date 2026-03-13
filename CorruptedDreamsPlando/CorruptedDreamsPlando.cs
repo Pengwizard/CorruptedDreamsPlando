@@ -89,6 +89,7 @@ namespace CorruptedDreamsPlando
             // TraitorLordDream.Initialize();
             LoopTransitions.Initialize();
             SoulRefiller.Initialize();
+            FuckRightSideShrogo.Initialize();
 
             MapChanger.Events.OnEnterGame += OnEnterGame;
 
