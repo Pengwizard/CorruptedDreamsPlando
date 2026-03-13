@@ -60,7 +60,6 @@
     <EmbeddedResource Include="Resources\DungKey.png" />
     <EmbeddedResource Include="Resources\EssenceIcon.png" />
     <EmbeddedResource Include="Resources\logic.json" />
-    <EmbeddedResource Include="Resources\LostKinBadge.png" />
     <EmbeddedResource Include="Resources\VoidCaster.png" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +80,9 @@
     </Reference>
     <Reference Include="ItemChangerDataLoader">
       <HintPath>$(HollowKnightRefs)/Mods/ItemChangerDataLoader/ItemChangerDataLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="KorzUtils">
+      <HintPath>$(HollowKnightRefs)/Mods/KorzUtils/KorzUtils.dll</HintPath>
     </Reference>
     <Reference Include="MapChanger">
       <HintPath>$(HollowKnightRefs)/Mods/MapChanger/MapChanger.dll</HintPath>

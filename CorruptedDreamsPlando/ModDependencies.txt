@@ -9,3 +9,4 @@ RandoSettingsManager
 MenuChanger
 SFCore
 Satchel
+KorzUtils

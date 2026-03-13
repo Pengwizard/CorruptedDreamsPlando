@@ -40,7 +40,7 @@ internal class VmmPin : BorderedBackgroundPin
 
     internal void UpdatePinSize()
     {
-        Size = LARGE_SCALE * NO_BORDER_MULTIPLIER;
+        Size = SMALL_SCALE * NO_BORDER_MULTIPLIER;
     }
 
     internal void UpdatePinShape()
@@ -68,7 +68,7 @@ internal class VmmPin : BorderedBackgroundPin
     {
         var spriteName = mldName switch
         {
-            "LostKinPin" => "LostKinBadge",
+            "LostKinPin" => "LKPin",
             _ => "Unknown",
         };
 

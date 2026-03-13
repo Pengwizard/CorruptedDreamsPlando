@@ -88,6 +88,7 @@ namespace CorruptedDreamsPlando
             RandoController.OnExportCompleted += AddModules;
             // TraitorLordDream.Initialize();
             LoopTransitions.Initialize();
+            SoulRefiller.Initialize();
 
             MapChanger.Events.OnEnterGame += OnEnterGame;
 
@@ -116,7 +117,7 @@ namespace CorruptedDreamsPlando
         public bool CollectedVoidCaster = false;
         public bool ColletedDetermination = false;
         public bool CollectedBirthplaceAccess = false;
-        public bool CollectedDreamerMap = true;
+        public bool CollectedDreamerMap = false;
     }
 
     public class GlobalSettings
