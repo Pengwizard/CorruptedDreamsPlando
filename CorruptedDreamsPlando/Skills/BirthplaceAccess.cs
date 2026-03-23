@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace CorruptedDreamsPlando.Skills
 {
+    // Make this more serious in some way
     public class BirthplaceAccess
     {
         public static string baseName = "Birthplace_Access";

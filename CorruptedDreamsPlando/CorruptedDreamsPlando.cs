@@ -13,6 +13,19 @@ using UnityEngine;
 
 namespace CorruptedDreamsPlando
 {
+
+
+    /*
+     * 
+# Coding fixes
+* Fix lurien elevator
+* Fix Kedge things
+* remove shades
+* make salubras blessing instant
+* fix visual glitch?
+* refill soul on transition
+
+     */
     public class CorruptedDreamsPlandoMod : Mod, ILocalSettings<LocalSettings>, IGlobalSettings<GlobalSettings>
     {
         private static CorruptedDreamsPlandoMod _instance;
@@ -86,10 +99,12 @@ namespace CorruptedDreamsPlando
             TraitorLordDream.DreamArenaBorder = preloadedObjects[SceneNames.Fungus3_40]["Dream Gate"];
 
             RandoController.OnExportCompleted += AddModules;
-            // TraitorLordDream.Initialize();
+            //TraitorLordDream.Initialize();
             LoopTransitions.Initialize();
-            SoulRefiller.Initialize();
+            //SoulRefiller.Initialize();
             FuckRightSideShrogo.Initialize();
+            InstantSalubraSoulRefill.Initialize();
+            LurienElevatorOutOfService.Initialize();
 
             MapChanger.Events.OnEnterGame += OnEnterGame;
 

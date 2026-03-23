@@ -49,26 +49,51 @@ namespace CorruptedDreamsPlando.Rando
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("ANY_SPELL_STALL", "Spell_Stabilizer + (SCREAM | FIREBALL)"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("NARROW_SPELL_STALL", "Spell_Stabilizer + (SCREAM | FIREBALL>1)"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("EXTRA_CAST", "VESSELFRAGMENTS>2 | Spell_Twister"));
-            lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("TWO_EXTRA_CAST", "VESSELFRAGMENTS>5 | (Spell_Twister + VESSELFRAGMENTS>2)"));
+            lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("FIVE_CASTS", "VESSELFRAGMENTS>5 | (Spell_Twister + VESSELFRAGMENTS>2)"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("FULL_CAST", "VESSELFRAGMENTS>8 + Spell_Twister"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("EXTRA_SPELL_STALL", "ANY_SPELL_STALL + EXTRA_CAST"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("FULL_SPELL_STALL", "ANY_SPELL_STALL + FULL_CAST"));
 
             // Adding this so these become claw/wings/cdash together.
             lmb.AddLogicDef(new RawLogicDef("Bear_Claw", "Spell_Stabilizer + (SCREAM | FIREBALL)"));
-            lmb.AddLogicDef(new RawLogicDef("Chicken_Wings", "Spell_Stabilizer + (SCREAM | FIREBALL) + (VESSELFRAGMENTS>2 | Spell_Twister)"));
-            lmb.AddLogicDef(new RawLogicDef("Crystal_Tart", "Spell_Stabilizer + (SCREAM | FIREBALL) + VESSELFRAGMENTS>8 + Spell_Twister"));
+            lmb.AddLogicDef(new RawLogicDef("Chicken_Wings", "Spell_Stabilizer + Dream_Sifter + (SCREAM | FIREBALL) + (VESSELFRAGMENTS>2 | Spell_Twister)"));
+            lmb.AddLogicDef(new RawLogicDef("Crystal_Tart", "Spell_Stabilizer + Dream_Sifter + (SCREAM | FIREBALL) + VESSELFRAGMENTS>8 + Spell_Twister"));
 
 
             // Logic overrides
-            lmb.AddLogicDef(new RawLogicDef("Fungus1_28[left1]", "Fungus1_28[left1] | Fungus1_28[left2] + ((NARROW_SPELL_STALL)|(FULL_SPELL_STALL + DREAMGATE))"));
-            lmb.AddLogicDef(new RawLogicDef("Deepnest_43[bot1]", "(Deepnest_43[bot1] + NARROW_SPELL_STALL) | (Deepnest_43[left1] | Deepnest_43[right1]) + (ANYCLAW | WINGS | ENEMYPOGOS + DANGEROUSSKIPS + LEFTDASH)"));
-            lmb.AddLogicDef(new RawLogicDef("Tutorial_01", "(Tutorial_01[right1] + TWO_EXTRA_CAST) | Tutorial_01[top1] | Tutorial_01[top2]"));
+            // TODO: 
+            /*
+                * put willow in logic V
+                * put leg eater in logic X
+                * Put bretta key out of logic (not real with dream refiller?) V
+                * Put paum relic out of logic V
+                * Put qs mask out of logic V
+                * Put KP out of logic (needs 5 casts) V
+                * Put peak out of logic V
+                * qg needs wraiths V
+                * beasts den should be out of logic V
+             */
+
+            // Transition overrides:
+            lmb.AddLogicDef(new RawLogicDef("Fungus1_28[left1]", "Fungus1_28[left1] | Fungus1_28[left2] + ((NARROW_SPELL_STALL)|(FULL_SPELL_STALL + Dream_Sifter))"));
+            lmb.AddLogicDef(new RawLogicDef("Deepnest_43[bot1]", "(Deepnest_43[bot1] + NARROW_SPELL_STALL)"));
+            lmb.AddLogicDef(new RawLogicDef("Tutorial_01", "(Tutorial_01[right1] + FIVE_CASTS) | Tutorial_01[top1] | Tutorial_01[top2]"));
             lmb.AddLogicDef(new RawLogicDef("Cliffs_02", "(Cliffs_02[bot1] + NARROW_SPELL_STALL) | (Cliffs_02[door1] | Cliffs_02[left1]) + (ANYCLAW | WINGS | ENEMYPOGOS) | Cliffs_02[left2]"));
-            lmb.AddLogicDef(new RawLogicDef("Shape_of_Unn", "Fungus1_Slug[right1] + FULLDASH + EXTRA_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Fungus1_Slug[right1]", "FULLDASH + EXTRA_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Mines_03", "Mines_03[right1] | Mines_03[top1]"));
+
+            // Check overrides:
             lmb.AddLogicDef(new RawLogicDef("Wanderer's_Journal-Greenpath_Lower", "Fungus1_11 + NARROW_SPELL_STALL"));
-            lmb.AddLogicDef(new RawLogicDef("Wanderer's_Journal-Fungal_Wastes_Thorns_Gauntlet", "Fungus2_04 + Lever-Fungal_Wastes_Thorns_Gauntlet | Fungus2_04 + NARROW_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Wanderer's_Journal-Fungal_Wastes_Thorns_Gauntlet", "Fungus2_04 + NARROW_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Shape_of_Unn", "Fungus1_Slug[right1] + FULLDASH + EXTRA_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Bretta_Key", "FIVE_CASTS + Dream_Sifter"));
+            lmb.AddLogicDef(new RawLogicDef("Mask_Shard-Queen's_Station", "NARROW_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Hallownest_Seal-Queen's_Station", "ANY_SPELL_STALL"));
+
+            lmb.AddLogicDef(new RawLogicDef("Grub-Beast's_Den", "NARROW_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Soul_Totem-Beast's_Den", "NARROW_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Rancid_Egg-Beast's_Den", "NARROW_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Herrah", "NARROW_SPELL_STALL"));
 
         }
     }

@@ -10,6 +10,7 @@ using Modding;
 
 namespace CorruptedDreamsPlando.MapAlterations
 {
+    
     public class SoulRefiller
     {
         private static string WP_MESSAGE = "The presence of the king restores your energy";
