@@ -49,6 +49,7 @@
     <None Remove="Resources\DungDoor.png" />
     <None Remove="Resources\DungKey.png" />
     <None Remove="Resources\EssenceIcon.png" />
+    <None Remove="Resources\hero_void_quake_impact.wav" />
     <None Remove="Resources\logic.json" />
     <None Remove="Resources\LostKinBadge.png" />
     <None Remove="Resources\VoidCaster.png" />
@@ -59,6 +60,7 @@
     <EmbeddedResource Include="Resources\DungDoor.png" />
     <EmbeddedResource Include="Resources\DungKey.png" />
     <EmbeddedResource Include="Resources\EssenceIcon.png" />
+    <EmbeddedResource Include="Resources\hero_void_quake_impact.wav" />
     <EmbeddedResource Include="Resources\logic.json" />
     <EmbeddedResource Include="Resources\VoidCaster.png" />
   </ItemGroup>

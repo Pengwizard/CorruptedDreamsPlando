@@ -1,3 +1,4 @@
+using CorruptedDreamsPlando.CorruptedDreamBosses;
 using CorruptedDreamsPlando.MapAlterations;
 using CorruptedDreamsPlando.Modules;
 using CorruptedDreamsPlando.Skills;
@@ -105,6 +106,9 @@ namespace CorruptedDreamsPlando
             FuckRightSideShrogo.Initialize();
             InstantSalubraSoulRefill.Initialize();
             LurienElevatorOutOfService.Initialize();
+
+            // Super boss time!
+            CorruptedLostKin.Initialize();
 
             MapChanger.Events.OnEnterGame += OnEnterGame;
 

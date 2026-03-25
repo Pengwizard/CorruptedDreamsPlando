@@ -5,7 +5,6 @@ using RandomizerCore.LogicItems;
 using RandomizerCore.StringItems;
 using RandomizerMod.RC;
 using RandomizerMod.Settings;
-using SpellStaller.Charms;
 using System;
 using System.Collections.Generic;
 using System.IO;

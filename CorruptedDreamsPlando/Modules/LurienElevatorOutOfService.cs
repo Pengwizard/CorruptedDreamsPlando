@@ -14,9 +14,6 @@ namespace CorruptedDreamsPlando.Modules
     // TODO: Maybe add respawn hazard next to elevator?
     public class LurienElevatorOutOfService
     {
-        private static readonly FsmID elevatorControlId = new("Ruins Lift", "Lift Control");
-
-
         public static void Initialize()
         {
             On.GameManager.OnNextLevelReady += onSceneChange;
