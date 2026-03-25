@@ -60,7 +60,6 @@
     <EmbeddedResource Include="Resources\DungDoor.png" />
     <EmbeddedResource Include="Resources\DungKey.png" />
     <EmbeddedResource Include="Resources\EssenceIcon.png" />
-    <EmbeddedResource Include="Resources\hero_void_quake_impact.wav" />
     <EmbeddedResource Include="Resources\logic.json" />
     <EmbeddedResource Include="Resources\VoidCaster.png" />
   </ItemGroup>

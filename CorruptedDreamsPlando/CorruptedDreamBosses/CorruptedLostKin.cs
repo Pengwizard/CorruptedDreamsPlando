@@ -10,8 +10,10 @@ using SFCore;
 using SFCore.Utils;
 using System;
 using System;
+using System.Runtime;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace CorruptedDreamsPlando.CorruptedDreamBosses
@@ -77,7 +79,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 self.Fsm.Name.Contains("Spell Control") &&
                 self.State.Name == "Q2 Land")
             {
-                CorruptedDreamsPlandoMod.Instance.LogError($"Playing audio {self} {self.oneShotClip.Name}");
                 _ddarkAudio = self.oneShotClip;
             }
             orig(self);
@@ -90,11 +91,13 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static void PrintInsideDStab()
         {
+            CorruptedDreamsPlandoMod.Instance.Log($"Setting invuln {DateTime.Now}");
             _lostKinObject.layer = LayerMask.NameToLayer("Enemy Attack");
         }
 
         private static void PrintInsideDStabDone()
         {
+            CorruptedDreamsPlandoMod.Instance.Log($"Setting to enemy {DateTime.Now}");
             _lostKinObject.layer = LayerMask.NameToLayer("Enemies");
         }
 
@@ -206,7 +209,12 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             Satchel.FsmUtil.AddAction(downstabLandstate, activatePillar);
             Satchel.FsmUtil.AddAction(downstabLandstate, new Wait() { time = 0.75f });
             Satchel.FsmUtil.AddAction(downstabLandstate, activateMega);
-
+            downstabLandstate.AddCustomAction(PrintInsideDStabDone);
+            Wait waitStep = new Wait();
+            waitStep.time = 10f;
+            waitStep.realTime = true;
+            waitStep.Active = true;
+            Satchel.FsmUtil.AddAction(downstabLandstate, waitStep);
             downstabLandstate.AddCustomAction(PrintInsideDStabDone);
 
         }
