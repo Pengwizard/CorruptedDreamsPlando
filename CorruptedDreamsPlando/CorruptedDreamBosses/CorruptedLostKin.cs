@@ -4,20 +4,119 @@ using ItemChanger;
 using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
 using ItemChanger.Internal;
+using MenuChanger.Extensions;
+using Newtonsoft.Json;
 using RandomizerMod.RandomizerData;
 using Satchel;
 using SFCore;
 using SFCore.Utils;
 using System;
 using System;
-using System.Runtime;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Runtime;
 using System.Threading;
 using UnityEngine;
+using static SFCore.ItemHelper;
 
 namespace CorruptedDreamsPlando.CorruptedDreamBosses
 {
+    public class AnimationModifiers
+    {
+        // float modifiers
+        public float DashSpeed;
+        public float DashReverse;
+        public float Gravity;
+        public float JumpY;
+        public float JumpX;
+
+
+        // animation speed modifiers
+        public float EvadeAntic;
+        public float Evade;
+        public float EvadeRecover;
+        public float OheadAntic;
+        public float OheadSlashing;
+        public float OheadSlashing2;
+        public float DashAntic;
+        public float DashAntic2;
+        public float DashAntic3;
+        public float DashAttack;
+        public float DashAttack2;
+        public float DashAttack3;
+        public float DashRecover;
+        public float Fall;
+        public float Jump;
+        public float JumpAntic;
+        public float DstabAntic;
+        public float DstabFall;
+        public float DstabLand;
+        public float DstabRecover;
+        public float Walk;
+
+        // Wait Numbers
+
+        public float ShakingSpawnWait;
+        public float IdleCounterLower;
+        public float IdleCounterUpper;
+        public float OheadAnticWait;
+        public float ShakingStartWait;
+        public float ShakeEnd;
+
+        public float WalkSpeedUpper;
+        public float WalkSpeedLower;
+
+        public float DashAntic2Wait;
+
+
+
+        public static AnimationModifiers FromJsonFile(string path)
+        {
+            if (path == "")
+            {
+                path = "C:\\clean\\corruptedLostKinModifiers.json";
+            }
+
+            using (StreamReader r = new StreamReader(path))
+            {
+                string json = r.ReadToEnd();
+                AnimationModifiers items = JsonConvert.DeserializeObject<AnimationModifiers>(json);
+                return items;
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"DashSpeed = {DashSpeed}, " +
+                   $"DashReverse = {DashReverse}, " +
+                   $"Gravity = {Gravity}, " +
+                   $"JumpY = {JumpY}, " +
+                   $"JumpX = {JumpX}, " +
+                   $"EvadeAntic = {EvadeAntic}, " +
+                   $"Evade = {Evade}, " +
+                   $"EvadeRecover = {EvadeRecover}, " +
+                   $"OheadAntic = {OheadAntic}, " +
+                   $"OheadSlashing = {OheadSlashing}, " +
+                   $"DashAntic = {DashAntic}, " +
+                   $"DashAntic2 = {DashAntic2}, " +
+                   $"DashAntic3 = {DashAntic3}, " +
+                   $"DashAttack = {DashAttack}, " +
+                   $"DashAttack2 = {DashAttack2}, " +
+                   $"DashAttack3 = {DashAttack3}, " +
+                   $"DashRecover = {DashRecover}, " +
+                   $"Fall = {Fall}, " +
+                   $"Jump = {Jump}, " +
+                   $"JumpAntic = {JumpAntic}, " +
+                   $"DstabAntic = {DstabAntic}, " +
+                   $"DstabFall = {DstabFall}, " +
+                   $"DstabLand = {DstabLand}, " +
+                   $"DstabRecover = {DstabRecover}, " +
+                   $"Walk = {Walk}";
+        }
+    }
+
     public class CorruptedLostKin
     {
         private static readonly FsmID lostKinControl = new("Lost Kin", "IK Control");
@@ -101,18 +200,138 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             _lostKinObject.layer = LayerMask.NameToLayer("Enemies");
         }
 
-        private static FsmObject FindKnightDDarkAudio()
+        private static void MultiplyFsmFloat(FsmFloat f, float mul)
         {
-            var knight = HeroController.instance.transform.Find("Knight").gameObject;
-            var spellControl = knight.LocateMyFSM("Spell Control");
-            var q2Land = Satchel.FsmUtil.GetState(spellControl, "Q2 Land");
-            var audioPlay = q2Land.Actions[1];
-            if (audioPlay is AudioPlay)
-            {
-                return (audioPlay as AudioPlay).oneShotClip;
-            }
+            CorruptedDreamsPlandoMod.Instance.Log($"Setting {f.Name} from {f.Value} to {f.Value * mul}");
+            f.Value = f.Value * mul;
+        }
 
-            return null;
+        private static void SpeedupAnimation(PlayMakerFSM fsm, string animationName, AnimationAccelerator accel, float animationSpeed, int index=-1)
+        {
+            if (index >= 0)
+            {
+                CorruptedDreamsPlandoMod.Instance.Log($"Setting {animationName} from {fsm} to be faster as index is {index}");
+            } else
+            {
+                CorruptedDreamsPlandoMod.Instance.Log($"Setting {animationName} from {fsm} to be faster");
+            }
+            SFCore.Utils.FsmUtil.GetState(fsm, animationName).AccelerateAnimation(accel, animationSpeed, index);
+        }
+
+        private static void ChangeRandomFloat(PlayMakerFSM fsm, string stateName, int actionIndex, float upperBound, float lowerBound)
+        {
+            var setCounterState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
+            var rFloat = setCounterState.Actions[actionIndex];
+            if (rFloat is RandomFloat)
+            {
+                (rFloat as RandomFloat).min = upperBound;
+                (rFloat as RandomFloat).max = lowerBound;
+            }
+        }
+
+        private static void ChangeWaitRandom(PlayMakerFSM fsm, string stateName, int actionIndex, float upperBound, float lowerBound)
+        {
+            var setCounterState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
+            var rFloat = setCounterState.Actions[actionIndex];
+            if (rFloat is WaitRandom)
+            {
+                (rFloat as WaitRandom).timeMin = upperBound;
+                (rFloat as WaitRandom).timeMax = lowerBound;
+            }
+        }
+
+        private static void ChangeSetVelocity2d(PlayMakerFSM fsm, string stateName, int actionIndex, float x, float y)
+        {
+            var setVeloState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
+            var setVeloAction = setVeloState.Actions[actionIndex];
+            if (setVeloAction is SetVelocity2d)
+            {
+                (setVeloAction as SetVelocity2d).x = x;
+                (setVeloAction as SetVelocity2d).y = y;
+            }
+        }
+
+        private static void ChangeWaitFloat(PlayMakerFSM fsm, string stateName, int actionIndex, float newWaitTime)
+        {
+            var waitState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
+            var waitAction = waitState.Actions[actionIndex];
+            if (waitAction is Wait)
+            {
+                (waitAction as Wait).time = newWaitTime;
+            }
+        }
+
+        private static void SetAllNumbers(PlayMakerFSM fsm)
+        {
+            AnimationModifiers am = AnimationModifiers.FromJsonFile("");
+            CorruptedDreamsPlandoMod.Instance.Log($"{am}");
+
+
+            var accel = fsm.gameObject.GetOrAddComponent<AnimationAccelerator>();
+
+            List<string> fsmFloatNames = new List<string>(){"WalkSpeed", "Evade Speed Crt"};
+
+
+            MultiplyFsmFloat(fsm.GetFloatVariable("Dash Speed"), am.DashSpeed);
+            MultiplyFsmFloat(fsm.GetFloatVariable("Dash Reverse"), am.DashReverse);
+            MultiplyFsmFloat(fsm.GetFloatVariable("Gravity"), am.Gravity);
+            // MultiplyFsmFloat(fsm.GetFloatVariable("Jump X"), am.JumpX);
+            // MultiplyFsmFloat(fsm.GetFloatVariable("Jump Y"), am.JumpY);
+
+            SpeedupAnimation(fsm, "Evade Antic", accel, am.EvadeAntic);
+            SpeedupAnimation(fsm, "Evade Dash", accel, am.Evade);
+            SpeedupAnimation(fsm, "Evade Recover", accel, am.EvadeRecover);
+
+            SpeedupAnimation(fsm, "Ohead Antic", accel, am.OheadAntic);
+            ChangeWaitFloat(fsm, "Ohead Antic", 2, am.OheadAnticWait);
+
+            SpeedupAnimation(fsm, "Ohead Slashing", accel, am.OheadSlashing);
+            SpeedupAnimation(fsm, "Ohead Slashing", accel, am.OheadSlashing2, 7);
+
+            SpeedupAnimation(fsm, "Dash Antic", accel, am.DashAntic);
+
+            SpeedupAnimation(fsm, "Dash Antic 2", accel, am.DashAntic2);
+            ChangeWaitFloat(fsm, "Dash Antic 2", 2, am.DashAntic2Wait);
+            SpeedupAnimation(fsm, "Dash Antic 3", accel, am.DashAntic3);
+
+            SpeedupAnimation(fsm, "Dash Attack", accel, am.DashAttack);
+            SpeedupAnimation(fsm, "Dash Attack 2", accel, am.DashAttack2);
+            SpeedupAnimation(fsm, "Dash Attack 3", accel, am.DashAttack3);
+
+            SpeedupAnimation(fsm, "Dash Recover", accel, am.DashRecover);
+
+            SpeedupAnimation(fsm, "Fall", accel, am.Fall);
+
+            SpeedupAnimation(fsm, "Jump 2", accel, am.Jump);
+            SpeedupAnimation(fsm, "Jump Antic 2", accel, am.JumpAntic);
+            ChangeRandomFloat(fsm, "Jump 2", 3, 60f * am.JumpY, 60f * am.JumpY);
+            ChangeRandomFloat(fsm, "Aim Jump 2", 0, 25.5f * am.JumpX, 27.5f * am.JumpX);
+
+            SpeedupAnimation(fsm, "Jump", accel, am.Jump);
+            SpeedupAnimation(fsm, "Jump Antic", accel, am.JumpAntic);
+            ChangeRandomFloat(fsm, "Jump", 3, 60f * am.JumpY, 60f * am.JumpY);
+
+
+            SpeedupAnimation(fsm, "Dstab Antic", accel, am.DstabAntic);
+            SpeedupAnimation(fsm, "Dstab Fall", accel, am.DstabFall);
+            ChangeSetVelocity2d(fsm, "Dstab Fall", 4, 0, -60f * am.DstabFall);
+            SpeedupAnimation(fsm, "Dstab Land", accel, am.DstabLand);
+            SpeedupAnimation(fsm, "Dstab Recover", accel, am.DstabRecover);
+
+            SpeedupAnimation(fsm, "Idle", accel, am.Walk);
+
+            SpeedupAnimation(fsm, "Shaking Start", accel, 2);
+
+
+            ChangeWaitRandom(fsm, "Shaking Spawn", 1, am.ShakingSpawnWait, am.ShakingSpawnWait);
+            ChangeRandomFloat(fsm, "Set Counter", 0, am.IdleCounterLower, am.IdleCounterUpper);
+
+
+            ChangeRandomFloat(fsm, "Idle", 3, am.WalkSpeedLower, am.WalkSpeedUpper);
+
+            ChangeWaitFloat(fsm, "Shaking Start", 4, am.ShakingStartWait);
+            ChangeWaitFloat(fsm, "Shake End", 1, am.ShakeEnd);
+
         }
 
         private static void SuperBossLostKin(PlayMakerFSM fsm)
@@ -130,6 +349,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             downstabLandstate.AddCustomAction(PrintInsideDStab);
 
+            SetAllNumbers(fsm);
 
             GameObject slam = GameObject.Instantiate(DDarkSlam);
             GameObject pillar = GameObject.Instantiate(DDarkPillar);
@@ -207,11 +427,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             Satchel.FsmUtil.AddAction(downstabLandstate, activateSlam);
             Satchel.FsmUtil.AddAction(downstabLandstate, new Wait() { time = 0.75f});
             Satchel.FsmUtil.AddAction(downstabLandstate, activatePillar);
-            Satchel.FsmUtil.AddAction(downstabLandstate, new Wait() { time = 0.75f });
+            Satchel.FsmUtil.AddAction(downstabLandstate, new Wait() { time = 0.75f});
             Satchel.FsmUtil.AddAction(downstabLandstate, activateMega);
             downstabLandstate.AddCustomAction(PrintInsideDStabDone);
             Wait waitStep = new Wait();
-            waitStep.time = 10f;
+            waitStep.time = 1000f;
             waitStep.realTime = true;
             waitStep.Active = true;
             Satchel.FsmUtil.AddAction(downstabLandstate, waitStep);
