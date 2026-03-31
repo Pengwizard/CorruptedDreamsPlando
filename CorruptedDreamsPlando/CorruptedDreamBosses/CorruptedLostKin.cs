@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using UnityEngine;
 using static SFCore.ItemHelper;
@@ -261,11 +262,46 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             }
         }
 
+        private static void CreateLoopForDDark(PlayMakerFSM fsm)
+        {
+            FsmState dStabRecover = SFCore.Utils.FsmUtil.GetState(fsm, "Dstab Recover");
+            ChangeWaitFloat(fsm, "Dstab Recover", 0, 0.1f);
+
+            FsmState dStabLoop = SFCore.Utils.FsmUtil.AddState(fsm, "Dstab Loop");
+            FsmState dStabPause = SFCore.Utils.FsmUtil.AddState(fsm, "Dstab Pause");
+
+            SFCore.Utils.FsmUtil.RemoveTransition(dStabRecover, "FINISHED");
+            SFCore.Utils.FsmUtil.AddTransition(dStabRecover, "FINISHED", "Dstab Loop");
+            FsmEvent doRepeat = new("DOREPEAT");
+            FsmEvent dontRepeat = new("DONTREPEAT");
+
+            SFCore.Utils.FsmUtil.AddTransition(dStabLoop, "DOREPEAT", "Set Dstab");
+            SFCore.Utils.FsmUtil.AddTransition(dStabLoop, "DONTREPEAT", "Dstab Pause");
+
+            SFCore.Utils.FsmUtil.AddTransition(dStabPause, "FINISHED", "Set Counter");
+
+            var ddarkLoops = fsm.AddFsmInt("DDark Loops", 0);
+            Satchel.FsmUtil.AddFirstAction(dStabLoop, new Lambda(() => {
+                FsmInt loops = fsm.FsmVariables.GetFsmInt("DDark Loops");
+                loops.Value = loops.Value + 1;
+                CorruptedDreamsPlandoMod.Instance.Log($"loops value is {loops.Value}");
+                fsm.SendEvent(loops.Value > 3 ? "DONTREPEAT" : "DOREPEAT");
+            }));
+
+            Satchel.FsmUtil.AddFirstAction(dStabPause, new Wait() {time=0.35f});
+            Satchel.FsmUtil.AddFirstAction(dStabPause, new Lambda(() => {
+                FsmInt loops = fsm.FsmVariables.GetFsmInt("DDark Loops");
+                loops.Value = 0;
+                CorruptedDreamsPlandoMod.Instance.Log($"loops value (in pause) is {loops.Value}");
+            }));
+        }
+
         private static void SetAllNumbers(PlayMakerFSM fsm)
         {
             AnimationModifiers am = AnimationModifiers.FromJsonFile("");
             CorruptedDreamsPlandoMod.Instance.Log($"{am}");
 
+            CreateLoopForDDark(fsm);
 
             var accel = fsm.gameObject.GetOrAddComponent<AnimationAccelerator>();
 
