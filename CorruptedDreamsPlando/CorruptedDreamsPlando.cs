@@ -14,19 +14,6 @@ using UnityEngine;
 
 namespace CorruptedDreamsPlando
 {
-
-
-    /*
-     * 
-# Coding fixes
-* Fix lurien elevator
-* Fix Kedge things
-* remove shades
-* make salubras blessing instant
-* fix visual glitch?
-* refill soul on transition
-
-     */
     public class CorruptedDreamsPlandoMod : Mod, ILocalSettings<LocalSettings>, IGlobalSettings<GlobalSettings>
     {
         private static CorruptedDreamsPlandoMod _instance;
@@ -59,7 +46,9 @@ namespace CorruptedDreamsPlando
                 ("Dream_01_False_Knight", "Dream Entry"),
                 (SceneNames.Abyss_19, "IK Remains/Dream Enter"),
                 (SceneNames.Grimm_Main_Tent, "Grimm_sleep_shield"),
-                (SceneNames.Fungus3_40, "Dream Gate")
+                (SceneNames.Fungus3_40, "Dream Gate"),
+                (SceneNames.Dream_Final_Boss, "Boss Control/White Fader"),
+                (SceneNames.Dream_Final_Boss, "Boss Control/Boss Title")
             };
         }
 
@@ -99,6 +88,11 @@ namespace CorruptedDreamsPlando
             TraitorLordDream.ClothCorpsePrefab = preloadedObjects[SceneNames.Fungus3_23]["Cloth Corpse"];
             TraitorLordDream.DreamArenaBorder = preloadedObjects[SceneNames.Fungus3_40]["Dream Gate"];
 
+            CorruptedLostKin.WhiteFaderPrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/White Fader"];
+            CorruptedLostKin.BossTitlePrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/Boss Title"];
+
+
+
             RandoController.OnExportCompleted += AddModules;
             //TraitorLordDream.Initialize();
             LoopTransitions.Initialize();
@@ -106,6 +100,7 @@ namespace CorruptedDreamsPlando
             FuckRightSideShrogo.Initialize();
             InstantSalubraSoulRefill.Initialize();
             LurienElevatorOutOfService.Initialize();
+            Shadeless.Initialize();
 
             // Super boss time!
             CorruptedLostKin.Initialize();
