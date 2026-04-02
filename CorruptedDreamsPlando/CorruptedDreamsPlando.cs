@@ -47,7 +47,7 @@ namespace CorruptedDreamsPlando
                 (SceneNames.Abyss_19, "IK Remains/Dream Enter"),
                 (SceneNames.Grimm_Main_Tent, "Grimm_sleep_shield"),
                 (SceneNames.Fungus3_40, "Dream Gate"),
-                (SceneNames.Dream_Final_Boss, "Boss Control/White Fader"),
+                (SceneNames.Dream_Final_Boss, "Boss Control/white_solid"),
                 (SceneNames.Dream_Final_Boss, "Boss Control/Boss Title")
             };
         }
@@ -88,7 +88,7 @@ namespace CorruptedDreamsPlando
             TraitorLordDream.ClothCorpsePrefab = preloadedObjects[SceneNames.Fungus3_23]["Cloth Corpse"];
             TraitorLordDream.DreamArenaBorder = preloadedObjects[SceneNames.Fungus3_40]["Dream Gate"];
 
-            CorruptedLostKin.WhiteFaderPrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/White Fader"];
+            CorruptedLostKin.WhiteSolidPrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/white_solid"];
             CorruptedLostKin.BossTitlePrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/Boss Title"];
 
 

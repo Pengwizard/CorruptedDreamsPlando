@@ -137,7 +137,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
 
         public static GameObject BossTitlePrefab;
-        public static GameObject WhiteFaderPrefab;
+        public static GameObject WhiteSolidPrefab;
 
 
         public static GameObject DDarkSlam
@@ -305,18 +305,16 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             SFCore.Utils.FsmUtil.AddTransition(dStabPause, "FINISHED", "Set Counter");
 
             var ddarkLoops = fsm.AddFsmInt("DDark Loops", 0);
-            Satchel.FsmUtil.AddFirstAction(dStabLoop, new Lambda(() => {
+            Satchel.FsmUtil.AddAction(dStabLoop, new Lambda(() => {
                 FsmInt loops = fsm.FsmVariables.GetFsmInt("DDark Loops");
                 loops.Value = loops.Value + 1;
-                CorruptedDreamsPlandoMod.Instance.Log($"loops value is {loops.Value}");
                 fsm.SendEvent(loops.Value > 3 ? "DONTREPEAT" : "DOREPEAT");
             }));
 
-            Satchel.FsmUtil.AddFirstAction(dStabPause, new Wait() {time=0.35f});
-            Satchel.FsmUtil.AddFirstAction(dStabPause, new Lambda(() => {
+            Satchel.FsmUtil.AddAction(dStabPause, new Wait() {time=0.35f});
+            Satchel.FsmUtil.AddAction(dStabPause, new Lambda(() => {
                 FsmInt loops = fsm.FsmVariables.GetFsmInt("DDark Loops");
                 loops.Value = 0;
-                CorruptedDreamsPlandoMod.Instance.Log($"loops value (in pause) is {loops.Value}");
             }));
         }
 
@@ -505,85 +503,40 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             FsmState flashUp = SFCore.Utils.FsmUtil.AddState(fsm, "Flash Up");
             FsmState flashDown = SFCore.Utils.FsmUtil.AddState(fsm, "Flash Down");
             var roarState = SFCore.Utils.FsmUtil.GetState(fsm, "Roar");
+            var roarWait = roarState.Actions[5] as Wait;
+            // TODO Add to json
+            roarWait.time = 1f;
 
-            FsmEvent endFlashUp = new("END_FLASH_UP");
-            FsmEvent proceedToEnd = new("PROCEED_TO_END");
+            // FsmEvent endFlashUp = new("END_FLASH_UP");
+            // FsmEvent proceedToEnd = new("PROCEED_TO_END");
 
             SFCore.Utils.FsmUtil.RemoveTransition(roarState, "FINISHED");
             SFCore.Utils.FsmUtil.AddTransition(roarState, "FINISHED", "Flash Up");
-            SFCore.Utils.FsmUtil.AddTransition(flashUp, "END_FLASH_UP", "Flash Down");
-            SFCore.Utils.FsmUtil.AddTransition(flashDown, "PROCEED_TO_END", "Roar End");
+            SFCore.Utils.FsmUtil.AddTransition(flashUp, "FINISHED", "Flash Down");
+            SFCore.Utils.FsmUtil.AddTransition(flashDown, "FINISHED", "Roar End");
 
 
-            GameObject whiteFader = UObject.Instantiate(WhiteFaderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject whiteFader = UObject.Instantiate(WhiteSolidPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             var whiteFaderSpriteRenderer = whiteFader.GetComponent<SpriteRenderer>();
             whiteFaderSpriteRenderer.color = Color.black;
-            whiteFader.transform.position = new Vector3(29, 29, 0);
-            whiteFader.transform.SetScaleX(30);
-            whiteFader.transform.SetScaleY(30);
-            whiteFader.transform.SetScaleZ(10);
+            whiteFader.transform.position = new Vector3(30, 30, 0);
 
             GameObject bossTitle = UObject.Instantiate(BossTitlePrefab, new Vector3(0, 0, 0), Quaternion.identity);
             bossTitle.SetActive(true);
             var bossTitleTMP = bossTitle.GetComponent<TextMeshPro>();
             bossTitleTMP.color = Color.white;
+            bossTitleTMP.text = "Dark Descendent";
+            foreach (var g in bossTitle.GetComponentsInChildren<TextMeshPro>())
+            {
+                g.color = Color.white;
+            }
 
-             whiteFader.SetActive(true);
-            // whiteFader.GetComponent<SpriteRenderer>().enabled = true;
+            whiteFader.SetActive(true);
+            whiteFader.GetComponent<SpriteRenderer>().enabled = true;
 
-            iTweenFadeTo slot0FlashUp = new iTweenFadeTo();
-
-            slot0FlashUp.gameObject = new FsmOwnerDefault() { GameObject = new FsmGameObject { Value = whiteFader }, OwnerOption = OwnerDefaultOption.SpecifyGameObject }; ;
-            slot0FlashUp.id = "ABCDE";
-            slot0FlashUp.alpha = 1f;
-
-            slot0FlashUp.time = 0.25f;
-            slot0FlashUp.delay = 0f;
-            slot0FlashUp.namedValueColor = "_Color";
-
-            slot0FlashUp.easeType = iTween.EaseType.linear;
-            slot0FlashUp.loopType = iTween.LoopType.none;
-            slot0FlashUp.stopOnExit = true;
-            slot0FlashUp.loopDontFinish = true;
-            slot0FlashUp.realTime = false;
-            slot0FlashUp.includeChildren = true;
-
-
-            iTweenScaleTo slot1FlashUp = new iTweenScaleTo();
-
-            slot1FlashUp.gameObject = new FsmOwnerDefault() { GameObject = new FsmGameObject { Value = whiteFader }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
-            slot1FlashUp.id = "";
-            slot1FlashUp.vectorScale = new Vector3(65, 43, 43);
-
-            slot1FlashUp.time = 0.5f;
-            slot1FlashUp.delay = 0f;
-            slot1FlashUp.speed = 0f;
-
-
-            slot1FlashUp.easeType = iTween.EaseType.linear;
-            slot1FlashUp.loopType = iTween.LoopType.none;
-            slot1FlashUp.stopOnExit = true;
-            slot1FlashUp.loopDontFinish = true;
-            slot1FlashUp.realTime = false;
-
-
-            iTweenFadeTo whiteFadeOut = new iTweenFadeTo();
-
-            whiteFadeOut.gameObject = new FsmOwnerDefault() { GameObject = new FsmGameObject { Value = whiteFader }, OwnerOption = OwnerDefaultOption.SpecifyGameObject }; ;
-            whiteFadeOut.id = "";
-            whiteFadeOut.alpha = 0f;
-
-            whiteFadeOut.time = 0.25f;
-            whiteFadeOut.delay = 0.5f;
-            whiteFadeOut.namedValueColor = "_Color";
-
-            whiteFadeOut.easeType = iTween.EaseType.linear;
-            whiteFadeOut.loopType = iTween.LoopType.none;
-            whiteFadeOut.stopOnExit = true;
-            whiteFadeOut.loopDontFinish = true;
-            whiteFadeOut.realTime = false;
-            whiteFadeOut.includeChildren = true;
-            
+            var faderFSM = whiteFader.LocateMyFSM("FSM");
+            faderFSM.GetFloatVariable("Up Time").Value = 0.5f;
+            faderFSM.GetFloatVariable("Up Delay").Value = 2.5f;
 
             FadeGroupUp slot2FadeGroup = new FadeGroupUp();
             slot2FadeGroup.target = new FsmOwnerDefault() { GameObject = new FsmGameObject { Value = bossTitle }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
@@ -596,42 +549,19 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 CorruptedDreamsPlandoMod.Instance.Log($"Start flash up");
             }));
 
-             Satchel.FsmUtil.AddAction(flashUp, slot0FlashUp);
+            // Satchel.FsmUtil.AddAction(flashUp, slot0FlashUp);
+            Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = 1f});
             Satchel.FsmUtil.AddAction(flashUp, new Lambda(() => {
-                CorruptedDreamsPlandoMod.Instance.Log($"slot {kk++}");
-            }));
-
-            Satchel.FsmUtil.AddAction(flashUp, slot1FlashUp);
-            Satchel.FsmUtil.AddAction(flashUp, new Lambda(() => {
-                CorruptedDreamsPlandoMod.Instance.Log($"slot {kk++}");
+                whiteFader.LocateMyFSM("FSM").SetState("Init");
             }));
 
             Satchel.FsmUtil.AddAction(flashUp, slot2FadeGroup);
-            Satchel.FsmUtil.AddAction(flashUp, new Lambda(() => {
-                CorruptedDreamsPlandoMod.Instance.Log($"slot {kk++}");
-            }));
+            
+            Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = 2f });
 
-            Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = 3f, finishEvent = endFlashUp });
-            Satchel.FsmUtil.AddAction(flashUp, new Lambda(() => {
-                CorruptedDreamsPlandoMod.Instance.Log($"slot {kk++}");
-                //fsm.SendEvent("END_FLASH_UP");
-            }));
 
             Satchel.FsmUtil.AddAction(flashDown, slot4FadeGroup);
-            Satchel.FsmUtil.AddAction(flashDown, new Lambda(() => {
-                CorruptedDreamsPlandoMod.Instance.Log($"slot {kk++}");
-            }));
-
-            Satchel.FsmUtil.AddAction(flashUp, whiteFadeOut);
-            Satchel.FsmUtil.AddAction(flashDown, new Lambda(() => {
-                CorruptedDreamsPlandoMod.Instance.Log($"slot {kk++}");
-            }));
-
-
-            Satchel.FsmUtil.AddAction(flashDown, new Lambda(() => {
-                CorruptedDreamsPlandoMod.Instance.Log($"Done flash up");
-                fsm.SendEvent("PROCEED_TO_END");
-            }));
+            Satchel.FsmUtil.AddAction(flashDown, new Wait() { time = 1f });
         }
 
         private static void DoPhaseChange(PlayMakerFSM fsm)
@@ -641,7 +571,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             phaseChanged = true;
             CorruptedDreamsPlandoMod.Instance.Log($"Changing phase for the first time");
             var healthManager = _lostKinObject.GetComponent<HealthManager>();
-            healthManager.hp = _startingHp * 4;
+            healthManager.hp = _startingHp * 3;
         }
 
         private static void SetupPhaseChange(PlayMakerFSM fsm)
@@ -649,7 +579,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             // Removing scream skips before they are an issue :)
             var roarStart = SFCore.Utils.FsmUtil.GetState(fsm, "Roar Start");
-            Satchel.FsmUtil.AddAction(roarStart, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
+            // Satchel.FsmUtil.AddAction(roarStart, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
 
 
             FsmState phaseChange = SFCore.Utils.FsmUtil.AddState(fsm, "Phase Change");
@@ -662,7 +592,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             _startingHp = healthManager.hp;
 
             // Giving us a larger detection buffer.
-            healthManager.hp *= 2;
+            healthManager.hp = healthManager.hp + (int)(healthManager.hp * 0.5);
 
 
             fsm.AddFsmBool("Phase Change Triggered", false);
