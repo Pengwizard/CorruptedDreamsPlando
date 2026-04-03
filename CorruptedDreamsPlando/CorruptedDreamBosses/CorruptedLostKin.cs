@@ -3,27 +3,14 @@ using HutongGames.PlayMaker.Actions;
 using ItemChanger;
 using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
-using ItemChanger.Internal;
-using MenuChanger.Extensions;
 using Newtonsoft.Json;
-using RandomizerMod.IC;
-using RandomizerMod.RandomizerData;
 using Satchel;
-using SFCore;
 using SFCore.Utils;
 using System;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading;
 using TMPro;
 using UnityEngine;
-using static SFCore.ItemHelper;
 using UObject = UnityEngine.Object;
 
 namespace CorruptedDreamsPlando.CorruptedDreamBosses
@@ -75,6 +62,14 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public float DashAntic2Wait;
 
+        // Numbers for Phase Change bit
+        public float RoadWaitTime;
+        public float WhiteSolidUpTime;
+        public float WhiteSolidUpDelay;
+        public float TitleFadeUpDelay;
+        public float TitleFadeDownDelay;
+        public float PhaseChangeHpGate;
+        public float PhaseChangeHpMultiplier;
 
 
         public static AnimationModifiers FromJsonFile(string path)
@@ -421,9 +416,9 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             mega.transform.SetParent(lkTransform);
             mega.transform.position = lkTransform.position + new Vector3(0, 6, 0);
 
-            slam.SetActive(true);
-            pillar.SetActive(true);
-            mega.SetActive(true);
+            //slam.SetActive(true);
+            //pillar.SetActive(true);
+            //mega.SetActive(true);
 
             GameObject[] go = { slam, pillar, mega };
 
@@ -484,34 +479,21 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             activateMega.resetOnExit = false;
             activateMega.everyFrame = false;
 
-            Satchel.FsmUtil.AddAction(downstabLandstate, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0});
+            Satchel.FsmUtil.AddCustomAction(downstabLandstate, MakeInvuln);
             Satchel.FsmUtil.AddAction(downstabLandstate, activateSlam);
             Satchel.FsmUtil.AddAction(downstabLandstate, new Wait() { time = 0.75f});
             Satchel.FsmUtil.AddAction(downstabLandstate, activatePillar);
             Satchel.FsmUtil.AddAction(downstabLandstate, new Wait() { time = 0.75f});
             Satchel.FsmUtil.AddAction(downstabLandstate, activateMega);
             Satchel.FsmUtil.AddAction(downstabLandstate, new Wait() { time = 0.75f });
-            Satchel.FsmUtil.AddAction(downstabLandstate, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
+            Satchel.FsmUtil.AddCustomAction(downstabLandstate, MakeVuln);
         }
 
-        static int kk = 0;
-
-        private static void SetupTitleUp(PlayMakerFSM fsm)
+        private static void SetupTitleUp(PlayMakerFSM fsm, AnimationModifiers am)
         {
-            kk = 0;
-
             FsmState flashUp = SFCore.Utils.FsmUtil.AddState(fsm, "Flash Up");
             FsmState flashDown = SFCore.Utils.FsmUtil.AddState(fsm, "Flash Down");
-            var roarState = SFCore.Utils.FsmUtil.GetState(fsm, "Roar");
-            var roarWait = roarState.Actions[5] as Wait;
-            // TODO Add to json
-            roarWait.time = 1f;
 
-            // FsmEvent endFlashUp = new("END_FLASH_UP");
-            // FsmEvent proceedToEnd = new("PROCEED_TO_END");
-
-            SFCore.Utils.FsmUtil.RemoveTransition(roarState, "FINISHED");
-            SFCore.Utils.FsmUtil.AddTransition(roarState, "FINISHED", "Flash Up");
             SFCore.Utils.FsmUtil.AddTransition(flashUp, "FINISHED", "Flash Down");
             SFCore.Utils.FsmUtil.AddTransition(flashDown, "FINISHED", "Roar End");
 
@@ -525,18 +507,20 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             bossTitle.SetActive(true);
             var bossTitleTMP = bossTitle.GetComponent<TextMeshPro>();
             bossTitleTMP.color = Color.white;
-            bossTitleTMP.text = "Dark Descendent";
+            bossTitleTMP.SetText("Dark Descendent");
             foreach (var g in bossTitle.GetComponentsInChildren<TextMeshPro>())
             {
                 g.color = Color.white;
             }
 
             whiteFader.SetActive(true);
+            // whiteFader.SetActive(false);
             whiteFader.GetComponent<SpriteRenderer>().enabled = true;
+            // whiteFader.GetComponent<SpriteRenderer>().enabled = false;
 
             var faderFSM = whiteFader.LocateMyFSM("FSM");
-            faderFSM.GetFloatVariable("Up Time").Value = 0.5f;
-            faderFSM.GetFloatVariable("Up Delay").Value = 2.5f;
+            faderFSM.GetFloatVariable("Up Time").Value = am.WhiteSolidUpTime;
+            faderFSM.GetFloatVariable("Up Delay").Value = am.WhiteSolidUpDelay;
 
             FadeGroupUp slot2FadeGroup = new FadeGroupUp();
             slot2FadeGroup.target = new FsmOwnerDefault() { GameObject = new FsmGameObject { Value = bossTitle }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
@@ -557,52 +541,49 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             Satchel.FsmUtil.AddAction(flashUp, slot2FadeGroup);
             
-            Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = 2f });
+            Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = am.TitleFadeUpDelay });
 
 
             Satchel.FsmUtil.AddAction(flashDown, slot4FadeGroup);
-            Satchel.FsmUtil.AddAction(flashDown, new Wait() { time = 1f });
+            Satchel.FsmUtil.AddAction(flashDown, new Wait() { time = am.TitleFadeDownDelay });
         }
 
-        private static void DoPhaseChange(PlayMakerFSM fsm)
+        private static void DoPhaseChange(PlayMakerFSM fsm, AnimationModifiers am)
         {
             //var alreadyPhaseChanged = fsm.GetBoolVariable("Phase Change Triggered");
             //alreadyPhaseChanged = true;
-            phaseChanged = true;
             CorruptedDreamsPlandoMod.Instance.Log($"Changing phase for the first time");
             var healthManager = _lostKinObject.GetComponent<HealthManager>();
-            healthManager.hp = _startingHp * 3;
+            healthManager.hp = (int)(_startingHp * am.PhaseChangeHpMultiplier);
         }
 
         private static void SetupPhaseChange(PlayMakerFSM fsm)
         {
-
-            // Removing scream skips before they are an issue :)
-            var roarStart = SFCore.Utils.FsmUtil.GetState(fsm, "Roar Start");
-            // Satchel.FsmUtil.AddAction(roarStart, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
-
+            phaseChanged = false;
+            AnimationModifiers am = AnimationModifiers.FromJsonFile("");
+            SetupTitleUp(fsm, am);
 
             FsmState phaseChange = SFCore.Utils.FsmUtil.AddState(fsm, "Phase Change");
 
             _lostKinObject = fsm.gameObject;
-            SetupTitleUp(fsm);
+            var stagger = _lostKinObject.LocateMyFSM("Stun Control");
+            stagger.enabled = false;
 
             var damageResponseState = SFCore.Utils.FsmUtil.GetState(fsm, "Damage Response");
             var healthManager = _lostKinObject.GetComponent<HealthManager>();
             _startingHp = healthManager.hp;
 
             // Giving us a larger detection buffer.
-            healthManager.hp = healthManager.hp + (int)(healthManager.hp * 0.5);
+            healthManager.hp = _startingHp + (int)(_startingHp * am.PhaseChangeHpGate);
 
 
             fsm.AddFsmBool("Phase Change Triggered", false);
             SFCore.Utils.FsmUtil.AddTransition(damageResponseState, "TRIGGER_PHASE_CHANGE", "Phase Change");
             FsmEvent phaseChangeDone = new("PHASE_CHANGE_DONE");
-            // SFCore.Utils.FsmUtil.AddTransition(phaseChange, "PHASE_CHANGE_DONE", "Roar Start");
+            SFCore.Utils.FsmUtil.AddTransition(phaseChange, "FINISHED", "Roar Start");
 
 
             Satchel.FsmUtil.AddFirstAction(damageResponseState, new Lambda(() => {
-                CorruptedDreamsPlandoMod.Instance.Log($"Inside Damage Response");
                 if (phaseChanged == true)
                 {
                     // Nothing to do here...
@@ -614,46 +595,36 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 if (healthManager.hp < _startingHp)
                 {
                     fsm.SendEvent("TRIGGER_PHASE_CHANGE");
-                    // TODO: Add something between roar start and end that changes that covers the screen, like NKG, and changes lost kin to gray
                 }
             }));
 
-            Satchel.FsmUtil.AddAction(phaseChange, new SetVelocity2d() { x = 0, y = 0 });
+            Satchel.FsmUtil.AddAction(phaseChange, new Lambda(() => {
+                _lostKinObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+                DoPhaseChange(fsm, am);
 
-            Satchel.FsmUtil.AddFirstAction(phaseChange, new Lambda(() => {
-                DoPhaseChange(fsm);
+                var roarStart = SFCore.Utils.FsmUtil.GetState(fsm, "Roar Start");
+                Satchel.FsmUtil.AddAction(roarStart, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
+
+                var roarState = SFCore.Utils.FsmUtil.GetState(fsm, "Roar");
+                var roarWait = roarState.Actions[5] as Wait;
+                // TODO Add to json
+                roarWait.time = am.RoadWaitTime;
+
+                SFCore.Utils.FsmUtil.RemoveTransition(roarState, "FINISHED");
+                SFCore.Utils.FsmUtil.AddTransition(roarState, "FINISHED", "Flash Up");
+
             }));
 
             Satchel.FsmUtil.AddAction(phaseChange, new Tk2dPlayAnimation() { clipName = "Stun" });
-            Satchel.FsmUtil.AddAction(phaseChange, new Wait() { time = 3f, finishEvent = phaseChangeDone });
+            Satchel.FsmUtil.AddAction(phaseChange, new Wait() { time = 3f});
             Satchel.FsmUtil.AddAction(phaseChange, new Tk2dPlayAnimation() { clipName = "Stun Recover" });
 
             Satchel.FsmUtil.AddAction(phaseChange, new Lambda(() => {
                 fsm.SetState("Roar Start");
                 SuperBossLostKin(fsm);
+                stagger.enabled = true;
+                phaseChanged = true;
             }));
-            //Satchel.FsmUtil.AddFirstAction(phaseChange, new Lambda(() => {
-            //    fsm.SendEvent("PHASE_CHANGE_DONE");
-            //}));
         }
-
-        //private static IAsyncResult deathEvent(
-        //    On.HealthManager.DeathEvent.orig_BeginInvoke orig,
-        //    HealthManager.DeathEvent self,
-        //    AsyncCallback callback,
-        //    object @object)
-        //{
-        //    var healthManager = _lostKinObject.GetComponent<HealthManager>();
-        //    CorruptedDreamsPlandoMod.Instance.Log($"current hp is {healthManager}");
-        //    if (healthManager.hp >= 0)
-        //    {
-        //        CorruptedDreamsPlandoMod.Instance.Log($"lost kin is dead");
-        //        return null;
-        //    }
-
-
-
-        //    return orig(self, callback, @object);
-        //}
     }
 }
