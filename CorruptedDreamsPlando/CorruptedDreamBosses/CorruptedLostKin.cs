@@ -1,4 +1,5 @@
-﻿using HutongGames.PlayMaker;
+﻿using CorruptedDreamsPlando.SpellSpawns;
+using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using ItemChanger;
 using ItemChanger.Extensions;
@@ -17,7 +18,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 {
     public class AnimationModifiers
     {
-        // float modifiers
+        // Float modifiers
         public float DashSpeed;
         public float DashReverse;
         public float Gravity;
@@ -25,7 +26,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public float JumpX;
 
 
-        // animation speed modifiers
+        // Animation speed modifiers
         public float EvadeAntic;
         public float Evade;
         public float EvadeRecover;
@@ -49,17 +50,14 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public float Walk;
 
         // Wait Numbers
-
         public float ShakingSpawnWait;
         public float IdleCounterLower;
         public float IdleCounterUpper;
         public float OheadAnticWait;
         public float ShakingStartWait;
         public float ShakeEnd;
-
         public float WalkSpeedUpper;
         public float WalkSpeedLower;
-
         public float DashAntic2Wait;
 
         // Numbers for Phase Change bit
@@ -86,35 +84,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 return items;
             }
         }
-
-        public override string ToString()
-        {
-            return $"DashSpeed = {DashSpeed}, " +
-                   $"DashReverse = {DashReverse}, " +
-                   $"Gravity = {Gravity}, " +
-                   $"JumpY = {JumpY}, " +
-                   $"JumpX = {JumpX}, " +
-                   $"EvadeAntic = {EvadeAntic}, " +
-                   $"Evade = {Evade}, " +
-                   $"EvadeRecover = {EvadeRecover}, " +
-                   $"OheadAntic = {OheadAntic}, " +
-                   $"OheadSlashing = {OheadSlashing}, " +
-                   $"DashAntic = {DashAntic}, " +
-                   $"DashAntic2 = {DashAntic2}, " +
-                   $"DashAntic3 = {DashAntic3}, " +
-                   $"DashAttack = {DashAttack}, " +
-                   $"DashAttack2 = {DashAttack2}, " +
-                   $"DashAttack3 = {DashAttack3}, " +
-                   $"DashRecover = {DashRecover}, " +
-                   $"Fall = {Fall}, " +
-                   $"Jump = {Jump}, " +
-                   $"JumpAntic = {JumpAntic}, " +
-                   $"DstabAntic = {DstabAntic}, " +
-                   $"DstabFall = {DstabFall}, " +
-                   $"DstabLand = {DstabLand}, " +
-                   $"DstabRecover = {DstabRecover}, " +
-                   $"Walk = {Walk}";
-        }
     }
 
     public class CorruptedLostKin
@@ -128,7 +97,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static int _startingHp = 0;
         private static FsmObject _ddarkAudio = null;
         private static bool phaseChanged = false;
-
+        private static DescendingDarkSpawner _dds;
 
 
         public static GameObject BossTitlePrefab;
@@ -177,8 +146,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public static void Initialize()
         {
             Events.AddFsmEdit(lostKinControl, SetupPhaseChange);
-            // Events.AddFsmEdit(lostKinControl, SuperBossLostKin);
-
             On.HutongGames.PlayMaker.Actions.AudioPlay.OnEnter += PlayAudioEvent_OnEnter;
         }
 
@@ -201,31 +168,21 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static void MakeInvuln()
         {
-            // CorruptedDreamsPlandoMod.Instance.Log($"Setting invuln {DateTime.Now}");
             _lostKinObject.layer = LayerMask.NameToLayer("Enemy Attack");
         }
 
         private static void MakeVuln()
         {
-            // CorruptedDreamsPlandoMod.Instance.Log($"Setting to enemy {DateTime.Now}");
             _lostKinObject.layer = LayerMask.NameToLayer("Enemies");
         }
 
         private static void MultiplyFsmFloat(FsmFloat f, float mul)
         {
-            // CorruptedDreamsPlandoMod.Instance.Log($"Setting {f.Name} from {f.Value} to {f.Value * mul}");
             f.Value = f.Value * mul;
         }
 
         private static void SpeedupAnimation(PlayMakerFSM fsm, string animationName, AnimationAccelerator accel, float animationSpeed, int index=-1)
         {
-            if (index >= 0)
-            {
-                // CorruptedDreamsPlandoMod.Instance.Log($"Setting {animationName} from {fsm} to be faster as index is {index}");
-            } else
-            {
-                // CorruptedDreamsPlandoMod.Instance.Log($"Setting {animationName} from {fsm} to be faster");
-            }
             SFCore.Utils.FsmUtil.GetState(fsm, animationName).AccelerateAnimation(accel, animationSpeed, index);
         }
 
@@ -274,15 +231,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static void CreateLoopForDDark(PlayMakerFSM fsm)
         {
-            // This first bit is to make it so even if the player isn't in "dstab range" we still ddark
-            //FsmState inAirState = SFCore.Utils.FsmUtil.GetState(fsm, "In Air");
-            //FsmStateAction checkAirState = inAirState.Actions[7];
-            //if (checkAirState is BoolAllTrue)
-            //{
-            //    var real = checkAirState as BoolAllTrue;
-            //    real.boolVariables[2] = real.boolVariables[0];
-            //}
-
             FsmState dStabRecover = SFCore.Utils.FsmUtil.GetState(fsm, "Dstab Recover");
             ChangeWaitFloat(fsm, "Dstab Recover", 0, 0.1f);
 
@@ -316,9 +264,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static void SetAllNumbers(PlayMakerFSM fsm)
         {
             AnimationModifiers am = AnimationModifiers.FromJsonFile("");
-            // CorruptedDreamsPlandoMod.Instance.Log($"{am}");
-
-            CreateLoopForDDark(fsm);
 
             var accel = fsm.gameObject.GetOrAddComponent<AnimationAccelerator>();
 
@@ -328,8 +273,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             MultiplyFsmFloat(fsm.GetFloatVariable("Dash Speed"), am.DashSpeed);
             MultiplyFsmFloat(fsm.GetFloatVariable("Dash Reverse"), am.DashReverse);
             MultiplyFsmFloat(fsm.GetFloatVariable("Gravity"), am.Gravity);
-            // MultiplyFsmFloat(fsm.GetFloatVariable("Jump X"), am.JumpX);
-            // MultiplyFsmFloat(fsm.GetFloatVariable("Jump Y"), am.JumpY);
 
             SpeedupAnimation(fsm, "Evade Antic", accel, am.EvadeAntic);
             SpeedupAnimation(fsm, "Evade Dash", accel, am.Evade);
@@ -397,96 +340,10 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 return;
             }
 
-            // Trying to make Lost kin "slam" spawn a DDark
-            // downstabLandstate.AddCustomAction(MakeInvuln);
-
             SetAllNumbers(fsm);
-
-            GameObject slam = GameObject.Instantiate(DDarkSlam);
-            GameObject pillar = GameObject.Instantiate(DDarkPillar);
-            GameObject mega = GameObject.Instantiate(DDarkMega);
-
-            var lostKin = fsm.gameObject;
-            var lkTransform = lostKin.transform;
-
-            slam.transform.SetParent(lkTransform);
-            slam.transform.position = lkTransform.position + new Vector3(0, 2, 0);
-            pillar.transform.SetParent(lkTransform);
-            pillar.transform.position = lkTransform.position;
-            mega.transform.SetParent(lkTransform);
-            mega.transform.position = lkTransform.position + new Vector3(0, 6, 0);
-
-            //slam.SetActive(true);
-            //pillar.SetActive(true);
-            //mega.SetActive(true);
-
-            GameObject[] go = { slam, pillar, mega };
-
-            try
-            {
-                if (_ddarkAudio != null)
-                {
-                    AudioPlay playDiveAudio = new AudioPlay();
-                    playDiveAudio.gameObject = new HutongGames.PlayMaker.FsmOwnerDefault() { GameObject = new FsmGameObject { Value = fsm.gameObject }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
-                    // TODO: Audio needs to be determined by the game
-                    playDiveAudio.volume = 5f;
-                    playDiveAudio.oneShotClip = _ddarkAudio;
-
-                    Satchel.FsmUtil.AddAction(downstabLandstate, playDiveAudio);
-                }
-            }
-            catch (Exception e)
-            {
-
-            }
-
-            foreach (var part in go) {
-                List<GameObject> children = new List<GameObject>();
-                part.FindAllChildren(children);
-                foreach (var c in children)
-                {
-                    // CorruptedDreamsPlandoMod.Instance.Log($"{c.name}");
-                    c.layer = LayerMask.NameToLayer("Enemy Attack");
-                    c.RemoveComponent<DamageEnemies>();
-                    var damageHero = c.AddComponent<DamageHero>();
-                    damageHero.damageDealt = 2;
-                }
-            }
-
-            foreach (var damageHero in _lostKinObject.GetComponentsInChildren<DamageHero>(true))
-            {
-                damageHero.damageDealt = 2;
-            }
-
-            ActivateGameObject activateSlam = new ActivateGameObject();
-            activateSlam.gameObject = new HutongGames.PlayMaker.FsmOwnerDefault() { GameObject = new FsmGameObject { Value = slam }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
-            activateSlam.activate = true;
-            activateSlam.recursive = false;
-            activateSlam.resetOnExit = false;
-            activateSlam.everyFrame = false;
-
-            ActivateGameObject activatePillar = new ActivateGameObject();
-            activatePillar.gameObject = new HutongGames.PlayMaker.FsmOwnerDefault() { GameObject = new FsmGameObject { Value = pillar }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
-            activatePillar.activate = true;
-            activatePillar.recursive = false;
-            activatePillar.resetOnExit = false;
-            activatePillar.everyFrame = false;
-
-            ActivateGameObject activateMega = new ActivateGameObject();
-            activateMega.gameObject = new HutongGames.PlayMaker.FsmOwnerDefault() { GameObject = new FsmGameObject { Value = mega }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
-            activateMega.activate = true;
-            activateMega.recursive = false;
-            activateMega.resetOnExit = false;
-            activateMega.everyFrame = false;
-
-            Satchel.FsmUtil.AddCustomAction(downstabLandstate, MakeInvuln);
-            Satchel.FsmUtil.AddAction(downstabLandstate, activateSlam);
-            Satchel.FsmUtil.AddAction(downstabLandstate, new Wait() { time = 0.75f});
-            Satchel.FsmUtil.AddAction(downstabLandstate, activatePillar);
-            Satchel.FsmUtil.AddAction(downstabLandstate, new Wait() { time = 0.75f});
-            Satchel.FsmUtil.AddAction(downstabLandstate, activateMega);
-            Satchel.FsmUtil.AddAction(downstabLandstate, new Wait() { time = 0.75f });
-            Satchel.FsmUtil.AddCustomAction(downstabLandstate, MakeVuln);
+            _dds = new DescendingDarkSpawner();
+            _dds.AddDDarkAtEndOfFSM(downstabLandstate, 2);
+            CreateLoopForDDark(fsm);
         }
 
         private static void SetupTitleUp(PlayMakerFSM fsm, AnimationModifiers am)

@@ -10,3 +10,4 @@ MenuChanger
 SFCore
 Satchel
 KorzUtils
+MapChanger
