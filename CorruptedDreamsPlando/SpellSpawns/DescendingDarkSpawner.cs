@@ -12,6 +12,7 @@ using UObject = UnityEngine.Object;
 
 namespace CorruptedDreamsPlando.SpellSpawns
 {
+
     public class DescendingDarkSpawner
     {
         private GameObject _ddarkSlam;

@@ -162,7 +162,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public static void Unload()
         {
-            Events.AddFsmEdit(lostKinControl, SetupPhaseChange);
+            Events.RemoveFsmEdit(lostKinControl, SetupPhaseChange);
             Events.RemoveFsmEdit(lostKinControl, SuperBossLostKin);
         }
 
