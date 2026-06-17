@@ -37,16 +37,18 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         public static void Initialize()
         {
             _instance = new DescendingDarkSpawner();
-            On.HeroController.Start += DoThisWhenTheKnightIsLoaded;
         }
 
-
-        private static void DoThisWhenTheKnightIsLoaded(On.HeroController.orig_Start orig, HeroController self)
+        private static void GetDDarkShriekSfx()
         {
-            orig(self);
-            PlayMakerFSM fsm = self.gameObject.LocateMyFSM("Spell Control");
-            var state = fsm.GetState("Q2 Land");
-            _ddarkAudio = state.GetFirstActionOfType<AudioPlay>().oneShotClip;
+            if (_ddarkAudio == null)
+            {
+                var knight = GameObject.Find("Knight");
+                PlayMakerFSM fsm = knight.LocateMyFSM("Spell Control");
+                var state = fsm.GetState("Q2 Land");
+                _ddarkAudio = state.GetFirstActionOfType<AudioPlay>().oneShotClip;
+                CorruptedDreamsPlandoMod.Instance.Log(_ddarkAudio);
+            }
         }
 
         public GameObject DDarkSlam
@@ -106,6 +108,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
             try
             {
+                GetDDarkShriekSfx();
                 if (_ddarkAudio != null)
                 {
                     AudioPlay playDiveAudio = new AudioPlay();
@@ -177,7 +180,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             Satchel.FsmUtil.AddAction(fsm, activatePillar);
             Satchel.FsmUtil.AddAction(fsm, new Wait() { time = 0.75f });
             Satchel.FsmUtil.AddAction(fsm, activateMega);
-            Satchel.FsmUtil.AddAction(fsm, new Wait() { time = 0.75f });
+            //Satchel.FsmUtil.AddAction(fsm, new Wait() { time = 0.75f });
             Satchel.FsmUtil.AddAction(fsm, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
         }
     }

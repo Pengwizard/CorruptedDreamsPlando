@@ -24,7 +24,8 @@ namespace CorruptedDreamsPlando.Testing
         {
             fsm.GetState("End").AddLastAction(new Lambda(PrintEnd));
             //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(fsm.GetState("End"), 1);
-            AbyssShriekSpawner.Instance.AddShriekAtEndOfFSM(fsm.GetState("End"), 1);
+            //AbyssShriekSpawner.Instance.AddShriekAtEndOfFSM(fsm.GetState("End"), 1);
+            FireballSpawner.Instance.SpawnFireballAtEndOfFSM(fsm.GetState("End"), 1);
         }
 
         private static void PrintEnd()

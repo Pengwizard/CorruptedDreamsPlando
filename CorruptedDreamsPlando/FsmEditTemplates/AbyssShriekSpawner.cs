@@ -154,6 +154,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
                     CorruptedDreamsPlandoMod.Instance.Log("Creating Shriek"); 
                     _temporaryShriek = GameObject.Instantiate(ShriekObject);
+                    _temporaryShriek.name = "TemporaryShriek";
                     Component.Destroy(_temporaryShriek.LocateMyFSM("Deactivate on Hit"));
                     _temporaryShriek.LocateMyFSM("FSM").FsmVariables.FindFsmBool("Unparent").Value = false;
                     _temporaryShriek.LocateMyFSM("FSM").FsmVariables.FindFsmBool("Reposition").Value = false;

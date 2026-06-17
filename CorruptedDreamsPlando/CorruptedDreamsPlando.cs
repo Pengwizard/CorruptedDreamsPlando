@@ -78,6 +78,7 @@ namespace CorruptedDreamsPlando
             // Initialize stuff
             DescendingDarkSpawner.Initialize();
             AbyssShriekSpawner.Initialize();
+            FireballSpawner.Initialize();
             DreamNailHook.Initialize();
 
             MapAlterations.DungDoorAdder.AddDungDoor();
