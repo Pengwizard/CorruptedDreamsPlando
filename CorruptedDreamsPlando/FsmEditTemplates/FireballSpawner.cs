@@ -4,6 +4,7 @@ using ItemChanger.FsmStateActions;
 using Satchel;
 using Satchel.Futils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
@@ -13,6 +14,8 @@ using UObject = UnityEngine.Object;
 
 namespace CorruptedDreamsPlando.FsmEditTemplates
 {
+    internal class DummySpinner : MonoBehaviour { }
+
     public class FireballSpawner
     {
         private static FireballSpawner _instance;
@@ -109,8 +112,13 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 {
                     var fb = castFSM.GetVariable<FsmGameObject>("Fireball").Value;
                     fb.name = _fireballBallBaseName;
-                    PlayerDataBoolTest modifyForShamans = (PlayerDataBoolTest)fb.LocateMyFSM("Fireball Control").GetState("Set Damage").Actions[3];
+                    var fbControl = fb.LocateMyFSM("Fireball Control");
+                    PlayerDataBoolTest modifyForShamans = (PlayerDataBoolTest)fbControl.GetState("Set Damage").Actions[3];
                     modifyForShamans.isTrue = modifyForShamans.isFalse;
+                    var wait = fbControl.GetState("Idle").GetFirstActionOfType<Wait>();
+                    wait.time.Value = 100f;
+
+                    fb.AddComponent<DummySpinner>().StartCoroutine(SpinFireball(fb, gm));
                 };
 
                 var castLeft = castFSM.GetState("Cast Left");
@@ -119,12 +127,69 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
                 var castRight = castFSM.GetState("Cast Right");
                 castRight.Actions[5].Enabled = false;
-                castLeft.AddCustomAction(modifyFireball);
+                castRight.AddCustomAction(modifyFireball);
 
                 tempFireball.SetActive(true);
             });
 
             }
+        }
+
+        private IEnumerator SpinFireball(GameObject fb, GameObject focalPoint)
+        {
+            var angle = 60f;
+
+            while (fb.activeSelf)
+            {
+                var vel = GetSpiralVelocity(fb, focalPoint, 4f, -1f);
+
+                //Vector3 direction = focalPoint - fb.transform.position;
+                //direction = Quaternion.Euler(0, 0, angle) * direction;
+                ////float distanceThisFrame = 4 * Time.deltaTime;
+
+                ////float radians = Mathf.Deg2Rad * 60f;
+                ////float xSpeed = Mathf.Cos(radians) * 4;
+                ////float ySpeed = Mathf.Sin(radians) * 4;
+                ////Vector3 shift = new Vector3(xSpeed, ySpeed, 0);
+
+                ////fb.transform.Translate(direction.normalized * distanceThisFrame, Space.World);
+
+                var rb2 = fb.GetComponent<Rigidbody2D>();
+                rb2.velocity = vel;
+                //rb2.SetRotation(Quaternion.Euler(0, 0, angle));
+                //rb2.velocity = shift;
+                //fb.transform.RotateAround(focalPoint, )
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
+
+
+        public static Vector2 GetSpiralVelocity(
+            GameObject objectA,
+            GameObject objectB,
+            float orbitSpeed,
+            float inwardSpeed,
+            bool clockwise = false)
+        {
+            Vector2 aPos = objectA.transform.position;
+            Vector2 bPos = objectB.transform.position;
+
+            Vector2 fromBToA = aPos - bPos;
+
+            if (fromBToA.sqrMagnitude < 0.0001f)
+                return Vector2.zero;
+
+            Vector2 radialDir = fromBToA.normalized;
+
+            Vector2 tangentDir = clockwise
+                ? new Vector2(radialDir.y, -radialDir.x)
+                : new Vector2(-radialDir.y, radialDir.x);
+
+            Vector2 spiralVelocity =
+                tangentDir * orbitSpeed -
+                radialDir * inwardSpeed;
+
+            return spiralVelocity;
         }
     }
 }
