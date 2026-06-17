@@ -1,4 +1,4 @@
-﻿using CorruptedDreamsPlando.SpellSpawns;
+﻿using CorruptedDreamsPlando.FsmEditTemplates;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using ItemChanger;

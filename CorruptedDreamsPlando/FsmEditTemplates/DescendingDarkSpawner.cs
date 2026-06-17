@@ -10,7 +10,7 @@ using UnityEngine;
 using UObject = UnityEngine.Object;
 
 
-namespace CorruptedDreamsPlando.SpellSpawns
+namespace CorruptedDreamsPlando.FsmEditTemplates
 {
 
     public class DescendingDarkSpawner
