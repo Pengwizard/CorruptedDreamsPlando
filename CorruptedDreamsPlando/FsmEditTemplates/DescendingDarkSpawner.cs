@@ -20,8 +20,23 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         private GameObject _ddarkMega;
         private static FsmObject _ddarkAudio = null;
 
+        private static DescendingDarkSpawner _instance;
+
+        internal static DescendingDarkSpawner Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    throw new InvalidOperationException($"An instance of {nameof(DescendingDarkSpawner)} was never constructed");
+                }
+                return _instance;
+            }
+        }
+
         public static void Initialize()
         {
+            _instance = new DescendingDarkSpawner();
             On.HeroController.Start += DoThisWhenTheKnightIsLoaded;
         }
 
@@ -131,7 +146,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     c.layer = LayerMask.NameToLayer("Enemy Attack");
                     c.RemoveComponent<DamageEnemies>();
                     var damageHero = c.AddComponent<DamageHero>();
-                    damageHero.damageDealt = 2;
+                    damageHero.damageDealt = damageToDeal;
                 }
             }
 

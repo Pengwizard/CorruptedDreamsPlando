@@ -97,7 +97,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static int _startingHp = 0;
         private static FsmObject _ddarkAudio = null;
         private static bool phaseChanged = false;
-        private static DescendingDarkSpawner _dds;
 
 
         public static GameObject BossTitlePrefab;
@@ -341,8 +340,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             }
 
             SetAllNumbers(fsm);
-            _dds = new DescendingDarkSpawner();
-            _dds.AddDDarkAtEndOfFSM(downstabLandstate, 2);
+            DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(downstabLandstate, 2);
             CreateLoopForDDark(fsm);
         }
 

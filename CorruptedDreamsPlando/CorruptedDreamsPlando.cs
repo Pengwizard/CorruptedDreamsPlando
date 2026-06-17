@@ -1,7 +1,9 @@
 using CorruptedDreamsPlando.CorruptedDreamBosses;
+using CorruptedDreamsPlando.FsmEditTemplates;
 using CorruptedDreamsPlando.MapAlterations;
 using CorruptedDreamsPlando.Modules;
 using CorruptedDreamsPlando.Skills;
+using CorruptedDreamsPlando.Testing;
 using ItemChanger;
 using ItemChanger.Locations;
 using MapChanger;
@@ -72,6 +74,11 @@ namespace CorruptedDreamsPlando
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
             Log("Initializing");
+
+            // Initialize stuff
+            DescendingDarkSpawner.Initialize();
+            AbyssShriekSpawner.Initialize();
+            DreamNailHook.Initialize();
 
             MapAlterations.DungDoorAdder.AddDungDoor();
             Rando.RandoInterop.Hook();
