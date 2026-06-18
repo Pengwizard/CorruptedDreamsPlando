@@ -15,9 +15,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
     public class AbyssShriekSpawner
     {
 
-        // Scr Heads 2
-        // 
-
         private static AbyssShriekSpawner _instance;
 
         private GameObject _srcHeads2;

@@ -29,8 +29,11 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         public bool Clockwise { get; set; }
 
         public float Direction { get; set; }
+        public float Speed { get; set; }
+
         public bool RemoveParticles { get; set; }
         public bool ForceLeft { get; set; }
+        public bool StopShooting { get; set; }
 
         public FireballShooter()
         {
@@ -63,18 +66,62 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 Direction += 15f;
                 Direction = Direction % 360;
                 Spiral = false;
+                Speed = 20f;
                 ShootShadeSoul();
             }
-        }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                Direction = 270;
+                Spiral = false;
+                ForceLeft = false;
+                RemoveParticles = false;
+                Speed = 60f;
 
-        public void ShootShadeSoulSpiral()
-        {
-            // spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, 0, ForceLeft, Spiral, Clockwise, RemoveParticles);
+                this.StartCoroutine(ShootShadeSoulOnInterval(0.5f, 10));
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                Direction = 270;
+                Spiral = false;
+                ForceLeft = false;
+                RemoveParticles = false;
+                Speed = 20f;
+
+                this.StartCoroutine(ShootShadeSoulOnInterval(1f));
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                StopShooting = true;
+                this.StopAllCoroutines();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                // StopShooting = true;
+                ShootVengefulSpirit();
+            }
         }
 
         public void ShootShadeSoul()
         {
-            spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Spiral, Clockwise, RemoveParticles);
+            spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Spiral, Clockwise, RemoveParticles, Speed);
+        }
+
+        public void ShootVengefulSpirit()
+        {
+            spawner.SpawnVengefulSpirit(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Spiral, Clockwise, RemoveParticles, Speed);
+        }
+
+        public IEnumerator ShootShadeSoulOnInterval(float interval, float limit = 10000)
+        {
+            StopShooting = false;
+            int count = 0;
+            while (!StopShooting && count < limit)
+            {
+                spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Spiral, Clockwise, RemoveParticles);
+                count += 1;
+                CorruptedDreamsPlandoMod.Instance.Log($"{count} {limit}");
+                yield return new WaitForSeconds(interval);
+            }
         }
     }
 
@@ -183,7 +230,8 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             bool forceLeft,
             bool spiral,
             bool clockwise,
-            bool removeParticles)
+            bool removeParticles,
+            float speed = 45f)
         {
             // TODO add play sound
 
@@ -194,8 +242,12 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             var castFSM = tempFireball.LocateMyFSM("Fireball Cast");
 
             castFSM.GetState("Wait").RemoveTransition("FINISHED");
+            castFSM.GetState("Wait").AddCustomAction(() =>
+            {
+                GameObject.Destroy(tempFireball);
+            });
 
-            var modifyFireball = (bool left) =>
+            var modifyFireball = () =>
             {
                 var fb = castFSM.GetVariable<FsmGameObject>("Fireball").Value;
                 // Setting the name so it wont get hooked by SpellStaller.
@@ -234,10 +286,13 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
                 // Dont recycle the ball
                 fbControl.GetState("Off").RemoveTransition("FINISHED");
+                fbControl.GetState("Off").AddCustomAction(() =>
+                {
+                    GameObject.Destroy(fb);
+                });
 
                 if (spiral)
                 {
-                    CorruptedDreamsPlandoMod.Instance.Log($"Spiral");
                     fb.AddComponent<DummySpinner>().StartCoroutine(SpinFireball(
                         fb,
                         focalPoint,
@@ -246,7 +301,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                         true));
                 } else
                 {
-                    CorruptedDreamsPlandoMod.Instance.Log($"Not Spiral");
                     var idle = fbControl.GetState("Idle");
                     idle.AddCustomAction(() =>
                     {
@@ -255,9 +309,12 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 }
             };
 
+            tempFireball.Find("white_light").SetActive(false);
             if (removeParticles)
             {
-                tempFireball.Find("white_light").SetActive(false);
+                tempFireball.Find("particles").SetActive(false);
+                tempFireball.Find("particles b").SetActive(false);
+                tempFireball.Find("Fireball2 Blast").SetActive(false);
             }
 
             if (!spiral)
@@ -265,22 +322,22 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 tempFireball.transform.eulerAngles = Vector3.forward * direction;
             }
 
-            var castLeft = castFSM.GetState("Cast Left");
-            castLeft.Actions[2].Enabled = false;
-            castLeft.AddCustomAction(() => modifyFireball(true));
-            if (!spiral)
+            List<FsmState> castStates = new()
             {
-                var setAngle = (SetVelocityAsAngle)castLeft.Actions[6];
-                setAngle.angle.Value = direction;
-            }
+                castFSM.GetState("Cast Left"),
+                castFSM.GetState("Cast Right")
+            };
 
-            var castRight = castFSM.GetState("Cast Right");
-            castRight.Actions[2].Enabled = false;
-            castRight.AddCustomAction(() => modifyFireball(false));
-            if (!spiral)
+            foreach (var castState in castStates)
             {
-                var setAngle = (SetVelocityAsAngle)castRight.Actions[6];
-                setAngle.angle.Value = direction;
+                castState.GetFirstActionOfType<PlayerDataBoolTest>().Enabled = false;
+                castState.AddCustomAction(() => modifyFireball());
+                if (!spiral)
+                {
+                    var setAngle = castState.GetFirstActionOfType<SetVelocityAsAngle>();
+                    setAngle.angle.Value = direction;
+                    setAngle.speed.Value = speed;
+                }
             }
 
             // Forcing a firing direction.
@@ -300,65 +357,118 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             tempFireball.SetActive(true);
         }
 
-        public void SpawnShadeSoulAtEndOfFSM(FsmState fsm, int damageToDeal, Vector3 spawnPosition, Vector3 focalPoint, bool spiral, bool clockwise, bool forceLeft)
+        public void SpawnVengefulSpirit(
+            Vector3 spawnPoint,
+            Vector3 focalPoint,
+            float direction,
+            bool forceLeft,
+            bool spiral,
+            bool clockwise,
+            bool removeParticles,
+            float speed=40f)
         {
-            var go = fsm.Fsm.GameObject;
-            var goTransform = go.transform;
-            Satchel.FsmUtil.AddCustomAction(fsm, () =>
+            var tempFireball = GameObject.Instantiate(FireballBaseTop);
+            tempFireball.name = FireballBaseTop.name;
+            tempFireball.transform.position = spawnPoint;
+
+            var castFSM = tempFireball.LocateMyFSM("Fireball Cast");
+
+            castFSM.GetState("Wait").RemoveTransition("FINISHED");
+            castFSM.GetState("Wait").AddCustomAction(() =>
             {
-                
+                GameObject.Destroy(tempFireball);
             });
-        }
 
-        public void SpawnFireballAtEndOfFSM(FsmState fsm, int damageToDeal)
-        {
-            var go = fsm.Fsm.GameObject;
-            var goTransform = go.transform;
-            for (int i = 0; i < 1; ++i)
+            var modifyFireball = () =>
             {
-            Satchel.FsmUtil.AddCustomAction(fsm, () =>
-            {
-                var gm = fsm.Fsm.GameObject;
+                var fb = castFSM.GetVariable<FsmGameObject>("Fireball").Value;
+                fb.name = _fireballBallBaseName;
+                var fbControl = fb.LocateMyFSM("Fireball Control");
+                PlayerDataBoolTest modifyForShamans = (PlayerDataBoolTest)fbControl.GetState("Set Damage").Actions[3];
+                modifyForShamans.isTrue = modifyForShamans.isFalse;
 
-                var tempFireball = GameObject.Instantiate(FireballBaseTop);
-                tempFireball.name = FireballBaseTop.name;
-                tempFireball.transform.position = gm.transform.position;
+                fbControl.GetState("Dissipate End").RemoveTransition("FINISHED");
+                fbControl.GetState("Break").RemoveTransition("FINISHED");
 
-                var castFSM = tempFireball.LocateMyFSM("Fireball Cast");
-
-                castFSM.GetState("Wait").RemoveTransition("FINISHED");
-
-                var modifyFireball = (bool left) =>
+                fbControl.GetState("Dissipate End").AddCustomAction(() =>
                 {
-                    var fb = castFSM.GetVariable<FsmGameObject>("Fireball").Value;
-                    fb.name = _fireballBallBaseName;
-                    var fbControl = fb.LocateMyFSM("Fireball Control");
-                    PlayerDataBoolTest modifyForShamans = (PlayerDataBoolTest)fbControl.GetState("Set Damage").Actions[3];
-                    modifyForShamans.isTrue = modifyForShamans.isFalse;
+                    GameObject.Destroy(fb);
+                });
 
-                    fbControl.GetState("Dissipate End").RemoveTransition("FINISHED");
-                    fbControl.GetState("Break").RemoveTransition("FINISHED");
+                fbControl.GetState("Break").AddCustomAction(() =>
+                {
+                    GameObject.Destroy(fb);
+                });
 
-                    fbControl.GetState("Idle").RemoveTransition("WALL");
+                var init = fbControl.GetState("Init");
+                var comp = init.GetFirstActionOfType<FloatCompare>();
 
-                    fbControl.GetComponent<BoxCollider2D>().isTrigger = true;
-                    fbControl.GetComponent<Rigidbody2D>().isKinematic = false;
+                if (forceLeft)
+                {
+                    comp.equal = comp.greaterThan;
+                    comp.lessThan = comp.greaterThan;
+                }
+                else
+                {
+                    comp.greaterThan = comp.equal;
+                }
 
-                    fb.AddComponent<DummySpinner>().StartCoroutine(SpinFireball(fb, gm.transform.position, left, fb.transform.position, !left));
-                };
+                if (removeParticles)
+                {
+                    fb.Find("white_light").SetActive(false);
+                    //fb.Find("Particle System").SetActive(false);
+                    //fb.Find("Dribble L").SetActive(false);
+                    //fb.Find("Dribble R").SetActive(false);
+                }
 
-                var castLeft = castFSM.GetState("Cast Left");
-                castLeft.Actions[2].Enabled = false;
-                castLeft.AddCustomAction(() => modifyFireball(true));
+                var idle = fbControl.GetState("Idle");
+                    idle.AddCustomAction(() =>
+                    {
+                        fb.transform.eulerAngles = Vector3.forward * direction;
+                    });
+                //}
+            };
 
-                var castRight = castFSM.GetState("Cast Right");
-                castRight.Actions[5].Enabled = false;
-                castRight.AddCustomAction(() => modifyFireball(false));
 
-                tempFireball.SetActive(true);
-            });
+            List<FsmState> castStates = new()
+            {
+                castFSM.GetState("Cast Left"),
+                castFSM.GetState("Cast Right")
+            };
 
+            foreach (var castState in castStates) {
+                castState.GetFirstActionOfType<PlayerDataBoolTest>().Enabled = false;
+                castState.AddCustomAction(() => modifyFireball());
+                //if (!spiral)
+                //{
+                    var setAngle = castState.GetFirstActionOfType<SetVelocityAsAngle>();
+                    setAngle.angle.Value = direction;
+                    setAngle.speed.Value = speed;
+                //}
             }
+
+            // Forcing a firing direction.
+            var lr = castFSM.GetState("L or R");
+            
+            var comp = lr.GetFirstActionOfType<FloatCompare>();
+            if (forceLeft)
+            {
+                comp.equal = comp.greaterThan;
+                comp.lessThan = comp.greaterThan;
+            }
+            else
+            {
+                comp.greaterThan = comp.equal;
+            }
+
+            tempFireball.Find("white_light").SetActive(false);
+            if (removeParticles)
+            {
+                tempFireball.Find("particles").SetActive(false);
+                tempFireball.Find("Fireball Blast").SetActive(false);
+            }
+
+            tempFireball.SetActive(true);
         }
 
         // TODO maybe move this to the idle fsm?
@@ -417,8 +527,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     self.Fsm.Name == "Fireball Control" &&
                     self.State.Name == "Idle")
                 {
-                    CorruptedDreamsPlandoMod.Instance.Log($"{self.Fsm.FsmComponent.gameObject.name} {self.Fsm.Name} {self.State.Name} {self.Fsm.FsmComponent.gameObject.tag}");
-                    self.time.Value = 100f;
+                    self.time.Value = 10f;
                 }
             }
             catch (Exception err)

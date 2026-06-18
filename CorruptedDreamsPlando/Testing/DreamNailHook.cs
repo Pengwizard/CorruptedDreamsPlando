@@ -38,25 +38,25 @@ namespace CorruptedDreamsPlando.Testing
 
             FireballShooter fbs1 = fbsGo1.AddComponent<FireballShooter>();
             fbs1.SpawnPoint = spawnPoint;
-            fbs1.SpawnOffset = new UnityEngine.Vector3(0, 3);
+            fbs1.SpawnOffset = new UnityEngine.Vector3(0, 2);
 
-            GameObject fbsGo2 = new("Spawner2");
+            //GameObject fbsGo2 = new("Spawner2");
 
-            FireballShooter fbs2 = fbsGo2.AddComponent<FireballShooter>();
-            fbs2.SpawnPoint = spawnPoint;
-            fbs2.SpawnOffset = new UnityEngine.Vector3(3, 0);
+            //FireballShooter fbs2 = fbsGo2.AddComponent<FireballShooter>();
+            //fbs2.SpawnPoint = spawnPoint;
+            //fbs2.SpawnOffset = new UnityEngine.Vector3(3, 0);
 
-            GameObject fbsGo3 = new("Spawner3");
+            //GameObject fbsGo3 = new("Spawner3");
 
-            FireballShooter fbs3 = fbsGo3.AddComponent<FireballShooter>();
-            fbs3.SpawnPoint = spawnPoint;
-            fbs3.SpawnOffset = new UnityEngine.Vector3(0, -3);
+            //FireballShooter fbs3 = fbsGo3.AddComponent<FireballShooter>();
+            //fbs3.SpawnPoint = spawnPoint;
+            //fbs3.SpawnOffset = new UnityEngine.Vector3(0, -3);
 
-            GameObject fbsGo4 = new("Spawner4");
+            //GameObject fbsGo4 = new("Spawner4");
 
-            FireballShooter fbs4 = fbsGo4.AddComponent<FireballShooter>();
-            fbs4.SpawnPoint = spawnPoint;
-            fbs4.SpawnOffset = new UnityEngine.Vector3(-3, 0);
+            //FireballShooter fbs4 = fbsGo4.AddComponent<FireballShooter>();
+            //fbs4.SpawnPoint = spawnPoint;
+            //fbs4.SpawnOffset = new UnityEngine.Vector3(-3, 0);
 
 
             CorruptedDreamsPlandoMod.Instance.Log("fireball created");
@@ -74,10 +74,10 @@ namespace CorruptedDreamsPlando.Testing
             //AbyssShriekSpawner.Instance.AddShriekAtEndOfFSM(fsm.GetState("End"), 1);
             //FireballSpawner.Instance.SpawnFireballAtEndOfFSM(fsm.GetState("End"), 1);
             //FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(0, 0, 0), false, true, true, true);
-            FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(25f, 6.4f-2, 0.002f), new UnityEngine.Vector3(25f, 6.4f, 0.002f), true, true, false);
-            FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(25f, 6.4f+2, 0.002f), new UnityEngine.Vector3(25f, 6.4f, 0.002f), true, true, false);
-            FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(25f-2, 6.4f, 0.002f), new UnityEngine.Vector3(25f, 6.4f, 0.002f), true, true, false);
-            FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(25f+2, 6.4f, 0.002f), new UnityEngine.Vector3(25f, 6.4f, 0.002f), true, true, false);
+            //FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(25f, 6.4f-2, 0.002f), new UnityEngine.Vector3(25f, 6.4f, 0.002f), true, true, false);
+            //FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(25f, 6.4f+2, 0.002f), new UnityEngine.Vector3(25f, 6.4f, 0.002f), true, true, false);
+            //FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(25f-2, 6.4f, 0.002f), new UnityEngine.Vector3(25f, 6.4f, 0.002f), true, true, false);
+            //FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(25f+2, 6.4f, 0.002f), new UnityEngine.Vector3(25f, 6.4f, 0.002f), true, true, false);
             //FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(0, 0, 0), false, true, false, true);
             //FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(0, 0, 0), true, true, false, false);
             //FireballSpawner.Instance.SpawnShadeSoulAtEndOfFSM(fsm.GetState("End"), 1, new UnityEngine.Vector3(0, 0, 0), false, false, false, false);
