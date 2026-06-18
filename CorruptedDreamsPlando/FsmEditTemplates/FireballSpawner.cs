@@ -21,10 +21,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         private static FireballSpawner _instance;
 
         private GameObject _fireballTopBase;
-        private string _fireballTopBaseName = "CD_BaseVsTop";
+        private static string _fireballTopBaseName = "CD_BaseVsTop";
 
         private GameObject _fireballBallBase;
-        private string _fireballBallBaseName = "CD_BaseVSBall";
+        private static string _fireballBallBaseName = "CD_BaseVSBall";
 
         internal static FireballSpawner Instance
         {
@@ -41,6 +41,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         public static void Initialize()
         {
             _instance = new FireballSpawner();
+            On.HutongGames.PlayMaker.Actions.Wait.OnEnter += ExtendFireballDuration;
         }
 
         public GameObject FireballBaseTop
@@ -108,26 +109,34 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
                 var castFSM = tempFireball.LocateMyFSM("Fireball Cast");
 
-                Action modifyFireball = () =>
+                castFSM.GetState("Wait").RemoveTransition("FINISHED");
+
+                var modifyFireball = (bool left) =>
                 {
                     var fb = castFSM.GetVariable<FsmGameObject>("Fireball").Value;
                     fb.name = _fireballBallBaseName;
                     var fbControl = fb.LocateMyFSM("Fireball Control");
                     PlayerDataBoolTest modifyForShamans = (PlayerDataBoolTest)fbControl.GetState("Set Damage").Actions[3];
                     modifyForShamans.isTrue = modifyForShamans.isFalse;
-                    var wait = fbControl.GetState("Idle").GetFirstActionOfType<Wait>();
-                    wait.time.Value = 100f;
 
-                    fb.AddComponent<DummySpinner>().StartCoroutine(SpinFireball(fb, gm));
+                    fbControl.GetState("Dissipate End").RemoveTransition("FINISHED");
+                    fbControl.GetState("Break").RemoveTransition("FINISHED");
+
+                    fbControl.GetState("Idle").RemoveTransition("WALL");
+
+                    fbControl.GetComponent<BoxCollider2D>().isTrigger = true;
+                    fbControl.GetComponent<Rigidbody2D>().isKinematic = false;
+
+                    fb.AddComponent<DummySpinner>().StartCoroutine(SpinFireball(fb, gm, left));
                 };
 
                 var castLeft = castFSM.GetState("Cast Left");
                 castLeft.Actions[2].Enabled = false;
-                castLeft.AddCustomAction(modifyFireball);
+                castLeft.AddCustomAction(() => modifyFireball(true));
 
                 var castRight = castFSM.GetState("Cast Right");
                 castRight.Actions[5].Enabled = false;
-                castRight.AddCustomAction(modifyFireball);
+                castRight.AddCustomAction(() => modifyFireball(false));
 
                 tempFireball.SetActive(true);
             });
@@ -135,13 +144,13 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
         }
 
-        private IEnumerator SpinFireball(GameObject fb, GameObject focalPoint)
+        private IEnumerator SpinFireball(GameObject fb, GameObject focalPoint, bool isLeft)
         {
-            var angle = 60f;
+            var rb2 = fb.GetComponent<Rigidbody2D>();
 
             while (fb.activeSelf)
             {
-                var vel = GetSpiralVelocity(fb, focalPoint, 4f, -1f);
+                var vel = GetSpiralVelocity(fb, focalPoint, 4f, -1f, isLeft);
 
                 //Vector3 direction = focalPoint - fb.transform.position;
                 //direction = Quaternion.Euler(0, 0, angle) * direction;
@@ -154,8 +163,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
                 ////fb.transform.Translate(direction.normalized * distanceThisFrame, Space.World);
 
-                var rb2 = fb.GetComponent<Rigidbody2D>();
                 rb2.velocity = vel;
+
+                float angle = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg;
+                fb.transform.eulerAngles = Vector3.forward * angle;
                 //rb2.SetRotation(Quaternion.Euler(0, 0, angle));
                 //rb2.velocity = shift;
                 //fb.transform.RotateAround(focalPoint, )
@@ -190,6 +201,25 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 radialDir * inwardSpeed;
 
             return spiralVelocity;
+        }
+
+
+        public static void ExtendFireballDuration(On.HutongGames.PlayMaker.Actions.Wait.orig_OnEnter orig, Wait self)
+        {
+            try
+            {
+                if (self.Fsm.FsmComponent.gameObject.name.Contains(_fireballBallBaseName) &&
+                    self.Fsm.Name == "Fireball Control" &&
+                    self.State.Name == "Idle")
+                {
+                    CorruptedDreamsPlandoMod.Instance.Log($"{self.Fsm.FsmComponent.gameObject.name} {self.Fsm.Name} {self.State.Name} {self.Fsm.FsmComponent.gameObject.tag}");
+                    self.time.Value = 100f;
+                }
+            }
+            catch (Exception err)
+            {
+            }
+            orig(self);
         }
     }
 }
