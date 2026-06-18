@@ -89,9 +89,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
     public class CorruptedLostKin
     {
         private static readonly FsmID lostKinControl = new("Lost Kin", "IK Control");
-        private static GameObject _ddarkSlam;
-        private static GameObject _ddarkPillar;
-        private static GameObject _ddarkMega;
 
         private static GameObject _lostKinObject;
         private static int _startingHp = 0;
@@ -103,60 +100,9 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public static GameObject WhiteSolidPrefab;
 
 
-        public static GameObject DDarkSlam
-        {
-            get
-            {
-                if (_ddarkSlam == null)
-                {
-                    _ddarkSlam = GameObject.Instantiate(HeroController.instance.transform.Find("Spells/Q Slam 2").gameObject);
-                    GameObject.DontDestroyOnLoad(_ddarkSlam);
-                }
-                return _ddarkSlam;
-            }
-        }
-
-        public static GameObject DDarkPillar
-        {
-            get
-            {
-                if (_ddarkPillar == null)
-                {
-                    _ddarkPillar = GameObject.Instantiate(HeroController.instance.transform.Find("Spells/Q Pillar").gameObject);
-                    GameObject.DontDestroyOnLoad(_ddarkPillar);
-                }
-                return _ddarkPillar;
-            }
-        }
-
-        public static GameObject DDarkMega
-        {
-            get
-            {
-                if (_ddarkMega == null)
-                {
-                    _ddarkMega = GameObject.Instantiate(HeroController.instance.transform.Find("Spells/Q Mega").gameObject);
-                    GameObject.DontDestroyOnLoad(_ddarkMega);
-                }
-                return _ddarkMega;
-            }
-        }
-
         public static void Initialize()
         {
             Events.AddFsmEdit(lostKinControl, SetupPhaseChange);
-            On.HutongGames.PlayMaker.Actions.AudioPlay.OnEnter += PlayAudioEvent_OnEnter;
-        }
-
-        private static void PlayAudioEvent_OnEnter(On.HutongGames.PlayMaker.Actions.AudioPlay.orig_OnEnter orig, AudioPlay self)
-        {
-            if (self.Fsm.FsmComponent.gameObject.name.Contains("Knight") &&
-                self.Fsm.Name.Contains("Spell Control") &&
-                self.State.Name == "Q2 Land")
-            {
-                _ddarkAudio = self.oneShotClip;
-            }
-            orig(self);
         }
 
         public static void Unload()

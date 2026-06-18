@@ -1,7 +1,10 @@
 ﻿using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
+using ItemChanger.Extensions;
+using KorzUtils.Helper;
 using Satchel;
 using Satchel.Futils;
+using SFCore.Utils;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -35,13 +38,15 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             System.Func<bool> condition = null,
             string subTitleText = null)
         {
-            FsmState flashUp = fsm.AddState("Title Flash Up");
-            FsmState flashDown = fsm.AddState("Title Flash Down");
+            FsmState flashUp = Satchel.FsmUtil.AddState(fsm, "Title Flash Up");
+            FsmState flashDown = Satchel.FsmUtil.AddState(fsm, "Title Flash Down");
 
-            flashUp.AddTransition("FINISHED", "Title Flash Down");
+
+            // flashUp.AddTransition("FINISHED", "Title Flash Down");
+            Satchel.FsmUtil.AddTransition(flashUp, "FINISHED", "Title Flash Down");
             if (fsmStateAfterTitle != "")
             {
-                flashDown.AddTransition("FINISHED", fsmStateAfterTitle);
+                Satchel.FsmUtil.AddTransition(flashDown, "FINISHED", fsmStateAfterTitle);
             }
 
             GameObject whiteFader = UObject.Instantiate(WhiteSolidPrefab, new Vector3(0, 0, 0), Quaternion.identity);
@@ -53,7 +58,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
             GameObject bossTitle = UObject.Instantiate(BossTitlePrefab, new Vector3(0, 0, 0), Quaternion.identity);
             bossTitle.SetActive(true);
-            bossTitle.SetActive(false);
+            //bossTitle.SetActive(false);
             var bossTitleTMP = bossTitle.GetComponent<TextMeshPro>();
             foreach (var g in bossTitle.GetComponentsInChildren<TextMeshPro>())
             {
@@ -69,7 +74,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             bossTitleTMP.SetText(titleText);
 
             whiteFader.SetActive(true);
-            whiteFader.SetActive(false);
+            //whiteFader.SetActive(false);
             // whiteFader.SetActive(false);
             whiteFader.GetComponent<SpriteRenderer>().enabled = true;
             // whiteFader.GetComponent<SpriteRenderer>().enabled = false;
@@ -77,31 +82,9 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
             var titleStart = Satchel.FsmUtil.GetState(fsm, fsmStateToStartFrom);
 
-            if (condition == null)
-            {
-                Satchel.FsmUtil.AddTransition(titleStart, startTitleFsmEvent, "Title Flash Up");
-                condition = () => { return true; };
-
-                titleStart.AddCustomAction(() =>
-                {
-                    bossTitle.SetActive(true);
-                    whiteFader.SetActive(true);
-                });
-            }
-            else
-            {
-                Satchel.FsmUtil.AddTransition(titleStart, "BRING_UP_TITLE", "Title Flash Up");
-                titleStart.AddCustomAction(() =>
-                {
-                    if (condition())
-                    {
-                        fsm.SendEvent("BRING_UP_TITLE");
-                        bossTitle.SetActive(true);
-                        whiteFader.SetActive(true);
-                    }
-                });
-            }
-
+            titleStart.RemoveTransitionsOn(startTitleFsmEvent);
+            Satchel.FsmUtil.AddTransition(titleStart, startTitleFsmEvent, "Title Flash Up");
+            condition = () => { return true; };
 
             var faderFSM = whiteFader.LocateMyFSM("FSM");
             faderFSM.GetVariable<FsmFloat>("Up Time").Value = whiteSolidUpTime;
@@ -123,6 +106,8 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             // Specifically using Satchel here because every 2nd utility pack has a version of FSM utils...
             Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = 1f });
             Satchel.FsmUtil.AddCustomAction(flashUp, (() => {
+                //whiteFader.SetActive(true);
+                //bossTitle.SetActive(true);
                 whiteFader.LocateMyFSM("FSM").SetState("Init");
             }));
 

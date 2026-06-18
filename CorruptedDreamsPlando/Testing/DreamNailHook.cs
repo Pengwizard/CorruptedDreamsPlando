@@ -16,14 +16,13 @@ namespace CorruptedDreamsPlando.Testing
         public static void Initialize()
         {
             Events.AddFsmEdit(dreamNailId, HookDreamNail);
-            On.GameManager.OnNextLevelReady += onSceneChange;
+            //On.GameManager.OnNextLevelReady += onSceneChange;
         }
 
         private static void onSceneChange(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
         {
             orig(self);
 
-            CorruptedDreamsPlandoMod.Instance.Log("fireball made");
             var spawnPoint = new UnityEngine.Vector3(25f, 6.4f, 0.002f);
 
             List<Vector3> spawnOffsets = new()
@@ -59,7 +58,6 @@ namespace CorruptedDreamsPlando.Testing
             //fbs4.SpawnOffset = new UnityEngine.Vector3(-3, 0);
 
 
-            CorruptedDreamsPlandoMod.Instance.Log("fireball created");
         }
 
         public static void Unload()

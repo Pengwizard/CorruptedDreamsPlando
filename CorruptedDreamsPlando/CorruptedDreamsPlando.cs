@@ -12,6 +12,7 @@ using MoreDoors.Data;
 using RandomizerMod.RC;
 using System;
 using System.Collections.Generic;
+using System.Security.Policy;
 using UnityEngine;
 
 namespace CorruptedDreamsPlando
@@ -71,9 +72,13 @@ namespace CorruptedDreamsPlando
             MapChanger.Events.OnSetGameMap += OnSetGameMap;
         }
 
+        public CorruptedDreamShields cds;
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
             Log("Initializing");
+
+            // TODO switch over to purenail preloader probably.
+            FullScreenTitleDrop.InitializePrefabs(preloadedObjects);
 
             // Initialize stuff
             DescendingDarkSpawner.Initialize();
@@ -112,16 +117,21 @@ namespace CorruptedDreamsPlando
 
             // Super boss time!
             CorruptedLostKin.Initialize();
+            CorruptedWhiteDefender.Initialize();
 
             MapChanger.Events.OnEnterGame += OnEnterGame;
 
+
+            // For testing
+            cds = new CorruptedDreamShields();
+            cds.Initialize();
 
             Log("Initialized");
         }
 
         public void AddModules(RandoController rc)
         {
-            ItemChangerMod.Modules.Add<CorruptedDreamShields>();
+            //ItemChangerMod.Modules.Add<CorruptedDreamShields>();
         }
 
         public static LocalSettings LS { get; set; } = new();

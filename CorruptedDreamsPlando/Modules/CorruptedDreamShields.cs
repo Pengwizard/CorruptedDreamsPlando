@@ -19,7 +19,7 @@ namespace CorruptedDreamsPlando.Modules
     // Grimm_sleep_shield Grimm_sleep_shield Grimm_Main_Tent
     // Backroom Mask - Remove (Grimm_Main_Tent)
 
-    public class CorruptedDreamShields : ItemChanger.Modules.Module
+    public class CorruptedDreamShields // : ItemChanger.Modules.Module
     {
         public static GameObject ShieldPrefab;
         public static GameObject GrimmShieldPrefab;
@@ -33,13 +33,13 @@ namespace CorruptedDreamsPlando.Modules
             { SceneNames.Waterways_15, "Dung Defender_Sleep/Dream Enter" },
         };
 
-        public override void Initialize()
+        public void Initialize()
         {
             On.GameManager.OnNextLevelReady += onSceneChange;
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged += handleSpecialConditions;
         }
 
-        public override void Unload()
+        public void Unload()
         {
             On.GameManager.OnNextLevelReady -= onSceneChange;
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged -= handleSpecialConditions;
@@ -79,10 +79,12 @@ namespace CorruptedDreamsPlando.Modules
 
         private void lateLoadSpecialCondition(GameManager self)
         {
-            if (self.sceneName == SceneNames.Waterways_05)
+            if (self.sceneName == SceneNames.Waterways_15)
             {
-                var dreamEnter = GameObject.Find("Dung Defender_Sleep");
-                dreamEnter.SetActive(true);
+                var dungSleep = GameObject.Find("Dung Defender_Sleep");
+                //dungSleep.GetComponent<DeactivateIfPlayerdataFalse>().enabled = false;
+                //dungSleep.GetComponent<DeactivateIfPlayerdataTrue>().enabled = false;
+                dungSleep.SetActive(true);
             }
 
             if (self.sceneName == SceneNames.Grimm_Main_Tent)
