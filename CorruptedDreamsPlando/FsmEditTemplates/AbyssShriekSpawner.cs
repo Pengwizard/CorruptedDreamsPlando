@@ -71,7 +71,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
         }
 
-        public void AddShriekAtEndOfFSM(FsmState fsm, int damageToDeal)
+        public void AddShriekAtEndOfFSM(FsmState fsm, int damageToDeal, Vector3 spawnOffset)
         {
             //GameObject shriek = GameObject.Instantiate(ShriekObject);
 
@@ -100,48 +100,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
             var go = fsm.Fsm.GameObject;
             var goTransform = go.transform;
-
-            //shriek.transform.position = goTransform.position + new Vector3(0, 0, 0);
-            //shriek.transform.SetParent(goTransform.transform);
-
-            //GameObject[] gos = { shriek };
-
-
-            //foreach (var part in gos)
-            //{
-            //    List<GameObject> children = new List<GameObject>();
-            //    part.FindAllChildren(children);
-            //    foreach (var c in children)
-            //    {
-            //        c.layer = LayerMask.NameToLayer("Enemy Attack");
-            //        c.RemoveComponent<DamageEnemies>();
-            //        var damageHero = c.AddComponent<DamageHero>();
-            //        damageHero.damageDealt = damageToDeal;
-            //    }
-            //}
-
-
-            //ActivateGameObject activateShriek = new ActivateGameObject();
-            //activateShriek.gameObject = new HutongGames.PlayMaker.FsmOwnerDefault() { GameObject = new FsmGameObject { Value = shriek }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
-            //activateShriek.activate = true;
-            //activateShriek.recursive = false;
-            //activateShriek.resetOnExit = false;
-            //activateShriek.everyFrame = false;
-
-            //SetParent reparent = new SetParent();
-            //reparent.gameObject = new HutongGames.PlayMaker.FsmOwnerDefault() { GameObject = new FsmGameObject { Value = shriek }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
-            //reparent.parent = new FsmGameObject { Value = go };
-            //reparent.resetLocalPosition = true;
-            //reparent.resetLocalRotation = true;
-
-            //SetParent unparent = new SetParent();
-            //unparent.gameObject = new HutongGames.PlayMaker.FsmOwnerDefault() { GameObject = new FsmGameObject { Value = shriek }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
-            //unparent.resetLocalPosition = true;
-            //unparent.resetLocalRotation = true;
-
-
-            //shriek.LocateMyFSM("FSM").FsmVariables.FindFsmBool("Unparent").Value = false;
-            //shriek.LocateMyFSM("FSM").FsmVariables.FindFsmBool("Reposition").Value = false;
 
             Satchel.FsmUtil.AddCustomAction(fsm, () =>
             {
@@ -172,7 +130,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 }
 
                 CorruptedDreamsPlandoMod.Instance.Log("Moving Shriek");
-                _temporaryShriek.transform.position = gm.transform.position + new Vector3(0, 2, 0);
+                _temporaryShriek.transform.position = gm.transform.position + spawnOffset;
                 _temporaryShriek.SetActive(false);
                 _temporaryShriek.SetActive(true);
                 CorruptedDreamsPlandoMod.Instance.Log("Shriek done");

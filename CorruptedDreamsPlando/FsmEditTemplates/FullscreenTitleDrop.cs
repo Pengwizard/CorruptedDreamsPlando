@@ -53,8 +53,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             var whiteFaderSpriteRenderer = whiteFader.GetComponent<SpriteRenderer>();
             whiteFaderSpriteRenderer.color = bgColor;
             whiteFader.transform.position = new Vector3(30, 30, -1);
-            whiteFader.transform.SetScaleX(whiteFader.transform.GetScaleX() * 3);
-            whiteFader.transform.SetScaleY(whiteFader.transform.GetScaleY() * 3);
+            float ogX = whiteFader.transform.GetScaleX();
+            float ogY = whiteFader.transform.GetScaleY();
+            whiteFader.transform.SetScaleX(whiteFader.transform.GetScaleX() * 0.001f);
+            whiteFader.transform.SetScaleY(whiteFader.transform.GetScaleY() * 0.001f);
 
             GameObject bossTitle = UObject.Instantiate(BossTitlePrefab, new Vector3(0, 0, 0), Quaternion.identity);
             bossTitle.SetActive(true);
@@ -106,8 +108,11 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             // Specifically using Satchel here because every 2nd utility pack has a version of FSM utils...
             Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = 1f });
             Satchel.FsmUtil.AddCustomAction(flashUp, (() => {
-                //whiteFader.SetActive(true);
-                //bossTitle.SetActive(true);
+                whiteFader.SetActive(true);
+                bossTitle.SetActive(true);
+                CorruptedDreamsPlandoMod.Instance.Log("Bringing up screen");
+                whiteFader.transform.SetScaleX(ogX * 3f);
+                whiteFader.transform.SetScaleY(ogY * 3f);
                 whiteFader.LocateMyFSM("FSM").SetState("Init");
             }));
 

@@ -74,7 +74,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         {
             if (path == "")
             {
-                path = "C:\\clean\\corruptedLostKinModifiers.json";
+                path = "C:\\clean\\hkMods\\CorruptedDreamsPlando\\CorruptedDreamsPlando\\Resources\\bossVariables\\corruptedLostKinModifiers.json";
             }
 
             using (StreamReader r = new StreamReader(path))
@@ -163,6 +163,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 (setVeloAction as SetVelocity2d).y = y;
             }
         }
+
 
         private static void ChangeWaitFloat(PlayMakerFSM fsm, string stateName, int actionIndex, float newWaitTime)
         {
