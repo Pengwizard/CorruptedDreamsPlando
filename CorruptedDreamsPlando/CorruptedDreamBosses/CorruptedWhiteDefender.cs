@@ -3,23 +3,15 @@ using CorruptedDreamsPlando.ShaderThings;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using ItemChanger;
-using ItemChanger.Locations.SpecialLocations;
 using Newtonsoft.Json;
 using Satchel;
 using Satchel.Futils;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.EnterpriseServices.CompensatingResourceManager;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace CorruptedDreamsPlando.CorruptedDreamBosses
 {
-    public class AnimationModifiersWd
+    internal class AnimationModifiersWd
     {
         // FsmVariables
         public float DiveInSpeed;
@@ -124,7 +116,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var healthManager = _bossObject.GetComponent<HealthManager>();
             _startingHp = healthManager.hp;
             healthManager.hp = 9999;
-            _phase1Hp = 10; // (int)(_startingHp * 0.5f);
+            _phase1Hp = (int)(_startingHp * 0.5f);
             var phaseTransitionGate = healthManager.hp - _phase1Hp;
             CorruptedDreamsPlandoMod.Instance.Log($"Will phase change after {_phase1Hp} damage and will have {_startingHp} * {_modifiers.PhaseChangeHpMultiplier} hp");
 
@@ -182,29 +174,18 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 UnityEngine.Color.white);
         }
 
-        private static void SpeedupAnimation(PlayMakerFSM fsm, string animationName, AnimationAccelerator accel, float animationSpeed, int index = -1)
-        {
-            try
-            {
-                CorruptedDreamsPlandoMod.Instance.Log($"Changing {animationName}");
-                SFCore.Utils.FsmUtil.GetState(fsm, animationName).AccelerateAnimation(accel, animationSpeed, index);
-            } catch (Exception e)
-            {
-                CorruptedDreamsPlandoMod.Instance.Log("Error");
-            }
-        }
 
         private static void ModifyVariables(PlayMakerFSM fsm)
         {
             CorruptedDreamsPlandoMod.Instance.Log("ModifyVariables called");
-            ChangeSetFloatValue(fsm, "Dive In 1", 1, _modifiers.TunnelSpeed);
+            Utils.ChangeSetFloatValue(fsm, "Dive In 1", 1, _modifiers.TunnelSpeed);
 
-            ChangeWaitFloat(fsm, "Erupt Antic R", 0, _modifiers.EruptAnticTime);
-            ChangeWaitFloat(fsm, "To Dolph Pause", 1, _modifiers.DolphinPauseTime);
+            Utils.ChangeWaitFloat(fsm, "Erupt Antic R", 0, _modifiers.EruptAnticTime);
+            Utils.ChangeWaitFloat(fsm, "To Dolph Pause", 1, _modifiers.DolphinPauseTime);
 
-            ChangeSetVelocity2d(fsm, "Erupt Out", 12, 0, _modifiers.EruptSpeedUp);
+            Utils.ChangeSetVelocity2d(fsm, "Erupt Out", 12, 0, _modifiers.EruptSpeedUp);
 
-            ChangeRandomFloat(fsm, "Set Throws", 0, _modifiers.ThrowMax, _modifiers.ThrowMin);
+            Utils.ChangeRandomFloat(fsm, "Set Throws", 0, _modifiers.ThrowMax, _modifiers.ThrowMin);
 
             fsm.GetVariable<FsmFloat>("X Scale").Value = _modifiers.BallSpeedModifier;
             fsm.GetVariable<FsmFloat>("Dolphin Speed Crt").Value *= _modifiers.DolphinSpeed;
@@ -214,30 +195,25 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public static void ModifyAnimationTimes(PlayMakerFSM fsm)
         {
             CorruptedDreamsPlandoMod.Instance.Log("ModifyAnimationTimes called");
-            AnimationAccelerator accel = fsm.gameObject.GetComponent<AnimationAccelerator>();
-            if (accel == null)
-            {
-                accel = fsm.gameObject.AddComponent<AnimationAccelerator>();
-            }
 
-            SpeedupAnimation(fsm, "Idle", accel, _modifiers.DolphinIdle);
-            SpeedupAnimation(fsm, "Dive In 1", accel, _modifiers.DiveIn1);
-            SpeedupAnimation(fsm, "Dive In 2", accel, _modifiers.DiveIn2);
-            SpeedupAnimation(fsm, "Erupt Out", accel, _modifiers.EruptUp);
-            SpeedupAnimation(fsm, "Erupt Fall", accel, _modifiers.EruptDown);
-            SpeedupAnimation(fsm, "Erupt Land", accel, _modifiers.AnticR);
-            SpeedupAnimation(fsm, "Throw Antic 1", accel, _modifiers.ThrowAntic1);
-            SpeedupAnimation(fsm, "Throw Antic 2", accel, _modifiers.ThrowAntic2);
-            SpeedupAnimation(fsm, "Throw Antic 3", accel, _modifiers.ThrowAntic3);
-            SpeedupAnimation(fsm, "Throw 1", accel, _modifiers.Throw1);
-            SpeedupAnimation(fsm, "Throw 2", accel, _modifiers.Throw2);
-            SpeedupAnimation(fsm, "RJ Antic", accel, _modifiers.RjAntic);
-            SpeedupAnimation(fsm, "RJ Launch", accel, _modifiers.RjLaunch);
-            SpeedupAnimation(fsm, "To Dolph Pause", accel, _modifiers.DolphinIdle);
-            //
-            SpeedupAnimation(fsm, "Dolph Antic", accel, _modifiers.DolphinAntic);
-            SpeedupAnimation(fsm, "Diving", accel, _modifiers.DolphinDive);
-            SpeedupAnimation(fsm, "Dolphin Recover", accel, _modifiers.AnticR);
+            Utils.SpeedupAnimation(fsm, "Idle", _modifiers.DolphinIdle);
+            Utils.SpeedupAnimation(fsm, "Dive In 1", _modifiers.DiveIn1);
+            Utils.SpeedupAnimation(fsm, "Dive In 2", _modifiers.DiveIn2);
+            Utils.SpeedupAnimation(fsm, "Erupt Out", _modifiers.EruptUp);
+            Utils.SpeedupAnimation(fsm, "Erupt Fall", _modifiers.EruptDown);
+            Utils.SpeedupAnimation(fsm, "Erupt Land", _modifiers.AnticR);
+            Utils.SpeedupAnimation(fsm, "Throw Antic 1", _modifiers.ThrowAntic1);
+            Utils.SpeedupAnimation(fsm, "Throw Antic 2", _modifiers.ThrowAntic2);
+            Utils.SpeedupAnimation(fsm, "Throw Antic 3", _modifiers.ThrowAntic3);
+            Utils.SpeedupAnimation(fsm, "Throw 1", _modifiers.Throw1);
+            Utils.SpeedupAnimation(fsm, "Throw 2", _modifiers.Throw2);
+            Utils.SpeedupAnimation(fsm, "RJ Antic", _modifiers.RjAntic);
+            Utils.SpeedupAnimation(fsm, "RJ Launch", _modifiers.RjLaunch);
+            Utils.SpeedupAnimation(fsm, "To Dolph Pause", _modifiers.DolphinIdle);
+
+            Utils.SpeedupAnimation(fsm, "Dolph Antic", _modifiers.DolphinAntic);
+            Utils.SpeedupAnimation(fsm, "Diving", _modifiers.DolphinDive);
+            Utils.SpeedupAnimation(fsm, "Dolphin Recover", _modifiers.AnticR);
 
         }
 
@@ -285,56 +261,5 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         }
 
 
-        private static void ChangeSetFloatValue(PlayMakerFSM fsm, string stateName, int actionIndex, float newValue)
-        {
-            var setState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
-            var setAction = setState.Actions[actionIndex];
-            if (setAction is SetFloatValue)
-            {
-                (setAction as SetFloatValue).floatValue = newValue;
-            }
-        }
-
-        private static void ChangeWaitFloat(PlayMakerFSM fsm, string stateName, int actionIndex, float newWaitTime)
-        {
-            var waitState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
-            var waitAction = waitState.Actions[actionIndex];
-            if (waitAction is Wait)
-            {
-                (waitAction as Wait).time = newWaitTime;
-            }
-        }
-        private static void ChangeSetVelocity2d(PlayMakerFSM fsm, string stateName, int actionIndex, float x, float y)
-        {
-            var setVeloState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
-            var setVeloAction = setVeloState.Actions[actionIndex];
-            if (setVeloAction is SetVelocity2d)
-            {
-                (setVeloAction as SetVelocity2d).x = x;
-                (setVeloAction as SetVelocity2d).y = y;
-            }
-        }
-
-        private static void MultiplySetVelocity2d(PlayMakerFSM fsm, string stateName, int actionIndex, float mod)
-        {
-            var setVeloState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
-            var setVeloAction = setVeloState.Actions[actionIndex];
-            if (setVeloAction is SetVelocity2d)
-            {
-                (setVeloAction as SetVelocity2d).x.Value *= mod;
-                (setVeloAction as SetVelocity2d).y.Value *= mod;
-            }
-        }
-
-        private static void ChangeRandomFloat(PlayMakerFSM fsm, string stateName, int actionIndex, float upperBound, float lowerBound)
-        {
-            var setCounterState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
-            var rFloat = setCounterState.Actions[actionIndex];
-            if (rFloat is RandomFloat)
-            {
-                (rFloat as RandomFloat).min = upperBound;
-                (rFloat as RandomFloat).max = lowerBound;
-            }
-        }
     }
 }

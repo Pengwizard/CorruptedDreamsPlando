@@ -57,6 +57,9 @@
     <None Remove="Resources\VoidCaster.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\bossVariables\corruptedSoulTyrantModifiers.json" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Resources\BirthplaceAccess.png" />
     <EmbeddedResource Include="Resources\Determination.png" />
     <EmbeddedResource Include="Resources\DungDoor.png" />

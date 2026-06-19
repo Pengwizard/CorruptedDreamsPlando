@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CorruptedDreamsPlando;
 
-internal class AnimationAccelerator : MonoBehaviour
+public class AnimationAccelerator : MonoBehaviour
 {
     private float accel = 1;
     private string? clip;

@@ -119,8 +119,10 @@ namespace CorruptedDreamsPlando
             Shadeless.Initialize();
 
             // Super boss time!
+            // TODO make "super bosses" into a module.
             CorruptedLostKin.Initialize();
             CorruptedWhiteDefender.Initialize();
+            CorruptedSoulTyrant.Initialize();
 
             MapChanger.Events.OnEnterGame += OnEnterGame;
 
