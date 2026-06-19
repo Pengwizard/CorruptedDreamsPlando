@@ -2,6 +2,7 @@ using CorruptedDreamsPlando.CorruptedDreamBosses;
 using CorruptedDreamsPlando.FsmEditTemplates;
 using CorruptedDreamsPlando.MapAlterations;
 using CorruptedDreamsPlando.Modules;
+using CorruptedDreamsPlando.ShaderThings;
 using CorruptedDreamsPlando.Skills;
 using CorruptedDreamsPlando.Testing;
 using ItemChanger;
@@ -14,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Policy;
 using UnityEngine;
+using UnityStandardAssets.ImageEffects;
 
 namespace CorruptedDreamsPlando
 {
@@ -79,6 +81,7 @@ namespace CorruptedDreamsPlando
 
             // TODO switch over to purenail preloader probably.
             FullScreenTitleDrop.InitializePrefabs(preloadedObjects);
+            Grayscaler.Initialize();
 
             // Initialize stuff
             DescendingDarkSpawner.Initialize();

@@ -1,4 +1,5 @@
 ﻿using CorruptedDreamsPlando.FsmEditTemplates;
+using CorruptedDreamsPlando.ShaderThings;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using ItemChanger;
@@ -148,6 +149,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             rageRoarState.InsertCustomAction(() =>
             {
+                Grayscaler.TickCamera();
                 CorruptedDreamsPlandoMod.Instance.Log("Raging");
                 ModifyAnimationTimes(fsm);
                 ModifyVariables(fsm);
@@ -161,7 +163,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var roarEndPhase = fsm.GetState("Set Rage");
 
             Satchel.FsmUtil.AddAction(roarEndPhase, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
-
             CorruptedDreamsPlandoMod.Instance.Log("Setting up title");
             SetupTitleScream(fsm);
         }

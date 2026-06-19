@@ -54,7 +54,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 PlayMakerFSM fsm = knight.LocateMyFSM("Spell Control");
                 var state = fsm.GetState("Scream Antic2");
                 _shriekAudio = state.GetFirstActionOfType<AudioPlay>().oneShotClip;
-                CorruptedDreamsPlandoMod.Instance.Log(_shriekAudio);
             }
         }
 
@@ -107,7 +106,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 if (_temporaryShriek == null)
                 {
 
-                    CorruptedDreamsPlandoMod.Instance.Log("Creating Shriek"); 
                     _temporaryShriek = GameObject.Instantiate(ShriekObject);
                     _temporaryShriek.name = "TemporaryShriek";
                     Component.Destroy(_temporaryShriek.LocateMyFSM("Deactivate on Hit"));
@@ -129,11 +127,9 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     }
                 }
 
-                CorruptedDreamsPlandoMod.Instance.Log("Moving Shriek");
                 _temporaryShriek.transform.position = gm.transform.position + spawnOffset;
                 _temporaryShriek.SetActive(false);
                 _temporaryShriek.SetActive(true);
-                CorruptedDreamsPlandoMod.Instance.Log("Shriek done");
             });
         }
     }

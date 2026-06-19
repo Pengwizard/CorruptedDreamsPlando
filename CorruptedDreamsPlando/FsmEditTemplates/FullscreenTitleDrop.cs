@@ -1,4 +1,5 @@
-﻿using HutongGames.PlayMaker;
+﻿using CorruptedDreamsPlando.ShaderThings;
+using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using ItemChanger.Extensions;
 using KorzUtils.Helper;
@@ -120,7 +121,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
             Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = titleFadeUpDelay });
 
-
+            Satchel.FsmUtil.AddCustomAction(flashDown, (() => {
+                // If we fucked something up with the camera lets fix it.
+                Grayscaler.RestoreCamera();
+            }));
             Satchel.FsmUtil.AddAction(flashDown, slot4FadeGroup);
             Satchel.FsmUtil.AddAction(flashDown, new Wait() { time = titleFadeDownDelay });
         }

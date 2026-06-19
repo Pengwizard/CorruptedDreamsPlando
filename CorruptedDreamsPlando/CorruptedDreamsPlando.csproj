@@ -52,6 +52,8 @@
     <None Remove="Resources\hero_void_quake_impact.wav" />
     <None Remove="Resources\logic.json" />
     <None Remove="Resources\LostKinBadge.png" />
+    <None Remove="Resources\shader\grayscaler_osx.unity3d" />
+    <None Remove="Resources\shader\grayscaler_windows.unity3d" />
     <None Remove="Resources\VoidCaster.png" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +63,8 @@
     <EmbeddedResource Include="Resources\DungKey.png" />
     <EmbeddedResource Include="Resources\EssenceIcon.png" />
     <EmbeddedResource Include="Resources\logic.json" />
+    <EmbeddedResource Include="Resources\shader\grayscaler_osx.unity3d" />
+    <EmbeddedResource Include="Resources\shader\grayscaler_windows.unity3d" />
     <EmbeddedResource Include="Resources\VoidCaster.png" />
   </ItemGroup>
   <ItemGroup>
