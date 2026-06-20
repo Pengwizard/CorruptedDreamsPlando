@@ -40,6 +40,10 @@ namespace CorruptedDreamsPlando
         public CorruptedDreamsPlandoMod() : base("CorruptedDreamsPlando")
         {
             _instance = this;
+
+            VoidCaster.InitializeHooks();
+            Determination.InitializeHooks();
+            BirthplaceAccess.InitializeHooks();
         }
 
         public override List<(string, string)> GetPreloadNames()
@@ -91,10 +95,6 @@ namespace CorruptedDreamsPlando
 
             MapAlterations.DungDoorAdder.AddDungDoor();
             Rando.RandoInterop.Hook();
-
-            VoidCaster.InitializeHooks();
-            Determination.InitializeHooks();
-            BirthplaceAccess.InitializeHooks();
 
             CorruptedDreamShields.ShieldPrefab = preloadedObjects[SceneNames.Abyss_05]["Dusk Knight/Shield"];
             CorruptedDreamShields.GrimmShieldPrefab = preloadedObjects[SceneNames.Grimm_Main_Tent]["Grimm_sleep_shield"];

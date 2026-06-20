@@ -1,6 +1,8 @@
 ﻿using ItemChanger;
 using ItemChanger.Tags;
 using ItemChanger.UIDefs;
+using Modding;
+using SFCore;
 using UnityEngine;
 
 namespace CorruptedDreamsPlando.Skills
@@ -8,6 +10,11 @@ namespace CorruptedDreamsPlando.Skills
     // Make this more serious in some way
     public class BirthplaceAccess
     {
+        public static string invKey = "CD_BIRTHKEY_NAME";
+        public static string descKey = "CD_BIRTHKEY_DESC";
+        public static string invName = "Birthplace Key";
+        public static string boolName = "Birthkey";
+
         public static string baseName = "Birthplace_Access";
         public static string skillName = SkillCommon.MakeItemName(baseName);
         public static string uiName = SkillCommon.CleanName(baseName);
@@ -19,6 +26,34 @@ namespace CorruptedDreamsPlando.Skills
         {
             On.HeroController.Update += HeroController_Update;
             On.GameManager.OnNextLevelReady += onSceneChange;
+
+            SetupInventoryItem();
+        }
+
+        public static void SetupInventoryItem()
+        {
+            var sprite = new EmbeddedSprite("BirthplaceAccess_Small");
+
+            ItemHelper.AddNormalItem(sprite.Value, boolName, invKey, descKey);
+
+            Events.AddLanguageEdit(new(invKey), FillName);
+            Events.AddLanguageEdit(new(descKey), FillDesc);
+
+            ModHooks.GetPlayerBoolHook += HookInventory;
+        }
+
+        private static void FillName(ref string value) => value = invName;
+
+        private static void FillDesc(ref string value) => value = description;
+
+        private static bool HookInventory(string name, bool orig)
+        {
+            if (name == boolName)
+            {
+                return CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess;
+            }
+
+            return orig;
         }
 
         private static void onSceneChange(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
@@ -44,7 +79,7 @@ namespace CorruptedDreamsPlando.Skills
             orig(self);
             if (Input.GetKeyDown(KeyCode.Alpha8))
             {
-                CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess = true;
+                CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess = !CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess;
             }
         }
     }

@@ -1,21 +1,29 @@
 ﻿using ItemChanger;
 using ItemChanger.Tags;
 using ItemChanger.UIDefs;
+using Modding;
+using RandomizerMod.RandomizerData;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using SFCore;
 
 namespace CorruptedDreamsPlando.Skills
 {
     public class VoidCaster
     {
+        public static string invKey = "CD_VOIDCASTER_NAME";
+        public static string descKey = "CD_VOIDCASTER_DESC";
+        public static string invName = "Void Caster";
+        public static string boolName = "VoidCaster";
+
         public static string baseName = "Void_Caster";
         public static string skillName = SkillCommon.MakeItemName(baseName);
         public static string uiName = SkillCommon.CleanName(baseName);
         public static string take = "You have collected";
-        public static string description = "Developed by early inventors in Hallownest. Infuses one's soul projections with Void";
+        public static string description = "Developed by early inventors in Hallownest.<br><br>Created under orders of The Pale King, this lets the user infuse their soul projections with Void essence.";
         public static string description1 = "Developed by early inventors in Hallownest";
-        public static string description2 = "Infuses one's soul projections with Void";
+        public static string description2 = "Created under orders of The Pale King, this lets the user infuse their soul projections with Void essence.";
         public static ISprite pickupSprite = new EmbeddedSprite("VoidCaster");
 
 
@@ -24,6 +32,33 @@ namespace CorruptedDreamsPlando.Skills
             On.HeroController.Update += HeroController_Update;
             On.PlayerData.GetInt += PlayerData_GetInt;
             On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter += LimitSpellLevel;
+
+            SetupInventoryItem();
+        }
+
+        public static void SetupInventoryItem()
+        {
+            var sprite = new EmbeddedSprite("VoidCaster_Small");
+            ItemHelper.AddNormalItem(sprite.Value, boolName, invKey, descKey);
+
+            Events.AddLanguageEdit(new(invKey), FillName);
+            Events.AddLanguageEdit(new(descKey), FillDesc);
+
+            ModHooks.GetPlayerBoolHook += HookInventory;
+        }
+
+        private static void FillName(ref string value) => value = invName;
+
+        private static void FillDesc(ref string value) => value = description;
+
+        private static bool HookInventory(string name, bool orig)
+        {
+            if (name == boolName)
+            {
+                return CorruptedDreamsPlandoMod.LS.CollectedVoidCaster;
+            }
+
+            return orig;
         }
 
         static List<string> spellLevelInts = new List<string>{ "fireballLevel", "screamLevel", "quakeLevel" };
@@ -46,13 +81,7 @@ namespace CorruptedDreamsPlando.Skills
             orig(self);
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                CorruptedDreamsPlandoMod.LS.CollectedVoidCaster = true;
-            }
-
-
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                CorruptedDreamsPlandoMod.LS.CollectedVoidCaster = false;
+                CorruptedDreamsPlandoMod.LS.CollectedVoidCaster = !CorruptedDreamsPlandoMod.LS.CollectedVoidCaster;
             }
         }
 

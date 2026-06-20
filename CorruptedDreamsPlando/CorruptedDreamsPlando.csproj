@@ -45,6 +45,7 @@
     <None Remove="dependabot.yml" />
     <None Remove="README.md" />
     <None Remove="Resources\BirthplaceAccess.png" />
+    <None Remove="Resources\BirthplaceAccess_Small.png" />
     <None Remove="Resources\Determination.png" />
     <None Remove="Resources\DungDoor.png" />
     <None Remove="Resources\DungKey.png" />
@@ -55,8 +56,10 @@
     <None Remove="Resources\shader\grayscaler_osx.unity3d" />
     <None Remove="Resources\shader\grayscaler_windows.unity3d" />
     <None Remove="Resources\VoidCaster.png" />
+    <None Remove="Resources\VoidCaster_Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\BirthplaceAccess_Small.png" />
     <EmbeddedResource Include="Resources\bossVariables\corruptedSoulTyrantModifiers.json" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +72,7 @@
     <EmbeddedResource Include="Resources\shader\grayscaler_osx.unity3d" />
     <EmbeddedResource Include="Resources\shader\grayscaler_windows.unity3d" />
     <EmbeddedResource Include="Resources\VoidCaster.png" />
+    <EmbeddedResource Include="Resources\VoidCaster_Small.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
