@@ -16,6 +16,9 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 {
     internal class AnimationModifiersSt
     {
+        public float ShotAnticAnimation;
+        public float ShotAnticWait;
+
         // Numbers for Phase Change bit
         public float RoarWaitTime;
         public float WhiteSolidUpTime;
@@ -126,6 +129,9 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 CorruptedDreamsPlandoMod.Instance.Log("Raging");
                 Grayscaler.TickCamera();
                 SetupTitleScream(fsm);
+                ModifyAttackPatternsPhase1(fsm);
+                ModifyVariablesPhase1(fsm);
+                ModifyAnimationTimesPhase1(fsm);
             });
 
             return rageCheckState;
@@ -200,37 +206,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     fsm.SendEvent(setupRageTransition);
                 }
             });
-
-            //rageCheckState.AddAction(new IntCompare()
-            //{
-            //    integer1 = hpFSM,
-            //    integer2 = hpGateFSM,
-            //    greaterThan = FsmEvent.GetFsmEvent(setupRageTransition), //FsmEvent.GetFsmEvent(defaultTransition),
-            //    everyFrame = false
-            //});
-
-            //rageCheckState.AddCustomAction(() =>
-            //{
-            //    CorruptedDreamsPlandoMod.Instance.Log($"Trying to rage");
-            //});
-
-            //rageCheckState.AddAction(new SetBoolValue()
-            //{
-            //    boolVariable = ragedBool,
-            //    boolValue = true,
-            //    everyFrame = false
-            //});
-
-            //rageCheckState.AddCustomAction(() =>
-            //{
-            //    CorruptedDreamsPlandoMod.Instance.Log($"Trying to fire event {FsmEventTarget.Self} {FsmEvent.GetFsmEvent(setupRageTransition)}");
-            //});
-
-            //rageCheckState.AddAction(new SendEvent()
-            //{
-            //    eventTarget = FsmEventTarget.Self,
-            //    sendEvent = FsmEvent.GetFsmEvent(setupRageTransition),
-            //});
         }
         
 
@@ -249,20 +224,103 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 UnityEngine.Color.white);
         }
 
-        private static void ModifyAttackPatterns(PlayMakerFSM fsm)
+        private static int shotCount = 0;
+        // Move this number to modifiers.
+        private static int maxShotCount = 4;
+
+        private static void ModifyAttackPatternsPhase1(PlayMakerFSM fsm)
+        {
+            // shoots multiple fireballs each time
+            // this phase should feel tame
+
+            // Disable the "charge" attack. Leaving the "High Spinner" attack because... idk
+            var attackChoiceState = fsm.GetState("Attack Choice");
+
+            // The first attack option is the charge so we just make that if charge is rolled we do shoot instead
+            var chooseAttackAtRandom = attackChoiceState.GetFirstActionOfType<SendRandomEventV3>();
+            chooseAttackAtRandom.events[0] = chooseAttackAtRandom.events[2];
+
+            // Increase the amount of fireballs spawned when doing fireballs
+            // We do this by looping the "Shot Antic" and "Shot" states
+
+            var setShotsState = fsm.GetState("Set Shots");
+            setShotsState.AddCustomAction(() =>
+            {
+                shotCount = 0;
+            });
+            var shotState = fsm.GetState("Shot");
+
+            //shotState.InsertCustomAction(() => {
+            //    var spawnObject = GameObject.Find("Dream Mage Lord/Fire Effect");
+            //    var tar = spawnObject.transform;
+            //    if (shotCount == 0)
+            //    {
+            //        tar.SetPositionX(tar.GetPositionX() - 1f);
+            //        tar.SetPositionY(tar.GetPositionY() - 0.5f);
+            //    } else
+            //    {
+            //        tar.SetPositionX(tar.GetPositionX() + 0.5f);
+            //        tar.SetPositionY(tar.GetPositionY() + (0.25f * (shotCount > (maxShotCount / 2) ? -1 : 1)));
+            //    }
+
+            //    //var projectile = fsm.GetVariable<FsmGameObject>("Projectile");
+            //    //// (-1, -0.5), (-0.5, -0.25), (0, 0), (+0.5, -0.25), (+1, -0.5)
+            //    //var tar = projectile.Value.transform;
+            //    //tar.SetPositionX(tar.GetPositionX() +  (maxShotCount - shotCount) / 5);
+            //    //if (shotCount == 0 || shotCount == maxShotCount)
+            //    //{
+            //    //    tar.SetPositionY(tar.GetPositionY() - 0.5f);
+            //    //}
+            //}, 0);
+
+            shotState.AddTransition("REPEAT SHOT", "Shot Antic");
+
+            shotState.AddCustomAction(() =>
+            {
+                shotCount++;
+                if (shotCount > maxShotCount)
+                {
+                    fsm.SendEvent("FINISHED");
+                }
+                else
+                {
+                    fsm.SendEvent("REPEAT SHOT");
+                }
+            });
+        }
+
+        private static void ModifyAttackPatternsPhase2(PlayMakerFSM fsm)
+        {
+            // No build up
+            // fireballs constantly spawning
+            // the double slam thing with telegraph
+            // 
+            throw new NotImplementedException();
+        }
+
+        private static void ModifyVariablesPhase1(PlayMakerFSM fsm)
+        {
+            var healthManager = _bossObject.GetComponent<HealthManager>();
+            healthManager.hp = (int)(_startingHp * _modifiers.PhaseChangeHpMultiplier);
+        }
+
+        private static void ModifyVariablesPhase2(PlayMakerFSM fsm)
         {
             throw new NotImplementedException();
         }
 
-        private static void ModifyVariables(PlayMakerFSM fsm)
+        private static void ModifyAnimationTimesPhase1(PlayMakerFSM fsm)
+        {
+            Utils.SpeedupAnimation(fsm, "Shot Antic", _modifiers.ShotAnticAnimation);
+
+
+            Utils.ChangeWaitFloat(fsm, "Shot Antic", 0, _modifiers.ShotAnticWait);
+            Utils.ChangeWaitFloat(fsm, "Shot", 10, _modifiers.ShotAnticWait);
+        }
+
+        private static void ModifyAnimationTimesPhase2(PlayMakerFSM fsm)
         {
             throw new NotImplementedException();
         }
-
-        private static void ModifyAnimationTimes(PlayMakerFSM fsm)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

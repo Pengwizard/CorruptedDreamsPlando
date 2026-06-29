@@ -1,4 +1,6 @@
 ﻿{
+  "ShotAnticAnimation": 3,
+  "ShotAnticWait": 0.1,
   "RoarWaitTime": 3.5,
   "TitleFadeUpDelay": 2.5,
   "TitleFadeDownDelay": 0.5,

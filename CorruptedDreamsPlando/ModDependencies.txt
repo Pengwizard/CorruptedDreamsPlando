@@ -4,10 +4,10 @@ ItemChangerDataLoader
 ItemChanger
 RandomizerCore
 RandomizerCore.Json
-SpellStaller
 RandoSettingsManager
 MenuChanger
 SFCore
 Satchel
 KorzUtils
 MapChanger
+SpellStaller
