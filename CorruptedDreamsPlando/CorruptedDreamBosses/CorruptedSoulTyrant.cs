@@ -1,19 +1,91 @@
-﻿using CorruptedDreamsPlando.FsmEditTemplates;
+﻿using System;
+using System.Collections;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
+using CorruptedDreamsPlando.FsmEditTemplates;
 using CorruptedDreamsPlando.ShaderThings;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using ItemChanger;
+using ItemChanger.Internal;
 using Newtonsoft.Json;
 using Satchel;
 using Satchel.Futils;
-using System;
-using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
+using SpellStaller.Charms;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace CorruptedDreamsPlando.CorruptedDreamBosses
 {
+
+    public class SingleCastSoulOrbSpawner : MonoBehaviour
+    {
+        public static void SpawnSoul(Transform transform)
+        {
+            var prefab = ObjectCache.SoulOrb;
+            Destroy(prefab.Spawn());
+            prefab.SetActive(true);
+
+            // Give 34 soul per usage.
+            // double if dream wielder is equipped
+            // max if can dream gate.
+            int soulToGive = 17;
+             int masksToHeal = 0;
+
+            FlingUtils.Config config = new()
+            {
+                Prefab = prefab,
+                AmountMin = soulToGive,
+                AmountMax = soulToGive,
+                SpeedMin = 10,
+                SpeedMax = 20,
+                AngleMin = 0,
+                AngleMax = 360,
+            };
+            var objs = FlingUtils.SpawnAndFling(config, transform, Vector3.zero);
+
+            // Heal on parry.
+            HeroController.instance.AddHealth(masksToHeal);
+
+            IEnumerator Routine()
+            {
+                yield return new WaitForSeconds(10f);
+                foreach (var o in objs)
+                {
+                    Destroy(o);
+                }
+            }
+
+            var sos = GameManager.instance.gameObject.GetComponent<SingleCastSoulOrbSpawner>();
+            if (sos == null)
+            {
+                sos = GameManager.instance.gameObject.AddComponent<SingleCastSoulOrbSpawner>();
+            }
+
+            sos.StartCoroutine(Routine());
+            Destroy(prefab);
+        }
+    }
+
+    public class NailCollisionDetector : MonoBehaviour
+    {
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.name == "Clash Tink" && collision.attachedRigidbody.gameObject.name == "Knight")
+            {
+                var go = this.gameObject;
+                CorruptedDreamsPlandoMod.Instance.Log($"Fireball Trigger {collision.gameObject.name} {go.name}");
+
+                var fsm = go.LocateMyFSM("Orb Control");
+                if (fsm != null && go.GetComponent<Rigidbody2D>().velocity.x != 0)
+                {
+                    SingleCastSoulOrbSpawner.SpawnSoul(go.transform);
+                    fsm.SetState("Impact");
+                }
+            }
+        }
+    }
+
     internal class AnimationModifiersSt
     {
         public float ShotAnticAnimation;
@@ -60,11 +132,30 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public static void Initialize()
         {
             Events.AddFsmEdit(controlFSM, SetupPhaseChange);
+            On.PlayMakerFSM.OnEnable += HandleOrbSpawn;
+        }
+
+        private static void HandleOrbSpawn(On.PlayMakerFSM.orig_OnEnable orig, PlayMakerFSM self)
+        {
+            if (self.gameObject.name.ToLower().Contains("mage orb"))
+            {
+                if (self.gameObject.GetComponent<NailCollisionDetector>() == null)
+                {
+                    self.gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+                    self.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+                    self.gameObject.AddComponent<NailCollisionDetector>();
+
+                    self.gameObject.layer = LayerMask.NameToLayer("Enemy");
+                }
+            }
+
+            orig(self);
         }
 
         public static void Unload()
         {
             Events.RemoveFsmEdit(controlFSM, SetupPhaseChange);
+            On.PlayMakerFSM.OnEnable += HandleOrbSpawn;
         }
 
         public static void UnpackModifiers()

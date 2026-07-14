@@ -43,7 +43,7 @@ namespace CorruptedDreamsPlando
 
             VoidCaster.InitializeHooks();
             Determination.InitializeHooks();
-            BirthplaceAccess.InitializeHooks();
+            // BirthplaceAccess.InitializeHooks();
         }
 
         public override List<(string, string)> GetPreloadNames()
@@ -117,6 +117,7 @@ namespace CorruptedDreamsPlando
             InstantSalubraSoulRefill.Initialize();
             LurienElevatorOutOfService.Initialize();
             Shadeless.Initialize();
+            DistruptedSpells.Initialize();
 
             // Super boss time!
             // TODO make "super bosses" into a module.
