@@ -45,6 +45,16 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
         }
 
+        public static void ChangeSetIntValue(PlayMakerFSM fsm, string stateName, int actionIndex, int newValue)
+        {
+            var setState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
+            var setAction = setState.Actions[actionIndex];
+            if (setAction is SetIntValue)
+            {
+                (setAction as SetIntValue).intValue = newValue;
+            }
+        }
+
         public static void ChangeWaitFloat(PlayMakerFSM fsm, string stateName, int actionIndex, float newWaitTime)
         {
             var waitState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);

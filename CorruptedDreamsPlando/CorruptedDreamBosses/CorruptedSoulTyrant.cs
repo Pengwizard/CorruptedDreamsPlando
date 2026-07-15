@@ -98,6 +98,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public float QuakeLandWait;
         public float PostReboundDelay;
 
+        public float SpawnFireballWait;
+        public float OrbSummonWait;
 
         // Numbers for Phase Change bit
         public float RoarWaitTime;
@@ -247,6 +249,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static void SetupPhase2(PlayMakerFSM fsm)
         {
             ModifyAttackPatternsPhase2(fsm);
+            ModifyVariablesPhase2(fsm);
         }
 
 
@@ -686,26 +689,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
                 counter++;
             });
-
-            //var qsY = fsm.GetVariable<FsmFloat>("Quake Speed Y");
-            //var qsX = fsm.GetVariable<FsmFloat>("Quake Speed X");
-
-            // After Dive, we go up, and spawn a shriek
-            //fsm.RemoveTransition("Quake Waves", "FINISHED");
-            //var quakeUp = fsm.AddState("Quake Up");
-            //fsm.AddTransition("Quake Waves", "FINISHED", quakeUp.Name);
-
-
-
-            // Quake Antic - remove?
-            // Quake Down - has set velocity, in theory can also set rotation?
-            // Do the loop back on Quake Waves i think
-
-            // Double slam: 
-
-            // No build up
-            // the double slam thing with telegraph
-            // 
         }
 
         private static void ModifyVariablesPhase1(PlayMakerFSM fsm)
@@ -716,7 +699,9 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static void ModifyVariablesPhase2(PlayMakerFSM fsm)
         {
-            throw new NotImplementedException();
+            Utils.ChangeWaitFloat(fsm, "Spawn Fireball", 4, _modifiers.SpawnFireballWait);
+            Utils.ChangeWaitFloat(fsm, "Orb Summon", 1, _modifiers.OrbSummonWait);
+            Utils.ChangeSetIntValue(fsm, "Shot Antic", 4, 10);
         }
 
         private static void ModifyAnimationTimesPhase1(PlayMakerFSM fsm)
