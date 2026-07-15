@@ -19,6 +19,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
         private GameObject _srcHeads2;
         private static FsmObject _shriekAudio = null;
+        private static FsmObject _howlingWraithsAudio = null;
         private static GameObject _temporaryShriek = null;
 
         internal static AbyssShriekSpawner Instance
@@ -57,6 +58,17 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
         }
 
+        private static void GetHowlingWraithsSfx()
+        {
+            if (_howlingWraithsAudio == null)
+            {
+                var knight = GameObject.Find("Knight");
+                PlayMakerFSM fsm = knight.LocateMyFSM("Spell Control");
+                var state = fsm.GetState("Scream Antic 1");
+                _howlingWraithsAudio = state.GetFirstActionOfType<AudioPlay>().oneShotClip;
+            }
+        }
+
         public GameObject ShriekObject
         {
             get
@@ -70,26 +82,47 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
         }
 
-        public void AddShriekAtEndOfFSM(FsmState fsm, int damageToDeal, Vector3 spawnOffset)
+        public void AddShriekAtEndOfFSM(FsmState fsm, int damageToDeal, Vector3 spawnOffset, bool useWraithsAudio=false)
         {
             //GameObject shriek = GameObject.Instantiate(ShriekObject);
 
             try
             {
-                GetAbyssShriekSfx();
-                if (_shriekAudio != null)
+                if (useWraithsAudio)
                 {
-                    AudioPlay playSpellAudio = new AudioPlay();
-                    playSpellAudio.gameObject = new HutongGames.PlayMaker.FsmOwnerDefault()
+                    GetHowlingWraithsSfx();
+                    if (_howlingWraithsAudio != null)
                     {
-                        GameObject = new FsmGameObject { Value = fsm.Fsm.GameObject },
-                        OwnerOption = OwnerDefaultOption.SpecifyGameObject
-                    };
-                    // TODO: Audio needs to be determined by the game
-                    playSpellAudio.volume = 5f;
-                    playSpellAudio.oneShotClip = _shriekAudio;
+                        AudioPlayerOneShotSingle playSpellAudio = new AudioPlayerOneShotSingle();
+                        //playSpellAudio. = new HutongGames.PlayMaker.FsmOwnerDefault()
+                        //{
+                        //    GameObject = new FsmGameObject { Value = fsm.Fsm.GameObject },
+                        //    OwnerOption = OwnerDefaultOption.SpecifyGameObject
+                        //};
+                        // TODO: Audio needs to be determined by the game
+                        playSpellAudio.volume = 5f;
+                        playSpellAudio.audioClip = _shriekAudio;
 
-                    Satchel.FsmUtil.AddAction(fsm, playSpellAudio);
+                        Satchel.FsmUtil.AddAction(fsm, playSpellAudio);
+                    }
+                }
+                else
+                {
+                    GetAbyssShriekSfx();
+                    if (_shriekAudio != null)
+                    {
+                        AudioPlay playSpellAudio = new AudioPlay();
+                        playSpellAudio.gameObject = new HutongGames.PlayMaker.FsmOwnerDefault()
+                        {
+                            GameObject = new FsmGameObject { Value = fsm.Fsm.GameObject },
+                            OwnerOption = OwnerDefaultOption.SpecifyGameObject
+                        };
+                        // TODO: Audio needs to be determined by the game
+                        playSpellAudio.volume = 5f;
+                        playSpellAudio.oneShotClip = _shriekAudio;
+
+                        Satchel.FsmUtil.AddAction(fsm, playSpellAudio);
+                    }
                 }
             }
             catch (Exception e)
