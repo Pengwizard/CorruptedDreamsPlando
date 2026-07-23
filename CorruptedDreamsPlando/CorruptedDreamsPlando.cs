@@ -124,6 +124,7 @@ namespace CorruptedDreamsPlando
             CorruptedLostKin.Initialize();
             CorruptedWhiteDefender.Initialize();
             CorruptedSoulTyrant.Initialize();
+            CorruptedGPZ.Initialize();
 
             MapChanger.Events.OnEnterGame += OnEnterGame;
 

@@ -70,6 +70,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 if (subTitleText != null)
                 {
                     g.SetText(subTitleText);
+                    g.enableAutoSizing = true;
                 }
             }
 

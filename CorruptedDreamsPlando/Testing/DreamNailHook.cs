@@ -65,8 +65,34 @@ namespace CorruptedDreamsPlando.Testing
             Events.RemoveFsmEdit(dreamNailId, HookDreamNail);
         }
 
+        public static int counter = 0;
+        public static bool leftGround = false;
+
+        public static bool ConditionFunction(GameObject go)
+        {
+            var tr = go.transform;
+            var roundedY = (int)(tr.position.y * 10) / 10;
+            if (roundedY <= 11.4f)
+            {
+                if (leftGround)
+                {
+                    leftGround = false;
+                    return true;
+                }
+
+                return false;
+            } else
+            {
+                leftGround = true;
+                return false;
+            }
+        }
+
         private static void HookDreamNail(PlayMakerFSM fsm)
         {
+            //var ddc = fsm.gameObject.AddComponent<DDarkComponent>();
+            //ddc.StartCoroutine(DescendingDarkSpawner.Instance.ActivateDDarkForObjectOnCondition(fsm.gameObject, 2, Vector3.zero, ConditionFunction));
+
             fsm.GetState("End").AddLastAction(new Lambda(PrintEnd));
             //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(fsm.GetState("End"), 1);
             //AbyssShriekSpawner.Instance.AddShriekAtEndOfFSM(fsm.GetState("End"), 1);

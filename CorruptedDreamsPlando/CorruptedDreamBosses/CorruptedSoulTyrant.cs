@@ -136,7 +136,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static bool phaseChanged;
         private static GameObject _bossObject;
-        private static GameObject _phase2BossObject;
         private static int _startingHp;
         private static int _phase1Hp;
         private static AnimationModifiersSt _modifiers;
@@ -181,30 +180,10 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             CorruptedDreamsPlandoMod.Instance.Log("Changing ST phase 1");
             phaseChanged = false;
 
-
             CorruptedDreamsPlandoMod.Instance.Log("Unpacking Modifiers");
             UnpackModifiers();
 
             _bossObject = fsm.gameObject;
-
-            _phase2BossObject = GameObject.Find("Dream Make Lord Phase2");
-
-            // TODO disable stagger
-
-            // Phase change starts from Teleport In
-            // Check HP gate in Damaged Idle
-            // Phase transition
-            // Setup speedup
-            // Faster animations
-            // make orbs contantly spawn
-            // Setup phase 2 in preparation
-            // Title drop
-            // 
-
-            // Phase 2 changes
-            // Orbs contantly spawn
-            // dive down, slam up
-            // can also go sideways with a light glow telegraph (make generic "telegraph light" since it will be use full)
 
             // Adding invincibility during roar stuff.
             var rageRoarState = fsm.GetState("Roar");
@@ -217,6 +196,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             AddPhaseChangeStep(fsm, "Idle", "TOOK DAMAGE", "Damaged Idle", rageState);
         }
 
+        // TODO: Add flow into rage state from "attack choice"
         public static FsmState SetupRageSetupState(
             PlayMakerFSM fsm,
             string stateAfterRage)
@@ -228,18 +208,22 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             rageCheckState.AddCustomAction(() =>
             {
-                var rageRoarState = fsm.GetState("Roar");
-                rageRoarState.GetFirstActionOfType<Wait>().time = _modifiers.RoarWaitTime;
+                if (!phaseChanged)
+                {
+                    var rageRoarState = fsm.GetState("Roar");
+                    rageRoarState.GetFirstActionOfType<Wait>().time = _modifiers.RoarWaitTime;
 
-                CorruptedDreamsPlandoMod.Instance.Log("Raging");
-                Grayscaler.TickCamera();
-                SetupTitleScream(fsm);
-                ModifyAttackPatternsPhase1(fsm);
-                ModifyVariablesPhase1(fsm);
-                ModifyAnimationTimesPhase1(fsm);
-                On.PlayMakerFSM.OnEnable += HandleOrbSpawn;
+                    CorruptedDreamsPlandoMod.Instance.Log("Raging");
+                    Grayscaler.TickCamera();
+                    SetupTitleScream(fsm);
+                    ModifyAttackPatternsPhase1(fsm);
+                    ModifyVariablesPhase1(fsm);
+                    ModifyAnimationTimesPhase1(fsm);
+                    On.PlayMakerFSM.OnEnable += HandleOrbSpawn;
 
-                // Phase 2 things
+                    // Phase 2 things
+                    phaseChanged = true;
+                }
             });
 
             return rageCheckState;
@@ -264,7 +248,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var healthManager = _bossObject.GetComponent<HealthManager>();
             _startingHp = healthManager.hp;
             healthManager.hp = 9999;
-            _phase1Hp = 10; // (int)(_startingHp * 0.5f);
+            _phase1Hp = (int)(_startingHp * _modifiers.PhaseChangeHpGate);
             var phaseTransitionGate = healthManager.hp - _phase1Hp;
             CorruptedDreamsPlandoMod.Instance.Log($"Setting up phase change, will trigger at {phaseTransitionGate} hp");
 
@@ -366,29 +350,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             });
             var shotState = fsm.GetState("Shot");
 
-            //shotState.InsertCustomAction(() => {
-            //    var spawnObject = GameObject.Find("Dream Mage Lord/Fire Effect");
-            //    var tar = spawnObject.transform;
-            //    if (shotCount == 0)
-            //    {
-            //        tar.SetPositionX(tar.GetPositionX() - 1f);
-            //        tar.SetPositionY(tar.GetPositionY() - 0.5f);
-            //    } else
-            //    {
-            //        tar.SetPositionX(tar.GetPositionX() + 0.5f);
-            //        tar.SetPositionY(tar.GetPositionY() + (0.25f * (shotCount > (maxShotCount / 2) ? -1 : 1)));
-            //    }
-
-            //    //var projectile = fsm.GetVariable<FsmGameObject>("Projectile");
-            //    //// (-1, -0.5), (-0.5, -0.25), (0, 0), (+0.5, -0.25), (+1, -0.5)
-            //    //var tar = projectile.Value.transform;
-            //    //tar.SetPositionX(tar.GetPositionX() +  (maxShotCount - shotCount) / 5);
-            //    //if (shotCount == 0 || shotCount == maxShotCount)
-            //    //{
-            //    //    tar.SetPositionY(tar.GetPositionY() - 0.5f);
-            //    //}
-            //}, 0);
-
             shotState.AddTransition("REPEAT SHOT", "Shot Antic");
 
             shotState.AddCustomAction(() =>
@@ -411,17 +372,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static void ModifyAttackPatternsPhase2(PlayMakerFSM fsm)
         {
-
-            // TODO:
-            // Fix shriek on dive, the wait inside the abyss shriek makes it be very slow.
-            //   If the timing works, one of the attacks can just spawn a shriek on the player.                
-            // Probably hijack all the way back from TeleQuake because otherwise its a bit fucked
-            // Remove fake out dives
-            // Increase dive counter to be between 5 to 10 pairs before shooting
-            // make the dives faster, but only inside pairs. the time between pairs is great.
-            // increase phase 2 hp probably, and make invuln during fireball phase
-            // make fireballs during fireball phase spawn faster
-
             var go = fsm.gameObject;
 
             Utils.SpeedupAnimation(fsm, "Quake Antic", _modifiers.QuakeAntic);
@@ -489,46 +439,18 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             settingSpeed.x = qsX;
             settingSpeed.y = qsY;
 
-            //var damageHero = (SetDamageHeroAmount)(quakeLand.Actions[4]);
-            //damageHero.damageDealt = 1;
-
-            // Design:
-            // Identify the parameters we need to set and when to set them (spawn point, speed, rotation, end point, etc) (done)
-            // Have a complete dive flow that is managed by these 4 parameters (done)
-            // Have the setup change these parameters based on the direction (done)
-            // Only for up direction - spawn shriek
-            // After diving once increment the counter so we know if this is the first or second dive in a sequence
-            // Need rebound
-            // Reset rotation before fireball attack
-            // Make dive faster
-
-            //var quakeAnticState = fsm.GetState("Quake Antic");
-            //var movement = quakeAnticState.GetFirstActionOfType<iTweenMoveBy>();
-            //if (movement != null)
-            //{
-            //    movement.time.Value = movement.time.Value / _modifiers.QuakeAntic;
-            //}
-
-            // We re-make the flow, so that instead of down first, we setup some parameters, and then fire in the appropriate position.
-
             fsm.RemoveTransition("Shift?", "FINISHED");
             reactivate.RemoveTransition("FINISHED");
-            //fsm.RemoveTransition("Tele Quake 2", "FINISHED");
 
             shift.AddTransition("FINISHED", quakeSelDir.Name);
-            //teleQuake.AddTransition("FINISHED", quakeSelDir.Name);
-            //teleQuake2.AddTransition("FINISHED", quakeSelDir.Name);
 
             quakeSelDir.AddTransition("DO QUAKE", quakeSetup.Name);
-
-            // reactivate.AddTransition("FINISHED", "Tele Quake");
 
             fsm.RemoveTransition("Quake Land", "FINISHED");
 
             quakeSetup.AddTransition("FINISHED", teleportQ.Name);
 
             quakeLand.AddTransition("FINISHED", quakeShriek.Name);
-            //quakeLand.AddTransition("DONT SHRIEK", quakeSelDir.Name);
             quakeShriek.AddTransition("FINISHED", reactivate.Name);
             quakeShriek.AddTransition("DID REBOUND", postReboundDelay.Name);
             quakeShriek.AddTransition("DID SHRIEK", shriekState.Name);
@@ -536,7 +458,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             postReboundDelay.AddTransition("FINISHED", shoot.Name);
             reactivate.AddTransition("FINISHED", quakeSelDir.Name);
 
-            // TODO make json
             Utils.ChangeWaitFloat(fsm, "Quake Land", 13, _modifiers.QuakeLandWait);
 
             go.transform.SetScaleX(1.1f);
@@ -549,14 +470,12 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     CorruptedDreamsPlandoMod.Instance.Log($"shriek");
                     counter = 0;
                     fsm.SendEvent("DID SHRIEK");
-                    //fsm.SendEvent("DID REBOUND");
                     go.transform.SetRotationZ(0);
                 } else
                 {
                     CorruptedDreamsPlandoMod.Instance.Log($"no shriek");
                     if (counter == 2)
                     {
-                        //CorruptedDreamsPlandoMod.Instance.Log($"Did Rebound");
                         counter = 0;
                         fsm.SendEvent("DID REBOUND");
                         go.transform.SetRotationZ(0);
@@ -564,14 +483,12 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 }
             });
 
-            // TODO make json
             postReboundDelay.AddAction(new Wait() { time = _modifiers.PostReboundDelay, finishEvent = new("FINISHED") });
 
             AbyssShriekSpawner.Instance.AddShriekAtEndOfFSM(shriekState, 2, new Vector3(0, 2, 0), true);
 
             quakeSelDir.AddCustomAction(() =>
             {
-                //CorruptedDreamsPlandoMod.Instance.Log($"Inside Quake Select Direction {diveDirection} {counter}");
                 if (counter == 1)
                 {
                     switch (diveDirection)

@@ -3,6 +3,7 @@ using HutongGames.PlayMaker.Actions;
 using ItemChanger.FsmStateActions;
 using Satchel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
@@ -12,6 +13,9 @@ using UObject = UnityEngine.Object;
 
 namespace CorruptedDreamsPlando.FsmEditTemplates
 {
+
+    internal class DDarkComponent : MonoBehaviour
+    {}
 
     public class DescendingDarkSpawner
     {
@@ -100,7 +104,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             go.layer = LayerMask.NameToLayer("Enemies");
         }
 
-        public void AddDDarkAtEndOfFSM(FsmState fsm, int damageToDeal)
+        public void AddDDarkAtEndOfFSM(FsmState fsm, int damageToDeal, Vector3 spawnOffset)
         {
             GameObject slam = GameObject.Instantiate(DDarkSlam);
             GameObject pillar = GameObject.Instantiate(DDarkPillar);
@@ -131,11 +135,11 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             var goTransform = go.transform;
 
             slam.transform.SetParent(goTransform);
-            slam.transform.position = goTransform.position + new Vector3(0, 2, 0);
+            slam.transform.position = goTransform.position + new Vector3(0, 2, 0) + spawnOffset;
             pillar.transform.SetParent(goTransform);
-            pillar.transform.position = goTransform.position;
+            pillar.transform.position = goTransform.position + spawnOffset;
             mega.transform.SetParent(goTransform);
-            mega.transform.position = goTransform.position + new Vector3(0, 6, 0);
+            mega.transform.position = goTransform.position + new Vector3(0, 6, 0) + spawnOffset;
 
             GameObject[] gos = { slam, pillar, mega };
 
@@ -182,6 +186,72 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             Satchel.FsmUtil.AddAction(fsm, activateMega);
             //Satchel.FsmUtil.AddAction(fsm, new Wait() { time = 0.75f });
             Satchel.FsmUtil.AddAction(fsm, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
+        }
+
+        public IEnumerator ActivateDDarkForObjectOnCondition(GameObject go, int damageToDeal, Vector3 spawnOffset, Func<GameObject, bool> condition)
+        {
+            // TODO Add audio
+
+
+            // Setting up the DDark objects
+            // TODO Extract to other method and share code with FSM
+            GameObject slam = GameObject.Instantiate(DDarkSlam);
+            GameObject pillar = GameObject.Instantiate(DDarkPillar);
+            GameObject mega = GameObject.Instantiate(DDarkMega);
+
+            var goTransform = go.transform;
+
+            slam.transform.SetParent(goTransform);
+            slam.transform.position = goTransform.position + new Vector3(0, 2, 0) + spawnOffset;
+            pillar.transform.SetParent(goTransform);
+            pillar.transform.position = goTransform.position + spawnOffset;
+            mega.transform.SetParent(goTransform);
+            mega.transform.position = goTransform.position + new Vector3(0, 6, 0) + spawnOffset;
+            var hpManager = go.GetComponent<HealthManager>();
+
+            GameObject[] gos = { slam, pillar, mega };
+
+
+            foreach (var part in gos)
+            {
+                List<GameObject> children = new List<GameObject>();
+                part.FindAllChildren(children);
+                foreach (var c in children)
+                {
+                    c.layer = LayerMask.NameToLayer("Enemy Attack");
+                    c.RemoveComponent<DamageEnemies>();
+                    var damageHero = c.AddComponent<DamageHero>();
+                    damageHero.damageDealt = damageToDeal;
+                }
+            }
+
+            while (true)
+            {
+                if (condition(go))
+                {
+                    if (hpManager != null)
+                    {
+                        hpManager.IsInvincible = true;
+                        hpManager.InvincibleFromDirection = 0;
+                    }
+
+                    slam.SetActive(true);
+                    yield return new WaitForSeconds(0.2f);
+                    pillar.SetActive(true);
+                    yield return new WaitForSeconds(0.1f);
+                    mega.SetActive(true);
+                    yield return new WaitForSeconds(0.1f);
+
+                    if (hpManager != null)
+                    {
+                        hpManager.IsInvincible = false;
+                        hpManager.InvincibleFromDirection = 0;
+                    }
+
+                }
+
+                yield return new WaitForSeconds(0.05f);
+            }
         }
     }
 }

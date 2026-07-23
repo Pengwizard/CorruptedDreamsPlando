@@ -116,7 +116,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var healthManager = _bossObject.GetComponent<HealthManager>();
             _startingHp = healthManager.hp;
             healthManager.hp = 9999;
-            _phase1Hp = (int)(_startingHp * 0.5f);
+            _phase1Hp = (int)(_startingHp * _modifiers.PhaseChangeHpGate);
             var phaseTransitionGate = healthManager.hp - _phase1Hp;
             CorruptedDreamsPlandoMod.Instance.Log($"Will phase change after {_phase1Hp} damage and will have {_startingHp} * {_modifiers.PhaseChangeHpMultiplier} hp");
 
@@ -177,7 +177,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static void ModifyVariables(PlayMakerFSM fsm)
         {
-            CorruptedDreamsPlandoMod.Instance.Log("ModifyVariables called");
             Utils.ChangeSetFloatValue(fsm, "Dive In 1", 1, _modifiers.TunnelSpeed);
 
             Utils.ChangeWaitFloat(fsm, "Erupt Antic R", 0, _modifiers.EruptAnticTime);
@@ -194,8 +193,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public static void ModifyAnimationTimes(PlayMakerFSM fsm)
         {
-            CorruptedDreamsPlandoMod.Instance.Log("ModifyAnimationTimes called");
-
             Utils.SpeedupAnimation(fsm, "Idle", _modifiers.DolphinIdle);
             Utils.SpeedupAnimation(fsm, "Dive In 1", _modifiers.DiveIn1);
             Utils.SpeedupAnimation(fsm, "Dive In 2", _modifiers.DiveIn2);
@@ -219,7 +216,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public static void ModifyAttackPatterns(PlayMakerFSM fsm)
         {
-            CorruptedDreamsPlandoMod.Instance.Log("ModifyAttackPatterns called");
             // Erupt causes a shriek
             var eruptOut = fsm.GetState("Erupt Out");
             AbyssShriekSpawner.Instance.AddShriekAtEndOfFSM(eruptOut, 2, new Vector3(0, 6, 0));

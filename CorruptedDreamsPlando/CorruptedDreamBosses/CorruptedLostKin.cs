@@ -287,7 +287,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             }
 
             SetAllNumbers(fsm);
-            DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(downstabLandstate, 2);
+            DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(downstabLandstate, 2, Vector3.zero);
             CreateLoopForDDark(fsm);
         }
 

@@ -15,9 +15,7 @@ using UObject = UnityEngine.Object;
 
 namespace CorruptedDreamsPlando.Modules
 {
-    //  FSM deactivate_ifnot_playerdatabool Floor Opening Animation Abyss_06_Core
-    // Grimm_sleep_shield Grimm_sleep_shield Grimm_Main_Tent
-    // Backroom Mask - Remove (Grimm_Main_Tent)
+    // TODO add shield in GPZ room
 
     public class CorruptedDreamShields // : ItemChanger.Modules.Module
     {
