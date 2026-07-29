@@ -19,8 +19,6 @@ namespace CorruptedDreamsPlando.Modules
 
     public class CorruptedDreamShields // : ItemChanger.Modules.Module
     {
-        public static GameObject ShieldPrefab;
-        public static GameObject GrimmShieldPrefab;
         public static Dictionary<string, string> StandardDreamEnters = new Dictionary<string, string>
         {
             { SceneNames.Crossroads_10_boss_defeated, "Prayer Room/FK Corpse/Dream Enter" },
@@ -29,6 +27,7 @@ namespace CorruptedDreamsPlando.Modules
             { SceneNames.Ruins1_24, "Mage Lord Remains/Dream Enter" },
             { SceneNames.Ruins1_24_boss_defeated, "Mage Lord Remains/Dream Enter" },
             { SceneNames.Waterways_15, "Dung Defender_Sleep/Dream Enter" },
+            { SceneNames.Room_Bretta_Basement, "Dream Enter" },
         };
 
         public void Initialize()
@@ -102,7 +101,7 @@ namespace CorruptedDreamsPlando.Modules
                 // var sleepShield = GameObject.Find("Grimm_sleep_shield");
 
                 dreamEnter.SetActive(CorruptedDreamsPlandoMod.LS.ColletedDetermination);
-                GameObject shield = UObject.Instantiate(GrimmShieldPrefab, new Vector3(167.89f, 12.7f, -0.008f), Quaternion.identity);
+                GameObject shield = UObject.Instantiate(Preloader.Instance.GrimmShield, new Vector3(167.89f, 12.7f, -0.008f), Quaternion.identity);
                 // sleepShield.SetActive(!CorruptedDreamsPlandoMod.LS.ColletedDetermination);
                 shield.GetComponent<DeactivateIfPlayerdataTrue>().enabled = false;
                 shield.SetActive(!CorruptedDreamsPlandoMod.LS.ColletedDetermination);
@@ -111,7 +110,7 @@ namespace CorruptedDreamsPlando.Modules
 
         public static void PlaceShieldIfNeeded(Vector3 position)
         {
-            GameObject shield = UObject.Instantiate(ShieldPrefab, position, Quaternion.identity);
+            GameObject shield = UObject.Instantiate(Preloader.Instance.DreamShield, position, Quaternion.identity);
             shield.name = "Corrupted Dream Shield";
             shield.SetActive(!CorruptedDreamsPlandoMod.LS.ColletedDetermination);
             var shieldDeactivateFsm = shield.LocateMyFSM("deactivate");

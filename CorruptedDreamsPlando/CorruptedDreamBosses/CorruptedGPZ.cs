@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using CorruptedDreamsPlando.FsmEditTemplates;
@@ -286,28 +287,85 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         {
         }
 
+        private static List<GameObject> zoteOptions;
+        private static List<string> zoteOptionsSpawnStates;
+
         private static void ModifyAttackPatterns(PlayMakerFSM fsm)
         {
             // 1. Create Audio Source
             // 2. Make something that sets up DDark outside of the regular spawner
             // 3. Add a check for Y value of owning object
 
-            //var landNormal = fsm.GetState("Land Normal");
-            //var ftThrough = fsm.GetState("FT Throught");
-            //var chargeSlam = fsm.GetState("Charge Slam");
-            //var stomp = fsm.GetState("Stomp");
-            //var stun = fsm.GetState("Stun");
-
+            // Adding DDark when GPZ is touching the ground
             var vec = new Vector3(0, -2, 0);
-
-            //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(landNormal, 2, vec);
-            //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(ftThrough, 2, vec);
-            //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(chargeSlam, 2, vec);
-            //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(stomp, 2, vec);
-            //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(stun, 2, vec);
 
             var ddc = fsm.gameObject.AddComponent<DDarkComponent>();
             ddc.StartCoroutine(DescendingDarkSpawner.Instance.ActivateDDarkForObjectOnCondition(fsm.gameObject, 2, vec, ConditionFunction));
+
+
+            //// Making spit spawn a random zoteling
+            //zoteOptions = new() {
+            //    Preloader.Instance.TallZote,
+            //    Preloader.Instance.FatZote,
+            //    Preloader.Instance.Zoteling,
+            //};
+
+            //zoteOptionsSpawnStates = new() {
+            //    "Activate", // tall
+            //    "Activate", // fat
+            //    "Choice", // zoteling
+            //};
+
+            //var dir = fsm.GetState("Spit Dir");
+            //dir.RemoveTransition("L");
+            //dir.RemoveTransition("R");
+
+            //var spitLeft = fsm.AddState("CD Spit L");
+            //var spitRight = fsm.AddState("CD Spit R");
+
+            //dir.AddTransition("L", spitLeft.Name);
+            //dir.AddTransition("R", spitRight.Name);
+
+            //spitLeft.AddTransition("FINISHED", "Spit Recover");
+            //spitLeft.AddCustomAction(() =>
+            //{
+            //    var randomChoice = UnityEngine.Random.Range(0, 3);
+            //    CorruptedDreamsPlandoMod.Instance.Log($"Spitting left a {randomChoice}");
+            //    var newZoteling = GameObject.Instantiate(zoteOptions[randomChoice]);
+            //    newZoteling.tag = "Boss";
+
+            //    var spitPoint = fsm.gameObject.Find("Spit Point");
+            //    var getPos = spitPoint.transform.position;
+
+            //    newZoteling.transform.SetPosition3D(getPos.x, getPos.y, getPos.z);
+
+            //    newZoteling.GetComponent<Rigidbody2D>().velocity = new Vector2(UnityEngine.Random.Range(-20f, -5f), UnityEngine.Random.Range(20f, 30f));
+
+            //    newZoteling.LocateMyFSM("Control").SetState(zoteOptionsSpawnStates[randomChoice]);
+
+            //    CorruptedDreamsPlandoMod.Instance.Log($"Done spit");
+            //});
+
+
+            //spitRight.AddTransition("FINISHED", "Spit Recover");
+            //spitRight.AddCustomAction(() =>
+            //{
+            //    var randomChoice = UnityEngine.Random.Range(0, 3);
+            //    CorruptedDreamsPlandoMod.Instance.Log($"Spitting right a {randomChoice}");
+            //    var newZoteling = GameObject.Instantiate(zoteOptions[randomChoice]);
+            //    newZoteling.SetActive(true);
+            //    newZoteling.tag = "Boss";
+
+            //    var spitPoint = fsm.gameObject.Find("Spit Point");
+            //    var getPos = spitPoint.transform.position;
+
+            //    newZoteling.transform.SetPosition3D(getPos.x, getPos.y, getPos.z);
+
+            //    newZoteling.GetComponent<Rigidbody2D>().velocity = new Vector2(UnityEngine.Random.Range(5f, 20f), UnityEngine.Random.Range(20f, 30f));
+
+            //    newZoteling.LocateMyFSM("Control").SetState(zoteOptionsSpawnStates[randomChoice]);
+            //    CorruptedDreamsPlandoMod.Instance.Log($"Done spit");
+            //});
         }
 
         public static bool leftGround = false;

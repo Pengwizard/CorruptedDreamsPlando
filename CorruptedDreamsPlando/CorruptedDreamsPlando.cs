@@ -46,20 +46,7 @@ namespace CorruptedDreamsPlando
             // BirthplaceAccess.InitializeHooks();
         }
 
-        public override List<(string, string)> GetPreloadNames()
-        {
-            return new List<(string, string)> {
-                ("Abyss_05", "Dusk Knight/Shield"),
-                ("Crossroads_10_boss_defeated", "Prayer Room/FK Corpse/Dream Enter"),
-                ("Fungus3_23", "Cloth Corpse"),
-                ("Dream_01_False_Knight", "Dream Entry"),
-                (SceneNames.Abyss_19, "IK Remains/Dream Enter"),
-                (SceneNames.Grimm_Main_Tent, "Grimm_sleep_shield"),
-                (SceneNames.Fungus3_40, "Dream Gate"),
-                (SceneNames.Dream_Final_Boss, "Boss Control/white_solid"),
-                (SceneNames.Dream_Final_Boss, "Boss Control/Boss Title")
-            };
-        }
+        public override List<(string, string)> GetPreloadNames() => Preloader.Instance.GetPreloadNames();
 
         private static void OnSetGameMap(GameObject goMap)
         {
@@ -82,9 +69,10 @@ namespace CorruptedDreamsPlando
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
             Log("Initializing");
+            Log($"{Preloader.Instance.GetPreloadNames()}");
 
-            // TODO switch over to purenail preloader probably.
-            FullScreenTitleDrop.InitializePrefabs(preloadedObjects);
+            Preloader.Instance.Initialize(preloadedObjects);
+            FullScreenTitleDrop.InitializePrefabs();
             Grayscaler.Initialize();
 
             // Initialize stuff
@@ -96,16 +84,13 @@ namespace CorruptedDreamsPlando
             MapAlterations.DungDoorAdder.AddDungDoor();
             Rando.RandoInterop.Hook();
 
-            CorruptedDreamShields.ShieldPrefab = preloadedObjects[SceneNames.Abyss_05]["Dusk Knight/Shield"];
-            CorruptedDreamShields.GrimmShieldPrefab = preloadedObjects[SceneNames.Grimm_Main_Tent]["Grimm_sleep_shield"];
+            //TraitorLordDream.DreamEnterPrefab = preloadedObjects[SceneNames.Crossroads_10_boss_defeated]["Prayer Room/FK Corpse/Dream Enter"];
+            //TraitorLordDream.DreamEntry = preloadedObjects[SceneNames.Dream_01_False_Knight]["Dream Entry"];
+            //TraitorLordDream.ClothCorpsePrefab = preloadedObjects[SceneNames.Fungus3_23]["Cloth Corpse"];
+            //TraitorLordDream.DreamArenaBorder = preloadedObjects[SceneNames.Fungus3_40]["Dream Gate"];
 
-            TraitorLordDream.DreamEnterPrefab = preloadedObjects[SceneNames.Crossroads_10_boss_defeated]["Prayer Room/FK Corpse/Dream Enter"];
-            TraitorLordDream.DreamEntry = preloadedObjects[SceneNames.Dream_01_False_Knight]["Dream Entry"];
-            TraitorLordDream.ClothCorpsePrefab = preloadedObjects[SceneNames.Fungus3_23]["Cloth Corpse"];
-            TraitorLordDream.DreamArenaBorder = preloadedObjects[SceneNames.Fungus3_40]["Dream Gate"];
-
-            CorruptedLostKin.WhiteSolidPrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/white_solid"];
-            CorruptedLostKin.BossTitlePrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/Boss Title"];
+            //CorruptedLostKin.WhiteSolidPrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/white_solid"];
+            //CorruptedLostKin.BossTitlePrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/Boss Title"];
 
 
 

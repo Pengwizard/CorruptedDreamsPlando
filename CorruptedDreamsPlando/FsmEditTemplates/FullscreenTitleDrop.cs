@@ -18,10 +18,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         public static GameObject WhiteSolidPrefab;
         public static GameObject BossTitlePrefab;
 
-        public static void InitializePrefabs(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
+        public static void InitializePrefabs()
         {
-            WhiteSolidPrefab = preloadedObjects["Dream_Final_Boss"]["Boss Control/white_solid"];
-            BossTitlePrefab = preloadedObjects["Dream_Final_Boss"]["Boss Control/Boss Title"];
+            WhiteSolidPrefab = Preloader.Instance.WhiteSolidPrefab;
+            BossTitlePrefab = Preloader.Instance.BossTitlePrefab;
         }
 
         public static void SetupTitleUp(
@@ -50,7 +50,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 Satchel.FsmUtil.AddTransition(flashDown, "FINISHED", fsmStateAfterTitle);
             }
 
-            GameObject whiteFader = UObject.Instantiate(WhiteSolidPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject whiteFader = UObject.Instantiate(Preloader.Instance.WhiteSolidPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             var whiteFaderSpriteRenderer = whiteFader.GetComponent<SpriteRenderer>();
             whiteFaderSpriteRenderer.color = bgColor;
             whiteFader.transform.position = new Vector3(30, 30, -1);
@@ -59,7 +59,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             whiteFader.transform.SetScaleX(whiteFader.transform.GetScaleX() * 0.001f);
             whiteFader.transform.SetScaleY(whiteFader.transform.GetScaleY() * 0.001f);
 
-            GameObject bossTitle = UObject.Instantiate(BossTitlePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject bossTitle = UObject.Instantiate(Preloader.Instance.BossTitlePrefab, new Vector3(0, 0, 0), Quaternion.identity);
             bossTitle.SetActive(true);
             //bossTitle.SetActive(false);
             var bossTitleTMP = bossTitle.GetComponent<TextMeshPro>();

@@ -11,3 +11,4 @@ Satchel
 KorzUtils
 MapChanger
 SpellStaller
+PurenailCore
