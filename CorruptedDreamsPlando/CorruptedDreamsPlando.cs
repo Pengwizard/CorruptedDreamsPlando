@@ -75,12 +75,13 @@ namespace CorruptedDreamsPlando
             FullScreenTitleDrop.InitializePrefabs();
             Grayscaler.Initialize();
 
-            // Initialize stuff
+            // Initialize Spell stuff
             DescendingDarkSpawner.Initialize();
             AbyssShriekSpawner.Initialize();
             FireballSpawner.Initialize();
             DreamNailHook.Initialize();
 
+            // Rando stuff
             MapAlterations.DungDoorAdder.AddDungDoor();
             Rando.RandoInterop.Hook();
 
@@ -93,14 +94,18 @@ namespace CorruptedDreamsPlando
             //CorruptedLostKin.BossTitlePrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/Boss Title"];
 
 
+            // Map Alterations
+
+            FuckRightSideShrogo.Initialize();
+            LoopTransitions.Initialize();
+            LurienElevatorOutOfService.Initialize();
+            EnemyDisabler.Initialize();
+            VerticalClimbs.Initialize();
 
             RandoController.OnExportCompleted += AddModules;
             //TraitorLordDream.Initialize();
-            LoopTransitions.Initialize();
             //SoulRefiller.Initialize();
-            FuckRightSideShrogo.Initialize();
             InstantSalubraSoulRefill.Initialize();
-            LurienElevatorOutOfService.Initialize();
             Shadeless.Initialize();
             DistruptedSpells.Initialize();
 

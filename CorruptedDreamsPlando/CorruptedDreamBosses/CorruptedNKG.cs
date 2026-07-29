@@ -48,6 +48,15 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
     public class CorruptedNKG
     {
+        // TODO:
+        // Probably do initial spawn animation? either that or add *some* effect to grimm spawning
+        // Make sure audio works
+        // Replace balloon attack
+        // Replace pillars attack
+        // Replace Bats attack
+        // Replace with custom gray sprite sheet
+        // Make everything the standard 1.5x faster
+
         private static readonly FsmID controlFSM = new("Nightmare Grimm Boss", "Control");
 
         private static bool phaseChanged;
@@ -89,6 +98,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static void SetupPhaseChangeAnimationSequence(PlayMakerFSM fsm, string stateAfterRoar)
         {
+
             var grimmControl = GameObject.Find("Grimm Control");
             var grimmControlFsm = grimmControl.LocateMyFSM("Control");
 
