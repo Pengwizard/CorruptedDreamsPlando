@@ -110,6 +110,7 @@ namespace CorruptedDreamsPlando
             CorruptedWhiteDefender.Initialize();
             CorruptedSoulTyrant.Initialize();
             CorruptedGPZ.Initialize();
+            CorruptedNKG.Initialize();
 
             MapChanger.Events.OnEnterGame += OnEnterGame;
 

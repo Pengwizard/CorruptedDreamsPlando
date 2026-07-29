@@ -89,7 +89,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static void SetupPhaseChange(PlayMakerFSM fsm)
         {
-            CorruptedDreamsPlandoMod.Instance.Log("Changing ST phase 1");
+            CorruptedDreamsPlandoMod.Instance.Log("Changing GPZ");
             phaseChanged = false;
 
             CorruptedDreamsPlandoMod.Instance.Log("Unpacking Modifiers");
