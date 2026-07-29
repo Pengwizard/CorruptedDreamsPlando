@@ -1,9 +1,10 @@
-﻿using HutongGames.PlayMaker.Actions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using HutongGames.PlayMaker.Actions;
 using UnityEngine;
 
 namespace CorruptedDreamsPlando.FsmEditTemplates
@@ -94,6 +95,17 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             {
                 (rFloat as RandomFloat).min = upperBound;
                 (rFloat as RandomFloat).max = lowerBound;
+            }
+        }
+
+        public static void ChangeWaitRandom(PlayMakerFSM fsm, string stateName, int actionIndex, float upperBound, float lowerBound)
+        {
+            var setCounterState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
+            var rFloat = setCounterState.Actions[actionIndex];
+            if (rFloat is WaitRandom)
+            {
+                (rFloat as WaitRandom).timeMin = upperBound;
+                (rFloat as WaitRandom).timeMax = lowerBound;
             }
         }
     }

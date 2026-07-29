@@ -1,22 +1,24 @@
-﻿using CorruptedDreamsPlando.FsmEditTemplates;
-using HutongGames.PlayMaker;
-using HutongGames.PlayMaker.Actions;
-using ItemChanger;
-using ItemChanger.Extensions;
-using ItemChanger.FsmStateActions;
-using Newtonsoft.Json;
-using Satchel;
-using SFCore.Utils;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using TMPro;
+using System.Runtime.InteropServices.WindowsRuntime;
+using CorruptedDreamsPlando.FsmEditTemplates;
+using CorruptedDreamsPlando.ShaderThings;
+using HutongGames.PlayMaker;
+using HutongGames.PlayMaker.Actions;
+using IL;
+using ItemChanger;
+using ItemChanger.Internal;
+using Newtonsoft.Json;
+using Satchel;
+using Satchel.Futils;
 using UnityEngine;
-using UObject = UnityEngine.Object;
+using static SceneLoad;
 
 namespace CorruptedDreamsPlando.CorruptedDreamBosses
 {
-    public class AnimationModifiers
+    public class AnimationModifiersLK
     {
         // Float modifiers
         public float DashSpeed;
@@ -61,7 +63,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public float DashAntic2Wait;
 
         // Numbers for Phase Change bit
-        public float RoadWaitTime;
+        public float RoarWaitTime;
         public float WhiteSolidUpTime;
         public float WhiteSolidUpDelay;
         public float TitleFadeUpDelay;
@@ -70,8 +72,10 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public float PhaseChangeHpMultiplier;
 
 
-        public static AnimationModifiers FromJsonFile(string path)
+        public static AnimationModifiersLK FromJsonFile()
         {
+            // TODO make generic and be able to read from resource
+            string path = "";
             if (path == "")
             {
                 path = "C:\\clean\\hkMods\\CorruptedDreamsPlando\\CorruptedDreamsPlando\\Resources\\bossVariables\\corruptedLostKinModifiers.json";
@@ -80,7 +84,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             using (StreamReader r = new StreamReader(path))
             {
                 string json = r.ReadToEnd();
-                AnimationModifiers items = JsonConvert.DeserializeObject<AnimationModifiers>(json);
+                AnimationModifiersLK items = JsonConvert.DeserializeObject<AnimationModifiersLK>(json);
                 return items;
             }
         }
@@ -90,10 +94,13 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
     {
         private static readonly FsmID lostKinControl = new("Lost Kin", "IK Control");
 
-        private static GameObject _lostKinObject;
+        private static GameObject _bossObject;
         private static int _startingHp = 0;
+        private static int _phase1Hp;
         private static FsmObject _ddarkAudio = null;
         private static bool phaseChanged = false;
+
+        private static AnimationModifiersLK _modifiers;
 
 
         public static GameObject BossTitlePrefab;
@@ -111,74 +118,15 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             Events.RemoveFsmEdit(lostKinControl, SuperBossLostKin);
         }
 
-        private static void MakeInvuln()
-        {
-            _lostKinObject.layer = LayerMask.NameToLayer("Enemy Attack");
-        }
-
-        private static void MakeVuln()
-        {
-            _lostKinObject.layer = LayerMask.NameToLayer("Enemies");
-        }
-
         private static void MultiplyFsmFloat(FsmFloat f, float mul)
         {
             f.Value = f.Value * mul;
         }
 
-        private static void SpeedupAnimation(PlayMakerFSM fsm, string animationName, AnimationAccelerator accel, float animationSpeed, int index=-1)
-        {
-            SFCore.Utils.FsmUtil.GetState(fsm, animationName).AccelerateAnimation(accel, animationSpeed, index);
-        }
-
-        private static void ChangeRandomFloat(PlayMakerFSM fsm, string stateName, int actionIndex, float upperBound, float lowerBound)
-        {
-            var setCounterState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
-            var rFloat = setCounterState.Actions[actionIndex];
-            if (rFloat is RandomFloat)
-            {
-                (rFloat as RandomFloat).min = upperBound;
-                (rFloat as RandomFloat).max = lowerBound;
-            }
-        }
-
-        private static void ChangeWaitRandom(PlayMakerFSM fsm, string stateName, int actionIndex, float upperBound, float lowerBound)
-        {
-            var setCounterState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
-            var rFloat = setCounterState.Actions[actionIndex];
-            if (rFloat is WaitRandom)
-            {
-                (rFloat as WaitRandom).timeMin = upperBound;
-                (rFloat as WaitRandom).timeMax = lowerBound;
-            }
-        }
-
-        private static void ChangeSetVelocity2d(PlayMakerFSM fsm, string stateName, int actionIndex, float x, float y)
-        {
-            var setVeloState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
-            var setVeloAction = setVeloState.Actions[actionIndex];
-            if (setVeloAction is SetVelocity2d)
-            {
-                (setVeloAction as SetVelocity2d).x = x;
-                (setVeloAction as SetVelocity2d).y = y;
-            }
-        }
-
-
-        private static void ChangeWaitFloat(PlayMakerFSM fsm, string stateName, int actionIndex, float newWaitTime)
-        {
-            var waitState = SFCore.Utils.FsmUtil.GetState(fsm, stateName);
-            var waitAction = waitState.Actions[actionIndex];
-            if (waitAction is Wait)
-            {
-                (waitAction as Wait).time = newWaitTime;
-            }
-        }
-
         private static void CreateLoopForDDark(PlayMakerFSM fsm)
         {
             FsmState dStabRecover = SFCore.Utils.FsmUtil.GetState(fsm, "Dstab Recover");
-            ChangeWaitFloat(fsm, "Dstab Recover", 0, 0.1f);
+            Utils.ChangeWaitFloat(fsm, "Dstab Recover", 0, 0.1f);
 
             FsmState dStabLoop = SFCore.Utils.FsmUtil.AddState(fsm, "Dstab Loop");
             FsmState dStabPause = SFCore.Utils.FsmUtil.AddState(fsm, "Dstab Pause");
@@ -193,87 +141,96 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             SFCore.Utils.FsmUtil.AddTransition(dStabPause, "FINISHED", "Set Counter");
 
-            var ddarkLoops = fsm.AddFsmInt("DDark Loops", 0);
-            Satchel.FsmUtil.AddAction(dStabLoop, new Lambda(() => {
+            fsm.AddVariable<FsmInt>("DDark Loops");
+            var ddarkLoops = fsm.GetVariable<FsmInt>("DDark Loops");
+            ddarkLoops = 0;
+            dStabLoop.AddCustomAction(() =>
+            {
                 FsmInt loops = fsm.FsmVariables.GetFsmInt("DDark Loops");
                 loops.Value = loops.Value + 1;
                 fsm.SendEvent(loops.Value > 3 ? "DONTREPEAT" : "DOREPEAT");
-            }));
+            });
 
-            Satchel.FsmUtil.AddAction(dStabPause, new Wait() {time=0.35f});
-            Satchel.FsmUtil.AddAction(dStabPause, new Lambda(() => {
+            //Satchel.FsmUtil.AddAction(dStabLoop, new Lambda(() => {
+            //    FsmInt loops = fsm.FsmVariables.GetFsmInt("DDark Loops");
+            //    loops.Value = loops.Value + 1;
+            //    fsm.SendEvent(loops.Value > 3 ? "DONTREPEAT" : "DOREPEAT");
+            //}));
+
+            Satchel.FsmUtil.AddAction(dStabPause, new Wait() { time = 0.35f });
+
+            dStabLoop.AddCustomAction(() =>
+            {
                 FsmInt loops = fsm.FsmVariables.GetFsmInt("DDark Loops");
                 loops.Value = 0;
-            }));
+            });
+
+            //Satchel.FsmUtil.AddAction(dStabPause, new Lambda(() => {
+            //    FsmInt loops = fsm.FsmVariables.GetFsmInt("DDark Loops");
+            //    loops.Value = 0;
+            //}));
         }
 
         private static void SetAllNumbers(PlayMakerFSM fsm)
         {
-            AnimationModifiers am = AnimationModifiers.FromJsonFile("");
+            var am = _modifiers;
 
-            var accel = fsm.gameObject.GetOrAddComponent<AnimationAccelerator>();
+            MultiplyFsmFloat(fsm.GetVariable<FsmFloat>("Dash Speed"), am.DashSpeed);
+            MultiplyFsmFloat(fsm.GetVariable<FsmFloat>("Dash Reverse"), am.DashReverse);
+            MultiplyFsmFloat(fsm.GetVariable<FsmFloat>("Gravity"), am.Gravity);
 
-            List<string> fsmFloatNames = new List<string>(){"WalkSpeed", "Evade Speed Crt"};
+            Utils.SpeedupAnimation(fsm, "Evade Antic", am.EvadeAntic);
+            Utils.SpeedupAnimation(fsm, "Evade Dash", am.Evade);
+            Utils.SpeedupAnimation(fsm, "Evade Recover", am.EvadeRecover);
 
+            Utils.SpeedupAnimation(fsm, "Ohead Antic", am.OheadAntic);
+            Utils.ChangeWaitFloat(fsm, "Ohead Antic", 2, am.OheadAnticWait);
 
-            MultiplyFsmFloat(fsm.GetFloatVariable("Dash Speed"), am.DashSpeed);
-            MultiplyFsmFloat(fsm.GetFloatVariable("Dash Reverse"), am.DashReverse);
-            MultiplyFsmFloat(fsm.GetFloatVariable("Gravity"), am.Gravity);
+            Utils.SpeedupAnimation(fsm, "Ohead Slashing", am.OheadSlashing);
+            Utils.SpeedupAnimation(fsm, "Ohead Slashing", am.OheadSlashing2, 7);
 
-            SpeedupAnimation(fsm, "Evade Antic", accel, am.EvadeAntic);
-            SpeedupAnimation(fsm, "Evade Dash", accel, am.Evade);
-            SpeedupAnimation(fsm, "Evade Recover", accel, am.EvadeRecover);
+            Utils.SpeedupAnimation(fsm, "Dash Antic", am.DashAntic);
 
-            SpeedupAnimation(fsm, "Ohead Antic", accel, am.OheadAntic);
-            ChangeWaitFloat(fsm, "Ohead Antic", 2, am.OheadAnticWait);
+            Utils.SpeedupAnimation(fsm, "Dash Antic 2", am.DashAntic2);
+            Utils.ChangeWaitFloat(fsm, "Dash Antic 2", 2, am.DashAntic2Wait);
+            Utils.SpeedupAnimation(fsm, "Dash Antic 3", am.DashAntic3);
 
-            SpeedupAnimation(fsm, "Ohead Slashing", accel, am.OheadSlashing);
-            SpeedupAnimation(fsm, "Ohead Slashing", accel, am.OheadSlashing2, 7);
+            Utils.SpeedupAnimation(fsm, "Dash Attack", am.DashAttack);
+            Utils.SpeedupAnimation(fsm, "Dash Attack 2", am.DashAttack2);
+            Utils.SpeedupAnimation(fsm, "Dash Attack 3", am.DashAttack3);
 
-            SpeedupAnimation(fsm, "Dash Antic", accel, am.DashAntic);
+            Utils.SpeedupAnimation(fsm, "Dash Recover", am.DashRecover);
 
-            SpeedupAnimation(fsm, "Dash Antic 2", accel, am.DashAntic2);
-            ChangeWaitFloat(fsm, "Dash Antic 2", 2, am.DashAntic2Wait);
-            SpeedupAnimation(fsm, "Dash Antic 3", accel, am.DashAntic3);
+            Utils.SpeedupAnimation(fsm, "Fall", am.Fall);
 
-            SpeedupAnimation(fsm, "Dash Attack", accel, am.DashAttack);
-            SpeedupAnimation(fsm, "Dash Attack 2", accel, am.DashAttack2);
-            SpeedupAnimation(fsm, "Dash Attack 3", accel, am.DashAttack3);
+            Utils.SpeedupAnimation(fsm, "Jump 2", am.Jump);
+            Utils.SpeedupAnimation(fsm, "Jump Antic 2", am.JumpAntic);
+            Utils.ChangeRandomFloat(fsm, "Jump 2", 3, 60f * am.JumpY, 60f * am.JumpY);
+            Utils.ChangeRandomFloat(fsm, "Aim Jump 2", 0, 25.5f, 27.5f * am.JumpX);
 
-            SpeedupAnimation(fsm, "Dash Recover", accel, am.DashRecover);
-
-            SpeedupAnimation(fsm, "Fall", accel, am.Fall);
-
-            SpeedupAnimation(fsm, "Jump 2", accel, am.Jump);
-            SpeedupAnimation(fsm, "Jump Antic 2", accel, am.JumpAntic);
-            ChangeRandomFloat(fsm, "Jump 2", 3, 60f * am.JumpY, 60f * am.JumpY);
-            ChangeRandomFloat(fsm, "Aim Jump 2", 0, 25.5f, 27.5f * am.JumpX);
-
-            SpeedupAnimation(fsm, "Jump", accel, am.Jump);
-            SpeedupAnimation(fsm, "Jump Antic", accel, am.JumpAntic);
-            ChangeRandomFloat(fsm, "Jump", 3, 60f * am.JumpY, 60f * am.JumpY);
-            ChangeRandomFloat(fsm, "Jump 2", 0, 25.5f, 27.5f * am.JumpX);
+            Utils.SpeedupAnimation(fsm, "Jump", am.Jump);
+            Utils.SpeedupAnimation(fsm, "Jump Antic", am.JumpAntic);
+            Utils.ChangeRandomFloat(fsm, "Jump", 3, 60f * am.JumpY, 60f * am.JumpY);
+            Utils.ChangeRandomFloat(fsm, "Jump 2", 0, 25.5f, 27.5f * am.JumpX);
 
 
-            SpeedupAnimation(fsm, "Dstab Antic", accel, am.DstabAntic);
-            SpeedupAnimation(fsm, "Dstab Fall", accel, am.DstabFall);
-            ChangeSetVelocity2d(fsm, "Dstab Fall", 4, 0, -60f * am.DstabFall);
-            SpeedupAnimation(fsm, "Dstab Land", accel, am.DstabLand);
-            SpeedupAnimation(fsm, "Dstab Recover", accel, am.DstabRecover);
+            Utils.SpeedupAnimation(fsm, "Dstab Antic", am.DstabAntic);
+            Utils.SpeedupAnimation(fsm, "Dstab Fall", am.DstabFall);
+            Utils.ChangeSetVelocity2d(fsm, "Dstab Fall", 4, 0, -60f * am.DstabFall);
+            Utils.SpeedupAnimation(fsm, "Dstab Land", am.DstabLand);
+            Utils.SpeedupAnimation(fsm, "Dstab Recover", am.DstabRecover);
 
-            SpeedupAnimation(fsm, "Idle", accel, am.Walk);
+            Utils.SpeedupAnimation(fsm, "Idle", am.Walk);
 
-            SpeedupAnimation(fsm, "Shaking Start", accel, 2);
+            Utils.SpeedupAnimation(fsm, "Shaking Start", 2);
 
+            Utils.ChangeWaitRandom(fsm, "Shaking Spawn", 1, am.ShakingSpawnWait, am.ShakingSpawnWait);
+            Utils.ChangeRandomFloat(fsm, "Set Counter", 0, am.IdleCounterLower, am.IdleCounterUpper);
 
-            ChangeWaitRandom(fsm, "Shaking Spawn", 1, am.ShakingSpawnWait, am.ShakingSpawnWait);
-            ChangeRandomFloat(fsm, "Set Counter", 0, am.IdleCounterLower, am.IdleCounterUpper);
+            Utils.ChangeRandomFloat(fsm, "Idle", 3, am.WalkSpeedLower, am.WalkSpeedUpper);
 
-
-            ChangeRandomFloat(fsm, "Idle", 3, am.WalkSpeedLower, am.WalkSpeedUpper);
-
-            ChangeWaitFloat(fsm, "Shaking Start", 4, am.ShakingStartWait);
-            ChangeWaitFloat(fsm, "Shake End", 1, am.ShakeEnd);
+            Utils.ChangeWaitFloat(fsm, "Shaking Start", 4, am.ShakingStartWait);
+            Utils.ChangeWaitFloat(fsm, "Shake End", 1, am.ShakeEnd);
 
         }
 
@@ -291,142 +248,118 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             CreateLoopForDDark(fsm);
         }
 
-        private static void SetupTitleUp(PlayMakerFSM fsm, AnimationModifiers am)
+        public static void UnpackModifiers()
         {
-            FsmState flashUp = SFCore.Utils.FsmUtil.AddState(fsm, "Flash Up");
-            FsmState flashDown = SFCore.Utils.FsmUtil.AddState(fsm, "Flash Down");
+            _modifiers = AnimationModifiersLK.FromJsonFile();
+        }
 
-            SFCore.Utils.FsmUtil.AddTransition(flashUp, "FINISHED", "Flash Down");
-            SFCore.Utils.FsmUtil.AddTransition(flashDown, "FINISHED", "Roar End");
+        private static void SetupTitleScream(PlayMakerFSM fsm)
+        {
+            FsmEditTemplates.FullScreenTitleDrop.SetupTitleUp(
+                fsm,
+                "Dark Descendent",
+                "Roar",
+                "Roar End",
+                _modifiers.TitleFadeUpDelay,
+                _modifiers.TitleFadeDownDelay,
+                _modifiers.WhiteSolidUpTime,
+                _modifiers.WhiteSolidUpDelay,
+                UnityEngine.Color.black,
+                UnityEngine.Color.white);
+        }
 
 
-            GameObject whiteFader = UObject.Instantiate(WhiteSolidPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            var whiteFaderSpriteRenderer = whiteFader.GetComponent<SpriteRenderer>();
-            whiteFaderSpriteRenderer.color = Color.black;
-            whiteFader.transform.position = new Vector3(30, 30, 0);
+        public static void AddPhaseChangeStep(
+            PlayMakerFSM fsm,
+            List<string> statesToAddCheck,
+            FsmState rageSetupState)
+        {
+            var healthManager = _bossObject.GetComponent<HealthManager>();
+            _startingHp = healthManager.hp;
+            healthManager.hp = 9999;
+            _phase1Hp = 10; // (int)(_startingHp * _modifiers.PhaseChangeHpGate);
+            var phaseTransitionGate = healthManager.hp - _phase1Hp;
+            CorruptedDreamsPlandoMod.Instance.Log($"Setting up phase change, will trigger at {phaseTransitionGate} hp");
 
-            GameObject bossTitle = UObject.Instantiate(BossTitlePrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            bossTitle.SetActive(true);
-            var bossTitleTMP = bossTitle.GetComponent<TextMeshPro>();
-            bossTitleTMP.color = Color.white;
-            bossTitleTMP.SetText("Dark Descendent");
-            foreach (var g in bossTitle.GetComponentsInChildren<TextMeshPro>())
+            string setupRageTransition = "SETUP RAGE";
+
+            foreach (string stateToHookName in statesToAddCheck)
             {
-                g.color = Color.white;
+                var stateToHookTransition = fsm.GetState(stateToHookName);
+                //stateToHookTransition.RemoveTransition(transitionToHook);
+                //stateToHookTransition.AddTransition(transitionToHook, rageCheckStateName);
+
+                stateToHookTransition.AddTransition(setupRageTransition, rageSetupState.Name);
+                //rageCheckState.AddTransition(defaultTransition, stateIfNotRageName);
+
+                stateToHookTransition.InsertCustomAction(() =>
+                {
+                    var healthManager = _bossObject.GetComponent<HealthManager>();
+                    var currHP = healthManager.hp;
+                    if (currHP < phaseTransitionGate && !phaseChanged)
+                    {
+                        fsm.SendEvent(setupRageTransition);
+                        //phaseChanged = true;
+                    }
+                }, 0);
             }
-
-            whiteFader.SetActive(true);
-            // whiteFader.SetActive(false);
-            whiteFader.GetComponent<SpriteRenderer>().enabled = true;
-            // whiteFader.GetComponent<SpriteRenderer>().enabled = false;
-
-            var faderFSM = whiteFader.LocateMyFSM("FSM");
-            faderFSM.GetFloatVariable("Up Time").Value = am.WhiteSolidUpTime;
-            faderFSM.GetFloatVariable("Up Delay").Value = am.WhiteSolidUpDelay;
-
-            FadeGroupUp slot2FadeGroup = new FadeGroupUp();
-            slot2FadeGroup.target = new FsmOwnerDefault() { GameObject = new FsmGameObject { Value = bossTitle }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
-
-            FadeGroupDown slot4FadeGroup = new FadeGroupDown();
-            slot4FadeGroup.target = new FsmOwnerDefault() { GameObject = new FsmGameObject { Value = bossTitle }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
-            slot4FadeGroup.fast = false;
-
-            Satchel.FsmUtil.AddAction(flashUp, new Lambda(() => {
-                CorruptedDreamsPlandoMod.Instance.Log($"Start flash up");
-            }));
-
-            // Satchel.FsmUtil.AddAction(flashUp, slot0FlashUp);
-            Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = 1f});
-            Satchel.FsmUtil.AddAction(flashUp, new Lambda(() => {
-                whiteFader.LocateMyFSM("FSM").SetState("Init");
-            }));
-
-            Satchel.FsmUtil.AddAction(flashUp, slot2FadeGroup);
-            
-            Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = am.TitleFadeUpDelay });
-
-
-            Satchel.FsmUtil.AddAction(flashDown, slot4FadeGroup);
-            Satchel.FsmUtil.AddAction(flashDown, new Wait() { time = am.TitleFadeDownDelay });
         }
 
-        private static void DoPhaseChange(PlayMakerFSM fsm, AnimationModifiers am)
+        public static void SetupPhaseChange(PlayMakerFSM fsm)
         {
-            //var alreadyPhaseChanged = fsm.GetBoolVariable("Phase Change Triggered");
-            //alreadyPhaseChanged = true;
-            CorruptedDreamsPlandoMod.Instance.Log($"Changing phase for the first time");
-            var healthManager = _lostKinObject.GetComponent<HealthManager>();
-            healthManager.hp = (int)(_startingHp * am.PhaseChangeHpMultiplier);
-        }
-
-        private static void SetupPhaseChange(PlayMakerFSM fsm)
-        {
+            CorruptedDreamsPlandoMod.Instance.Log("Changing ST phase 1");
             phaseChanged = false;
-            AnimationModifiers am = AnimationModifiers.FromJsonFile("");
-            SetupTitleUp(fsm, am);
 
-            FsmState phaseChange = SFCore.Utils.FsmUtil.AddState(fsm, "Phase Change");
+            CorruptedDreamsPlandoMod.Instance.Log("Unpacking Modifiers");
+            UnpackModifiers();
 
-            _lostKinObject = fsm.gameObject;
-            var stagger = _lostKinObject.LocateMyFSM("Stun Control");
+            _bossObject = fsm.gameObject;
+
+            // Adding invincibility during roar stuff.
+            var rageRoarState = fsm.GetState("Roar");
+            Satchel.FsmUtil.AddFirstAction(rageRoarState, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
+
+            var roarEndPhase = fsm.GetState("Roar End");
+            Satchel.FsmUtil.AddAction(roarEndPhase, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
+
+            FsmState rageState = SetupRageSetupState(fsm, "Roar Start");
+            AddPhaseChangeStep(fsm, new (){ "Idle", "Attack Choice", "Damage Response" }, rageState);
+        }
+
+        public static FsmState SetupRageSetupState(
+    PlayMakerFSM fsm,
+    string stateAfterRage)
+        {
+            CorruptedDreamsPlandoMod.Instance.Log("Setup Rage state");
+            var rageCheckState = fsm.AddState("Setup Rage");
+
+            // Disabling staggers entirely for the fight
+            var stagger = _bossObject.LocateMyFSM("Stun Control");
             stagger.enabled = false;
 
-            var damageResponseState = SFCore.Utils.FsmUtil.GetState(fsm, "Damage Response");
-            var healthManager = _lostKinObject.GetComponent<HealthManager>();
-            _startingHp = healthManager.hp;
+            rageCheckState.AddTransition("FINISHED", stateAfterRage);
 
-            // Giving us a larger detection buffer.
-            healthManager.hp = _startingHp + (int)(_startingHp * am.PhaseChangeHpGate);
+            Satchel.FsmUtil.AddAction(rageCheckState, new Tk2dPlayAnimation() { clipName = "Stun" });
+            Satchel.FsmUtil.AddAction(rageCheckState, new Wait() { time = 0.5f });
+            Satchel.FsmUtil.AddAction(rageCheckState, new Tk2dPlayAnimation() { clipName = "Stun Recover" });
 
-
-            fsm.AddFsmBool("Phase Change Triggered", false);
-            SFCore.Utils.FsmUtil.AddTransition(damageResponseState, "TRIGGER_PHASE_CHANGE", "Phase Change");
-            FsmEvent phaseChangeDone = new("PHASE_CHANGE_DONE");
-            SFCore.Utils.FsmUtil.AddTransition(phaseChange, "FINISHED", "Roar Start");
-
-
-            Satchel.FsmUtil.AddFirstAction(damageResponseState, new Lambda(() => {
-                if (phaseChanged == true)
+            rageCheckState.AddCustomAction(() =>
+            {
+                if (!phaseChanged)
                 {
-                    // Nothing to do here...
-                    return;
+                    phaseChanged = true;
+                    var rageRoarState = fsm.GetState("Roar");
+                    rageRoarState.GetFirstActionOfType<Wait>().time = _modifiers.RoarWaitTime;
+
+                    CorruptedDreamsPlandoMod.Instance.Log("Raging");
+                    Grayscaler.TickCamera();
+                    SetupTitleScream(fsm);
+                    SuperBossLostKin(fsm);
+
                 }
+            });
 
-                var healthManager = _lostKinObject.GetComponent<HealthManager>();
-                CorruptedDreamsPlandoMod.Instance.Log($"current hp is {healthManager.hp}, and starting hp is {_startingHp}");
-                if (healthManager.hp < _startingHp)
-                {
-                    fsm.SendEvent("TRIGGER_PHASE_CHANGE");
-                }
-            }));
-
-            Satchel.FsmUtil.AddAction(phaseChange, new Lambda(() => {
-                _lostKinObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-                DoPhaseChange(fsm, am);
-
-                var roarStart = SFCore.Utils.FsmUtil.GetState(fsm, "Roar Start");
-                Satchel.FsmUtil.AddAction(roarStart, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
-
-                var roarState = SFCore.Utils.FsmUtil.GetState(fsm, "Roar");
-                var roarWait = roarState.Actions[5] as Wait;
-                // TODO Add to json
-                roarWait.time = am.RoadWaitTime;
-
-                SFCore.Utils.FsmUtil.RemoveTransition(roarState, "FINISHED");
-                SFCore.Utils.FsmUtil.AddTransition(roarState, "FINISHED", "Flash Up");
-
-            }));
-
-            Satchel.FsmUtil.AddAction(phaseChange, new Tk2dPlayAnimation() { clipName = "Stun" });
-            Satchel.FsmUtil.AddAction(phaseChange, new Wait() { time = 3f});
-            Satchel.FsmUtil.AddAction(phaseChange, new Tk2dPlayAnimation() { clipName = "Stun Recover" });
-
-            Satchel.FsmUtil.AddAction(phaseChange, new Lambda(() => {
-                fsm.SetState("Roar Start");
-                SuperBossLostKin(fsm);
-                stagger.enabled = true;
-                phaseChanged = true;
-            }));
+            return rageCheckState;
         }
     }
 }

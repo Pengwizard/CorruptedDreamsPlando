@@ -34,7 +34,7 @@
 "WalkSpeedUpper": 2,
 "WalkSpeedLower": 3,
 "DashAntic2Wait": 0.2,
-"RoadWaitTime": 1.5,
+"RoarWaitTime": 1.5,
 "TitleFadeUpDelay": 2.5,
 "TitleFadeDownDelay": 0.5,
 "WhiteSolidUpTime": 0.5,
