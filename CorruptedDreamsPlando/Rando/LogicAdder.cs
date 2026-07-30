@@ -62,17 +62,22 @@ namespace CorruptedDreamsPlando.Rando
             // Logic overrides
             // TODO: 
             /*
-                * put willow in logic V
-                * put leg eater in logic X
-                * Put bretta key out of logic (not real with dream refiller?) V
-                * Put paum relic out of logic V
-                * Put qs mask out of logic V
-                * Put KP out of logic (needs 5 casts) V
-                * Put peak out of logic V
-                * qg needs wraiths V
-                * beasts den should be out of logic V
+                * disconnect upper from lower peak
+                * confirm distant village stag
+                * weaver den chest
+                * fix nosk or move to vessel fragment and make guys not pogoable
+                * put something important in great slash
                 * white palace ending needs void caster
                 * dream fights need determination
+                * maybe have ismas player also need shade cloak to make progress? like lock tram pass behind shade cloak. maybe have it be in QG since qg is kind of empty
+                * fix ismas logic
+                * waterways logic via ismas key
+                * move waterways key? maybe?
+                * fix waterways logic entirely
+                * stag nest logic
+                * last checks in palace need to be dependant on Void Caster
+                * fix edge logic
+                * 
              */
 
             // Transition overrides:
