@@ -101,6 +101,7 @@ namespace CorruptedDreamsPlando
             LurienElevatorOutOfService.Initialize();
             EnemyDisabler.Initialize();
             VerticalClimbs.Initialize();
+            UpDirectionSign.Initialize();
             AMoundSoulTotem.Initialize();
 
             RandoController.OnExportCompleted += AddModules;

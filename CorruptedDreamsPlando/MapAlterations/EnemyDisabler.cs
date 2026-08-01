@@ -12,7 +12,9 @@ namespace CorruptedDreamsPlando.MapAlterations
     {
         public static List<string> SceneList = new()
         {
-            "mines_25","mines_23", "mines_34", "mines_20", "mines_13", "fungus1_09"
+            "mines_25","mines_23", "mines_34", "mines_20", "mines_13",
+            "fungus1_09", "fungus1_13",
+            "deepnest_41", "deepnest_45_v02"
         };
 
         public static void Initialize()

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using CorruptedDreamsPlando.CorruptedDreamBosses;
+using CorruptedDreamsPlando.Skills;
 using HutongGames.PlayMaker.Actions;
 using ItemChanger;
 using ItemChanger.Extensions;
@@ -22,7 +24,7 @@ namespace CorruptedDreamsPlando.Modules
 
         public static void ApplyHooks()
         {
-            On.HutongGames.PlayMaker.Actions.Wait.OnEnter += BaldurBlocksVS;
+            On.HutongGames.PlayMaker.Actions.Wait.OnEnter += RoomBasedVSReaction;
 
             SpellStabilizer spellStall = (SpellStabilizer)SpellStaller.SpellStaller.Instance.GetCharmByName(SpellStaller.Charms.SpellStabilizer.charmName);
             SpellStabilizer.ShouldFizzle = () => {
@@ -44,7 +46,7 @@ namespace CorruptedDreamsPlando.Modules
 
         }
 
-        public static void BaldurBlocksVS(On.HutongGames.PlayMaker.Actions.Wait.orig_OnEnter orig, Wait self)
+        public static void RoomBasedVSReaction(On.HutongGames.PlayMaker.Actions.Wait.orig_OnEnter orig, Wait self)
         {
             try
             {
@@ -62,6 +64,12 @@ namespace CorruptedDreamsPlando.Modules
                         baldur.LocateMyFSM("Blocker Control").GetValidState("Closed").RemoveTransition("FAR");
                         baldur.LocateMyFSM("Blocker Control").SetState("Close");
                     }
+
+                    if (GameManager.instance.sceneName == SceneNames.White_Palace_13 && CorruptedDreamsPlandoMod.LS.CollectedVoidCaster)
+                    {
+                        SingleCastSoulOrbSpawner.SpawnSoul(self.Fsm.GameObject.transform);
+                    }
+
                 }
             }
             catch (Exception err)
