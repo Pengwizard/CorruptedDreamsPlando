@@ -31,7 +31,7 @@ namespace CorruptedDreamsPlando.MapAlterations
         {
             if (SceneList.Contains(GameManager.instance.sceneName.ToLower()))
             {
-                enemy.SetActive(false);
+                enemy.GetComponent<HealthManager>().SetIsDead(true);
             }
 
             return isAlreadyDead;

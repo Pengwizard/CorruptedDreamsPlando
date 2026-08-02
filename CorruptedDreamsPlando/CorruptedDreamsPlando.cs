@@ -95,6 +95,7 @@ namespace CorruptedDreamsPlando
 
 
             // Map Alterations
+            // TODO make "map alterations" module
 
             FuckRightSideShrogo.Initialize();
             LoopTransitions.Initialize();
@@ -107,6 +108,7 @@ namespace CorruptedDreamsPlando
             RandoController.OnExportCompleted += AddModules;
             //TraitorLordDream.Initialize();
             //SoulRefiller.Initialize();
+            // todo make "extra gimmicks" module
             InstantSalubraSoulRefill.Initialize();
             Shadeless.Initialize();
             DistruptedSpells.Initialize();

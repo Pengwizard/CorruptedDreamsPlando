@@ -47,6 +47,8 @@ namespace CorruptedDreamsPlando.Rando
         {
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("SHIELD_BREAKER", "CorruptedDreams_Determination"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("VOID_SPELLS", "CorruptedDreams_Void_Caster"));
+            lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("BOSS", "MINIBOSS"));
+            lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("AERIALMINIBOSS", "MINIBOSS"));
 
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("ANY_SPELL_STALL", "Spell_Stabilizer + (SCREAM | FIREBALL)"));
             lmb.DoMacroEdit(new System.Collections.Generic.KeyValuePair<string, string>("NARROW_SPELL_STALL", "Spell_Stabilizer + (SCREAM | FIREBALL>1)"));
@@ -65,29 +67,34 @@ namespace CorruptedDreamsPlando.Rando
             // Logic overrides
             // TODO: 
             /*
-             * Test logic of new vessel fragment places, and of logic chains for wraiths.
-                * increase shade cloak grub price to all grubs?
-                * disconnect upper from lower peak X
-                * confirm distant village stag (fixed for horizontal)
-                * weaver den chest X
-                * white palace ending needs void caster (X)
-                * dream fights need determination (X)
-                * fix ismas logic (X)
-                * waterways logic via ismas key
-                * move waterways key? maybe?
-                * fix waterways logic entirely
-                * stag nest logic (X)
-                * last checks in palace need to be dependant on Void Caster (X)
-                * fix edge logic (X)
-                * marmu grub needs narrow cast
+             * Test logic of new vessel fragment places, and of logic chains for wraiths. (X)
+            * Fix Deepnest disconnection from QG
+            * increase shade cloak grub price to all grubs?
+            * disconnect upper from lower peak X
+            * confirm distant village stag (fixed for horizontal)
+            * weaver den chest X
+            * white palace ending needs void caster (X)
+            * dream fights need determination (X)
+            * fix ismas logic (X)
+            * waterways logic via ismas key (X)
+            * move waterways key? maybe? (X)
+            * fix waterways logic entirely
+            * stag nest logic (X)
+            * last checks in palace need to be dependant on Void Caster (X)
+            * fix edge logic (X)
+            * marmu grub needs narrow cast (X)
+            * archives logic (X)
+            * fix nosk logic (X)
              */
 
             // Transition overrides:
+            lmb.AddLogicDef(new RawLogicDef("Crossroads_35[bot1]", "Crossroads_35[bot1] | (Crossroads_35[right1] + ANY_SPELL_STALL)"));
             lmb.AddLogicDef(new RawLogicDef("Crossroads_04[door_charmshop]",
                 "Crossroads_04[door_charmshop] | Crossroads_04[right1] | (Crossroads_04[door1] | Crossroads_04[door_Mender_House] | (Crossroads_04[left1] | Crossroads_04[top1]) + Defeated_Gruz_Mother) + (FIREBALL | RIGHTCLAW | RIGHTDASH | WINGS | RIGHTSUPERDASH | SPELLAIRSTALL + $CASTSPELL[3,before:AREASOUL] | $SHADESKIP | INFECTED) | Bench-Salubra"));
 
-            lmb.AddLogicDef(new RawLogicDef("Fungus1_28[left1]", "Fungus1_28[left1] | Fungus1_28[left2] + ((NARROW_SPELL_STALL)|(FULL_SPELL_STALL + Dream_Sifter))"));
-            lmb.AddLogicDef(new RawLogicDef("Deepnest_43[bot1]", "(Deepnest_43[bot1] + NARROW_SPELL_STALL)"));
+            lmb.AddLogicDef(new RawLogicDef("Fungus1_28[left1]", "Fungus1_28[left1] | Fungus1_28[left2] + (NARROW_SPELL_STALL)"));
+            lmb.AddLogicDef(new RawLogicDef("Deepnest_43[bot1]", "NONE"));
+            lmb.AddLogicDef(new RawLogicDef("Deepnest_42[top1]", "NONE"));
             lmb.AddLogicDef(new RawLogicDef("Tutorial_01", "(Tutorial_01[right1] + FIVE_CASTS + ANY_SPELL_STALL) | Tutorial_01[top1] | Tutorial_01[top2]"));
             lmb.AddLogicDef(new RawLogicDef("Cliffs_02", "(Cliffs_02[bot1] + NARROW_SPELL_STALL) | (Cliffs_02[door1] | Cliffs_02[left1]) + (ANYCLAW | WINGS | ENEMYPOGOS) | Cliffs_02[left2]"));
             lmb.AddLogicDef(new RawLogicDef("Cliffs_02[left2]", "Cliffs_02[left2] | Cliffs_02 + FIVE_CASTS + ANY_SPELL_STALL"));
@@ -117,6 +124,11 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Whispering_Root-Ancestral_Mound", "Crossroads_ShamanTemple[left1] + (SCREAM | FIREBALL) + DREAMNAIL"));
             lmb.AddLogicDef(new RawLogicDef("Soul_Catcher", "Crossroads_ShamanTemple[left1] + (SCREAM | FIREBALL)"));
             // lmb.AddLogicDef(new RawLogicDef("Whispering_Root-Ancestral_Mound", "Crossroads_ShamanTemple + (SCREAM | FIREBALL)"));
+            lmb.AddLogicDef(new RawLogicDef("Glowing_Womb", "ANY_SPELL_STALL"));
+
+            lmb.AddLogicDef(new RawLogicDef("Charm_Notch-Fog_Canyon", "Fungus3_28[right1] + (EXTRA_SPELL_STALL | (ANY_SPELL_STALL + Dream_Sifter))"));
+            lmb.AddLogicDef(new RawLogicDef("Monomon", "Uumuu_Arena + Defeated_Uumuu + DREAMNAIL + EXTRA_SPELL_STALL + Dream_Sifter"));
+            lmb.AddLogicDef(new RawLogicDef("Rancid_Egg-Blue_Lake", "Crossroads_50[left1] + (EXTRA_SPELL_STALL | (ANY_SPELL_STALL + Dream_Sifter))"));
 
             lmb.AddLogicDef(new RawLogicDef("Wanderer's_Journal-Greenpath_Lower", "Fungus1_11 + NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Wanderer's_Journal-Fungal_Wastes_Thorns_Gauntlet", "Fungus2_04 + NARROW_SPELL_STALL"));
@@ -125,11 +137,18 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Mask_Shard-Queen's_Station", "NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Hallownest_Seal-Queen's_Station", "ANY_SPELL_STALL"));
 
+            lmb.AddLogicDef(new RawLogicDef("Grub-Queen's_Gardens_Marmu", "(Fungus3_48[bot1] | Fungus3_48[right2]) + NARROW_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Grub-Isma's_Grove", "FULL_SPELL_STALL + TRAM_PASS"));
+            lmb.AddLogicDef(new RawLogicDef("Isma's_Tear", "FULL_SPELL_STALL + TRAM_PASS"));
+
+
+            lmb.AddLogicDef(new RawLogicDef("Pale_Ore-Nosk", "FULLDASH + FIVE_CASTS"));
             lmb.AddLogicDef(new RawLogicDef("Grub-Beast's_Den", "NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Soul_Totem-Beast's_Den", "NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Rancid_Egg-Beast's_Den", "NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Herrah", "NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Geo_Chest-Weavers_Den", "Deepnest_45_v02[left1] + ANY_SPELL_STALL + Dream_Sifter"));
+
 
             lmb.AddLogicDef(new RawLogicDef("Grub-Waterways_Requires_Tram",
                 "Waterways_14[bot1] + RIGHTSUPERDASH"));
@@ -140,11 +159,12 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Soul_Tyrant", "SHIELD_BREAKER"));
             lmb.AddLogicDef(new RawLogicDef("Boss_Essence-White_Defender", "SHIELD_BREAKER"));
             lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Grey_Prince_Zote", "SHIELD_BREAKER"));
-            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-NKG", "SHIELD_BREAKER"));
+            //lmb.AddLogicDef(new RawLogicDef("Boss_Essence-NKG", "SHIELD_BREAKER"));
 
 
             // Boss Logic
             lmb.AddLogicDef(new RawLogicDef("Defeated_Dung_Defender", "Waterways_05_Proxy[bot1] + (ANYCLAW | WINGS) + COMBAT[Dung_Defender] + MOREDOORS_DUNG_DOOR_KEY"));
+            lmb.AddLogicDef(new RawLogicDef("Defeated_Enraged_Guardian", "Defeated_Crystal_Guardian"));
         }
     }
 }
