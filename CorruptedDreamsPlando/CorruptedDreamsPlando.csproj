@@ -77,14 +77,29 @@
     <EmbeddedResource Include="Resources\VoidCaster_Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="AccessRandomizer">
+      <HintPath>$(HollowKnightRefs)/Mods/AccessRandomizer/AccessRandomizer.dll</HintPath>
+    </Reference>
+    <Reference Include="AdditionalMaps">
+      <HintPath>$(HollowKnightRefs)/Mods/AdditionalMaps/AdditionalMaps.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(HollowKnightRefs)/Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>$(HollowKnightRefs)/Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
+    <Reference Include="CustomPoolInjector">
+      <HintPath>$(HollowKnightRefs)/Mods/CustomPoolInjector/CustomPoolInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="DebugMod">
+      <HintPath>$(HollowKnightRefs)/Mods/DebugMod/DebugMod.dll</HintPath>
+    </Reference>
     <Reference Include="GalaxyCSharp">
       <HintPath>$(HollowKnightRefs)/GalaxyCSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ICExtraDeployers">
+      <HintPath>$(HollowKnightRefs)/Mods/ICExtraDeployers/ICExtraDeployers.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>$(HollowKnightRefs)/Mods/RandoSettingsManager/ICSharpCode.SharpZipLib.dll</HintPath>
@@ -94,6 +109,9 @@
     </Reference>
     <Reference Include="ItemChangerDataLoader">
       <HintPath>$(HollowKnightRefs)/Mods/ItemChangerDataLoader/ItemChangerDataLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="ItemSync">
+      <HintPath>$(HollowKnightRefs)/Mods/ItemSync/ItemSync.dll</HintPath>
     </Reference>
     <Reference Include="KorzUtils">
       <HintPath>$(HollowKnightRefs)/Mods/KorzUtils/KorzUtils.dll</HintPath>
@@ -137,6 +155,12 @@
     <Reference Include="PurenailCore">
       <HintPath>$(HollowKnightRefs)/Mods/PurenailCore/PurenailCore.dll</HintPath>
     </Reference>
+    <Reference Include="QoL">
+      <HintPath>$(HollowKnightRefs)/Mods/QoL/QoL.dll</HintPath>
+    </Reference>
+    <Reference Include="RandomizableLevers">
+      <HintPath>$(HollowKnightRefs)/Mods/Randomizable Levers/RandomizableLevers.dll</HintPath>
+    </Reference>
     <Reference Include="RandomizerCore">
       <HintPath>$(HollowKnightRefs)/Mods/RandomizerCore/RandomizerCore.dll</HintPath>
     </Reference>
@@ -146,8 +170,14 @@
     <Reference Include="RandomizerMod">
       <HintPath>$(HollowKnightRefs)/Mods/Randomizer 4/RandomizerMod.dll</HintPath>
     </Reference>
+    <Reference Include="RandoPlus">
+      <HintPath>$(HollowKnightRefs)/Mods/RandoPlus/RandoPlus.dll</HintPath>
+    </Reference>
     <Reference Include="RandoSettingsManager">
       <HintPath>$(HollowKnightRefs)/Mods/RandoSettingsManager/RandoSettingsManager.dll</HintPath>
+    </Reference>
+    <Reference Include="RecentItemsDisplay">
+      <HintPath>$(HollowKnightRefs)/Mods/RecentItemsDisplay/RecentItemsDisplay.dll</HintPath>
     </Reference>
     <Reference Include="Satchel">
       <HintPath>$(HollowKnightRefs)/Mods/Satchel/Satchel.dll</HintPath>
@@ -190,6 +220,9 @@
     </Reference>
     <Reference Include="System.Xml.XPath.XDocument">
       <HintPath>$(HollowKnightRefs)/System.Xml.XPath.XDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="TheGloryOfBeingAFoolRandomizer">
+      <HintPath>$(HollowKnightRefs)/Mods/TheGloryOfBeingAFoolRandomizer/TheGloryOfBeingAFoolRandomizer.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
       <HintPath>$(HollowKnightRefs)/Unity.Timeline.dll</HintPath>

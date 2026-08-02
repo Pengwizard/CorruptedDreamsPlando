@@ -12,3 +12,14 @@ KorzUtils
 MapChanger
 SpellStaller
 PurenailCore
+AccessRandomizer
+AdditionalMaps
+CustomPoolInjector
+DebugMod
+ICExtraDeployers
+ItemSync
+QoL
+Randomizable Levers
+RandoPlus
+RecentItemsDisplay
+TheGloryOfBeingAFoolRandomizer

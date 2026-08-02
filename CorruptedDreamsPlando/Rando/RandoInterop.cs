@@ -15,6 +15,7 @@ namespace CorruptedDreamsPlando.Rando
 
         public static void Hook()
         {
+            PlandoMenuPage.Hook();
             RequestModifier.Hook();
             LogicAdder.Hook();
 

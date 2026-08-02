@@ -71,7 +71,7 @@ namespace CorruptedDreamsPlando.Rando
             * Fix Deepnest disconnection from QG
             * increase shade cloak grub price to all grubs?
             * disconnect upper from lower peak X
-            * confirm distant village stag (fixed for horizontal)
+            * confirm distant village stag (fixed with narrow stall)
             * weaver den chest X
             * white palace ending needs void caster (X)
             * dream fights need determination (X)
@@ -138,8 +138,8 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Hallownest_Seal-Queen's_Station", "ANY_SPELL_STALL"));
 
             lmb.AddLogicDef(new RawLogicDef("Grub-Queen's_Gardens_Marmu", "(Fungus3_48[bot1] | Fungus3_48[right2]) + NARROW_SPELL_STALL"));
-            lmb.AddLogicDef(new RawLogicDef("Grub-Isma's_Grove", "FULL_SPELL_STALL + TRAM_PASS"));
-            lmb.AddLogicDef(new RawLogicDef("Isma's_Tear", "FULL_SPELL_STALL + TRAM_PASS"));
+            lmb.AddLogicDef(new RawLogicDef("Grub-Isma's_Grove", "FULL_SPELL_STALL + TRAM"));
+            lmb.AddLogicDef(new RawLogicDef("Isma's_Tear", "FULL_SPELL_STALL + TRAM"));
 
 
             lmb.AddLogicDef(new RawLogicDef("Pale_Ore-Nosk", "FULLDASH + FIVE_CASTS"));

@@ -49,7 +49,7 @@ namespace CorruptedDreamsPlando
 
         private PlandoMenuPage(MenuPage landingPage)
         {
-            PlandoPage = new MenuPage(Localize("PlandoPage"), landingPage);
+            PlandoPage = new MenuPage(Localize("RandoPage"), landingPage);
             plandoMEF = new(PlandoPage, CorruptedDreamsPlandoMod.GS);
             plandoVIP = new(PlandoPage, new(0, 300), 75f, true, plandoMEF.Elements);
             Localize(plandoMEF);
@@ -58,7 +58,7 @@ namespace CorruptedDreamsPlando
                 e.SelfChanged += obj => SetTopLevelButtonColor();
             }
 
-            JumpToPlandoButton = new(landingPage, Localize("RgbRando"));
+            JumpToPlandoButton = new(landingPage, Localize("Midautumn Knightmare"));
             JumpToPlandoButton.AddHideAndShowEvent(landingPage, PlandoPage);
             SetTopLevelButtonColor();
         }
