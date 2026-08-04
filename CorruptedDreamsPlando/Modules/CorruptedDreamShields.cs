@@ -15,8 +15,6 @@ using UObject = UnityEngine.Object;
 
 namespace CorruptedDreamsPlando.Modules
 {
-    // TODO add shield in GPZ room
-
     public class CorruptedDreamShields // : ItemChanger.Modules.Module
     {
         public static Dictionary<string, string> StandardDreamEnters = new Dictionary<string, string>

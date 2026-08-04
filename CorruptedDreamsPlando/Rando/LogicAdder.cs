@@ -63,30 +63,6 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Chicken_Wings", "Spell_Stabilizer + Dream_Sifter + (SCREAM | FIREBALL) + (VESSELFRAGMENTS>2 | Spell_Twister)"));
             lmb.AddLogicDef(new RawLogicDef("Crystal_Tart", "Spell_Stabilizer + Dream_Sifter + (SCREAM | FIREBALL) + VESSELFRAGMENTS>8 + Spell_Twister"));
 
-
-            // Logic overrides
-            // TODO: 
-            /*
-             * Test logic of new vessel fragment places, and of logic chains for wraiths. (X)
-            * Fix Deepnest disconnection from QG
-            * increase shade cloak grub price to all grubs?
-            * disconnect upper from lower peak X
-            * confirm distant village stag (fixed with narrow stall)
-            * weaver den chest X
-            * white palace ending needs void caster (X)
-            * dream fights need determination (X)
-            * fix ismas logic (X)
-            * waterways logic via ismas key (X)
-            * move waterways key? maybe? (X)
-            * fix waterways logic entirely
-            * stag nest logic (X)
-            * last checks in palace need to be dependant on Void Caster (X)
-            * fix edge logic (X)
-            * marmu grub needs narrow cast (X)
-            * archives logic (X)
-            * fix nosk logic (X)
-             */
-
             // Transition overrides:
             lmb.AddLogicDef(new RawLogicDef("Crossroads_35[bot1]", "Crossroads_35[bot1] | (Crossroads_35[right1] + ANY_SPELL_STALL + FULLDASH)"));
             lmb.AddLogicDef(new RawLogicDef("Crossroads_04[door_charmshop]",
@@ -116,8 +92,6 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Deepnest_East_03[left2]", "NONE"));
 
             lmb.AddLogicDef(new RawLogicDef("Fungus3_44[bot1]", "Fungus3_44[bot1] | Fungus3_44 + (LEFTSHADOWDASH | Lever-Below_Overgrown_Mound | (GREATSLASH | DASHSLASH))"));
-
-            // TODO: Consider making Deepnest need Dream Sifter
 
             // Baldur killing override
             lmb.AddLogicDef(new RawLogicDef("Defeated_Crossroads_Baldur", "Crossroads_11_alt[right1] + FIREBALL + Spell_Stabilizer"));

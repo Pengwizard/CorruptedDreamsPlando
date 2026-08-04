@@ -135,8 +135,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var rageRoarState = fsm.GetState("Rage Roar");
             rageRoarState.GetFirstActionOfType<Wait>().time = _modifiers.RoarWaitTime;
 
-            // TODO: Add gray scale thingy
-
             Satchel.FsmUtil.InsertAction(rageRoarState, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 }, 0);
 
             rageRoarState.InsertCustomAction(() =>
