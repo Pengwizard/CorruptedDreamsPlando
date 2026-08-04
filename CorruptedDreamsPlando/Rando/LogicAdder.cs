@@ -88,7 +88,7 @@ namespace CorruptedDreamsPlando.Rando
              */
 
             // Transition overrides:
-            lmb.AddLogicDef(new RawLogicDef("Crossroads_35[bot1]", "Crossroads_35[bot1] | (Crossroads_35[right1] + ANY_SPELL_STALL)"));
+            lmb.AddLogicDef(new RawLogicDef("Crossroads_35[bot1]", "Crossroads_35[bot1] | (Crossroads_35[right1] + ANY_SPELL_STALL + FULLDASH)"));
             lmb.AddLogicDef(new RawLogicDef("Crossroads_04[door_charmshop]",
                 "Crossroads_04[door_charmshop] | Crossroads_04[right1] | (Crossroads_04[door1] | Crossroads_04[door_Mender_House] | (Crossroads_04[left1] | Crossroads_04[top1]) + Defeated_Gruz_Mother) + (FIREBALL | RIGHTCLAW | RIGHTDASH | WINGS | RIGHTSUPERDASH | SPELLAIRSTALL + $CASTSPELL[3,before:AREASOUL] | $SHADESKIP | INFECTED) | Bench-Salubra"));
 
@@ -115,16 +115,20 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Deepnest_East_03[left1]", "NONE"));
             lmb.AddLogicDef(new RawLogicDef("Deepnest_East_03[left2]", "NONE"));
 
+            lmb.AddLogicDef(new RawLogicDef("Fungus3_44[bot1]", "Fungus3_44[bot1] | Fungus3_44 + (LEFTSHADOWDASH | Lever-Below_Overgrown_Mound | (GREATSLASH | DASHSLASH))"));
+
             // TODO: Consider making Deepnest need Dream Sifter
 
             // Baldur killing override
             lmb.AddLogicDef(new RawLogicDef("Defeated_Crossroads_Baldur", "Crossroads_11_alt[right1] + FIREBALL + Spell_Stabilizer"));
 
             // Check overrides:
+            lmb.AddLogicDef(new RawLogicDef("Whispering_Root-Crossroads", "NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Whispering_Root-Ancestral_Mound", "Crossroads_ShamanTemple[left1] + (SCREAM | FIREBALL) + DREAMNAIL"));
             lmb.AddLogicDef(new RawLogicDef("Soul_Catcher", "Crossroads_ShamanTemple[left1] + (SCREAM | FIREBALL)"));
             // lmb.AddLogicDef(new RawLogicDef("Whispering_Root-Ancestral_Mound", "Crossroads_ShamanTemple + (SCREAM | FIREBALL)"));
-            lmb.AddLogicDef(new RawLogicDef("Glowing_Womb", "ANY_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Glowing_Womb", "ANY_SPELL_STALL + FULLDASH"));
+            lmb.AddLogicDef(new RawLogicDef("Soul_Totem-Crossroads_Goam_Journal", "Crossroads_18 + ANY_SPELL_STALL"));
 
             lmb.AddLogicDef(new RawLogicDef("Charm_Notch-Fog_Canyon", "Fungus3_28[right1] + (EXTRA_SPELL_STALL | (ANY_SPELL_STALL + Dream_Sifter))"));
             lmb.AddLogicDef(new RawLogicDef("Monomon", "Uumuu_Arena + Defeated_Uumuu + DREAMNAIL + EXTRA_SPELL_STALL + Dream_Sifter"));
@@ -141,8 +145,13 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Grub-Isma's_Grove", "FULL_SPELL_STALL + TRAM"));
             lmb.AddLogicDef(new RawLogicDef("Isma's_Tear", "FULL_SPELL_STALL + TRAM"));
 
+            lmb.AddLogicDef(new RawLogicDef("Lurien", "FULL_SPELL_STALL + Quick_Slash + Shaman_Stone + Dream_Sifter"));
+            lmb.AddLogicDef(new RawLogicDef("Lore_Tablet-Watcher's_Spire", "FULL_SPELL_STALL + Quick_Slash + Shaman_Stone + Dream_Sifter"));
 
-            lmb.AddLogicDef(new RawLogicDef("Pale_Ore-Nosk", "FULLDASH + FIVE_CASTS"));
+            lmb.AddLogicDef(new RawLogicDef("Vessel_Fragment-Basin", "(Abyss_04 + (ANYCLAW | WINGS + ENEMYPOGOS) | Abyss_04[top1]) + Can_Visit_Lemm"));
+
+            // lmb.AddLogicDef(new RawLogicDef("Lifeblood_Cocoon-Galien", "NARROW_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Pale_Ore-Nosk", "FULLDASH + EXTRA_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Grub-Beast's_Den", "NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Soul_Totem-Beast's_Den", "NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Rancid_Egg-Beast's_Den", "NARROW_SPELL_STALL"));
@@ -154,15 +163,16 @@ namespace CorruptedDreamsPlando.Rando
                 "Waterways_14[bot1] + RIGHTSUPERDASH"));
 
             // Dream Bosses
-            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Failed_Champion", "SHIELD_BREAKER"));
-            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Lost_Kin", "SHIELD_BREAKER"));
-            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Soul_Tyrant", "SHIELD_BREAKER"));
-            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-White_Defender", "SHIELD_BREAKER"));
-            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Grey_Prince_Zote", "SHIELD_BREAKER"));
+            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Failed_Champion", "SHIELD_BREAKER + Defeated_Failed_Champion"));
+            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Lost_Kin", "SHIELD_BREAKER + Defeated_Lost_Kin"));
+            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Soul_Tyrant", "SHIELD_BREAKER + Defeated_Soul_Tyrant"));
+            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-White_Defender", "SHIELD_BREAKER + Defeated_White_Defender"));
+            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Grey_Prince_Zote", "SHIELD_BREAKER + Defeated_Grey_Prince_Zote"));
             //lmb.AddLogicDef(new RawLogicDef("Boss_Essence-NKG", "SHIELD_BREAKER"));
 
 
             // Boss Logic
+            lmb.AddLogicDef(new RawLogicDef("Uumuu_Arena", "Fungus3_archive_02[top1] + EXTRA_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Defeated_Dung_Defender", "Waterways_05_Proxy[bot1] + (ANYCLAW | WINGS) + COMBAT[Dung_Defender] + MOREDOORS_DUNG_DOOR_KEY"));
             lmb.AddLogicDef(new RawLogicDef("Defeated_Enraged_Guardian", "Defeated_Crystal_Guardian"));
         }

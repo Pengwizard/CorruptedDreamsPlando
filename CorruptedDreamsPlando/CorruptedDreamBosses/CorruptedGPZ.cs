@@ -74,7 +74,17 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public static void Initialize()
         {
+            //On.PlayMakerFSM.OnEnable += PreSetupPhaseChange;
             Events.AddFsmEdit(controlFSM, SetupPhaseChange);
+        }
+
+        private static void PreSetupPhaseChange(On.PlayMakerFSM.orig_OnEnable orig, PlayMakerFSM self)
+        {
+            orig(self);
+            if (self.Fsm.GameObject.name == controlFSM.ObjectName && self.name == controlFSM.FsmName)
+            {
+                SetupPhaseChange(self);
+            }            
         }
 
         public static void Unload()
@@ -97,7 +107,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             _bossObject = fsm.gameObject;
 
-            var rageRoarState = fsm.GetState("Roar");
+            var rageRoarState = fsm.GetState("Enter 1");
             Satchel.FsmUtil.AddFirstAction(rageRoarState, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
 
             var roarEndPhase = fsm.GetState("Roar End");
@@ -144,8 +154,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     ModifyAttackPatterns(fsm);
                     ModifyVariables(fsm);
                     ModifyAnimationTimes(fsm);
-
-
 
                     var dormant = fsm.GetState("Enter 1");
                     Satchel.FsmUtil.AddAction(dormant, new Wait() { time = 5f, finishEvent = new("FINISHED") });
@@ -253,7 +261,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 null,
                 "Tynannical\r\nDreadful\r\nTerrible\r\nAuthoritarian\r\nHorrific\r\nGrim\r\nAtrocious\r\nDifficult\r\nFragile\r\nToxic\r\nAwful\r\nAntagonistic\r\nCondecending\r\nGreedy\r\nPompous\r\nVain\r\nGrumpy\r\nFussy\r\nUnforgiving");
 
-            var go = GameObject.Find("Boss Title(Clone)/Boss Title (1)");
+            var go = GameObject.Find("Boss Title Custom/Boss Title Custom Child");
             go.transform.SetPositionY(6.8f);
         }
 

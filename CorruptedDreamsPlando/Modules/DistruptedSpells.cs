@@ -24,6 +24,7 @@ namespace CorruptedDreamsPlando.Modules
 
         public static void ApplyHooks()
         {
+            On.GameManager.OnNextLevelReady += onSceneChange;
             On.HutongGames.PlayMaker.Actions.Wait.OnEnter += RoomBasedVSReaction;
 
             SpellStabilizer spellStall = (SpellStabilizer)SpellStaller.SpellStaller.Instance.GetCharmByName(SpellStaller.Charms.SpellStabilizer.charmName);
@@ -46,6 +47,28 @@ namespace CorruptedDreamsPlando.Modules
 
         }
 
+        private static void onSceneChange(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
+        {
+            orig(self);
+            if (GameManager.instance.sceneName == SceneNames.Crossroads_ShamanTemple)
+            {
+                var baldur = GameObject.Find("Battle Scene/Blocker");
+                if (baldur != null)
+                {
+                    baldur.transform.SetScaleX(-1);
+                    baldur.transform.SetScaleX(1);
+
+                    baldur.LocateMyFSM("Blocker Control").GetValidState("Idle").RemoveTransition("ATTACK");
+                }
+                //baldur.FindChild("Alert Range New").SetActive(false);
+                //baldur.FindChild("Unalert Range").SetActive(false);
+
+                //baldur.GetComponent<HealthManager>().hp = 1000;
+                //baldur.LocateMyFSM("Blocker Control").GetValidState("Closed").RemoveTransition("FAR");
+                //baldur.LocateMyFSM("Blocker Control").SetState("Close");
+            }
+        }
+
         public static void RoomBasedVSReaction(On.HutongGames.PlayMaker.Actions.Wait.orig_OnEnter orig, Wait self)
         {
             try
@@ -54,16 +77,16 @@ namespace CorruptedDreamsPlando.Modules
     self.Fsm.Name == "Fireball Control" &&
     self.State.Name == "Idle")
                 {
-                    if (GameManager.instance.sceneName == SceneNames.Crossroads_ShamanTemple)
-                    {
-                        var baldur = GameObject.Find("Battle Scene/Blocker");
-                        baldur.FindChild("Alert Range New").SetActive(false);
-                        baldur.FindChild("Unalert Range").SetActive(false);
+                    //if (GameManager.instance.sceneName == SceneNames.Crossroads_ShamanTemple)
+                    //{
+                    //    var baldur = GameObject.Find("Battle Scene/Blocker");
+                    //    baldur.FindChild("Alert Range New").SetActive(false);
+                    //    baldur.FindChild("Unalert Range").SetActive(false);
 
-                        baldur.GetComponent<HealthManager>().hp = 1000;
-                        baldur.LocateMyFSM("Blocker Control").GetValidState("Closed").RemoveTransition("FAR");
-                        baldur.LocateMyFSM("Blocker Control").SetState("Close");
-                    }
+                    //    baldur.GetComponent<HealthManager>().hp = 1000;
+                    //    baldur.LocateMyFSM("Blocker Control").GetValidState("Closed").RemoveTransition("FAR");
+                    //    baldur.LocateMyFSM("Blocker Control").SetState("Close");
+                    //}
 
                     if (GameManager.instance.sceneName == SceneNames.White_Palace_13 && CorruptedDreamsPlandoMod.LS.CollectedVoidCaster)
                     {

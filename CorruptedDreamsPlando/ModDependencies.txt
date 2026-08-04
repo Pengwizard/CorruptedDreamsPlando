@@ -10,7 +10,6 @@ SFCore
 Satchel
 KorzUtils
 MapChanger
-SpellStaller
 PurenailCore
 AccessRandomizer
 AdditionalMaps
@@ -23,3 +22,4 @@ Randomizable Levers
 RandoPlus
 RecentItemsDisplay
 TheGloryOfBeingAFoolRandomizer
+SpellStaller

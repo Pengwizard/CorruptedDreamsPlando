@@ -72,7 +72,11 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     g.SetText(subTitleText);
                     g.enableAutoSizing = true;
                 }
+
+                g.gameObject.name = "Boss Title Custom Child";
             }
+
+            bossTitle.name = "Boss Title Custom";
 
             bossTitleTMP.color = fgColor;
             bossTitleTMP.SetText(titleText);

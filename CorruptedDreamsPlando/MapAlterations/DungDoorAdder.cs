@@ -29,7 +29,7 @@ namespace CorruptedDreamsPlando.MapAlterations
             doorInfo.LeftLocation.SceneName = "Waterways_05";
             doorInfo.LeftLocation.GateName = "bot1";
             doorInfo.LeftLocation.X = 39;
-            doorInfo.LeftLocation.Y = 16f;
+            doorInfo.LeftLocation.Y = 13.4f;
             doorInfo.LeftLocation.NoKeyDesc = "A once-elegant dark pink door, worn from exposure to the city's waste, with a sphere-shaped lock.";
             doorInfo.LeftLocation.KeyDesc = "A once-elegant dark pink, worn from exposure to the city's waste, matching that spherical key.<br>Insert the Dung Key?";
             doorInfo.LeftLocation.RequiresLantern = false;
@@ -38,7 +38,7 @@ namespace CorruptedDreamsPlando.MapAlterations
             doorInfo.RightLocation.SceneName = "Waterways_05";
             doorInfo.RightLocation.GateName = "bot1";
             doorInfo.RightLocation.X = 35;
-            doorInfo.RightLocation.Y = 16f;
+            doorInfo.RightLocation.Y = 13.4f;
             doorInfo.RightLocation.NoKeyDesc = "A once-elegant dark pink door, worn from exposure to the city's waste, with a sphere-shaped lock.";
             doorInfo.RightLocation.KeyDesc = "A once-elegant dark pink, worn from exposure to the city's waste, matching that spherical key.<br>Insert the Dung Key?";
             doorInfo.RightLocation.RequiresLantern = false;

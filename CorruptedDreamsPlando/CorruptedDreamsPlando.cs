@@ -104,6 +104,7 @@ namespace CorruptedDreamsPlando
             VerticalClimbs.Initialize();
             UpDirectionSign.Initialize();
             AMoundSoulTotem.Initialize();
+            NoDreamPlats.Initialize();
 
             RandoController.OnExportCompleted += AddModules;
             //TraitorLordDream.Initialize();

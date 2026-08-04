@@ -19,11 +19,13 @@ namespace CorruptedDreamsPlando.MapAlterations
             {SceneNames.Mines_18, new List<string>{ "left1" } },
             {SceneNames.Mines_19, new List<string>{ "left1" } },
             {SceneNames.Mines_05, new List<string>{ "right1", "bot1" } },
+            {SceneNames.Mines_20, new List<string>{ "left1" } },
             {SceneNames.Mines_23, new List<string>{ "right1" } },
             {SceneNames.Deepnest_10, new List<string>{ "door2" } },
+            {SceneNames.Deepnest_East_02, new List<string>{ "right1" } },
             {SceneNames.Deepnest_East_03, new List<string>{ "right1", "right2" } },
             {SceneNames.Deepnest_42, new List<string>{ "top1" } },
-            {SceneNames.Deepnest_43, new List<string>{ "bot1" } },
+            // {SceneNames.Deepnest_43, new List<string>{ "bot1" } },
         };
 
         public static void Initialize()

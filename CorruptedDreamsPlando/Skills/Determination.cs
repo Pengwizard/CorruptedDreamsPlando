@@ -62,7 +62,7 @@ namespace CorruptedDreamsPlando.Skills
         private static void HeroController_Update(On.HeroController.orig_Update orig, HeroController self)
         {
             orig(self);
-            if (Input.GetKeyDown(KeyCode.Alpha5))
+            if (Input.GetKeyDown(KeyCode.Alpha5) && Input.GetKeyDown(KeyCode.LeftShift))
             {
                 CorruptedDreamsPlandoMod.LS.ColletedDetermination = !CorruptedDreamsPlandoMod.LS.ColletedDetermination;
             }

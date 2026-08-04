@@ -77,10 +77,10 @@ namespace CorruptedDreamsPlando.Skills
         private static void HeroController_Update(On.HeroController.orig_Update orig, HeroController self)
         {
             orig(self);
-            if (Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess = !CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess;
-            }
+            //if (Input.GetKeyDown(KeyCode.Alpha8))
+            //{
+            //    CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess = !CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess;
+            //}
         }
     }
 
