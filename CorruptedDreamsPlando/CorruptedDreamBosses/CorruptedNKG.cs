@@ -23,6 +23,14 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         // Phase change variables
 
 
+        // Spiral
+        public float SpiralSpeed;
+        public float SpiralInwardVel;
+        public int SpiralShotCount;
+        public int SpiralSwitchDirectionInterval;
+        public List<float> SpiralShotDelay;
+        public float SpawnOffset { get; set; }
+
         // Numbers for Phase Change bit
         public float RoarWaitTime;
         public float WhiteSolidUpTime;
@@ -49,13 +57,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
     public class CorruptedNKG
     {
         // TODO:
-        // Probably do initial spawn animation? either that or add *some* effect to grimm spawning
-        // Make sure audio works
-        // Replace balloon attack
-        // Replace pillars attack
-        // Replace Bats attack
-        // Replace with custom gray sprite sheet
-        // Make everything the standard 1.5x faster
 
         private static readonly FsmID controlFSM = new("Nightmare Grimm Boss", "Control");
 
@@ -104,6 +105,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             var eye2 = grimmControlFsm.GetState("Eye 2");
             var eye2PlayOneShot = eye2.GetFirstActionOfType<AudioPlayerOneShotSingle>();
+            var cameraShake = eye2.GetFirstActionOfType<SendEventByName>();
 
             var myRetry = fsm.CopyState("Pillar Retry", "PC Pillar Retry");
             var myPos = fsm.CopyState("Pillar Pos", "PC Pillar Pos");
@@ -112,6 +114,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             var roarState = fsm.AddState("Roar");
             var roarEndState = fsm.AddState("Roar End");
+
+            myTeleIn.GetFirstActionOfType<SetPosition>().x = 75;
 
             myRetry.RemoveTransition("FINISHED");
             myPos.RemoveTransition("FINISHED");
@@ -141,6 +145,78 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 delay = 0,
             });
 
+            roarState.AddAction(new SendEventByName()
+            {
+                eventTarget = cameraShake.eventTarget,
+                sendEvent = cameraShake.sendEvent,
+                everyFrame = cameraShake.everyFrame,
+                delay = 0,
+            });
+
+            roarState.AddAction(new AudioPlayerOneShotSingle()
+            {
+                spawnPoint = eye2PlayOneShot.spawnPoint,
+                audioPlayer = eye2PlayOneShot.audioPlayer,
+                audioClip = eye2PlayOneShot.audioClip,
+                volume = 5f,
+                storePlayer = eye2PlayOneShot.storePlayer,
+                delay = 1,
+            });
+
+            roarState.AddAction(new SendEventByName()
+            {
+                eventTarget = cameraShake.eventTarget,
+                sendEvent = cameraShake.sendEvent,
+                everyFrame = cameraShake.everyFrame,
+                delay = 1,
+            });
+
+            roarState.AddAction(new AudioPlayerOneShotSingle()
+            {
+                spawnPoint = eye2PlayOneShot.spawnPoint,
+                audioPlayer = eye2PlayOneShot.audioPlayer,
+                audioClip = eye2PlayOneShot.audioClip,
+                volume = 5f,
+                storePlayer = eye2PlayOneShot.storePlayer,
+                delay = 2,
+            });
+
+            roarState.AddAction(new SendEventByName()
+            {
+                eventTarget = cameraShake.eventTarget,
+                sendEvent = cameraShake.sendEvent,
+                everyFrame = cameraShake.everyFrame,
+                delay = 2,
+            });
+
+            roarState.AddAction(new AudioPlayerOneShotSingle()
+            {
+                spawnPoint = eye2PlayOneShot.spawnPoint,
+                audioPlayer = eye2PlayOneShot.audioPlayer,
+                audioClip = eye2PlayOneShot.audioClip,
+                volume = 5f,
+                storePlayer = eye2PlayOneShot.storePlayer,
+                delay = 3,
+            });
+
+            roarState.AddAction(new SendEventByName()
+            {
+                eventTarget = cameraShake.eventTarget,
+                sendEvent = cameraShake.sendEvent,
+                everyFrame = cameraShake.everyFrame,
+                delay = 3,
+            });
+
+            roarState.AddAction(new AudioPlayerOneShotSingle()
+            {
+                spawnPoint = eye2PlayOneShot.spawnPoint,
+                audioPlayer = eye2PlayOneShot.audioPlayer,
+                audioClip = eye2PlayOneShot.audioClip,
+                volume = 5f,
+                storePlayer = eye2PlayOneShot.storePlayer,
+                delay = 4,
+            });
+
             //fsm.AddVariable<FsmGameObject>("Roar Emitter");
             // CreateObject
             //roarState.AddAction(new CreateObject()
@@ -149,6 +225,16 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             //    gameObject = roarWaveEmitter,
             //    storeObject = fsm.GetVariable<FsmGameObject>("Roar Emitter")
             //});
+
+            var appearing = GameObject.Find("Grimm Control/Appear Scene/Grimm Appear");
+
+            roarState.AddCustomAction(() =>
+            {
+                appearing.transform.position = fsm.gameObject.transform.position;
+                appearing.transform.SetPositionY(17.2f);
+                appearing.transform.SetPositionX(73.3f);
+                appearing.SetActive(true);
+            });
 
             roarState.AddAction(new SetFsmGameObject()
             {
@@ -174,6 +260,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             roarEndState.AddCustomAction(() =>
             {
                 Hero().LocateMyFSM("Roar Lock").SendEvent("ROAR EXIT");
+                appearing.SetActive(false);
             });
         }
 
@@ -238,17 +325,21 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     //var rageRoarState = fsm.GetState("Roar");
                     //rageRoarState.GetFirstActionOfType<Wait>().time = _modifiers.RoarWaitTime;
 
+                    var healthManager = _bossObject.GetComponent<HealthManager>();
+                    healthManager.hp = (int)(_startingHp * _modifiers.PhaseChangeHpMultiplier);
                     CorruptedDreamsPlandoMod.Instance.Log("Raging");
                     Grayscaler.TickCamera();
 
-                    // Phase 2 things
+                    ModifyAttackPatterns(fsm);
+                    ModifyVariables(fsm);
+                    ModifyAnimationTimes(fsm);
+
                     phaseChanged = true;
                 }
             });
 
             return rageCheckState;
         }
-
 
         public static void AddPhaseChangeStep(
             PlayMakerFSM fsm,
@@ -284,6 +375,140 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     }
                 }, 0);
             }
+        }
+
+
+        private static void ModifyVariables(PlayMakerFSM fsm)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private static void ModifyAnimationTimes(PlayMakerFSM fsm)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private static Vector3 uppercutOffset = new Vector3(0, 0, 0);
+        private static Vector3 ddarkOffset = new Vector3(0, 0, 0);
+
+        private static int fireballsShot = 0;
+
+        private static void ModifyAttackPatterns(PlayMakerFSM fsm)
+        {
+            // TODO: Remove music during phase change, and hit with new music
+
+            // Add shriek to uppercut
+            // TODO: Consider removing uppercut
+            var upperCutState = fsm.GetState("Uppercut Up");
+            AbyssShriekSpawner.Instance.AddShriekAtEndOfFSM(upperCutState, 2, uppercutOffset, true);
+
+
+            // Adding dive to landing attack
+            var groundDashLand = fsm.GetState("GD Antic");
+            DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(groundDashLand, 2, ddarkOffset);
+
+
+            // Make balloon spirals
+
+            float balloonBaseX = 85.77f;
+            float balloonBaseY = 13.5f;
+
+            var inflateState = fsm.GetState("Inflate");
+
+            // This makes NKG vulnerable to spells while ballooned. Lets change that.
+            inflateState.GetFirstActionOfType<SetTag>().Enabled = false;
+
+            var fireballShooterUp = new FireballShooter();
+            //fireballShooterUp.name = "Up Shot";
+            fireballShooterUp.SpawnOffset = new Vector3(0, _modifiers.SpawnOffset, 0);
+
+            var fireballShooterDown = new FireballShooter();
+            //fireballShooterDown.name = "Down Shot";
+            fireballShooterDown.SpawnOffset = new Vector3(0, -_modifiers.SpawnOffset, 0);
+
+            var fireballShooterLeft = new FireballShooter();
+            //fireballShooterLeft.name = "Left Shot";
+            fireballShooterLeft.SpawnOffset = new Vector3(_modifiers.SpawnOffset, 0, 0);
+
+            var fireballShooterRight = new FireballShooter();
+            //fireballShooterRight.name = "Right Shot";
+            fireballShooterRight.SpawnOffset = new Vector3(-_modifiers.SpawnOffset, 0, 0);
+
+            List<FireballShooter> shooterList = new() { fireballShooterUp, fireballShooterDown, fireballShooterLeft, fireballShooterRight };
+
+            foreach (var shooter in shooterList) {
+                // Common for all fireball shooters
+                shooter.SpawnPoint = new Vector3(balloonBaseX, balloonBaseY, 0);
+                shooter.Spiral = true;
+                shooter.RemoveParticles = true;
+
+                // TODO have this change
+                shooter.Clockwise = true;
+
+                // TODO Have a way to change the spiral's speed
+
+                shooter.Speed = _modifiers.SpiralSpeed;
+                shooter.InwardVel = _modifiers.SpiralInwardVel;
+
+            }
+
+
+            var shootSpirals = fsm.AddState("Shade Repeat");
+            var shootPause = fsm.AddState("Shade Pause");
+
+
+            var firePause = fsm.GetState("Fire Pause");
+            firePause.RemoveTransition("FINISHED");
+            firePause.AddTransition("FINISHED", shootSpirals.Name);
+
+            firePause.AddCustomAction(() =>
+            {
+                fireballsShot = 0;
+            });
+
+
+            fsm.AddVariable<FsmFloat>("ShootWait");
+            var shootWait = fsm.GetVariable<FsmFloat>("ShootWait");
+
+            shootPause.AddTransition("FINISHED", shootSpirals.Name);
+            shootPause.AddCustomAction(() =>
+            {
+                shootWait.Value = _modifiers.SpiralShotDelay[fireballsShot % _modifiers.SpiralShotDelay.Count];
+                if (fireballsShot % _modifiers.SpiralSwitchDirectionInterval == 0)
+                {
+                    foreach (var shooter in shooterList)
+                    {
+                        // TODO have this change
+                        shooter.Clockwise = !shooter.Clockwise;
+
+                    }
+                }
+            });
+            shootPause.AddAction(new Wait() { time = shootWait, finishEvent = new("FINISHED") });
+
+            shootSpirals.AddTransition("CONTINUE", shootPause.Name);
+            shootSpirals.AddTransition("END", "End Pause");
+
+            shootSpirals.AddCustomAction(() =>
+            {
+                // TODO change this number dynamically
+                if (fireballsShot >= _modifiers.SpiralShotCount)
+                {
+                    fsm.SendEvent("END");
+                } else
+                {
+                    fireballsShot++;
+
+                    foreach (var shooter in shooterList)
+                    {
+                        shooter.ShootShadeSoul();
+                    }
+
+                    fsm.SendEvent("CONTINUE");
+                }
+
+                
+            });
         }
     }
 }

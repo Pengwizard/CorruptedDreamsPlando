@@ -116,10 +116,13 @@ namespace CorruptedDreamsPlando
 
             // Super boss time!
             // TODO make "super bosses" into a module.
-            CorruptedLostKin.Initialize();
-            CorruptedWhiteDefender.Initialize();
-            CorruptedSoulTyrant.Initialize();
-            CorruptedGPZ.Initialize();
+
+            // TODO: Re add these bosses later
+            //CorruptedLostKin.Initialize();
+            //CorruptedWhiteDefender.Initialize();
+            //CorruptedSoulTyrant.Initialize();
+            //CorruptedGPZ.Initialize();
+
             CorruptedNKG.Initialize();
 
             MapChanger.Events.OnEnterGame += OnEnterGame;

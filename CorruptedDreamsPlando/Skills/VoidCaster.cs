@@ -79,7 +79,7 @@ namespace CorruptedDreamsPlando.Skills
         private static void HeroController_Update(On.HeroController.orig_Update orig, HeroController self)
         {
             orig(self);
-            if (Input.GetKeyDown(KeyCode.Alpha3) && Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 CorruptedDreamsPlandoMod.LS.CollectedVoidCaster = !CorruptedDreamsPlandoMod.LS.CollectedVoidCaster;
             }

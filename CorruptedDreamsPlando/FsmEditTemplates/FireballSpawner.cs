@@ -32,13 +32,14 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         public float Speed { get; set; }
 
         public bool RemoveParticles { get; set; }
-        public bool ForceLeft { get; set; }
+        public bool ForceLeft = false;
         public bool StopShooting { get; set; }
 
+        public float OrbitSpeed { get; set; }
+        public float InwardVel { get; set; }
         public FireballShooter()
         {
             spawner = new FireballSpawner();
-            On.HeroController.Update += HeroController_Update;
         }
 
         private void HeroController_Update(On.HeroController.orig_Update orig, HeroController self)
@@ -103,7 +104,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
         public void ShootShadeSoul()
         {
-            spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Spiral, Clockwise, RemoveParticles, Speed);
+            spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Spiral, Clockwise, RemoveParticles, Speed, InwardVel);
         }
 
         public void ShootVengefulSpirit()
@@ -231,9 +232,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             bool spiral,
             bool clockwise,
             bool removeParticles,
-            float speed = 45f)
+            float speed = 45f,
+            float inwardSpeed = -0.5f)
         {
-            // TODO add play sound
+            // TODO allow remove sound
 
             var tempFireball = GameObject.Instantiate(Fireball2BaseTop);
             tempFireball.name = Fireball2BaseTop.name;
@@ -298,6 +300,8 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                         focalPoint,
                         clockwise,
                         spawnPoint,
+                        speed,
+                        inwardSpeed,
                         true));
                 } else
                 {
@@ -307,6 +311,13 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                         fb.transform.eulerAngles = Vector3.forward * direction;
                     });
                 }
+
+                List<GameObject> children = new List<GameObject>();
+                fb.layer = LayerMask.NameToLayer("Enemy Attack");
+                fb.RemoveComponent<DamageEnemies>();
+                fb.LocateMyFSM("damages_enemy").enabled = false;
+                var damageHero = fb.AddComponent<DamageHero>();
+                damageHero.damageDealt = 2;
             };
 
             tempFireball.Find("white_light").SetActive(false);
@@ -472,7 +483,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         }
 
         // TODO maybe move this to the idle fsm?
-        private IEnumerator SpinFireball(GameObject fb, Vector3 tar, bool isLeft, Vector3 initialPosition, bool flip=false)
+        private IEnumerator SpinFireball(GameObject fb, Vector3 tar, bool isLeft, Vector3 initialPosition, float speed, float inwardSpeed, bool flip = false)
         {
             var rb2 = fb.GetComponent<Rigidbody2D>();
 
@@ -482,7 +493,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                  fb.transform.SetScaleX(1f);
                  fb.transform.SetScaleY(1f);
 
-                var vel = GetSpiralVelocity(fb.transform.position, tar, 3f, -0.5f, !isLeft);
+                var vel = GetSpiralVelocity(fb.transform.position, tar, speed, inwardSpeed, !isLeft);
 
                 rb2.velocity = vel;
 
@@ -527,7 +538,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     self.Fsm.Name == "Fireball Control" &&
                     self.State.Name == "Idle")
                 {
-                    self.time.Value = 10f;
+                    self.time.Value = 25f;
                 }
             }
             catch (Exception err)
