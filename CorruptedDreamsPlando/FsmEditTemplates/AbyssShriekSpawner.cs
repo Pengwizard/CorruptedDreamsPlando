@@ -93,21 +93,9 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             newShriek.name = $"CD Shriek {position.ToString()}";
             Component.Destroy(newShriek.LocateMyFSM("Deactivate on Hit"));
             var fsm = newShriek.LocateMyFSM("FSM");
+
             fsm.FsmVariables.FindFsmBool("Unparent").Value = false;
             fsm.FsmVariables.FindFsmBool("Reposition").Value = false;
-
-            GetAbyssShriekSfx();
-            if (_shriekAudio != null)
-            {
-                AudioPlayerOneShotSingle playSpellAudio = new AudioPlayerOneShotSingle();
-                playSpellAudio.volume = 5f;
-                playSpellAudio.audioClip = _shriekAudio;
-
-                fsm.GetValidState("Init").AddAction(playSpellAudio);
-            } else
-            {
-                CorruptedDreamsPlandoMod.Instance.LogError("Setting audio for shriek failed");
-            }
 
             GameObject[] gos = { newShriek };
             foreach (var part in gos)
@@ -122,6 +110,9 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     damageHero.damageDealt = damageToDeal;
                 }
             }
+
+            var waitState = newShriek.LocateMyFSM("FSM").GetValidState("Wait");
+            waitState.GetFirstActionOfType<Tk2dPlayFrame>().frame.Value = 3;
 
             newShriek.transform.position = position;
             newShriek.SetActive(false);

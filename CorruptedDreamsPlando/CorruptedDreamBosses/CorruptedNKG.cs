@@ -110,7 +110,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         // Enter "PC Pillar Retry", exit "Roar End"
 
-        private static AudioPlayerOneShotSingle GetClipState(FsmObject audioClip, float delay=0f)
+        private static AudioPlayerOneShotSingle GetClipState(FsmObject audioClip, float delay=0f, float volume=5f)
         {
             var grimmControl = GameObject.Find("Grimm Control");
             var grimmControlFsm = grimmControl.LocateMyFSM("Control");
@@ -497,7 +497,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var shriekWaveCleanup = fsm.AddState("Shriek Wave Cleanup");
 
             // TODO: There is an issue where the shriek animation spawns in like 2-3 frames after hitbox becomes active
-
+            
             shriekWaveStart.AddCustomAction(() =>
             {
                 var direction = UnityEngine.Random.Range(0, 2);
@@ -516,10 +516,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
                 //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Start {shriekDirectionStep} {shriekCurrentIndex}");
             });
+            Satchel.FsmUtil.AddAction(shriekWaveStart, GetClipState(AbyssShriekSpawner.ShriekAudio));
             shriekWaveStart.AddTransition("FINISHED", shriekWaveStep.Name);
 
-            Satchel.FsmUtil.AddAction(shriekWaveStep, GetClipState(AbyssShriekSpawner.ShriekAudio));
 
+            Satchel.FsmUtil.AddAction(shriekWaveStep, GetClipState(AbyssShriekSpawner.ShriekAudio, 0f, 3f));
 
             shriekWaveStep.AddCustomAction(() =>
             {
