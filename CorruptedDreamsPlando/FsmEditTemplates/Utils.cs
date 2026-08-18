@@ -108,5 +108,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 (rFloat as WaitRandom).timeMax = lowerBound;
             }
         }
+
+        public static GameObject Hero()
+        {
+            return GameObject.Find("Knight");
+        }
     }
 }

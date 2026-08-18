@@ -116,7 +116,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             Satchel.FsmUtil.AddCustomAction(flashUp, (() => {
                 whiteFader.SetActive(true);
                 bossTitle.SetActive(true);
-                CorruptedDreamsPlandoMod.Instance.Log("Bringing up screen");
+                //CorruptedDreamsPlandoMod.Instance.Log("Bringing up screen");
                 whiteFader.transform.SetScaleX(ogX * 3f);
                 whiteFader.transform.SetScaleY(ogY * 3f);
                 whiteFader.LocateMyFSM("FSM").SetState("Init");

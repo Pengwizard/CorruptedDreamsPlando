@@ -124,7 +124,7 @@ namespace CorruptedDreamsPlando.Rando
 
             lmb.AddLogicDef(new RawLogicDef("Vessel_Fragment-Basin", "(Abyss_04 + (ANYCLAW | WINGS + ENEMYPOGOS) | Abyss_04[top1]) + Can_Visit_Lemm"));
 
-            // lmb.AddLogicDef(new RawLogicDef("Lifeblood_Cocoon-Galien", "NARROW_SPELL_STALL"));
+            lmb.AddLogicDef(new RawLogicDef("Lifeblood_Cocoon-Galien", "NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Pale_Ore-Nosk", "FULLDASH + EXTRA_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Grub-Beast's_Den", "NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Soul_Totem-Beast's_Den", "NARROW_SPELL_STALL"));

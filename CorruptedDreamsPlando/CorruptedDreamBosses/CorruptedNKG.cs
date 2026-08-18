@@ -31,6 +31,13 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public List<float> SpiralShotDelay;
         public float SpawnOffset { get; set; }
 
+        // Tracking shot
+        public float TrackingShotXOffset;
+        public float TrackingShotYOffsetStep;
+        public float TrackingFireSpeed;
+        public float TrackingShotDelay;
+        public int TrackingShotLimit;
+
         // Numbers for Phase Change bit
         public float RoarWaitTime;
         public float WhiteSolidUpTime;
@@ -79,11 +86,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public static void UnpackModifiers()
         {
             _modifiers = AnimationModifiersNkg.FromJsonFile();
-        }
-
-        public static GameObject Hero()
-        {
-            return GameObject.Find("Knight");
         }
 
         public static FsmOwnerDefault GoToOwnerDefault(GameObject go)
@@ -207,24 +209,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 delay = 3,
             });
 
-            roarState.AddAction(new AudioPlayerOneShotSingle()
-            {
-                spawnPoint = eye2PlayOneShot.spawnPoint,
-                audioPlayer = eye2PlayOneShot.audioPlayer,
-                audioClip = eye2PlayOneShot.audioClip,
-                volume = 5f,
-                storePlayer = eye2PlayOneShot.storePlayer,
-                delay = 4,
-            });
-
-            //fsm.AddVariable<FsmGameObject>("Roar Emitter");
-            // CreateObject
-            //roarState.AddAction(new CreateObject()
-            //{
-            //    spawnPoint = fsm.gameObject,
-            //    gameObject = roarWaveEmitter,
-            //    storeObject = fsm.GetVariable<FsmGameObject>("Roar Emitter")
-            //});
+            // TODO: Remove music during phase change, and hit with new music
 
             var appearing = GameObject.Find("Grimm Control/Appear Scene/Grimm Appear");
 
@@ -238,7 +223,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             roarState.AddAction(new SetFsmGameObject()
             {
-                gameObject = GoToOwnerDefault(Hero()),
+                gameObject = GoToOwnerDefault(Utils.Hero()),
                 fsmName = "Roar Lock",
                 variableName = "Roar Object",
                 setValue = fsm.gameObject
@@ -246,7 +231,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             roarState.AddCustomAction(() =>
             {
-                Hero().LocateMyFSM("Roar Lock").SendEvent("ROAR ENTER");
+                Utils.Hero().LocateMyFSM("Roar Lock").SendEvent("ROAR ENTER");
             });
 
             roarState.AddAction(new Wait() { time = _modifiers.RoarWaitTime, finishEvent = new("FINISHED") });
@@ -259,7 +244,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             roarEndState.AddCustomAction(() =>
             {
-                Hero().LocateMyFSM("Roar Lock").SendEvent("ROAR EXIT");
+                Utils.Hero().LocateMyFSM("Roar Lock").SendEvent("ROAR EXIT");
                 appearing.SetActive(false);
             });
         }
@@ -391,11 +376,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static Vector3 uppercutOffset = new Vector3(0, 0, 0);
         private static Vector3 ddarkOffset = new Vector3(0, 0, 0);
 
-        private static int fireballsShot = 0;
+        private static int fireballsShotBalloon = 0;
+        private static int fireballsShotTracker = 0;
 
         private static void ModifyAttackPatterns(PlayMakerFSM fsm)
         {
-            // TODO: Remove music during phase change, and hit with new music
 
             // Add shriek to uppercut
             // TODO: Consider removing uppercut
@@ -409,13 +394,145 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
 
             // Make balloon spirals
+            SetupNewBalloonPhase(fsm);
 
+
+            // Replace bats with fireballs:
+            //  Detach the entire regular bats FSM flow
+            //  Add 4 fireball spawners at 4 heights
+            // 
+
+            SetupNewBatsAttack(fsm);
+        }
+
+        public static void SetupAbyssShriekWave(PlayMakerFSM fsm)
+        {
+
+        }
+
+        public static void SetupDDarkAttack(PlayMakerFSM fsm)
+        {
+
+        }
+
+        public static void SetupGasterBlaster(PlayMakerFSM fsm)
+        {
+
+        }
+
+        public static void SetupSimonSays(PlayMakerFSM fsm)
+        {
+
+        }
+
+        public static void SetupNewBatsAttack(PlayMakerFSM fsm)
+        {
+
+            var fireballShooterHigh = _bossObject.AddComponent<FireballShooter>();
+            //fireballShooterUp.name = "Up Shot";
+            fireballShooterHigh.SpawnOffset = new Vector3(_modifiers.TrackingShotXOffset, _modifiers.TrackingShotYOffsetStep * 2, 0);
+
+            var fireballShooterMiddleUp = _bossObject.AddComponent<FireballShooter>();
+            //fireballShooterDown.name = "Down Shot";
+            fireballShooterMiddleUp.SpawnOffset = new Vector3(_modifiers.TrackingShotXOffset, _modifiers.TrackingShotYOffsetStep, 0);
+
+            var fireballShooterMiddleLow = _bossObject.AddComponent<FireballShooter>();
+            //fireballShooterLeft.name = "Left Shot";
+            fireballShooterMiddleLow.SpawnOffset = new Vector3(_modifiers.TrackingShotXOffset, -_modifiers.TrackingShotYOffsetStep, 0);
+
+            var fireballShooterLow = _bossObject.AddComponent<FireballShooter>();
+            //fireballShooterRight.name = "Right Shot";
+            fireballShooterLow.SpawnOffset = new Vector3(_modifiers.TrackingShotXOffset, -(_modifiers.TrackingShotYOffsetStep * 2), 0);
+
+            List<FireballShooter> shooterList = new() {
+                fireballShooterHigh,
+                fireballShooterMiddleUp,
+                fireballShooterMiddleLow,
+                fireballShooterLow
+            };
+
+            foreach (var shooter in shooterList)
+            {
+                // shooter.transform.SetParent(_bossObject.transform);
+                shooter.SpawnPoint = Vector3.zero;
+
+                // Common for all fireball shooters
+                shooter.Trajectory = FlightTrajectory.TRACKER;
+                shooter.RemoveParticles = true;
+
+                shooter.Speed = _modifiers.TrackingFireSpeed;
+                shooter.BaseObject = _bossObject;
+            }
+
+            // We are going to remove the existing 5 shots and re-work the flow.
+            var fbCast = fsm.GetState("FB Cast");
+            var fbBehind = fsm.GetState("FB Behind");
+            var fbCastEnd = fsm.GetState("FB Cast End");
+
+            var fireTrackingShot = fsm.AddState("CD Fireball Tracking Shot");
+            var fireTrackingShotShort = fsm.AddState("CD Fireball Tracking Shot Short");
+            var fireTrackingShotDelay = fsm.AddState("CD Fireball Tracking Shot Delay");
+
+            fbCast.RemoveTransition("REPEAT");
+            fbCast.RemoveTransition("FINISHED");
+
+            fbCast.AddTransition("REPEAT", fireTrackingShotShort.Name);
+            fbCast.AddTransition("FINISHED", fireTrackingShot.Name);
+
+
+            fireTrackingShot.AddTransition("TRACKER END", fbCastEnd.Name);
+            fireTrackingShot.AddTransition("TRACKER CONTINUE", fireTrackingShotDelay.Name);
+            fireTrackingShot.AddTransition("BEHIND", fbBehind.Name);
+            fireTrackingShotDelay.AddTransition("FINISHED", fireTrackingShot.Name);
+            fireTrackingShotShort.AddTransition("FINISHED", fireTrackingShot.Name);
+
+            fireTrackingShotDelay.AddAction(new Wait() { time = _modifiers.TrackingShotDelay, finishEvent = new("FINISHED") });
+
+            List<Tuple<int, int>> firePatterns = new()
+            {
+                new(0, 2),
+                new(0, 3),
+                new(1, 2),
+                new(1, 3)
+            };
+
+            fbCast.AddCustomAction(() =>
+            {
+                fireballsShotTracker = 0;
+            });
+
+            fireTrackingShotShort.AddCustomAction(() =>
+            {
+                fireballsShotTracker = _modifiers.TrackingShotLimit - 2;
+            });
+
+            fireTrackingShot.AddCustomAction(() =>
+            {
+                if (fireballsShotTracker >= _modifiers.TrackingShotLimit)
+                {
+                    fsm.SendEvent("TRACKER END");
+                    return;
+                }
+
+                var fireballPatternIndex = UnityEngine.Random.Range(0, 4);
+                var pat = firePatterns[fireballPatternIndex];
+                shooterList[pat.Item1].ShootShadeSoul();
+                shooterList[pat.Item2].ShootShadeSoul();
+                fireballsShotTracker++;
+                fsm.SendEvent("TRACKER CONTINUE");
+            });
+        }
+
+        public static void SetupNewBalloonPhase(PlayMakerFSM fsm)
+        {
+            // TODO fix hp gates for fireballs.
+            #region balloon
             float balloonBaseX = 85.77f;
             float balloonBaseY = 13.5f;
 
             var inflateState = fsm.GetState("Inflate");
 
-            // This makes NKG vulnerable to spells while ballooned. Lets change that.
+            // This usually makes NKG vulnerable to spells while ballooned. Lets disable that.
             inflateState.GetFirstActionOfType<SetTag>().Enabled = false;
 
             var fireballShooterUp = new FireballShooter();
@@ -436,26 +553,21 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             List<FireballShooter> shooterList = new() { fireballShooterUp, fireballShooterDown, fireballShooterLeft, fireballShooterRight };
 
-            foreach (var shooter in shooterList) {
+            foreach (var shooter in shooterList)
+            {
                 // Common for all fireball shooters
                 shooter.SpawnPoint = new Vector3(balloonBaseX, balloonBaseY, 0);
-                shooter.Spiral = true;
+                shooter.Trajectory = FlightTrajectory.SPIRAL;
                 shooter.RemoveParticles = true;
 
-                // TODO have this change
                 shooter.Clockwise = true;
-
-                // TODO Have a way to change the spiral's speed
 
                 shooter.Speed = _modifiers.SpiralSpeed;
                 shooter.InwardVel = _modifiers.SpiralInwardVel;
-
             }
-
 
             var shootSpirals = fsm.AddState("Shade Repeat");
             var shootPause = fsm.AddState("Shade Pause");
-
 
             var firePause = fsm.GetState("Fire Pause");
             firePause.RemoveTransition("FINISHED");
@@ -463,7 +575,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             firePause.AddCustomAction(() =>
             {
-                fireballsShot = 0;
+                fireballsShotBalloon = 0;
             });
 
 
@@ -473,12 +585,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             shootPause.AddTransition("FINISHED", shootSpirals.Name);
             shootPause.AddCustomAction(() =>
             {
-                shootWait.Value = _modifiers.SpiralShotDelay[fireballsShot % _modifiers.SpiralShotDelay.Count];
-                if (fireballsShot % _modifiers.SpiralSwitchDirectionInterval == 0)
+                shootWait.Value = _modifiers.SpiralShotDelay[fireballsShotBalloon % _modifiers.SpiralShotDelay.Count];
+                if (fireballsShotBalloon % _modifiers.SpiralSwitchDirectionInterval == 0)
                 {
                     foreach (var shooter in shooterList)
                     {
-                        // TODO have this change
                         shooter.Clockwise = !shooter.Clockwise;
 
                     }
@@ -491,13 +602,13 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             shootSpirals.AddCustomAction(() =>
             {
-                // TODO change this number dynamically
-                if (fireballsShot >= _modifiers.SpiralShotCount)
+                if (fireballsShotBalloon >= _modifiers.SpiralShotCount)
                 {
                     fsm.SendEvent("END");
-                } else
+                }
+                else
                 {
-                    fireballsShot++;
+                    fireballsShotBalloon++;
 
                     foreach (var shooter in shooterList)
                     {
@@ -507,8 +618,10 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     fsm.SendEvent("CONTINUE");
                 }
 
-                
+
             });
+
+            #endregion
         }
     }
 }

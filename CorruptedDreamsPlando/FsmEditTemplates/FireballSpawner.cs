@@ -18,21 +18,28 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 {
     internal class DummySpinner : MonoBehaviour { }
 
+    public enum FlightTrajectory
+    {
+        STRAIGHT = 0,
+        SPIRAL = 1,
+        TRACKER = 2
+    }
+
     public class FireballShooter : MonoBehaviour
     {
         private FireballSpawner spawner;
 
         public Vector3 SpawnPoint { get; set; }
+        public GameObject BaseObject { get; set; }
         public Vector3 SpawnOffset { get; set; }
 
-        public bool Spiral { get; set; }
+        public FlightTrajectory Trajectory { get; set; }
         public bool Clockwise { get; set; }
 
         public float Direction { get; set; }
         public float Speed { get; set; }
 
         public bool RemoveParticles { get; set; }
-        public bool ForceLeft = false;
         public bool StopShooting { get; set; }
 
         public float OrbitSpeed { get; set; }
@@ -40,24 +47,30 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         public FireballShooter()
         {
             spawner = new FireballSpawner();
+             On.HeroController.Update += HeroController_Update;
+            BaseObject = null;
         }
+
+        // Deprecated
+        public bool ForceLeft = false;
 
         private void HeroController_Update(On.HeroController.orig_Update orig, HeroController self)
         {
+            // TODO Fix fireball going left, "stabilize" fireball going right
             RemoveParticles = true;
             ForceLeft = false;
             orig(self);
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 CorruptedDreamsPlandoMod.Instance.Log($"1");
-                Spiral = true;
+                Trajectory = FlightTrajectory.SPIRAL;
                 Clockwise = true;
                 ShootShadeSoul();
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 CorruptedDreamsPlandoMod.Instance.Log($"2");
-                Spiral = true;
+                Trajectory = FlightTrajectory.SPIRAL;
                 Clockwise = false;
                 ShootShadeSoul();
             }
@@ -66,14 +79,14 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 CorruptedDreamsPlandoMod.Instance.Log($"3");
                 Direction += 15f;
                 Direction = Direction % 360;
-                Spiral = false;
+                Trajectory = FlightTrajectory.STRAIGHT;
                 Speed = 20f;
                 ShootShadeSoul();
             }
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 Direction = 270;
-                Spiral = false;
+                Trajectory = FlightTrajectory.STRAIGHT;
                 ForceLeft = false;
                 RemoveParticles = false;
                 Speed = 60f;
@@ -83,7 +96,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             if (Input.GetKeyDown(KeyCode.Alpha5))
             {
                 Direction = 270;
-                Spiral = false;
+                Trajectory = FlightTrajectory.STRAIGHT;
                 ForceLeft = false;
                 RemoveParticles = false;
                 Speed = 20f;
@@ -100,16 +113,49 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 // StopShooting = true;
                 ShootVengefulSpirit();
             }
+            if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                CorruptedDreamsPlandoMod.Instance.Log($"8");
+                Trajectory = FlightTrajectory.TRACKER;
+                Direction = 0f;
+                ForceLeft = true;
+                Speed = 20f;
+                ShootShadeSoul();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                CorruptedDreamsPlandoMod.Instance.Log($"9");
+                Trajectory = FlightTrajectory.TRACKER;
+                Direction = 180f;
+                Speed = 20f;
+                ForceLeft = false;
+                ShootShadeSoul();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                CorruptedDreamsPlandoMod.Instance.Log($"0");
+                Trajectory = FlightTrajectory.TRACKER;
+                Direction = 180f;
+                Speed = 20f;
+                ForceLeft = true;
+                ShootShadeSoul();
+            }
         }
 
         public void ShootShadeSoul()
         {
-            spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Spiral, Clockwise, RemoveParticles, Speed, InwardVel);
+            if (BaseObject != null)
+            {
+                SpawnPoint = BaseObject.transform.position;
+                // This is a bit of a hack for NKG specifically
+                ForceLeft = BaseObject.transform.GetScaleX() == 1;
+            }
+            spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Trajectory, Clockwise, RemoveParticles, Speed, InwardVel);
         }
 
         public void ShootVengefulSpirit()
         {
-            spawner.SpawnVengefulSpirit(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Spiral, Clockwise, RemoveParticles, Speed);
+            spawner.SpawnVengefulSpirit(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Trajectory==FlightTrajectory.SPIRAL, Clockwise, RemoveParticles, Speed);
         }
 
         public IEnumerator ShootShadeSoulOnInterval(float interval, float limit = 10000)
@@ -118,7 +164,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             int count = 0;
             while (!StopShooting && count < limit)
             {
-                spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Spiral, Clockwise, RemoveParticles);
+                spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Trajectory, Clockwise, RemoveParticles);
                 count += 1;
                 CorruptedDreamsPlandoMod.Instance.Log($"{count} {limit}");
                 yield return new WaitForSeconds(interval);
@@ -229,7 +275,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             Vector3 focalPoint,
             float direction,
             bool forceLeft,
-            bool spiral,
+            FlightTrajectory trajectory,
             bool clockwise,
             bool removeParticles,
             float speed = 45f,
@@ -239,7 +285,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
             var tempFireball = GameObject.Instantiate(Fireball2BaseTop);
             tempFireball.name = Fireball2BaseTop.name;
-            tempFireball.transform.position = spawnPoint;
+            if (spawnPoint != Vector3.zero)
+            {
+                tempFireball.transform.position = spawnPoint;
+            }
 
             var castFSM = tempFireball.LocateMyFSM("Fireball Cast");
 
@@ -265,6 +314,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 {
                     comp.equal = comp.greaterThan;
                     comp.lessThan = comp.greaterThan;
+                    //fb.transform.SetScaleX(-1);
                 }
                 else
                 {
@@ -293,7 +343,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     GameObject.Destroy(fb);
                 });
 
-                if (spiral)
+                if (trajectory == FlightTrajectory.SPIRAL)
                 {
                     fb.AddComponent<DummySpinner>().StartCoroutine(SpinFireball(
                         fb,
@@ -303,6 +353,31 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                         speed,
                         inwardSpeed,
                         true));
+                } else if (trajectory == FlightTrajectory.TRACKER)
+                {
+                    fb.name = fb.name + " TRACKER";
+
+                    fb.AddComponent<DummySpinner>().StartCoroutine(UpdateFireballAngle(fb));
+
+                    var idle = fbControl.GetState("Idle");
+                    //idle.AddCustomAction(() =>
+                    //{
+                    //    fb.transform.eulerAngles = Vector3.forward * direction;
+                    //});
+
+                    idle.AddAction(new ChaseObjectV2()
+                    {
+                        gameObject = new FsmOwnerDefault
+                        {
+                            OwnerOption = OwnerDefaultOption.SpecifyGameObject,
+                            GameObject = new FsmGameObject { Value = fb }
+                        },
+                        target = Utils.Hero(),
+                        speedMax = speed,
+                        accelerationForce = 20f,
+                        offsetX = 0,
+                        offsetY = 0,
+                    });
                 } else
                 {
                     var idle = fbControl.GetState("Idle");
@@ -328,9 +403,13 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 tempFireball.Find("Fireball2 Blast").SetActive(false);
             }
 
-            if (!spiral)
+            if (trajectory == FlightTrajectory.STRAIGHT)
             {
                 tempFireball.transform.eulerAngles = Vector3.forward * direction;
+            } else if (trajectory == FlightTrajectory.TRACKER)
+            {
+                tempFireball.transform.eulerAngles = Vector3.forward * direction;
+                // Add something to rotate based on knight
             }
 
             List<FsmState> castStates = new()
@@ -343,7 +422,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             {
                 castState.GetFirstActionOfType<PlayerDataBoolTest>().Enabled = false;
                 castState.AddCustomAction(() => modifyFireball());
-                if (!spiral)
+                if (trajectory != FlightTrajectory.SPIRAL)
                 {
                     var setAngle = castState.GetFirstActionOfType<SetVelocityAsAngle>();
                     setAngle.angle.Value = direction;
@@ -503,6 +582,21 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
         }
 
+        private IEnumerator UpdateFireballAngle(GameObject fb)
+        {
+            var rb2 = fb.GetComponent<Rigidbody2D>();
+            while (fb.activeSelf)
+            {
+                //fb.transform.SetScaleX(1f);
+                //fb.transform.SetScaleY(1f);
+
+                var vel = rb2.velocity;
+                float angle = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg;
+                fb.transform.eulerAngles = Vector3.forward * angle;
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
+
 
         public static Vector2 GetSpiralVelocity(
             Vector2 aPos,
@@ -538,7 +632,14 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     self.Fsm.Name == "Fireball Control" &&
                     self.State.Name == "Idle")
                 {
-                    self.time.Value = 25f;
+                    if (self.Fsm.FsmComponent.gameObject.name.Contains("TRACKER"))
+                    {
+                        self.time.Value = 15f;
+                    }
+                    else
+                    {
+                        self.time.Value = 25f;
+                    }
                 }
             }
             catch (Exception err)
