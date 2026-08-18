@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using CorruptedDreamsPlando.FsmEditTemplates;
 using CorruptedDreamsPlando.ShaderThings;
@@ -9,7 +10,6 @@ using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using IL;
 using ItemChanger;
-using ItemChanger.Internal;
 using Newtonsoft.Json;
 using Satchel;
 using Satchel.Futils;
@@ -18,25 +18,34 @@ using static SceneLoad;
 
 namespace CorruptedDreamsPlando.CorruptedDreamBosses
 {
-    internal class AnimationModifiersNkg
+    internal class BalloonAttackPattern
     {
-        // Phase change variables
-
-
-        // Spiral
         public float SpiralSpeed;
         public float SpiralInwardVel;
         public int SpiralShotCount;
         public int SpiralSwitchDirectionInterval;
         public List<float> SpiralShotDelay;
-        public float SpawnOffset { get; set; }
+    }
 
-        // Tracking shot
-        public float TrackingShotXOffset;
-        public float TrackingShotYOffsetStep;
-        public float TrackingFireSpeed;
-        public float TrackingShotDelay;
-        public int TrackingShotLimit;
+    internal class GhasterBlasterPattern
+    {
+
+    }
+
+    internal class AnimationModifiersNkg
+    {
+        // Shriek Wave
+        public int ShriekSpawnerCount;
+        public float ShriekSpawnerFirstX;
+        public float ShriekSpawnerLastX;
+        public float ShriekOffsetY;
+        public float ShriekSpawnDelay;
+
+        // Spiral
+        public List<BalloonAttackPattern> BalloonPatterns;
+        public float SpiralSpawnOffset;
+
+        // Ghaster Blaster
 
         // Numbers for Phase Change bit
         public float RoarWaitTime;
@@ -73,6 +82,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static int _phase1Hp;
         private static AnimationModifiersNkg _modifiers;
 
+        private static List<GameObject> shriekSpawners = new List<GameObject>();
+
         public static void Initialize()
         {
             Events.AddFsmEdit(controlFSM, SetupPhaseChange);
@@ -98,6 +109,25 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         }
 
         // Enter "PC Pillar Retry", exit "Roar End"
+
+        private static AudioPlayerOneShotSingle GetClipState(FsmObject audioClip, float delay=0f)
+        {
+            var grimmControl = GameObject.Find("Grimm Control");
+            var grimmControlFsm = grimmControl.LocateMyFSM("Control");
+            var eye2 = grimmControlFsm.GetValidState("Eye 2");
+            var eye2PlayOneShot = eye2.GetFirstActionOfType<AudioPlayerOneShotSingle>();
+
+
+            return new AudioPlayerOneShotSingle()
+            {
+                spawnPoint = eye2PlayOneShot.spawnPoint,
+                audioPlayer = eye2PlayOneShot.audioPlayer,
+                audioClip = audioClip,
+                volume = 5f,
+                storePlayer = eye2PlayOneShot.storePlayer,
+                delay = 0,
+            };
+        }
 
         private static void SetupPhaseChangeAnimationSequence(PlayMakerFSM fsm, string stateAfterRoar)
         {
@@ -379,35 +409,160 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static int fireballsShotBalloon = 0;
         private static int fireballsShotTracker = 0;
 
+        private static float groundY = 9.6f;
+
+        // Shriek Wave Variables
+        private static int shriekDirectionStep = 0;
+        private static int shriekCurrentIndex = 0;
+
+        private static bool isFirstMove = true;
+
+        private static List<string> moveOptions = new();
+
         private static void ModifyAttackPatterns(PlayMakerFSM fsm)
         {
 
-            // Add shriek to uppercut
-            // TODO: Consider removing uppercut
-            var upperCutState = fsm.GetState("Uppercut Up");
-            AbyssShriekSpawner.Instance.AddShriekAtEndOfFSM(upperCutState, 2, uppercutOffset, true);
+            //// Add shriek to uppercut
+            //// TODO: Consider removing uppercut
+            //var upperCutState = fsm.GetState("Uppercut Up");
+            //AbyssShriekSpawner.Instance.AddShriekAtEndOfFSM(upperCutState, 2, uppercutOffset, true);
 
 
-            // Adding dive to landing attack
-            var groundDashLand = fsm.GetState("GD Antic");
-            DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(groundDashLand, 2, ddarkOffset);
+            //// Adding dive to landing attack
+            //var groundDashLand = fsm.GetState("GD Antic");
+            //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(groundDashLand, 2, ddarkOffset);
 
+            SetupMoveChoice(fsm);
 
             // Make balloon spirals
             SetupNewBalloonPhase(fsm);
 
 
-            // Replace bats with fireballs:
-            //  Detach the entire regular bats FSM flow
-            //  Add 4 fireball spawners at 4 heights
-            // 
+            SetupAbyssShriekWave(fsm);
+        }
 
-            SetupNewBatsAttack(fsm);
+        public static void SetupMoveChoice(PlayMakerFSM fsm)
+        {
+            // We are keeping none of the original moves essentially, so we just remove all the move choice options, and then re-add them, except balloon
+            var moveChoice = fsm.GetValidState("Move Choice");
+            moveChoice.RemoveTransition("FIREBATS");
+            moveChoice.RemoveTransition("SLASH");
+            moveChoice.RemoveTransition("AIR DASH");
+            moveChoice.RemoveTransition("SPIKES");
+            moveChoice.RemoveTransition("PILLARS");
+            moveChoice.RemoveTransition("BALLOON");
+
+            moveChoice.GetAction(0).Enabled = false;
+            moveChoice.GetAction(1).Enabled = false;
+            moveChoice.GetAction(2).Enabled = false;
+
+            // TODO: When adding telegraph, add a move counter, and after X moves do telegraph.
+            moveChoice.AddCustomAction(() =>
+            {
+                var nextMove = "";
+                if (isFirstMove)
+                {
+                    nextMove = "BALLOON SPIRAL";
+                    isFirstMove = false;
+                }
+                else
+                {
+                    var moveIndex = UnityEngine.Random.Range(0, moveOptions.Count);
+                    //nextMove = moveOptions[moveIndex];
+                    nextMove = "SHRIEK WAVE";
+                }
+
+                CorruptedDreamsPlandoMod.Instance.Log($"Move Choice {nextMove}");
+
+                fsm.SendEvent(nextMove);
+            });
         }
 
         public static void SetupAbyssShriekWave(PlayMakerFSM fsm)
         {
+            var totalSpread = _modifiers.ShriekSpawnerLastX - _modifiers.ShriekSpawnerFirstX;
+            float interval = totalSpread / (_modifiers.ShriekSpawnerCount - 1);
 
+            shriekSpawners.Clear();
+            for (int i = 0; i < _modifiers.ShriekSpawnerCount; ++i)
+            {
+                var xPos = _modifiers.ShriekSpawnerFirstX + (i * interval);
+                var newShriek = AbyssShriekSpawner.Instance.CreateShriekSpawner(2, new Vector3(xPos, groundY + _modifiers.ShriekOffsetY, 0));
+                shriekSpawners.Add(newShriek);
+            }
+
+            var shriekWaveStart = fsm.AddState("Shriek Wave Start");
+            var shriekWaveStep = fsm.AddState("Shriek Wave Step");
+            var shriekWavePause = fsm.AddState("Shriek Wave Pause");
+            var shriekWaveCleanup = fsm.AddState("Shriek Wave Cleanup");
+
+            // TODO: There is an issue where the shriek animation spawns in like 2-3 frames after hitbox becomes active
+
+            shriekWaveStart.AddCustomAction(() =>
+            {
+                var direction = UnityEngine.Random.Range(0, 2);
+                if (direction == 0)
+                {
+                    // Going right, index goes up
+                    shriekDirectionStep = 1;
+                    shriekCurrentIndex = 0;
+
+                } else
+                {
+                    // Going left
+                    shriekDirectionStep = -1;
+                    shriekCurrentIndex = shriekSpawners.Count - 1;
+                }
+
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Start {shriekDirectionStep} {shriekCurrentIndex}");
+            });
+            shriekWaveStart.AddTransition("FINISHED", shriekWaveStep.Name);
+
+            Satchel.FsmUtil.AddAction(shriekWaveStep, GetClipState(AbyssShriekSpawner.ShriekAudio));
+
+
+            shriekWaveStep.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Step 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                if (0 <= shriekCurrentIndex && shriekCurrentIndex <= shriekSpawners.Count - 1)
+                {
+                    shriekSpawners[shriekCurrentIndex].SetActive(true);
+                    //shriekSpawners[shriekCurrentIndex].SetActive(false);
+                }
+            });
+            shriekWaveStep.AddAction(new Wait() { time = _modifiers.ShriekSpawnDelay, finishEvent = new("FINISHED") });
+            shriekWaveStep.AddTransition("FINISHED", shriekWavePause.Name);
+
+            shriekWavePause.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                // Note that this check is just <, not <=, because the one above includes the last step
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Pause 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                shriekCurrentIndex += shriekDirectionStep;
+                if (0 <= shriekCurrentIndex && shriekCurrentIndex <= shriekSpawners.Count - 1)
+                {
+                    fsm.SendEvent("SHRIEK WAVE CONTINUE");
+                } else
+                {
+                    fsm.SendEvent("SHRIEK WAVE DONE");
+                }
+            });
+            shriekWavePause.AddTransition("SHRIEK WAVE CONTINUE", shriekWaveStep.Name);
+            shriekWavePause.AddTransition("SHRIEK WAVE DONE", shriekWaveCleanup.Name);
+
+            // Cleanup step is currently doing nothing
+            shriekWaveCleanup.AddAction(new Wait() { time = 1f, finishEvent = new("FINISHED") });
+            shriekWaveCleanup.AddTransition("FINISHED", "Move Choice");
+
+
+            // Now we need to insert this flow into the regular attacks flow.
+            // For shriek wave, grimm won't be on screen, so no need to bring him in.
+
+            var moveChoice = fsm.GetValidState("Move Choice");
+            moveChoice.AddTransition("SHRIEK WAVE", shriekWaveStart.Name);
+
+            moveOptions.Add("SHRIEK WAVE");
         }
 
         public static void SetupDDarkAttack(PlayMakerFSM fsm)
@@ -425,103 +580,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         }
 
-        public static void SetupNewBatsAttack(PlayMakerFSM fsm)
-        {
-
-            var fireballShooterHigh = _bossObject.AddComponent<FireballShooter>();
-            //fireballShooterUp.name = "Up Shot";
-            fireballShooterHigh.SpawnOffset = new Vector3(_modifiers.TrackingShotXOffset, _modifiers.TrackingShotYOffsetStep * 2, 0);
-
-            var fireballShooterMiddleUp = _bossObject.AddComponent<FireballShooter>();
-            //fireballShooterDown.name = "Down Shot";
-            fireballShooterMiddleUp.SpawnOffset = new Vector3(_modifiers.TrackingShotXOffset, _modifiers.TrackingShotYOffsetStep, 0);
-
-            var fireballShooterMiddleLow = _bossObject.AddComponent<FireballShooter>();
-            //fireballShooterLeft.name = "Left Shot";
-            fireballShooterMiddleLow.SpawnOffset = new Vector3(_modifiers.TrackingShotXOffset, -_modifiers.TrackingShotYOffsetStep, 0);
-
-            var fireballShooterLow = _bossObject.AddComponent<FireballShooter>();
-            //fireballShooterRight.name = "Right Shot";
-            fireballShooterLow.SpawnOffset = new Vector3(_modifiers.TrackingShotXOffset, -(_modifiers.TrackingShotYOffsetStep * 2), 0);
-
-            List<FireballShooter> shooterList = new() {
-                fireballShooterHigh,
-                fireballShooterMiddleUp,
-                fireballShooterMiddleLow,
-                fireballShooterLow
-            };
-
-            foreach (var shooter in shooterList)
-            {
-                // shooter.transform.SetParent(_bossObject.transform);
-                shooter.SpawnPoint = Vector3.zero;
-
-                // Common for all fireball shooters
-                shooter.Trajectory = FlightTrajectory.TRACKER;
-                shooter.RemoveParticles = true;
-
-                shooter.Speed = _modifiers.TrackingFireSpeed;
-                shooter.BaseObject = _bossObject;
-            }
-
-            // We are going to remove the existing 5 shots and re-work the flow.
-            var fbCast = fsm.GetState("FB Cast");
-            var fbBehind = fsm.GetState("FB Behind");
-            var fbCastEnd = fsm.GetState("FB Cast End");
-
-            var fireTrackingShot = fsm.AddState("CD Fireball Tracking Shot");
-            var fireTrackingShotShort = fsm.AddState("CD Fireball Tracking Shot Short");
-            var fireTrackingShotDelay = fsm.AddState("CD Fireball Tracking Shot Delay");
-
-            fbCast.RemoveTransition("REPEAT");
-            fbCast.RemoveTransition("FINISHED");
-
-            fbCast.AddTransition("REPEAT", fireTrackingShotShort.Name);
-            fbCast.AddTransition("FINISHED", fireTrackingShot.Name);
-
-
-            fireTrackingShot.AddTransition("TRACKER END", fbCastEnd.Name);
-            fireTrackingShot.AddTransition("TRACKER CONTINUE", fireTrackingShotDelay.Name);
-            fireTrackingShot.AddTransition("BEHIND", fbBehind.Name);
-            fireTrackingShotDelay.AddTransition("FINISHED", fireTrackingShot.Name);
-            fireTrackingShotShort.AddTransition("FINISHED", fireTrackingShot.Name);
-
-            fireTrackingShotDelay.AddAction(new Wait() { time = _modifiers.TrackingShotDelay, finishEvent = new("FINISHED") });
-
-            List<Tuple<int, int>> firePatterns = new()
-            {
-                new(0, 2),
-                new(0, 3),
-                new(1, 2),
-                new(1, 3)
-            };
-
-            fbCast.AddCustomAction(() =>
-            {
-                fireballsShotTracker = 0;
-            });
-
-            fireTrackingShotShort.AddCustomAction(() =>
-            {
-                fireballsShotTracker = _modifiers.TrackingShotLimit - 2;
-            });
-
-            fireTrackingShot.AddCustomAction(() =>
-            {
-                if (fireballsShotTracker >= _modifiers.TrackingShotLimit)
-                {
-                    fsm.SendEvent("TRACKER END");
-                    return;
-                }
-
-                var fireballPatternIndex = UnityEngine.Random.Range(0, 4);
-                var pat = firePatterns[fireballPatternIndex];
-                shooterList[pat.Item1].ShootShadeSoul();
-                shooterList[pat.Item2].ShootShadeSoul();
-                fireballsShotTracker++;
-                fsm.SendEvent("TRACKER CONTINUE");
-            });
-        }
+        private static BalloonAttackPattern currentPattern;
 
         public static void SetupNewBalloonPhase(PlayMakerFSM fsm)
         {
@@ -537,19 +596,19 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             var fireballShooterUp = new FireballShooter();
             //fireballShooterUp.name = "Up Shot";
-            fireballShooterUp.SpawnOffset = new Vector3(0, _modifiers.SpawnOffset, 0);
+            fireballShooterUp.SpawnOffset = new Vector3(0, _modifiers.SpiralSpawnOffset, 0);
 
             var fireballShooterDown = new FireballShooter();
             //fireballShooterDown.name = "Down Shot";
-            fireballShooterDown.SpawnOffset = new Vector3(0, -_modifiers.SpawnOffset, 0);
+            fireballShooterDown.SpawnOffset = new Vector3(0, -_modifiers.SpiralSpawnOffset, 0);
 
             var fireballShooterLeft = new FireballShooter();
             //fireballShooterLeft.name = "Left Shot";
-            fireballShooterLeft.SpawnOffset = new Vector3(_modifiers.SpawnOffset, 0, 0);
+            fireballShooterLeft.SpawnOffset = new Vector3(_modifiers.SpiralSpawnOffset, 0, 0);
 
             var fireballShooterRight = new FireballShooter();
             //fireballShooterRight.name = "Right Shot";
-            fireballShooterRight.SpawnOffset = new Vector3(-_modifiers.SpawnOffset, 0, 0);
+            fireballShooterRight.SpawnOffset = new Vector3(-_modifiers.SpiralSpawnOffset, 0, 0);
 
             List<FireballShooter> shooterList = new() { fireballShooterUp, fireballShooterDown, fireballShooterLeft, fireballShooterRight };
 
@@ -562,8 +621,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
                 shooter.Clockwise = true;
 
-                shooter.Speed = _modifiers.SpiralSpeed;
-                shooter.InwardVel = _modifiers.SpiralInwardVel;
+                shooter.Speed = 0;
+                shooter.InwardVel = 0;
             }
 
             var shootSpirals = fsm.AddState("Shade Repeat");
@@ -576,6 +635,14 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             firePause.AddCustomAction(() =>
             {
                 fireballsShotBalloon = 0;
+                var patternIndex = UnityEngine.Random.Range(0, _modifiers.BalloonPatterns.Count);
+                currentPattern = _modifiers.BalloonPatterns[patternIndex];
+
+                foreach (var shooter in shooterList)
+                {
+                    shooter.Speed = currentPattern.SpiralSpeed;
+                    shooter.InwardVel = currentPattern.SpiralInwardVel;
+                }
             });
 
 
@@ -585,8 +652,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             shootPause.AddTransition("FINISHED", shootSpirals.Name);
             shootPause.AddCustomAction(() =>
             {
-                shootWait.Value = _modifiers.SpiralShotDelay[fireballsShotBalloon % _modifiers.SpiralShotDelay.Count];
-                if (fireballsShotBalloon % _modifiers.SpiralSwitchDirectionInterval == 0)
+                shootWait.Value = currentPattern.SpiralShotDelay[fireballsShotBalloon % currentPattern.SpiralShotDelay.Count];
+                if (fireballsShotBalloon % currentPattern.SpiralSwitchDirectionInterval == 0)
                 {
                     foreach (var shooter in shooterList)
                     {
@@ -602,7 +669,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             shootSpirals.AddCustomAction(() =>
             {
-                if (fireballsShotBalloon >= _modifiers.SpiralShotCount)
+                if (fireballsShotBalloon >= currentPattern.SpiralShotCount)
                 {
                     fsm.SendEvent("END");
                 }
@@ -620,6 +687,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
 
             });
+
+            var balloonPos = fsm.GetValidState("Balloon Pos");
+            var moveChoice = fsm.GetValidState("Move Choice");
+            moveChoice.AddTransition("BALLOON SPIRAL", balloonPos.Name);
+            moveOptions.Add("BALLOON SPIRAL");
 
             #endregion
         }

@@ -428,6 +428,11 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     setAngle.angle.Value = direction;
                     setAngle.speed.Value = speed;
                 }
+
+                if (removeParticles)
+                {
+                    castState.GetFirstActionOfType<AudioPlayerOneShotSingle>().Enabled = false;
+                }
             }
 
             // Forcing a firing direction.
@@ -638,7 +643,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     }
                     else
                     {
-                        self.time.Value = 25f;
+                        self.time.Value = 15f;
                     }
                 }
             }

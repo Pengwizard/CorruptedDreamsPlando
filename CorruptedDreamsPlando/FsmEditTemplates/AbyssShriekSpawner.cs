@@ -19,6 +19,11 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
         private GameObject _srcHeads2;
         private static FsmObject _shriekAudio = null;
+        public static FsmObject ShriekAudio { get
+            {
+                GetAbyssShriekSfx();
+                return _shriekAudio;
+            }}
         private static FsmObject _howlingWraithsAudio = null;
         private static GameObject _temporaryShriek = null;
 
@@ -53,7 +58,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             {
                 var knight = GameObject.Find("Knight");
                 PlayMakerFSM fsm = knight.LocateMyFSM("Spell Control");
-                var state = fsm.GetState("Scream Antic2");
+                var state = fsm.GetValidState("Scream Antic2");
                 _shriekAudio = state.GetFirstActionOfType<AudioPlay>().oneShotClip;
             }
         }
@@ -64,7 +69,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             {
                 var knight = GameObject.Find("Knight");
                 PlayMakerFSM fsm = knight.LocateMyFSM("Spell Control");
-                var state = fsm.GetState("Scream Antic 1");
+                var state = fsm.GetValidState("Scream Antic 1");
                 _howlingWraithsAudio = state.GetFirstActionOfType<AudioPlay>().oneShotClip;
             }
         }
@@ -82,6 +87,48 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
         }
 
+        public GameObject CreateShriekSpawner(int damageToDeal, Vector3 position)
+        {
+            var newShriek = GameObject.Instantiate(ShriekObject);
+            newShriek.name = $"CD Shriek {position.ToString()}";
+            Component.Destroy(newShriek.LocateMyFSM("Deactivate on Hit"));
+            var fsm = newShriek.LocateMyFSM("FSM");
+            fsm.FsmVariables.FindFsmBool("Unparent").Value = false;
+            fsm.FsmVariables.FindFsmBool("Reposition").Value = false;
+
+            GetAbyssShriekSfx();
+            if (_shriekAudio != null)
+            {
+                AudioPlayerOneShotSingle playSpellAudio = new AudioPlayerOneShotSingle();
+                playSpellAudio.volume = 5f;
+                playSpellAudio.audioClip = _shriekAudio;
+
+                fsm.GetValidState("Init").AddAction(playSpellAudio);
+            } else
+            {
+                CorruptedDreamsPlandoMod.Instance.LogError("Setting audio for shriek failed");
+            }
+
+            GameObject[] gos = { newShriek };
+            foreach (var part in gos)
+            {
+                List<GameObject> children = new List<GameObject>();
+                part.FindAllChildren(children);
+                foreach (var c in children)
+                {
+                    c.layer = LayerMask.NameToLayer("Enemies");
+                    c.RemoveComponent<DamageEnemies>();
+                    var damageHero = c.AddComponent<DamageHero>();
+                    damageHero.damageDealt = damageToDeal;
+                }
+            }
+
+            newShriek.transform.position = position;
+            newShriek.SetActive(false);
+
+            return newShriek;
+        }
+
         public void AddShriekAtEndOfFSM(FsmState fsm, int damageToDeal, Vector3 spawnOffset, bool useWraithsAudio=false)
         {
             //GameObject shriek = GameObject.Instantiate(ShriekObject);
@@ -91,7 +138,8 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 if (useWraithsAudio)
                 {
                     GetHowlingWraithsSfx();
-                    if (_howlingWraithsAudio != null)
+                    GetAbyssShriekSfx();
+                    if (_shriekAudio != null)
                     {
                         AudioPlayerOneShotSingle playSpellAudio = new AudioPlayerOneShotSingle();
                         //playSpellAudio. = new HutongGames.PlayMaker.FsmOwnerDefault()
