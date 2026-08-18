@@ -46,6 +46,10 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public float SpiralSpawnOffset;
 
         // Ghaster Blaster
+        public float BlasterInitialDistance;
+        public int BlasterCount;
+        public float BlasterSpeed;
+        public float BlasterTelegraphDelay;
 
         // Numbers for Phase Change bit
         public float RoarWaitTime;
@@ -82,7 +86,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static int _phase1Hp;
         private static AnimationModifiersNkg _modifiers;
 
-        private static List<GameObject> shriekSpawners = new List<GameObject>();
 
         public static void Initialize()
         {
@@ -403,20 +406,22 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             //throw new NotImplementedException();
         }
 
-        private static Vector3 uppercutOffset = new Vector3(0, 0, 0);
-        private static Vector3 ddarkOffset = new Vector3(0, 0, 0);
-
+        // Balloon variables
         private static int fireballsShotBalloon = 0;
-        private static int fireballsShotTracker = 0;
+
+        // Blaster variables
+        private static List<FireballShooter> blasterSpawners = new List<FireballShooter>();
 
         private static float groundY = 9.6f;
 
         // Shriek Wave Variables
         private static int shriekDirectionStep = 0;
         private static int shriekCurrentIndex = 0;
+        private static List<GameObject> shriekSpawners = new List<GameObject>();
 
+
+        // Move options
         private static bool isFirstMove = true;
-
         private static List<string> moveOptions = new();
 
         private static void ModifyAttackPatterns(PlayMakerFSM fsm)
@@ -443,6 +448,18 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public static void SetupMoveChoice(PlayMakerFSM fsm)
         {
+            // Disabling the phase transition balloon, making it a regular move
+            // TODO: We might make it again later, but we want more steps and different patterns and stuff so...
+            var rageBalloon = fsm.GetValidState("Balloon?");
+            rageBalloon.RemoveTransition("BALLOON 1");
+            rageBalloon.RemoveTransition("BALLOON 2");
+            rageBalloon.RemoveTransition("BALLOON 3");
+            foreach (var act in rageBalloon.Actions)
+            {
+                // Also just disabling all the actions in here.
+                act.Enabled = false;
+            }
+
             // We are keeping none of the original moves essentially, so we just remove all the move choice options, and then re-add them, except balloon
             var moveChoice = fsm.GetValidState("Move Choice");
             moveChoice.RemoveTransition("FIREBATS");
@@ -496,8 +513,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var shriekWavePause = fsm.AddState("Shriek Wave Pause");
             var shriekWaveCleanup = fsm.AddState("Shriek Wave Cleanup");
 
-            // TODO: There is an issue where the shriek animation spawns in like 2-3 frames after hitbox becomes active
-            
             shriekWaveStart.AddCustomAction(() =>
             {
                 var direction = UnityEngine.Random.Range(0, 2);
@@ -514,7 +529,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     shriekCurrentIndex = shriekSpawners.Count - 1;
                 }
 
-                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Start {shriekDirectionStep} {shriekCurrentIndex}");
             });
             Satchel.FsmUtil.AddAction(shriekWaveStart, GetClipState(AbyssShriekSpawner.ShriekAudio));
             shriekWaveStart.AddTransition("FINISHED", shriekWaveStep.Name);
@@ -529,7 +543,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 if (0 <= shriekCurrentIndex && shriekCurrentIndex <= shriekSpawners.Count - 1)
                 {
                     shriekSpawners[shriekCurrentIndex].SetActive(true);
-                    //shriekSpawners[shriekCurrentIndex].SetActive(false);
                 }
             });
             shriekWaveStep.AddAction(new Wait() { time = _modifiers.ShriekSpawnDelay, finishEvent = new("FINISHED") });
@@ -573,7 +586,101 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public static void SetupGasterBlaster(PlayMakerFSM fsm)
         {
+            // Step 1 - figure out the amount and distance and angle we want these to be from the knight
+            float angleOfFireIntervals = 360.0f / (_modifiers.BlasterCount - 1);
 
+            blasterSpawners.Clear();
+            for (int i = 0; i < _modifiers.BlasterCount; ++i)
+            {
+                var angle = i * angleOfFireIntervals;
+
+                // when i = 0, all the offset should be negative on X
+                float xOffset = 0;
+                float yOffset = 0;
+
+                var fireballShooter = new FireballShooter();
+                //fireballShooterUp.name = "Up Shot";
+                fireballShooter.SpawnOffset = new Vector3(xOffset, yOffset, 0);
+                fireballShooter.BaseObject = Utils.Hero();
+                fireballShooter.Direction = angle;
+                fireballShooter.ForceLeft = false;
+                fireballShooter.Speed = _modifiers.BlasterSpeed;
+                fireballShooter.Trajectory = FlightTrajectory.STRAIGHT;
+
+                blasterSpawners.Add(fireballShooter);
+            }
+
+            var shriekWaveStart = fsm.AddState("Shriek Wave Start");
+            var shriekWaveStep = fsm.AddState("Shriek Wave Step");
+            var shriekWavePause = fsm.AddState("Shriek Wave Pause");
+            var shriekWaveCleanup = fsm.AddState("Shriek Wave Cleanup");
+
+            shriekWaveStart.AddCustomAction(() =>
+            {
+                var direction = UnityEngine.Random.Range(0, 2);
+                if (direction == 0)
+                {
+                    // Going right, index goes up
+                    shriekDirectionStep = 1;
+                    shriekCurrentIndex = 0;
+
+                }
+                else
+                {
+                    // Going left
+                    shriekDirectionStep = -1;
+                    shriekCurrentIndex = shriekSpawners.Count - 1;
+                }
+
+            });
+            Satchel.FsmUtil.AddAction(shriekWaveStart, GetClipState(AbyssShriekSpawner.ShriekAudio));
+            shriekWaveStart.AddTransition("FINISHED", shriekWaveStep.Name);
+
+
+            Satchel.FsmUtil.AddAction(shriekWaveStep, GetClipState(AbyssShriekSpawner.ShriekAudio, 0f, 3f));
+
+            shriekWaveStep.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Step 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                if (0 <= shriekCurrentIndex && shriekCurrentIndex <= shriekSpawners.Count - 1)
+                {
+                    shriekSpawners[shriekCurrentIndex].SetActive(true);
+                }
+            });
+            shriekWaveStep.AddAction(new Wait() { time = _modifiers.ShriekSpawnDelay, finishEvent = new("FINISHED") });
+            shriekWaveStep.AddTransition("FINISHED", shriekWavePause.Name);
+
+            shriekWavePause.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                // Note that this check is just <, not <=, because the one above includes the last step
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Pause 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                shriekCurrentIndex += shriekDirectionStep;
+                if (0 <= shriekCurrentIndex && shriekCurrentIndex <= shriekSpawners.Count - 1)
+                {
+                    fsm.SendEvent("SHRIEK WAVE CONTINUE");
+                }
+                else
+                {
+                    fsm.SendEvent("SHRIEK WAVE DONE");
+                }
+            });
+            shriekWavePause.AddTransition("SHRIEK WAVE CONTINUE", shriekWaveStep.Name);
+            shriekWavePause.AddTransition("SHRIEK WAVE DONE", shriekWaveCleanup.Name);
+
+            // Cleanup step is currently doing nothing
+            shriekWaveCleanup.AddAction(new Wait() { time = 1f, finishEvent = new("FINISHED") });
+            shriekWaveCleanup.AddTransition("FINISHED", "Move Choice");
+
+
+            // Now we need to insert this flow into the regular attacks flow.
+            // For shriek wave, grimm won't be on screen, so no need to bring him in.
+
+            var moveChoice = fsm.GetValidState("Move Choice");
+            moveChoice.AddTransition("SHRIEK WAVE", shriekWaveStart.Name);
+
+            moveOptions.Add("SHRIEK WAVE");
         }
 
         public static void SetupSimonSays(PlayMakerFSM fsm)

@@ -1,10 +1,14 @@
-﻿using CorruptedDreamsPlando.FsmEditTemplates;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using CorruptedDreamsPlando.FsmEditTemplates;
+using HutongGames.PlayMaker.Actions;
 using IL.InControl.NativeDeviceProfiles;
 using ItemChanger;
 using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
-using System;
-using System.Collections.Generic;
+using Satchel;
+using SFCore.Utils;
 using UnityEngine;
 
 namespace CorruptedDreamsPlando.Testing
@@ -23,21 +27,25 @@ namespace CorruptedDreamsPlando.Testing
         {
             orig(self);
 
-            var spawnPoint = new UnityEngine.Vector3(25f, 6.4f, 0.002f);
+            var h = Utils.Hero();
+            var dnail = h.LocateMyFSM("Dream Nail");
+            SetupGasterBlaster(dnail);
 
-            List<Vector3> spawnOffsets = new()
-            {
-                new(3, 0),
-                new(-3, 0),
-                new(0, 3),
-                new(0, -3),
-            };
+            //var spawnPoint = new UnityEngine.Vector3(25f, 6.4f, 0.002f);
 
-            GameObject fbsGo1 = new("Spawner1");
+            //List<Vector3> spawnOffsets = new()
+            //{
+            //    new(3, 0),
+            //    new(-3, 0),
+            //    new(0, 3),
+            //    new(0, -3),
+            //};
 
-            FireballShooter fbs1 = fbsGo1.AddComponent<FireballShooter>();
-            fbs1.SpawnPoint = spawnPoint;
-            fbs1.SpawnOffset = new UnityEngine.Vector3(0, 2);
+            //GameObject fbsGo1 = new("Spawner1");
+
+            //FireballShooter fbs1 = fbsGo1.AddComponent<FireballShooter>();
+            //fbs1.SpawnPoint = spawnPoint;
+            //fbs1.SpawnOffset = new UnityEngine.Vector3(0, 2);
 
             //GameObject fbsGo2 = new("Spawner2");
 
@@ -93,7 +101,7 @@ namespace CorruptedDreamsPlando.Testing
             //var ddc = fsm.gameObject.AddComponent<DDarkComponent>();
             //ddc.StartCoroutine(DescendingDarkSpawner.Instance.ActivateDDarkForObjectOnCondition(fsm.gameObject, 2, Vector3.zero, ConditionFunction));
 
-            fsm.GetState("End").AddLastAction(new Lambda(PrintEnd));
+            fsm.GetValidState("End").AddLastAction(new Lambda(PrintEnd));
             //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(fsm.GetState("End"), 1);
             //AbyssShriekSpawner.Instance.AddShriekAtEndOfFSM(fsm.GetState("End"), 1);
             //FireballSpawner.Instance.SpawnFireballAtEndOfFSM(fsm.GetState("End"), 1);
@@ -115,5 +123,143 @@ namespace CorruptedDreamsPlando.Testing
         {
             CorruptedDreamsPlandoMod.Instance.Log("Dream nail ended");
         }
+
+
+        private static List<GameObject> blasterSpawners = new List<GameObject>();
+        private static int blasterDirection = 0;
+        private static int blasterCurrentIndex = 0;
+        private static int blasterFireCount = 0;
+
+        public static void SetupGasterBlaster(PlayMakerFSM fsm)
+        {
+            var BlasterCount = 16;
+            var BlasterSpeed = 40f;
+            var BlasterShotDelay = 0.2f;
+            var BaseOffset = -12f;
+            // Step 1 - figure out the amount and distance and angle we want these to be from the knight
+            float angleOfFireIntervals = 360.0f / (BlasterCount);
+
+            blasterSpawners.Clear();
+            for (int i = 0; i < BlasterCount; ++i)
+            {
+                var angle = i * angleOfFireIntervals;
+                var rds = angle * Mathf.Deg2Rad;
+
+                // when i = 0, all the offset should be negative on X
+                float xOffset = Mathf.Cos(rds) * BaseOffset;
+                float yOffset = Mathf.Sin(rds) * BaseOffset;
+
+
+                var go = new GameObject();
+                var fireballShooter = go.AddComponent<FireballShooter>();
+
+                //fireballShooterUp.name = "Up Shot";
+                fireballShooter.SpawnOffset = new Vector3(xOffset, yOffset, 0);
+                fireballShooter.BaseObject = Utils.Hero();
+                fireballShooter.Direction = angle;
+                fireballShooter.ForceLeft = true;
+                fireballShooter.Speed = BlasterSpeed;
+                fireballShooter.Trajectory = FlightTrajectory.STRAIGHT;
+                CorruptedDreamsPlandoMod.Instance.Log("Made fireball shooter");
+
+                blasterSpawners.Add(go);
+            }
+
+            var blasterCircleStart = fsm.AddFsmState("Blaster Circle Start");
+            var blasterCircleStep = fsm.AddFsmState("Blaster Circle Step");
+            var blasterCirclePause = fsm.AddFsmState("Blaster Circle Pause");
+            var blasterCircleCleanup = fsm.AddFsmState("Blaster Circle Cleanup");
+
+            blasterCircleStart.AddCustomAction(() =>
+            {
+                var direction = UnityEngine.Random.Range(0, 2);
+                if (direction == 0)
+                {
+                    blasterDirection = 1;
+
+                }
+                else
+                {
+                    blasterDirection = -1;
+                }
+
+                blasterCurrentIndex = UnityEngine.Random.Range(0, BlasterCount);
+                blasterFireCount = UnityEngine.Random.Range(BlasterCount, BlasterCount * 2);
+            });
+
+            // Satchel.FsmUtil.AddAction(shriekWaveStart, GetClipState(AbyssShriekSpawner.ShriekAudio));
+            blasterCircleStart.AddFsmTransition("FINISHED", blasterCircleStep.Name);
+
+
+            //Satchel.FsmUtil.AddAction(shriekWaveStep, GetClipState(AbyssShriekSpawner.ShriekAudio, 0f, 3f));
+
+            // TODO Add Pre-fire
+
+            blasterCircleStep.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Step 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                CorruptedDreamsPlandoMod.Instance.Log($"shoot {blasterCurrentIndex}");
+                if (0 <= blasterCurrentIndex && blasterCurrentIndex <= blasterSpawners.Count - 1)
+                {
+                    blasterSpawners[blasterCurrentIndex].GetComponent<FireballShooter>().ShootShadeSoul();
+                }
+            });
+
+            blasterCircleStep.AddFsmAction(new Wait() { time = BlasterShotDelay, finishEvent = new("FINISHED") });
+            blasterCircleStep.AddFsmTransition("FINISHED", blasterCirclePause.Name);
+
+            blasterCirclePause.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                // Note that this check is just <, not <=, because the one above includes the last step
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Pause 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                blasterCurrentIndex += blasterDirection;
+                if (blasterCurrentIndex < 0)
+                {
+                    blasterCurrentIndex = blasterSpawners.Count - 1;
+                }
+
+                if (blasterCurrentIndex > blasterSpawners.Count - 1)
+                {
+                    blasterCurrentIndex = 0;
+                }
+
+                blasterFireCount--;
+
+                if (blasterFireCount >= 0)
+                {
+                    fsm.SendEvent("BLASTER CIRCLE CONTINUE");
+                }
+                else
+                {
+                    fsm.SendEvent("BLASTER CIRCLE DONE");
+                }
+            });
+            blasterCirclePause.AddFsmTransition("BLASTER CIRCLE CONTINUE", blasterCircleStep.Name);
+            blasterCirclePause.AddFsmTransition("BLASTER CIRCLE DONE", blasterCircleCleanup.Name);
+
+            // Cleanup step is currently doing nothing
+            blasterCircleCleanup.AddFsmAction(new Wait() { time = 1f, finishEvent = new("FINISHED") });
+
+
+            blasterCircleCleanup.AddFsmTransition("FINISHED", "Regain Control");
+
+            var e = fsm.GetValidState("End");
+            e.RemoveFsmTransition("FINISHED");
+            e.AddFsmTransition("FINISHED", blasterCircleStart.Name);
+
+            //blasterCircleCleanup.AddFsmTransition("FINISHED", "Move Choice");
+
+
+            // Now we need to insert this flow into the regular attacks flow.
+            // For shriek wave, grimm won't be on screen, so no need to bring him in.
+
+            //var moveChoice = fsm.GetValidState("Move Choice");
+            //moveChoice.AddTransition("SHRIEK WAVE", shriekWaveStart.Name);
+
+            //moveOptions.Add("SHRIEK WAVE");
+        }
+
     }
 }
