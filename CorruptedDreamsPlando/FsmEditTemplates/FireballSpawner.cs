@@ -44,11 +44,13 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
         public float OrbitSpeed { get; set; }
         public float InwardVel { get; set; }
+        public float ShotScale { get; set; }
         public FireballShooter()
         {
             spawner = new FireballSpawner();
              //On.HeroController.Update += HeroController_Update;
             BaseObject = null;
+            ShotScale = 1f;
         }
 
         // Deprecated
@@ -150,7 +152,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 // This is a bit of a hack for NKG specifically
                 ForceLeft = BaseObject.transform.GetScaleX() == 1;
             }
-            spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, Trajectory, Clockwise, RemoveParticles, Speed, InwardVel);
+            spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, Trajectory, Clockwise, RemoveParticles, ShotScale, Speed, InwardVel);
         }
 
         public void ShootVengefulSpirit()
@@ -164,7 +166,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             int count = 0;
             while (!StopShooting && count < limit)
             {
-                spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, Trajectory, Clockwise, RemoveParticles);
+                spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, Trajectory, Clockwise, RemoveParticles, ShotScale);
                 count += 1;
                 CorruptedDreamsPlandoMod.Instance.Log($"{count} {limit}");
                 yield return new WaitForSeconds(interval);
@@ -277,6 +279,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             FlightTrajectory trajectory,
             bool clockwise,
             bool removeParticles,
+            float scale,
             float speed = 45f,
             float inwardSpeed = -0.5f)
         {
@@ -354,6 +357,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     fb.AddComponent<DummySpinner>().StartCoroutine(SpinFireball(
                         fb,
                         focalPoint,
+                        scale,
                         clockwise,
                         spawnPoint,
                         speed,
@@ -391,7 +395,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     {
                         fb.transform.eulerAngles = forwardness * visualRotation;
                     });
-                    fb.AddComponent<DummySpinner>().StartCoroutine(DelayScale(fb));
+                    fb.AddComponent<DummySpinner>().StartCoroutine(DelayScale(fb, scale));
                     //init.AddCustomAction(() =>
                     //{
                     //    tempFireball.transform.SetScaleX(1.2f);
@@ -418,9 +422,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             if (trajectory == FlightTrajectory.STRAIGHT)
             {
                 tempFireball.transform.eulerAngles = forwardness * visualRotation;
-
-
-
             }
             else if (trajectory == FlightTrajectory.TRACKER)
             {
@@ -452,27 +453,54 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
 
             // Forcing a firing direction.
-            var lr = castFSM.GetState("L or R");
+            var lr = castFSM.GetValidState("L or R");
+
+            var newLr = castFSM.AddState("CD L or R");
+            newLr.CopyActionData(lr);
+            newLr.AddTransition("RIGHT", "Cast Right");
+            newLr.AddTransition("LEFT", "Cast Left");
+
             castFSM.AddVariable<FsmFloat>("New Scale X");
             var nsx = castFSM.GetVariable<FsmFloat>("New Scale X");
-            var comp = lr.GetFirstActionOfType<FloatCompare>();
+            var comp = newLr.GetFirstActionOfType<FloatCompare>();
             comp.float1 = nsx;
             nsx.Value = -(Mathf.Cos(direction * Mathf.Deg2Rad));
+
+            lr.RemoveTransition("RIGHT");
+            lr.RemoveTransition("LEFT");
+            lr.AddTransition("FINISHED", "CD L or R");
+
+            lr.GetAction(0).Enabled = false;
+            lr.GetAction(1).Enabled = false;
+            lr.GetAction(2).Enabled = false;
+            lr.GetAction(3).Enabled = false;
+
+            var sr = tempFireball.AddComponent<SpriteRenderer>();
+            sr.sprite = new EmbeddedSprite("spellAnimations.fireballFrame1").Value;
+            sr.size = new Vector2(20, 20);
+            sr.enabled = true;
+
+            if (nsx.Value > 0)
+            {
+                sr.flipX = true;
+            }
+
+            lr.AddFirstAction(new Wait() { time = 1f, finishEvent = new("FINISHED") });
 
             // Fire!
             tempFireball.SetActive(true);
         }
 
         // TODO maybe move this to the idle fsm?
-        private IEnumerator SpinFireball(GameObject fb, Vector3 tar, bool isLeft, Vector3 initialPosition, float speed, float inwardSpeed, bool flip = false)
+        private IEnumerator SpinFireball(GameObject fb, Vector3 tar, float scale, bool isLeft, Vector3 initialPosition, float speed, float inwardSpeed, bool flip = false)
         {
             var rb2 = fb.GetComponent<Rigidbody2D>();
 
             fb.transform.position = initialPosition;
             while (fb.activeSelf)
             {
-                 fb.transform.SetScaleX(1f);
-                 fb.transform.SetScaleY(1f);
+                 fb.transform.SetScaleX(scale);
+                 fb.transform.SetScaleY(scale);
 
                 var vel = GetSpiralVelocity(fb.transform.position, tar, speed, inwardSpeed, !isLeft);
 
@@ -499,20 +527,20 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
         }
 
-        private IEnumerator DelayScale(GameObject fb)
+        private IEnumerator DelayScale(GameObject fb, float scale)
         {
             var x = fb.transform.GetScaleX();
-            while (x > 1.2f)
+            while (x > scale)
             {
                 x = fb.transform.GetScaleX();
-                fb.transform.SetScaleY(1.2f);
+                fb.transform.SetScaleY(scale);
                 if (fb.transform.GetScaleX() >= 0)
                 {
-                    fb.transform.SetScaleX(1.2f);
+                    fb.transform.SetScaleX(scale);
                 }
                 else
                 {
-                    fb.transform.SetScaleX(-1.2f);
+                    fb.transform.SetScaleX(-scale);
 
                 }
 

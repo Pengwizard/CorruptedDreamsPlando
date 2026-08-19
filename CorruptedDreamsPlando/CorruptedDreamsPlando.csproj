@@ -55,6 +55,7 @@
     <None Remove="Resources\LostKinBadge.png" />
     <None Remove="Resources\shader\grayscaler_osx.unity3d" />
     <None Remove="Resources\shader\grayscaler_windows.unity3d" />
+    <None Remove="Resources\spellAnimations\fireballFrame1.png" />
     <None Remove="Resources\upSign.png" />
     <None Remove="Resources\VoidCaster.png" />
     <None Remove="Resources\VoidCaster_Small.png" />
@@ -72,6 +73,7 @@
     <EmbeddedResource Include="Resources\logic.json" />
     <EmbeddedResource Include="Resources\shader\grayscaler_osx.unity3d" />
     <EmbeddedResource Include="Resources\shader\grayscaler_windows.unity3d" />
+    <EmbeddedResource Include="Resources\spellAnimations\fireballFrame1.png" />
     <EmbeddedResource Include="Resources\upSign.png" />
     <EmbeddedResource Include="Resources\VoidCaster.png" />
     <EmbeddedResource Include="Resources\VoidCaster_Small.png" />
