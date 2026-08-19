@@ -18,11 +18,11 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 {
     internal class DummySpinner : MonoBehaviour { }
 
-    public enum FlightTrajectory
+    public struct SpiralInfo
     {
-        STRAIGHT = 0,
-        SPIRAL = 1,
-        TRACKER = 2
+        public Vector3 focalPoint;
+        public bool clockwise;
+        public float inwardForce;
     }
 
     public class FireballShooter : MonoBehaviour
@@ -33,18 +33,16 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         public GameObject BaseObject { get; set; }
         public Vector3 SpawnOffset { get; set; }
 
-        public FlightTrajectory Trajectory { get; set; }
-        public bool Clockwise { get; set; }
+        public SpiralInfo SpiralShotInfo;
 
         public float Direction { get; set; }
         public float Speed { get; set; }
 
         public bool RemoveParticles { get; set; }
-        public bool StopShooting { get; set; }
 
-        public float OrbitSpeed { get; set; }
-        public float InwardVel { get; set; }
         public float ShotScale { get; set; }
+        public float PreFireDelay { get; set; }
+        public int DamageToDeal { get; set; }
         public FireballShooter()
         {
             spawner = new FireballSpawner();
@@ -56,121 +54,43 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         // Deprecated
         public bool ForceLeft = false;
 
-        private void HeroController_Update(On.HeroController.orig_Update orig, HeroController self)
-        {
-            // TODO Fix fireball going left, "stabilize" fireball going right
-            RemoveParticles = true;
-            ForceLeft = false;
-            orig(self);
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                CorruptedDreamsPlandoMod.Instance.Log($"1");
-                Trajectory = FlightTrajectory.SPIRAL;
-                Clockwise = true;
-                ShootShadeSoul();
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                CorruptedDreamsPlandoMod.Instance.Log($"2");
-                Trajectory = FlightTrajectory.SPIRAL;
-                Clockwise = false;
-                ShootShadeSoul();
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                CorruptedDreamsPlandoMod.Instance.Log($"3");
-                Direction += 15f;
-                Direction = Direction % 360;
-                Trajectory = FlightTrajectory.STRAIGHT;
-                Speed = 20f;
-                ShootShadeSoul();
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                Direction = 270;
-                Trajectory = FlightTrajectory.STRAIGHT;
-                ForceLeft = false;
-                RemoveParticles = false;
-                Speed = 60f;
-
-                this.StartCoroutine(ShootShadeSoulOnInterval(0.5f, 10));
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                Direction = 270;
-                Trajectory = FlightTrajectory.STRAIGHT;
-                ForceLeft = false;
-                RemoveParticles = false;
-                Speed = 20f;
-
-                this.StartCoroutine(ShootShadeSoulOnInterval(1f));
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                StopShooting = true;
-                this.StopAllCoroutines();
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha7))
-            {
-                // StopShooting = true;
-                ShootVengefulSpirit();
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                CorruptedDreamsPlandoMod.Instance.Log($"8");
-                Trajectory = FlightTrajectory.TRACKER;
-                Direction = 0f;
-                ForceLeft = true;
-                Speed = 20f;
-                ShootShadeSoul();
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha9))
-            {
-                CorruptedDreamsPlandoMod.Instance.Log($"9");
-                Trajectory = FlightTrajectory.TRACKER;
-                Direction = 180f;
-                Speed = 20f;
-                ForceLeft = false;
-                ShootShadeSoul();
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                CorruptedDreamsPlandoMod.Instance.Log($"0");
-                Trajectory = FlightTrajectory.TRACKER;
-                Direction = 180f;
-                Speed = 20f;
-                ForceLeft = true;
-                ShootShadeSoul();
-            }
-        }
-
-        public void ShootShadeSoul()
+        public void ShootStraight()
         {
             if (BaseObject != null)
             {
-                SpawnPoint = BaseObject.transform.position;
                 // This is a bit of a hack for NKG specifically
-                ForceLeft = BaseObject.transform.GetScaleX() == 1;
+                SpawnPoint = BaseObject.transform.position;
             }
-            spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, Trajectory, Clockwise, RemoveParticles, ShotScale, Speed, InwardVel);
+
+            var fireball = spawner.CreateStraightShadeSoul(
+                SpawnPoint + SpawnOffset,
+                Direction,
+                Speed,
+                RemoveParticles,
+                ShotScale,
+                DamageToDeal,
+                PreFireDelay);
+            fireball.SetActive(true);
         }
 
-        public void ShootVengefulSpirit()
+        public void ShootSpiral()
         {
-            //spawner.SpawnVengefulSpirit(SpawnPoint + SpawnOffset, SpawnPoint, Direction, ForceLeft, Trajectory==FlightTrajectory.SPIRAL, Clockwise, RemoveParticles, Speed);
-        }
-
-        public IEnumerator ShootShadeSoulOnInterval(float interval, float limit = 10000)
-        {
-            StopShooting = false;
-            int count = 0;
-            while (!StopShooting && count < limit)
+            if (BaseObject != null)
             {
-                spawner.SpawnShadeSoul(SpawnPoint + SpawnOffset, SpawnPoint, Direction, Trajectory, Clockwise, RemoveParticles, ShotScale);
-                count += 1;
-                CorruptedDreamsPlandoMod.Instance.Log($"{count} {limit}");
-                yield return new WaitForSeconds(interval);
+                // This is a bit of a hack for NKG specifically
+                SpawnPoint = BaseObject.transform.position;
             }
+
+            SpiralShotInfo.focalPoint = SpawnPoint;
+            var fireball = spawner.CreateSpiralShadeSoul(
+                SpawnPoint + SpawnOffset,
+                Direction,
+                Speed,
+                RemoveParticles,
+                ShotScale,
+                DamageToDeal,
+                SpiralShotInfo);
+            fireball.SetActive(true);
         }
     }
 
@@ -272,187 +192,55 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
         }
 
-        public void SpawnShadeSoul(
+        public GameObject CreateBaseShadeSoul(
             Vector3 spawnPoint,
-            Vector3 focalPoint,
             float direction,
-            FlightTrajectory trajectory,
-            bool clockwise,
             bool removeParticles,
-            float scale,
-            float speed = 45f,
-            float inwardSpeed = -0.5f)
+            float preFireDelay=0)
         {
-            var tempFireball = GameObject.Instantiate(Fireball2BaseTop);
-            tempFireball.name = Fireball2BaseTop.name;
+            var visualRotation = GetVisualRotation(direction);
+
+            var fireballTop = GameObject.Instantiate(Fireball2BaseTop);
+            fireballTop.name = Fireball2BaseTop.name;
             if (spawnPoint != Vector3.zero)
             {
-                tempFireball.transform.position = spawnPoint;
+                fireballTop.transform.position = spawnPoint;
             }
 
-            var castFSM = tempFireball.LocateMyFSM("Fireball Cast");
+            var castFSM = fireballTop.LocateMyFSM("Fireball Cast");
 
-            castFSM.GetState("Wait").RemoveTransition("FINISHED");
-            castFSM.GetState("Wait").AddCustomAction(() =>
+            var castWaitState = castFSM.GetValidState("Wait");
+
+            castWaitState.RemoveTransition("FINISHED");
+            castWaitState.AddCustomAction(() =>
             {
-                GameObject.Destroy(tempFireball);
+                GameObject.Destroy(fireballTop);
             });
 
-            var forwardness = Vector3.forward;
-            var visualRotation = (direction >= 90 && direction < 270) ? direction - 180 : direction;
-
-            var modifyFireball = () =>
-            {
-                var fb = castFSM.GetVariable<FsmGameObject>("Fireball").Value;
-                // Setting the name so it wont get hooked by SpellStaller.
-                fb.name = _fireballBallBaseName;
-
-                var fbControl = fb.LocateMyFSM("Fireball Control");
-
-                // Fixing the direction on this as well.
-                var init = fbControl.GetState("Init");
-                //var comp = init.GetFirstActionOfType<FloatCompare>();
-
-                castFSM.AddVariable<FsmFloat>("New Scale X");
-                var nsx = castFSM.GetVariable<FsmFloat>("New Scale X");
-                var comp = init.GetFirstActionOfType<FloatCompare>();
-                comp.float1 = nsx;
-                nsx.Value = -(Mathf.Cos(direction * Mathf.Deg2Rad));
-
-                //if (forceLeft)
-                //{
-                //    comp.equal = comp.greaterThan;
-                //    comp.lessThan = comp.greaterThan;
-                //    //fb.transform.SetScaleX(-1);
-                //}
-                //else
-                //{
-                //    comp.greaterThan = comp.equal;
-                //}
-
-                // Cleaning up particles.
-                // Better to remove if there are going to be many.
-                if (removeParticles)
-                {
-                    fb.Find("white_light").SetActive(false);
-                    fb.Find("Particle System").SetActive(false);
-                    fb.Find("Particle System B").SetActive(false);
-                    fb.Find("Dribble L").SetActive(false);
-                    fb.Find("Dribble R").SetActive(false);
-                }
-
-                // Negating shaman stone effects.
-                PlayerDataBoolTest modifyForShamans = (PlayerDataBoolTest)fbControl.GetState("Set Damage").Actions[4];
-                modifyForShamans.isTrue = modifyForShamans.isFalse;
-
-                // Dont recycle the ball
-                fbControl.GetState("Off").RemoveTransition("FINISHED");
-                fbControl.GetState("Off").AddCustomAction(() =>
-                {
-                    GameObject.Destroy(fb);
-                });
-
-                if (trajectory == FlightTrajectory.SPIRAL)
-                {
-                    fb.AddComponent<DummySpinner>().StartCoroutine(SpinFireball(
-                        fb,
-                        focalPoint,
-                        scale,
-                        clockwise,
-                        spawnPoint,
-                        speed,
-                        inwardSpeed,
-                        true));
-                } else if (trajectory == FlightTrajectory.TRACKER)
-                {
-                    fb.name = fb.name + " TRACKER";
-
-                    fb.AddComponent<DummySpinner>().StartCoroutine(UpdateFireballAngle(fb));
-
-                    var idle = fbControl.GetState("Idle");
-                    //idle.AddCustomAction(() =>
-                    //{
-                    //    fb.transform.eulerAngles = Vector3.forward * direction;
-                    //});
-
-                    idle.AddAction(new ChaseObjectV2()
-                    {
-                        gameObject = new FsmOwnerDefault
-                        {
-                            OwnerOption = OwnerDefaultOption.SpecifyGameObject,
-                            GameObject = new FsmGameObject { Value = fb }
-                        },
-                        target = Utils.Hero(),
-                        speedMax = speed,
-                        accelerationForce = 20f,
-                        offsetX = 0,
-                        offsetY = 0,
-                    });
-                } else
-                {
-                    var idle = fbControl.GetState("Idle");
-                    idle.AddCustomAction(() =>
-                    {
-                        fb.transform.eulerAngles = forwardness * visualRotation;
-                    });
-                    fb.AddComponent<DummySpinner>().StartCoroutine(DelayScale(fb, scale));
-                    //init.AddCustomAction(() =>
-                    //{
-                    //    tempFireball.transform.SetScaleX(1.2f);
-                    //    tempFireball.transform.SetScaleY(1.2f);
-                    //});
-                }
-
-                List<GameObject> children = new List<GameObject>();
-                fb.layer = LayerMask.NameToLayer("Enemy Attack");
-                fb.RemoveComponent<DamageEnemies>();
-                fb.LocateMyFSM("damages_enemy").enabled = false;
-                var damageHero = fb.AddComponent<DamageHero>();
-                damageHero.damageDealt = 2;
-            };
-
-            tempFireball.Find("white_light").SetActive(false);
+            fireballTop.Find("white_light").SetActive(false);
             if (removeParticles)
             {
-                tempFireball.Find("particles").SetActive(false);
-                tempFireball.Find("particles b").SetActive(false);
-                tempFireball.Find("Fireball2 Blast").SetActive(false);
+                fireballTop.Find("particles").SetActive(false);
+                fireballTop.Find("particles b").SetActive(false);
             }
 
-            if (trajectory == FlightTrajectory.STRAIGHT)
-            {
-                tempFireball.transform.eulerAngles = forwardness * visualRotation;
-            }
-            else if (trajectory == FlightTrajectory.TRACKER)
-            {
-                tempFireball.transform.eulerAngles = forwardness * visualRotation;
-                // Add something to rotate based on knight
-            }
+            fireballTop.transform.eulerAngles = Vector3.forward * visualRotation;
 
             List<FsmState> castStates = new()
             {
-                castFSM.GetState("Cast Left"),
-                castFSM.GetState("Cast Right")
+                castFSM.GetValidState("Cast Left"),
+                castFSM.GetValidState("Cast Right")
             };
 
             foreach (var castState in castStates)
             {
                 castState.GetFirstActionOfType<PlayerDataBoolTest>().Enabled = false;
-                castState.AddCustomAction(() => modifyFireball());
-                if (trajectory != FlightTrajectory.SPIRAL)
-                {
-                    var setAngle = castState.GetFirstActionOfType<SetVelocityAsAngle>();
-                    setAngle.angle.Value = direction;
-                    setAngle.speed.Value = speed;
-                }
-
                 if (removeParticles)
                 {
                     castState.GetFirstActionOfType<AudioPlayerOneShotSingle>().Enabled = false;
                 }
             }
 
-            // Forcing a firing direction.
             var lr = castFSM.GetValidState("L or R");
 
             var newLr = castFSM.AddState("CD L or R");
@@ -475,52 +263,216 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             lr.GetAction(2).Enabled = false;
             lr.GetAction(3).Enabled = false;
 
-            var sr = tempFireball.AddComponent<SpriteRenderer>();
-            sr.sprite = new EmbeddedSprite("spellAnimations.fireballFrame1").Value;
-            sr.size = new Vector2(20, 20);
-            sr.enabled = true;
-
-            if (nsx.Value > 0)
+            if (preFireDelay > 0)
             {
-                sr.flipX = true;
+                var sr = fireballTop.AddComponent<SpriteRenderer>();
+                sr.sprite = new EmbeddedSprite("spellAnimations.fireballFrame1").Value;
+                sr.size = new Vector2(20, 20);
+                sr.enabled = true;
+
+                if (nsx.Value > 0)
+                {
+                    sr.flipX = true;
+                }
+
+                lr.AddFirstAction(new Wait() { time = preFireDelay, finishEvent = new("FINISHED") });
             }
 
-            lr.AddFirstAction(new Wait() { time = 1f, finishEvent = new("FINISHED") });
+            var blast = fireballTop.Find("Fireball2 Blast");
+            if (nsx.Value > 0)
+            {
+                blast.transform.SetScaleX(blast.transform.GetScaleX() * -1);
+            }
 
-            // Fire!
-            tempFireball.SetActive(true);
+            return fireballTop;
         }
 
-        // TODO maybe move this to the idle fsm?
-        private IEnumerator SpinFireball(GameObject fb, Vector3 tar, float scale, bool isLeft, Vector3 initialPosition, float speed, float inwardSpeed, bool flip = false)
+        public static bool EmptyModification(GameObject fb, PlayMakerFSM fbControl)
+        {
+            return true;
+        }
+
+        public static float GetVisualRotation(float direction)
+        {
+            return (direction >= 90 && direction < 270) ? direction - 180 : direction;
+        }
+
+        public static void ModifyShadeSoulFlightBase(
+            PlayMakerFSM castFSM,
+            float direction,
+            bool removeParticles,
+            int damageToDeal,
+            Func<GameObject, PlayMakerFSM, bool> extraModificaitons = null
+        )
+        {
+            var fb = castFSM.GetVariable<FsmGameObject>("Fireball").Value;
+            // Setting the name so it wont get hooked by SpellStaller.
+            fb.name = _fireballBallBaseName;
+
+            var fbControl = fb.LocateMyFSM("Fireball Control");
+
+            // Fixing the direction on this as well.
+            var init = fbControl.GetValidState("Init");
+
+            castFSM.AddVariable<FsmFloat>("New Scale X");
+            var nsx = castFSM.GetVariable<FsmFloat>("New Scale X");
+            var comp = init.GetFirstActionOfType<FloatCompare>();
+            comp.float1 = nsx;
+            nsx.Value = -(Mathf.Cos(direction * Mathf.Deg2Rad));
+
+            // Cleaning up particles.
+            // Better to remove if there are going to be many.
+            if (removeParticles)
+            {
+                fb.Find("white_light").SetActive(false);
+                fb.Find("Particle System").SetActive(false);
+                fb.Find("Particle System B").SetActive(false);
+                fb.Find("Dribble L").SetActive(false);
+                fb.Find("Dribble R").SetActive(false);
+            }
+
+            // Negating shaman stone effects.
+            PlayerDataBoolTest modifyForShamans = (PlayerDataBoolTest)fbControl.GetValidState("Set Damage").Actions[4];
+            modifyForShamans.isTrue = modifyForShamans.isFalse;
+
+            // Dont recycle the ball
+            var controlOffState = fbControl.GetValidState("Off");
+            controlOffState.RemoveTransition("FINISHED");
+            controlOffState.AddCustomAction(() =>
+            {
+                GameObject.Destroy(fb);
+            });
+
+            List<GameObject> children = new List<GameObject>();
+            fb.layer = LayerMask.NameToLayer("Enemy Attack");
+            fb.RemoveComponent<DamageEnemies>();
+            fb.LocateMyFSM("damages_enemy").enabled = false;
+            var damageHero = fb.AddComponent<DamageHero>();
+            damageHero.damageDealt = damageToDeal;
+
+
+            if (extraModificaitons != null)
+            {
+                extraModificaitons(fb, fbControl);
+            }
+        }
+
+        public GameObject CreateStraightShadeSoul(
+            Vector3 spawnPoint,
+            float direction,
+            float speed,
+            bool removeParticles,
+            float scale,
+            int damageToDeal,
+            float preFireDelay = 0)
+        {
+            var fireballTop = CreateBaseShadeSoul(spawnPoint, direction, removeParticles, preFireDelay);
+
+            var castFSM = fireballTop.LocateMyFSM("Fireball Cast");
+
+            List<FsmState> castStates = new()
+            {
+                castFSM.GetValidState("Cast Left"),
+                castFSM.GetValidState("Cast Right")
+            };
+
+            var extraModifications = (GameObject fb, PlayMakerFSM fbControl) => {
+
+                var idle = fbControl.GetValidState("Idle");
+                idle.AddCustomAction(() =>
+                {
+                    fb.transform.eulerAngles = Vector3.forward * GetVisualRotation(direction);
+                });
+                fb.AddComponent<DummySpinner>().StartCoroutine(DelayScale(fb, scale));
+
+                return true;
+            };
+
+
+            foreach (var castState in castStates)
+            {
+                var setAngle = castState.GetFirstActionOfType<SetVelocityAsAngle>();
+                setAngle.angle.Value = direction;
+                setAngle.speed.Value = speed;
+
+                castState.AddCustomAction(() =>
+                {
+                    ModifyShadeSoulFlightBase(castFSM, direction, removeParticles, damageToDeal, extraModifications);
+                });
+            }
+
+
+            return fireballTop;
+        }
+
+        public GameObject CreateSpiralShadeSoul(
+            Vector3 spawnPoint,
+            float direction,
+            float speed,
+            bool removeParticles,
+            float scale,
+            int damageToDeal,
+            SpiralInfo spiralInfo)
+        {
+            var fireballTop = CreateBaseShadeSoul(spawnPoint, direction, removeParticles);
+
+            if (removeParticles)
+            {
+                fireballTop.Find("Fireball2 Blast").SetActive(false);
+            }
+
+            var castFSM = fireballTop.LocateMyFSM("Fireball Cast");
+
+            List<FsmState> castStates = new()
+            {
+                castFSM.GetValidState("Cast Left"),
+                castFSM.GetValidState("Cast Right")
+            };
+
+
+            var extraModifications = (GameObject fb, PlayMakerFSM fbControl) =>
+            {
+                fb.AddComponent<DummySpinner>().StartCoroutine(DelayScale(fb, scale));
+
+                fb.GetComponent<DummySpinner>().StartCoroutine(SpinFireball2(
+                    fb,
+                    spawnPoint,
+                    spiralInfo.focalPoint,
+                    spiralInfo.clockwise,
+                    speed,
+                    spiralInfo.inwardForce));
+
+                return true;
+            };
+
+            foreach (var castState in castStates)
+            {
+                castState.AddCustomAction(() =>
+                {
+                    ModifyShadeSoulFlightBase(castFSM, direction, removeParticles, damageToDeal, extraModifications);
+                });
+            }
+
+            return fireballTop;
+        }
+
+        private IEnumerator SpinFireball2(
+            GameObject fb,
+            Vector3 initialPosition,
+            Vector3 target,
+            bool clockwise,
+            float speed,
+            float inwardSpeed)
         {
             var rb2 = fb.GetComponent<Rigidbody2D>();
 
             fb.transform.position = initialPosition;
             while (fb.activeSelf)
             {
-                 fb.transform.SetScaleX(scale);
-                 fb.transform.SetScaleY(scale);
-
-                var vel = GetSpiralVelocity(fb.transform.position, tar, speed, inwardSpeed, !isLeft);
+                var vel = GetSpiralVelocity(fb.transform.position, target, speed, inwardSpeed, !clockwise);
 
                 rb2.velocity = vel;
 
-                float angle = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg;
-                fb.transform.eulerAngles = Vector3.forward * angle;
-                yield return new WaitForSeconds(0.05f);
-            }
-        }
-
-        private IEnumerator UpdateFireballAngle(GameObject fb)
-        {
-            var rb2 = fb.GetComponent<Rigidbody2D>();
-            while (fb.activeSelf)
-            {
-                //fb.transform.SetScaleX(1f);
-                //fb.transform.SetScaleY(1f);
-
-                var vel = rb2.velocity;
                 float angle = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg;
                 fb.transform.eulerAngles = Vector3.forward * angle;
                 yield return new WaitForSeconds(0.05f);

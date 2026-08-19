@@ -605,7 +605,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 fireballShooter.Direction = angle;
                 fireballShooter.ForceLeft = false;
                 fireballShooter.Speed = _modifiers.BlasterSpeed;
-                fireballShooter.Trajectory = FlightTrajectory.STRAIGHT;
 
                 blasterSpawners.Add(fireballShooter);
             }
@@ -724,13 +723,12 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             {
                 // Common for all fireball shooters
                 shooter.SpawnPoint = new Vector3(balloonBaseX, balloonBaseY, 0);
-                shooter.Trajectory = FlightTrajectory.SPIRAL;
                 shooter.RemoveParticles = true;
 
-                shooter.Clockwise = true;
+                shooter.SpiralShotInfo.clockwise = true;
 
                 shooter.Speed = 0;
-                shooter.InwardVel = 0;
+                shooter.SpiralShotInfo.inwardForce = 0;
             }
 
             var shootSpirals = fsm.AddState("Shade Repeat");
@@ -749,7 +747,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 foreach (var shooter in shooterList)
                 {
                     shooter.Speed = currentPattern.SpiralSpeed;
-                    shooter.InwardVel = currentPattern.SpiralInwardVel;
+                    shooter.SpiralShotInfo.inwardForce = currentPattern.SpiralInwardVel;
                 }
             });
 
@@ -765,7 +763,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 {
                     foreach (var shooter in shooterList)
                     {
-                        shooter.Clockwise = !shooter.Clockwise;
+                        shooter.SpiralShotInfo.clockwise = !shooter.SpiralShotInfo.clockwise;
 
                     }
                 }
@@ -787,7 +785,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
                     foreach (var shooter in shooterList)
                     {
-                        shooter.ShootShadeSoul();
+                        shooter.ShootSpiral();
                     }
 
                     fsm.SendEvent("CONTINUE");

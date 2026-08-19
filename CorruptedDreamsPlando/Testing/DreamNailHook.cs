@@ -130,16 +130,15 @@ namespace CorruptedDreamsPlando.Testing
         private static int blasterDirection = 0;
         private static int blasterCurrentIndex = 0;
         private static int blasterFireCount = 0;
-        private static EmbeddedSprite blasterPreFireSprite = new EmbeddedSprite("spellAnimations/fireballFrame1");
 
         public static void SetupGasterBlaster(PlayMakerFSM fsm)
         {
             var BlasterCount = 16;
-            var BlasterSpeed = 40f;
+            var BlasterSpeed = 30f;
             var BlasterShotDelay = 0.2f;
-            var BaseOffset = -12f;
-            var BlasterTelegraphDelay = 0.3f;
-            var BlasterShotScale = 1f;
+            var BlasterTelegraph = BlasterShotDelay * 5;
+            var BaseOffset = -10f;
+            var BlasterShotScale = 1.2f;
             // Step 1 - figure out the amount and distance and angle we want these to be from the knight
             float angleOfFireIntervals = 360.0f / (BlasterCount);
 
@@ -155,15 +154,10 @@ namespace CorruptedDreamsPlando.Testing
                 var angle = i * angleOfFireIntervals;
                 var rds = angle * Mathf.Deg2Rad;
 
-                // when i = 0, all the offset should be negative on X
                 float xOffset = Mathf.Cos(rds) * BaseOffset;
                 float yOffset = Mathf.Sin(rds) * BaseOffset;
 
-
                 var go = new GameObject();
-                //go.transform.SetParent(Utils.Hero().transform);
-                //go.transform.SetPositionX(Utils.Hero().transform.GetPositionX() + xOffset);
-                //go.transform.SetPositionY(Utils.Hero().transform.GetPositionY() + yOffset);
 
                 var fireballShooter = go.AddComponent<FireballShooter>();
 
@@ -174,14 +168,14 @@ namespace CorruptedDreamsPlando.Testing
                 fireballShooter.ForceLeft = true;
                 fireballShooter.Speed = BlasterSpeed;
                 fireballShooter.ShotScale = BlasterShotScale;
-                fireballShooter.Trajectory = FlightTrajectory.STRAIGHT;
+                fireballShooter.PreFireDelay = BlasterTelegraph;
+                fireballShooter.RemoveParticles = true;
                 CorruptedDreamsPlandoMod.Instance.Log("Made fireball shooter");
 
                 blasterSpawners.Add(go);
             }
 
             var blasterCircleStart = fsm.AddFsmState("Blaster Circle Start");
-            var blasterCircleTelegraph = fsm.AddFsmState("Blaster Circle Telegraph");
             var blasterCircleStep = fsm.AddFsmState("Blaster Circle Step");
             var blasterCirclePause = fsm.AddFsmState("Blaster Circle Pause");
             var blasterCircleCleanup = fsm.AddFsmState("Blaster Circle Cleanup");
@@ -192,7 +186,6 @@ namespace CorruptedDreamsPlando.Testing
                 if (direction == 0)
                 {
                     blasterDirection = 1;
-
                 }
                 else
                 {
@@ -204,22 +197,10 @@ namespace CorruptedDreamsPlando.Testing
             });
 
             // Satchel.FsmUtil.AddAction(shriekWaveStart, GetClipState(AbyssShriekSpawner.ShriekAudio));
-            blasterCircleStart.AddFsmTransition("FINISHED", blasterCircleTelegraph.Name);
+            blasterCircleStart.AddFsmTransition("FINISHED", blasterCircleStep.Name);
 
 
             //Satchel.FsmUtil.AddAction(shriekWaveStep, GetClipState(AbyssShriekSpawner.ShriekAudio, 0f, 3f));
-
-            // TODO Add Pre-fire
-            blasterCircleTelegraph.AddCustomAction(() =>
-            {
-                // This is always a valid 
-                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Step 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
-                CorruptedDreamsPlandoMod.Instance.Log($"telegraph {blasterCurrentIndex}");
-            });
-
-            blasterCircleTelegraph.AddFsmAction(new Wait() { time = BlasterTelegraphDelay, finishEvent = new("FINISHED") });
-            blasterCircleTelegraph.AddFsmTransition("FINISHED", blasterCircleStep.Name);
-
 
             blasterCircleStep.AddCustomAction(() =>
             {
@@ -228,7 +209,7 @@ namespace CorruptedDreamsPlando.Testing
                 CorruptedDreamsPlandoMod.Instance.Log($"shoot {blasterCurrentIndex}");
                 if (0 <= blasterCurrentIndex && blasterCurrentIndex <= blasterSpawners.Count - 1)
                 {
-                    blasterSpawners[blasterCurrentIndex].GetComponent<FireballShooter>().ShootShadeSoul();
+                    blasterSpawners[blasterCurrentIndex].GetComponent<FireballShooter>().ShootStraight();
                 }
             });
 
@@ -262,16 +243,16 @@ namespace CorruptedDreamsPlando.Testing
                     fsm.SendEvent("BLASTER CIRCLE DONE");
                 }
             });
-            blasterCirclePause.AddFsmTransition("BLASTER CIRCLE CONTINUE", blasterCircleTelegraph.Name);
+            blasterCirclePause.AddFsmTransition("BLASTER CIRCLE CONTINUE", blasterCircleStep.Name);
             blasterCirclePause.AddFsmTransition("BLASTER CIRCLE DONE", blasterCircleCleanup.Name);
 
             // Cleanup step is currently doing nothing
             blasterCircleCleanup.AddFsmAction(new Wait() { time = 1f, finishEvent = new("FINISHED") });
 
 
-            blasterCircleCleanup.AddFsmTransition("FINISHED", "Regain Control");
+            blasterCircleCleanup.AddFsmTransition("FINISHED", "Inactive");
 
-            var e = fsm.GetValidState("End");
+            var e = fsm.GetValidState("Regain Control");
             e.RemoveFsmTransition("FINISHED");
             e.AddFsmTransition("FINISHED", blasterCircleStart.Name);
 
