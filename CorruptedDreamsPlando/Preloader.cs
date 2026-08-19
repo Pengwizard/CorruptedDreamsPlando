@@ -25,6 +25,10 @@ namespace CorruptedDreamsPlando
         [Preload(SceneNames.Grimm_Main_Tent, "Grimm_sleep_shield")]
         public GameObject GrimmShield { get; private set; }
 
+        // Bench Light for telegraphs
+        [Preload(SceneNames.Town, "RestBench/Light Small")]
+        public GameObject BenchLight { get; private set; }
+
         // Dream Entrance and Traitor Lord
 
         [Preload(SceneNames.Crossroads_10_boss_defeated, "Prayer Room/FK Corpse/Dream Enter")]

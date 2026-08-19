@@ -23,7 +23,7 @@
   "ShriekSpawnerFirstX": 70,
   "ShriekSpawnerLastX": 100,
   "ShriekOffsetY": -1.8,
-  "ShriekSpawnDelay": 0.15,
+  "ShriekSpawnDelay": 0.125,
   "RoarWaitTime": 2.0,
   "TitleFadeUpDelay": 2.0,
   "TitleFadeDownDelay": 0.5,

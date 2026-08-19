@@ -480,8 +480,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 else
                 {
                     var moveIndex = UnityEngine.Random.Range(0, moveOptions.Count);
-                    nextMove = moveOptions[moveIndex];
-                    //nextMove = "SHRIEK WAVE";
+                    //nextMove = moveOptions[moveIndex];
+                    nextMove = "SHRIEK WAVE";
                 }
 
                 CorruptedDreamsPlandoMod.Instance.Log($"Move Choice {nextMove}");
@@ -496,8 +496,49 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static int shriekCurrentIndex = 0;
         private static List<GameObject> shriekSpawners = new List<GameObject>();
 
+        public static GameObject leftScreenTelegraph;
+        public static GameObject rightScreenTelegraph;
+
+        public static void SetupTelegraph(GameObject telegraphObject, Vector3 position, Vector3 finalScale, float time)
+        {
+            //leftScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+            telegraphObject.transform.SetPosition3D(position.x, position.y, position.z);
+            telegraphObject.transform.SetScaleX(1f);
+            telegraphObject.transform.SetScaleY(1f);
+            var lightPulse = telegraphObject.LocateMyFSM("Light Pulse");
+            var st1 = lightPulse.GetValidState("State 1");
+            var scaler = st1.GetFirstActionOfType<iTweenScaleBy>();
+            scaler.loopType = iTween.LoopType.none;
+            scaler.time = time;
+            scaler.easeType = iTween.EaseType.linear;
+            scaler.vector = finalScale;
+
+            lightPulse.AddState("Deactivate");
+            var de = lightPulse.GetValidState("Deactivate");
+            de.AddCustomAction(() =>
+            {
+                telegraphObject.transform.SetScaleX(1f);
+                telegraphObject.transform.SetScaleY(1f);
+
+                telegraphObject.SetActive(false);
+            });
+
+            st1.AddTransition("FINISHED", de.Name);
+
+            telegraphObject.SetActive(false);
+        }
+
         public static void SetupAbyssShriekWave(PlayMakerFSM fsm)
         {
+            float telegraph = 0.4f;
+
+            leftScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+            rightScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+            SetupTelegraph(leftScreenTelegraph, new Vector3(69f, 11f, 0.52f), new Vector3(5, 5, 1), telegraph);
+            SetupTelegraph(rightScreenTelegraph, new Vector3(101f, 11f, 0.52f), new Vector3(5, 5, 1), telegraph);
+            //leftScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+
+
             var totalSpread = _modifiers.ShriekSpawnerLastX - _modifiers.ShriekSpawnerFirstX;
             float interval = totalSpread / (_modifiers.ShriekSpawnerCount - 1);
 
@@ -522,16 +563,20 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     // Going right, index goes up
                     shriekDirectionStep = 1;
                     shriekCurrentIndex = 0;
-
-                } else
+                    leftScreenTelegraph.SetActive(true);
+                }
+                else
                 {
                     // Going left
                     shriekDirectionStep = -1;
                     shriekCurrentIndex = shriekSpawners.Count - 1;
+                    rightScreenTelegraph.SetActive(true);
                 }
 
             });
+
             Satchel.FsmUtil.AddAction(shriekWaveStart, GetClipState(AbyssShriekSpawner.ShriekAudio));
+            shriekWaveStart.AddAction(new Wait() { time = telegraph, finishEvent = new("FINISHED") });
             shriekWaveStart.AddTransition("FINISHED", shriekWaveStep.Name);
 
 
