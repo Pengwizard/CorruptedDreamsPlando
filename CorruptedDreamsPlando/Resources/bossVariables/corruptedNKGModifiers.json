@@ -1,9 +1,10 @@
 {
-  "BlasterInitialDistance": 2,
+  "BlasterInitialDistance": 10,
   "BlasterCount": 16,
-  "BlasterSpeed": 30,
-  "BlasterTelegraphDelay": 1,
-  "BlasterShotDelay": 1,
+  "BlasterSpeed": 25,
+  "BlasterTelegraphDelayMod": 4,
+  "BlasterShotDelay": 0.3,
+  "BlasterShotScale": 1.2,
   "BalloonPatterns": [
     {
       "SpiralSpeed": 8,

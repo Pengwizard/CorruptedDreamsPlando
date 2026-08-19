@@ -29,7 +29,7 @@ namespace CorruptedDreamsPlando.Testing
 
             var h = Utils.Hero();
             var dnail = h.LocateMyFSM("Dream Nail");
-            SetupGasterBlaster(dnail);
+            //SetupGasterBlaster(dnail);
 
             //var spawnPoint = new UnityEngine.Vector3(25f, 6.4f, 0.002f);
 
@@ -192,7 +192,7 @@ namespace CorruptedDreamsPlando.Testing
                     blasterDirection = -1;
                 }
 
-                blasterCurrentIndex = UnityEngine.Random.Range(0, BlasterCount);
+                blasterCurrentIndex = UnityEngine.Random.Range(0, BlasterCount / 2);
                 blasterFireCount = UnityEngine.Random.Range(BlasterCount, BlasterCount * 2);
             });
 
