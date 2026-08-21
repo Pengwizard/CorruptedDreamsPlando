@@ -125,13 +125,33 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             };
         }
 
+        private static AudioPlayerOneShotSingle GetParrySFXAction()
+        {
+            var grimmControl = GameObject.Find("Grimm Control");
+            var grimmControlFsm = grimmControl.LocateMyFSM("Control");
+
+            var eye2 = grimmControlFsm.GetValidState("Eye 2");
+            var eye2PlayOneShot = eye2.GetFirstActionOfType<AudioPlayerOneShotSingle>();
+
+            // TODO Replace with actual parry sfx
+            return new AudioPlayerOneShotSingle()
+            {
+                spawnPoint = eye2PlayOneShot.spawnPoint,
+                audioPlayer = eye2PlayOneShot.audioPlayer,
+                audioClip = eye2PlayOneShot.audioClip,
+                volume = 5f,
+                storePlayer = eye2PlayOneShot.storePlayer,
+                delay = 0,
+            };
+        }
+
         private static void SetupPhaseChangeAnimationSequence(PlayMakerFSM fsm, string stateAfterRoar)
         {
 
             var grimmControl = GameObject.Find("Grimm Control");
             var grimmControlFsm = grimmControl.LocateMyFSM("Control");
 
-            var eye2 = grimmControlFsm.GetState("Eye 2");
+            var eye2 = grimmControlFsm.GetValidState("Eye 2");
             var eye2PlayOneShot = eye2.GetFirstActionOfType<AudioPlayerOneShotSingle>();
             var cameraShake = eye2.GetFirstActionOfType<SendEventByName>();
 
@@ -300,6 +320,10 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             FsmState rageState = SetupRageSetupState(fsm, "PC Pillar Pos");
 
             AddPhaseChangeStep(fsm, new() { "Balloon?", "Move Choice" }, rageState);
+
+            // We completely disable the regular stagger, cant afford it
+            var stunControl = _bossObject.LocateMyFSM("Stun");
+            stunControl.enabled = false;
         }
 
         public static void SetupTitleScream(PlayMakerFSM fsm)
@@ -402,6 +426,9 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         // Balloon variables
         private static int fireballsShotBalloon = 0;
 
+        private static float balloonBaseX = 85.77f;
+        private static float balloonBaseY = 13.5f;
+
         private static float groundY = 9.6f;
         private static float actualGroundY = 6.4f;
 
@@ -412,16 +439,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static void ModifyAttackPatterns(PlayMakerFSM fsm)
         {
 
-            //// Add shriek to uppercut
-            //// TODO: Consider removing uppercut
-            //var upperCutState = fsm.GetState("Uppercut Up");
-            //AbyssShriekSpawner.Instance.AddShriekAtEndOfFSM(upperCutState, 2, uppercutOffset, true);
-
-
-            //// Adding dive to landing attack
-            //var groundDashLand = fsm.GetState("GD Antic");
-            //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(groundDashLand, 2, ddarkOffset);
-
             SetupMoveChoice(fsm);
 
             SetupNewBalloonPhase(fsm);
@@ -431,6 +448,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             SetupDDarkAttack(fsm);
 
             SetupAbyssShriekWave(fsm);
+
+            SetupSimonSays(fsm);
         }
         
         private static void CleanupGameObjectList(List<GameObject> gos)
@@ -482,8 +501,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 else
                 {
                     var moveIndex = UnityEngine.Random.Range(0, moveOptions.Count);
-                    nextMove = moveOptions[moveIndex];
-                    //nextMove = "DDARK PILLARS";
+                    //nextMove = moveOptions[moveIndex];
+                    nextMove = "NKG SAYS";
                 }
 
                 CorruptedDreamsPlandoMod.Instance.Log($"Move Choice {nextMove}");
@@ -492,14 +511,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             });
         }
 
-
-        // Shriek Wave Variables
-        private static int shriekDirectionStep = 0;
-        private static int shriekCurrentIndex = 0;
-        private static List<GameObject> shriekSpawners = new List<GameObject>();
-
-        public static GameObject leftScreenTelegraph;
-        public static GameObject rightScreenTelegraph;
 
         public static void SetupTelegraph(GameObject telegraphObject, Vector3 position, Vector3 finalScale, float time)
         {
@@ -529,6 +540,385 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             telegraphObject.SetActive(false);
         }
+
+        private static List<GameObject> nkgSaysTelegraphLights = new();
+        private static List<int> currentSequence = new();
+        private static List<string> attackEventTransitions = new() { "NKG SAYS UP", "NKG SAYS DOWN", "NKG SAYS LEFT", "NKG SAYS RIGHT" };
+        private static int currentSequencePosition = 0;
+
+        public static void SetupBaseTeleInState(PlayMakerFSM fsm)
+        {
+            var ogBaseTeleIn = fsm.GetValidState("AD Tele In");
+            var myTeleIn = fsm.AddState("Base Tele In");
+            myTeleIn.CopyActionData(ogBaseTeleIn);
+
+            var setPos = myTeleIn.GetFirstActionOfType<SetPosition>();
+            setPos.y = fsm.GetVariable<FsmFloat>("Tele Y");
+        }
+
+        public static FsmState GetBaseTeleInState(PlayMakerFSM fsm)
+        {
+            return fsm.GetValidState("Base Tele In");
+        }
+
+        public static void SingleAttackUppercut(PlayMakerFSM fsm, FsmState startState, FsmState endState)
+        {
+            var ogUppercutAntic = fsm.GetValidState("Uppercut Antic");
+            var ogUppercutUp = fsm.GetValidState("Uppercut Up");
+            var ogUppercutExplode = fsm.GetValidState("UP Explode");
+            var ogUppercutExplodePause = fsm.GetValidState("Explode Pause");
+
+            var uppercutPosition = fsm.AddState("NKG Says Uppercut Position");
+            //var uppercutAntic = fsm.AddState("NKG Says Uppercut Antic");
+            var uppercutUp = fsm.AddState("NKG Says Uppercut Up");
+            var uppercutExplode = fsm.AddState("NKG Says UP Explode");
+            var uppercutExplodePause = fsm.AddState("NKG Says UP Explode Pause");
+
+            startState.AddTransition(attackEventTransitions[0], uppercutPosition.Name);
+
+            uppercutPosition.CopyActionData(GetBaseTeleInState(fsm));
+            var setPos = uppercutPosition.GetFirstActionOfType<SetPosition>();
+            setPos.Enabled = false;
+
+            var slash1 = fsm.gameObject.Find("Slash1");
+            var slashTop = GameObject.Instantiate(slash1, fsm.gameObject.transform, true);
+            slashTop.name = "SlashTop";
+            slashTop.transform.SetScaleX(slashTop.transform.GetScaleX() * 0.5f);
+            slashTop.SetActive(true);
+            slashTop.GetComponent<PolygonCollider2D>().enabled = false;
+
+            uppercutPosition.InsertCustomAction(() =>
+            {
+                fsm.gameObject.transform.SetPosition2D(Utils.Hero().transform.position.x, actualGroundY);
+            }, 4);
+
+            uppercutPosition.AddTransition("FINISHED", uppercutUp.Name);
+
+            uppercutUp.CopyActionData(ogUppercutUp);
+            uppercutUp.InsertCustomAction(() =>
+            {
+                slashTop.GetComponent<PolygonCollider2D>().enabled = true;
+            }, 1);
+
+            var uppercutWait = uppercutUp.GetFirstActionOfType<Wait>();
+            uppercutWait.Enabled = false;
+
+
+            uppercutUp.AddTransition("END", uppercutExplode.Name);
+
+            uppercutExplode.CopyActionData(ogUppercutExplode);
+            uppercutExplode.AddTransition("FINISHED", uppercutExplodePause.Name);
+
+            // We want to disable the fireball things from the uppercut
+            for (int i = 10; i <= 23; i++)
+            {
+                uppercutExplode.Actions[i].Enabled = false;
+            }
+
+            uppercutExplodePause.AddAction(ogUppercutExplodePause.Actions[0]);
+            uppercutExplodePause.AddCustomAction(() =>
+            {
+                slashTop.GetComponent<PolygonCollider2D>().enabled = false;
+            });
+
+            uppercutExplodePause.AddTransition("FINISHED", endState.Name);
+        }
+
+        public static void SingleAttackSideSlash(PlayMakerFSM fsm, FsmState startState, FsmState endState)
+        {
+            var ogSideSlashAntic = fsm.GetValidState("Slash Antic");
+            var ogSideSlash1 = fsm.GetValidState("Slash 1");
+            var ogSideSlash2 = fsm.GetValidState("Slash 2");
+            var ogSideSlash3 = fsm.GetValidState("Slash 3");
+            var ogSideSlashRecover = fsm.GetValidState("Slash Recover");
+            var ogSideSlashEnd = fsm.GetValidState("Slash End");
+
+
+            var sideSlashPos = fsm.AddState("NKG Says Side Slash Position");
+            //var sideSlashAntic = fsm.AddState("NKG Says Side Slash Antic");
+            var sideSlash1 = fsm.AddState("NKG Says Side Slash Slash 1");
+            var sideSlash2 = fsm.AddState("NKG Says Side Slash Slash 2");
+            var sideSlash3 = fsm.AddState("NKG Says Side Slash Slash 3");
+            var sideSlashRecover = fsm.AddState("NKG Says Side Slash Recover");
+            var sideSlashEnd = fsm.AddState("NKG Says Side Slash End");
+            var sideSlashTeleOut = fsm.AddState("NKG Says Side Slash Tele Out");
+
+
+            startState.AddTransition(attackEventTransitions[2], sideSlashPos.Name);
+            startState.AddTransition(attackEventTransitions[3], sideSlashPos.Name);
+
+
+            sideSlashPos.CopyActionData(GetBaseTeleInState(fsm));
+            var setPos = sideSlashPos.GetFirstActionOfType<SetPosition>();
+            setPos.Enabled = false;
+
+            sideSlashPos.InsertCustomAction(() =>
+            {
+                var direction = currentSequence[currentSequencePosition] == 2 ? -1 : 1;
+                fsm.gameObject.transform.SetPosition2D(Utils.Hero().transform.position.x + (7.5f * direction), actualGroundY);
+            }, 0);
+
+            sideSlashPos.AddTransition("FINISHED", sideSlash1.Name);
+
+            sideSlash1.CopyActionData(ogSideSlash1);
+            sideSlash1.AddTransition("FINISHED", sideSlash2.Name);
+
+            sideSlash2.CopyActionData(ogSideSlash2);
+            sideSlash2.AddTransition("FINISHED", sideSlash3.Name);
+
+            sideSlash3.CopyActionData(ogSideSlash3);
+            sideSlash3.AddTransition("FINISHED", sideSlashRecover.Name);
+
+            sideSlashRecover.CopyActionData(ogSideSlashRecover);
+            sideSlashRecover.AddTransition("FINISHED", sideSlashEnd.Name);
+
+            sideSlashEnd.CopyActionData(ogSideSlashEnd);
+            sideSlashEnd.AddTransition("FINISHED", sideSlashTeleOut.Name);
+
+            var fbBehind = fsm.GetValidState("FB Behind");
+            var fbReTele = fsm.GetValidState("FB Re Tele");
+            var ogUppercutExplode = fsm.GetValidState("UP Explode");
+
+            sideSlashTeleOut.AddAction(fbBehind.Actions[0]);
+            sideSlashTeleOut.AddAction(fbReTele.Actions[0]);
+            sideSlashTeleOut.AddAction(fbReTele.Actions[1]);
+            sideSlashTeleOut.AddAction(ogUppercutExplode.Actions[1]);
+
+            sideSlashTeleOut.AddTransition("FINISHED", endState.Name);
+        }
+
+        public static void SingleAttackDownSlash(PlayMakerFSM fsm, FsmState startState, FsmState endState)
+        {
+
+            var ogDownSlashPos = fsm.GetValidState("AD Pos");
+            var ogDownSlashTeleIn = fsm.GetValidState("AD Tele In");
+            var ogDownSlashAntic = fsm.GetValidState("AD Antic");
+            var ogDownSlashFire = fsm.GetValidState("AD Fire");
+            var ogDownSlashEdge = fsm.GetValidState("AD Edge");
+
+            var downSlashPos = fsm.AddState("NKG Says Down Slash Position");
+            var downSlashTeleIn = fsm.AddState("NKG Says Down Slash Tele In");
+            var downSlashAntic = fsm.AddState("NKG Says Down Slash Antic");
+            var downSlashFire = fsm.AddState("NKG Says Down Slash Fire");
+            var downSlashEdge = fsm.AddState("NKG Says Down Slash Edge");
+            var downSlashWarpOut = fsm.AddState("NKG Says Down Slash Warp Out");
+
+
+            startState.AddTransition(attackEventTransitions[1], downSlashPos.Name);
+
+            var slash1 = fsm.gameObject.Find("Slash1");
+            var slashBottom = GameObject.Instantiate(slash1, fsm.gameObject.transform, true);
+            slashBottom.transform.SetPositionY(slashBottom.transform.GetPositionY() - 1f);
+            slashBottom.name = "SlashBot";
+            slashBottom.transform.SetScaleX(slashBottom.transform.GetScaleX() * 0.5f);
+            slashBottom.SetActive(true);
+            slashBottom.GetComponent<PolygonCollider2D>().enabled = false;
+
+            downSlashPos.CopyActionData(ogDownSlashPos);
+
+            downSlashPos.Actions[5].Enabled = false;
+
+            downSlashPos.AddTransition("FINISHED", downSlashTeleIn.Name);
+
+            downSlashTeleIn.CopyActionData(ogDownSlashTeleIn);
+            downSlashTeleIn.InsertCustomAction(() =>
+            {
+                slashBottom.GetComponent<PolygonCollider2D>().enabled = true;
+            }, 1);
+
+            downSlashTeleIn.AddTransition("FINISHED", downSlashAntic.Name);
+
+            downSlashAntic.CopyActionData(ogDownSlashAntic);
+            downSlashAntic.AddTransition("FINISHED", downSlashFire.Name);
+
+            downSlashFire.CopyActionData(ogDownSlashFire);
+            downSlashFire.AddTransition("EDGE", downSlashEdge.Name);
+            downSlashFire.AddTransition("LAND", downSlashWarpOut.Name);
+
+            downSlashEdge.CopyActionData(ogDownSlashEdge);
+            downSlashEdge.AddTransition("LAND", downSlashWarpOut.Name);
+
+            var fbBehind = fsm.GetValidState("FB Behind");
+            var fbReTele = fsm.GetValidState("FB Re Tele");
+            var ogUppercutExplode = fsm.GetValidState("UP Explode");
+            var gdAntic = fsm.GetValidState("GD Antic");
+
+            downSlashWarpOut.AddAction(fbBehind.Actions[0]);
+            downSlashWarpOut.AddAction(fbReTele.Actions[0]);
+            downSlashWarpOut.AddAction(fbReTele.Actions[1]);
+            downSlashWarpOut.AddAction(ogUppercutExplode.Actions[1]);
+            downSlashWarpOut.AddAction(gdAntic.Actions[1]);
+            downSlashWarpOut.AddAction(gdAntic.Actions[3]);
+            downSlashWarpOut.AddAction(gdAntic.Actions[6]);
+
+            downSlashWarpOut.AddTransition("FINISHED", endState.Name);
+
+        }
+
+        public static void ConstructSingularAttackFlows(PlayMakerFSM fsm, FsmState startState, FsmState endState)
+        {
+            // The attacks we want for NKG Says already exist, we just need to reshuffle the states.
+
+            // Common "teleport in" for all the attacks.
+            SetupBaseTeleInState(fsm);
+
+            SingleAttackUppercut(fsm, startState, endState);
+
+            SingleAttackSideSlash(fsm, startState, endState);
+
+            SingleAttackDownSlash(fsm, startState, endState);
+        }
+
+        // Simon Says variables
+        public static void SetupSimonSays(PlayMakerFSM fsm)
+        {
+            // TODO This number will somehow need to change between phases.
+            float initialTelegraphTime = 0.75f;
+            float spacing = 0.05f;
+            float telegraphTime = initialTelegraphTime - spacing;
+
+            int currentAttackCount = 3;
+
+            // First we want to setup the telegraph callbacks, and find the parry sound effect
+
+            // We make each one individually because it kinda sucks but then stick them in a list
+
+            CleanupGameObjectList(nkgSaysTelegraphLights);
+
+            var upTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+            var downTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+            var leftTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+            var rightTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+
+            SetupTelegraph(upTelegraph, new Vector3(balloonBaseX, balloonBaseY + 2, 0.52f), new Vector3(1.4f, 1.4f, 1), telegraphTime);
+            SetupTelegraph(downTelegraph, new Vector3(balloonBaseX, balloonBaseY - 2, 0.52f), new Vector3(1.4f, 1.4f, 1), telegraphTime);
+            SetupTelegraph(leftTelegraph, new Vector3(balloonBaseX - 2, balloonBaseY, 0.52f), new Vector3(1.4f, 1.4f, 1), telegraphTime);
+            SetupTelegraph(rightTelegraph, new Vector3(balloonBaseX + 2, balloonBaseY, 0.52f), new Vector3(1.4f, 1.4f, 1), telegraphTime);
+
+            upTelegraph.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
+            downTelegraph.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
+            leftTelegraph.GetComponent<SpriteRenderer>().color = new Color(1, 0, 1);
+            rightTelegraph.GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
+
+            nkgSaysTelegraphLights.Add(upTelegraph);
+            nkgSaysTelegraphLights.Add(downTelegraph);
+            nkgSaysTelegraphLights.Add(leftTelegraph);
+            nkgSaysTelegraphLights.Add(rightTelegraph);
+
+            var telegraphStart = fsm.AddState("NKG Says Telegraph Start");
+            var telegraphStep = fsm.AddState("NKG Says Telegraph Step");
+            var telegraphPause = fsm.AddState("NKG Says Telegraph Pause");
+            var telegraphCleanup = fsm.AddState("NKG Says Telegraph Cleanup");
+
+            var attacksStart = fsm.AddState("NKG Says Attacks Start");
+            var attacksStep = fsm.AddState("NKG Says Attacks Step");
+            var attacksPause = fsm.AddState("NKG Says Attacks Pause");
+            var attacksCleanup = fsm.AddState("NKG Says Attacks Cleanup");
+
+            telegraphStart.AddCustomAction(() =>
+            {
+                currentSequencePosition = 0;
+                currentSequence.Clear();
+
+                for (int i = 0; i < currentAttackCount; ++i)
+                {
+                    currentSequence.Add(UnityEngine.Random.Range(0, nkgSaysTelegraphLights.Count));
+                }
+            });
+
+            //telegraphStart.AddAction(new Wait() { time = telegraph, finishEvent = new("FINISHED") });
+            telegraphStart.AddTransition("FINISHED", telegraphStep.Name);
+
+            telegraphStep.AddAction(GetParrySFXAction());
+
+            telegraphStep.AddCustomAction(() =>
+            {
+                nkgSaysTelegraphLights[currentSequence[currentSequencePosition]].SetActive(true);
+            });
+            telegraphStep.AddAction(new Wait() { time = initialTelegraphTime + 0.05f, finishEvent = new("FINISHED") });
+            telegraphStep.AddTransition("FINISHED", telegraphPause.Name);
+
+            telegraphPause.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                // Note that this check is just <, not <=, because the one above includes the last step
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Pause 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                currentSequencePosition++;
+                if (currentSequencePosition < currentSequence.Count)
+                {
+                    fsm.SendEvent("TELEGRAPH CONTINUE");
+                }
+                else
+                {
+                    fsm.SendEvent("TELEGRAPH DONE");
+                }
+            });
+            telegraphPause.AddTransition("TELEGRAPH CONTINUE", telegraphStep.Name);
+            telegraphPause.AddTransition("TELEGRAPH DONE", telegraphCleanup.Name);
+
+            // Cleanup step is currently doing nothing
+            telegraphCleanup.AddAction(new Wait() { time = 1.0f, finishEvent = new("FINISHED") });
+            telegraphCleanup.AddTransition("FINISHED", attacksStart.Name);
+
+            // Attacks start
+            attacksStart.AddCustomAction(() =>
+            {
+                currentSequencePosition = 0;
+            });
+            attacksStart.AddTransition("FINISHED", attacksStep.Name);
+
+            attacksStep.AddCustomAction(() =>
+            {
+                // Add overflow check
+                fsm.SendEvent(attackEventTransitions[currentSequence[currentSequencePosition]]);
+            });
+
+            // No need, the attacks transition us
+            //attacksStep.AddTransition("FINISHED", attacksPause.Name);
+
+            attacksPause.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                // Note that this check is just <, not <=, because the one above includes the last step
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Pause 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                currentSequencePosition++;
+                if (currentSequencePosition < currentSequence.Count)
+                {
+                    //fsm.SendEvent("NKG SAYS ATTACK CONTINUE");
+                }
+                else
+                {
+                    fsm.SendEvent("NKG SAYS ATTACK DONE");
+                }
+            });
+            attacksPause.AddAction(new Wait() { time = 0.5f, finishEvent = new("NKG SAYS ATTACK CONTINUE") });
+
+            attacksPause.AddTransition("NKG SAYS ATTACK CONTINUE", attacksStep.Name);
+            attacksPause.AddTransition("NKG SAYS ATTACK DONE", attacksCleanup.Name);
+
+
+            attacksCleanup.AddAction(new Wait() { time = 1.5f, finishEvent = new("FINISHED") });
+            attacksCleanup.AddTransition("FINISHED", "Move Choice");
+
+
+            ConstructSingularAttackFlows(fsm, attacksStep, attacksPause);
+
+            // Now we need to insert this flow into the regular attacks flow.
+            // For shriek wave, grimm won't be on screen, so no need to bring him in.
+
+            var moveChoice = fsm.GetValidState("Move Choice");
+            moveChoice.AddTransition("NKG SAYS", telegraphStart.Name);
+
+            moveOptions.Add("NKG SAYS");
+        }
+
+        // Shriek Wave Variables
+        private static int shriekDirectionStep = 0;
+        private static int shriekCurrentIndex = 0;
+        private static List<GameObject> shriekSpawners = new List<GameObject>();
+
+        public static GameObject leftScreenTelegraph;
+        public static GameObject rightScreenTelegraph;
 
         public static void SetupAbyssShriekWave(PlayMakerFSM fsm)
         {
@@ -576,7 +966,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     shriekCurrentIndex = shriekSpawners.Count - 1;
                     rightScreenTelegraph.SetActive(true);
                 }
-
             });
 
             shriekWaveStart.AddAction(GetClipState(AbyssShriekSpawner.ShriekAudio));
@@ -862,19 +1251,12 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             moveOptions.Add("BLASTER CIRCLE");
         }
 
-        public static void SetupSimonSays(PlayMakerFSM fsm)
-        {
-
-        }
-
         private static BalloonAttackPattern currentPattern;
 
         public static void SetupNewBalloonPhase(PlayMakerFSM fsm)
         {
             // TODO fix hp gates for fireballs.
             #region balloon
-            float balloonBaseX = 85.77f;
-            float balloonBaseY = 13.5f;
 
             var inflateState = fsm.GetState("Inflate");
 

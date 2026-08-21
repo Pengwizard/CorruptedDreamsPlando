@@ -9,7 +9,7 @@
     {
       "SpiralSpeed": 8,
       "SpiralInwardVel": -1.30,
-      "SpiralShotCount": 25,
+      "SpiralShotCount": 1,
       "SpiralShotDelay": [
         1.5,
         0.5,

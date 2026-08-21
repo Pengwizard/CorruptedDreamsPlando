@@ -29,7 +29,7 @@ namespace CorruptedDreamsPlando.Skills
 
         public static void InitializeHooks()
         {
-            On.HeroController.Update += HeroController_Update;
+            //On.HeroController.Update += HeroController_Update;
             On.PlayerData.GetInt += PlayerData_GetInt;
             On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter += LimitSpellLevel;
 

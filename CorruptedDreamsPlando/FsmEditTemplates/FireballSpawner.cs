@@ -70,6 +70,16 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 ShotScale,
                 DamageToDeal,
                 PreFireDelay);
+            // Lets make a faint telegraph?
+
+            var telegraphObj = Utils.MakeBlankTelegraphLight();
+            telegraphObj.transform.eulerAngles = Vector3.forward * Direction;
+            telegraphObj.SetScale(5f, 0.5f);
+
+            telegraphObj.transform.SetParent(fireball.transform);
+            telegraphObj.transform.SetPosition2D(SpawnPoint);
+
+
             fireball.SetActive(true);
         }
 

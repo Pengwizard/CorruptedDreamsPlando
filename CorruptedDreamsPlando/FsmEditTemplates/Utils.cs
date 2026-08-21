@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
+using Satchel;
 using UnityEngine;
 
 namespace CorruptedDreamsPlando.FsmEditTemplates
@@ -123,6 +124,23 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 GameObject = new FsmGameObject { Value = go },
                 OwnerOption = OwnerDefaultOption.SpecifyGameObject
             };
+        }
+
+
+        // TODO Move to Telegraph Utils?
+        public static GameObject MakeBlankTelegraphLight()
+        {
+            var telegraphObject = GameObject.Instantiate(Preloader.Instance.BenchLight);
+            //leftScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+            // telegraphObject.transform.SetPosition3D(position.x, position.y, position.z);
+            telegraphObject.transform.SetScaleX(1f);
+            telegraphObject.transform.SetScaleY(1f);
+            var lightPulse = telegraphObject.LocateMyFSM("Light Pulse");
+            lightPulse.enabled = false;
+
+            telegraphObject.SetActive(true);
+
+            return telegraphObject;
         }
     }
 }

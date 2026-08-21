@@ -201,11 +201,11 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
 
             doSlam.AddAction(ActivateAndResetGameObject(slam));
-            //doSlam.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
+            doSlam.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
             doSlam.AddTransition("FINISHED", doPillar.Name);
 
             doPillar.AddAction(ActivateAndResetGameObject(pillar));
-            //doPillar.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
+            doPillar.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
             doPillar.AddTransition("FINISHED", doMega.Name);
 
             doMega.AddAction(ActivateAndResetGameObject(mega));
