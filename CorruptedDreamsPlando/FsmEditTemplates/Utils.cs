@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using UnityEngine;
 
@@ -112,6 +113,16 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         public static GameObject Hero()
         {
             return GameObject.Find("Knight");
+        }
+
+
+        public static FsmOwnerDefault GameObjectToOwnerDefault(GameObject go)
+        {
+            return new FsmOwnerDefault()
+            {
+                GameObject = new FsmGameObject { Value = go },
+                OwnerOption = OwnerDefaultOption.SpecifyGameObject
+            };
         }
     }
 }

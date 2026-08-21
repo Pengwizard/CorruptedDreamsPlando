@@ -43,6 +43,15 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             _instance = new DescendingDarkSpawner();
         }
 
+        public static FsmObject DDarkAudio
+        {
+            get
+            {
+                GetDDarkShriekSfx();
+                return _ddarkAudio;
+            }
+        }
+
         private static void GetDDarkShriekSfx()
         {
             if (_ddarkAudio == null)
@@ -104,8 +113,140 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             go.layer = LayerMask.NameToLayer("Enemies");
         }
 
-        public void AddDDarkAtEndOfFSM(FsmState fsm, int damageToDeal, Vector3 spawnOffset)
+        public GameObject MakeDiveContainer()
         {
+            // This makes a game object with no components or children, except an FSM that fires on activation.
+            var container = GameObject.Instantiate(Preloader.Instance.BenchLight);
+            container.name = "DDark Container";
+            container.RemoveComponent<SpriteRenderer>();
+            var lightPulse = container.LocateMyFSM("Light Pulse");
+            var st1 = lightPulse.GetValidState("State 1");
+            var scaler = st1.GetFirstActionOfType<iTweenScaleBy>();
+            scaler.Enabled = false;
+
+            return container;
+        }
+
+        public GameObject GetDDarkSpawner(
+            int damageToDeal,
+            GameObject followTarget = null,
+            float groundY = 0,
+            float telegraphWait = 0)
+        {
+            GameObject diveContainer = MakeDiveContainer();
+
+            GameObject slam = GameObject.Instantiate(DDarkSlam);
+            GameObject pillar = GameObject.Instantiate(DDarkPillar);
+            GameObject mega = GameObject.Instantiate(DDarkMega);
+
+            var fsm = diveContainer.LocateMyFSM("Light Pulse");
+            var targetState = fsm.GetValidState("State 1");
+
+            var go = fsm.Fsm.GameObject;
+            var goTransform = go.transform;
+
+            slam.transform.SetParent(diveContainer.transform);
+            slam.transform.position = diveContainer.transform.position + new Vector3(0, 2, 0);
+            pillar.transform.SetParent(diveContainer.transform);
+            pillar.transform.position = diveContainer.transform.position;
+            mega.transform.SetParent(diveContainer.transform);
+            mega.transform.position = diveContainer.transform.position + new Vector3(0, 6, 0);
+
+
+            GameObject[] gos = { slam, pillar, mega };
+
+
+            foreach (var part in gos)
+            {
+                List<GameObject> children = new List<GameObject>();
+                part.FindAllChildren(children);
+                foreach (var c in children)
+                {
+                    c.layer = LayerMask.NameToLayer("Enemy Attack");
+                    c.RemoveComponent<DamageEnemies>();
+                    var damageHero = c.AddComponent<DamageHero>();
+                    damageHero.damageDealt = damageToDeal;
+                }
+            }
+
+            fsm.AddState("Activate Slam");
+            fsm.AddState("Activate Pillar");
+            fsm.AddState("Activate Mega");
+
+            var doSlam = fsm.GetValidState("Activate Slam");
+
+            var doPillar = fsm.GetValidState("Activate Pillar");
+            var doMega = fsm.GetValidState("Activate Mega");
+
+            if (followTarget != null)
+            {
+                targetState.AddCustomAction(() =>
+                {
+                    diveContainer.transform.SetPositionAndRotation(followTarget.transform.position, Quaternion.identity);
+                    diveContainer.transform.SetPositionY(groundY);
+                });
+            }
+
+            if (telegraphWait > 0)
+            {
+                targetState.AddAction(new Wait() { time = telegraphWait, finishEvent = new("FINISHED") });
+            }
+
+            targetState.AddTransition("FINISHED", doSlam.Name);
+
+            //try
+            //{
+            //    GetDDarkShriekSfx();
+            //    if (_ddarkAudio != null)
+            //    {
+            //        AudioPlay playDiveAudio = new AudioPlay();
+            //        playDiveAudio.gameObject = Utils.GameObjectToOwnerDefault(diveContainer);
+            //        // TODO: Audio needs to be determined by the game
+            //        playDiveAudio.volume = 5f;
+            //        playDiveAudio.oneShotClip = _ddarkAudio;
+
+            //        doSlam.AddAction(playDiveAudio);
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    CorruptedDreamsPlandoMod.Instance.LogError("Setting audio for ddark failed");
+            //}
+
+            doSlam.AddAction(ActivateAndResetGameObject(slam));
+            //doSlam.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
+            doSlam.AddTransition("FINISHED", doPillar.Name);
+
+            doPillar.AddAction(ActivateAndResetGameObject(pillar));
+            //doPillar.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
+            doPillar.AddTransition("FINISHED", doMega.Name);
+
+            doMega.AddAction(ActivateAndResetGameObject(mega));
+
+            return diveContainer;
+        }
+
+        public ActivateGameObject ActivateAndResetGameObject(GameObject go)
+        {
+            ActivateGameObject action = new ActivateGameObject();
+            action.gameObject = Utils.GameObjectToOwnerDefault(go);
+            action.activate = true;
+            action.recursive = false;
+            action.resetOnExit = false;
+            action.everyFrame = false;
+
+            return action;
+        }
+            
+
+        public GameObject AddDDarkAtEndOfFSM(
+            FsmState fsm,
+            int damageToDeal,
+            Vector3 spawnOffset)
+        {
+            GameObject diveContanier = new GameObject();
+            diveContanier.name = "Dive Container";
+
             GameObject slam = GameObject.Instantiate(DDarkSlam);
             GameObject pillar = GameObject.Instantiate(DDarkPillar);
             GameObject mega = GameObject.Instantiate(DDarkMega);
@@ -134,12 +275,15 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             var go = fsm.Fsm.GameObject;
             var goTransform = go.transform;
 
-            slam.transform.SetParent(goTransform);
-            slam.transform.position = goTransform.position + new Vector3(0, 2, 0) + spawnOffset;
-            pillar.transform.SetParent(goTransform);
-            pillar.transform.position = goTransform.position + spawnOffset;
-            mega.transform.SetParent(goTransform);
-            mega.transform.position = goTransform.position + new Vector3(0, 6, 0) + spawnOffset;
+            diveContanier.transform.SetParent(goTransform);
+            diveContanier.transform.position = goTransform.position;
+
+            slam.transform.SetParent(diveContanier.transform);
+            slam.transform.position = diveContanier.transform.position + new Vector3(0, 2, 0) + spawnOffset;
+            pillar.transform.SetParent(diveContanier.transform);
+            pillar.transform.position = diveContanier.transform.position + spawnOffset;
+            mega.transform.SetParent(diveContanier.transform);
+            mega.transform.position = diveContanier.transform.position + new Vector3(0, 6, 0) + spawnOffset;
 
             GameObject[] gos = { slam, pillar, mega };
 
@@ -186,6 +330,13 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             Satchel.FsmUtil.AddAction(fsm, activateMega);
             //Satchel.FsmUtil.AddAction(fsm, new Wait() { time = 0.75f });
             Satchel.FsmUtil.AddAction(fsm, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
+
+            fsm.AddCustomAction(() =>
+            {
+                CorruptedDreamsPlandoMod.Instance.Log($"ddark done {slam.name} {pillar.name} {mega.name}");
+            });
+
+            return diveContanier;
         }
 
         public IEnumerator ActivateDDarkForObjectOnCondition(GameObject go, int damageToDeal, Vector3 spawnOffset, Func<GameObject, bool> condition)
