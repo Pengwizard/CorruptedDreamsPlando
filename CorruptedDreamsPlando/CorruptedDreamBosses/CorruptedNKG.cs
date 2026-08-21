@@ -482,8 +482,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 else
                 {
                     var moveIndex = UnityEngine.Random.Range(0, moveOptions.Count);
-                    //nextMove = moveOptions[moveIndex];
-                    nextMove = "DDARK PILLARS";
+                    nextMove = moveOptions[moveIndex];
+                    //nextMove = "DDARK PILLARS";
                 }
 
                 CorruptedDreamsPlandoMod.Instance.Log($"Move Choice {nextMove}");
@@ -635,7 +635,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static int ddarkCurrentIndex = 0;
 
         // TODO move to modifiers
-        private static float DDarkTelegraph = 0.75f;
+        private static float DDarkTelegraph = 0.4f;
         private static int DDarkCount = 4;
         private static Vector3 DDarkFinalScale = new Vector3(1f, 5, 1);
 
@@ -658,7 +658,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 var diveContainer = DescendingDarkSpawner.Instance.GetDDarkSpawner(
                     2,
                     Utils.Hero(),
-                    actualGroundY, DDarkTelegraph);
+                    actualGroundY, DDarkTelegraph, GetClipState(DescendingDarkSpawner.DDarkAudio));
 
                 //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(de, 2, Vector3.zero);
 

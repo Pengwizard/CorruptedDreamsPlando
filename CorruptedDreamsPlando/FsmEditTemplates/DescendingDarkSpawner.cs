@@ -131,7 +131,8 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             int damageToDeal,
             GameObject followTarget = null,
             float groundY = 0,
-            float telegraphWait = 0)
+            float telegraphWait = 0,
+            AudioPlayerOneShotSingle audioClip = null)
         {
             GameObject diveContainer = MakeDiveContainer();
 
@@ -194,24 +195,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
             targetState.AddTransition("FINISHED", doSlam.Name);
 
-            //try
-            //{
-            //    GetDDarkShriekSfx();
-            //    if (_ddarkAudio != null)
-            //    {
-            //        AudioPlay playDiveAudio = new AudioPlay();
-            //        playDiveAudio.gameObject = Utils.GameObjectToOwnerDefault(diveContainer);
-            //        // TODO: Audio needs to be determined by the game
-            //        playDiveAudio.volume = 5f;
-            //        playDiveAudio.oneShotClip = _ddarkAudio;
-
-            //        doSlam.AddAction(playDiveAudio);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    CorruptedDreamsPlandoMod.Instance.LogError("Setting audio for ddark failed");
-            //}
+            if (audioClip != null)
+            {
+                doSlam.AddAction(audioClip);
+            }
 
             doSlam.AddAction(ActivateAndResetGameObject(slam));
             //doSlam.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
