@@ -772,6 +772,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 fireballShooter.ShotScale = BlasterShotScale;
                 fireballShooter.PreFireDelay = BlasterTelegraph;
                 fireballShooter.RemoveParticles = true;
+                fireballShooter.DamageToDeal = 2;
                 CorruptedDreamsPlandoMod.Instance.Log("Made fireball shooter");
 
                 blasterSpawners.Add(go);

@@ -237,7 +237,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 castState.GetFirstActionOfType<PlayerDataBoolTest>().Enabled = false;
                 if (removeParticles)
                 {
-                    castState.GetFirstActionOfType<AudioPlayerOneShotSingle>().Enabled = false;
                 }
             }
 
@@ -447,6 +446,8 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
             foreach (var castState in castStates)
             {
+                castState.GetFirstActionOfType<AudioPlayerOneShotSingle>().Enabled = false;
+
                 castState.AddCustomAction(() =>
                 {
                     ModifyShadeSoulFlightBase(castFSM, direction, removeParticles, damageToDeal, extraModifications);
