@@ -61,6 +61,12 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 var state = fsm.GetValidState("Scream Antic2");
                 _shriekAudio = state.GetFirstActionOfType<AudioPlay>().oneShotClip;
             }
+
+            if (_shriekAudio == null)
+            {
+                CorruptedDreamsPlandoMod.Instance.LogError("Setting audio for shriek failed");
+                _shriekAudio = DescendingDarkSpawner.DDarkAudio;
+            }
         }
 
         private static void GetHowlingWraithsSfx()

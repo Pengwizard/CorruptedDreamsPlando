@@ -65,7 +65,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public static AnimationModifiersNkg FromJsonFile()
         {
-            var path = "C:\\clean\\hkMods\\CorruptedDreamsPlando\\CorruptedDreamsPlando\\Resources\\bossVariables\\corruptedNKGModifiers.json";
+            var path = "C:\\clean\\corruptedNKGModifiers.json";
 
             using (StreamReader r = new StreamReader(path))
             {
@@ -309,10 +309,10 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             SetupTitleScream(fsm);
 
             var rageRoarState = fsm.GetState("Roar");
-            Satchel.FsmUtil.AddFirstAction(rageRoarState, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
+            //Satchel.FsmUtil.AddFirstAction(rageRoarState, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
 
             var roarEndPhase = fsm.GetState("Roar End");
-            Satchel.FsmUtil.AddAction(roarEndPhase, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
+            //Satchel.FsmUtil.AddAction(roarEndPhase, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
 
             // Rage starts at "4+" state after modifications
             // Can modify this from the start i guess
@@ -392,7 +392,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             foreach (string stateToHookName in statesToAddCheck)
             {
-                var stateToHookTransition = fsm.GetState(stateToHookName);
+                var stateToHookTransition = fsm.GetValidState(stateToHookName);
                 //stateToHookTransition.RemoveTransition(transitionToHook);
                 //stateToHookTransition.AddTransition(transitionToHook, rageCheckStateName);
 
@@ -412,10 +412,27 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             }
         }
 
+        private static void MakeInvincible()
+        {
+            //var hm = _bossObject.GetComponent<HealthManager>();
+            ////hm.SetIsDead(false);
+            //hm.IsInvincible = true;
+            //hm.InvincibleFromDirection = 0;
+            //hm.SetPreventInvincibleEffect(true);
+        }
+
+        private static void MakeVulnerable()
+        {
+            //var hm = _bossObject.GetComponent<HealthManager>();
+            ////hm.SetIsDead(false);
+            //hm.IsInvincible = false;
+            ////hm.InvincibleFromDirection = 0;
+            //hm.SetPreventInvincibleEffect(true);
+        }
 
         private static void ModifyVariables(PlayMakerFSM fsm)
         {
-            //throw new NotImplementedException();
+
         }
 
         private static void ModifyAnimationTimes(PlayMakerFSM fsm)
@@ -450,6 +467,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             SetupAbyssShriekWave(fsm);
 
             SetupSimonSays(fsm);
+
+            SetupCustomStagger(fsm);
         }
         
         private static void CleanupGameObjectList(List<GameObject> gos)
@@ -501,11 +520,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 else
                 {
                     var moveIndex = UnityEngine.Random.Range(0, moveOptions.Count);
-                    //nextMove = moveOptions[moveIndex];
-                    nextMove = "NKG SAYS";
+                    nextMove = moveOptions[moveIndex];
+                    //nextMove = "NKG SAYS";
                 }
 
-                CorruptedDreamsPlandoMod.Instance.Log($"Move Choice {nextMove}");
+                //CorruptedDreamsPlandoMod.Instance.Log($"Move Choice {nextMove}");
 
                 fsm.SendEvent(nextMove);
             });
@@ -583,13 +602,14 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var slash1 = fsm.gameObject.Find("Slash1");
             var slashTop = GameObject.Instantiate(slash1, fsm.gameObject.transform, true);
             slashTop.name = "SlashTop";
-            slashTop.transform.SetScaleX(slashTop.transform.GetScaleX() * 0.5f);
+            //slashTop.transform.SetScaleX(slashTop.transform.GetScaleX());
             slashTop.SetActive(true);
             slashTop.GetComponent<PolygonCollider2D>().enabled = false;
 
             uppercutPosition.InsertCustomAction(() =>
             {
                 fsm.gameObject.transform.SetPosition2D(Utils.Hero().transform.position.x, actualGroundY);
+                slashTop.GetComponent<PolygonCollider2D>().enabled = true;
             }, 4);
 
             uppercutPosition.AddTransition("FINISHED", uppercutUp.Name);
@@ -597,7 +617,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             uppercutUp.CopyActionData(ogUppercutUp);
             uppercutUp.InsertCustomAction(() =>
             {
-                slashTop.GetComponent<PolygonCollider2D>().enabled = true;
             }, 1);
 
             var uppercutWait = uppercutUp.GetFirstActionOfType<Wait>();
@@ -708,9 +727,9 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             var slash1 = fsm.gameObject.Find("Slash1");
             var slashBottom = GameObject.Instantiate(slash1, fsm.gameObject.transform, true);
-            slashBottom.transform.SetPositionY(slashBottom.transform.GetPositionY() - 1f);
+            slashBottom.transform.SetPositionY(slashBottom.transform.GetPositionY() - 3f);
             slashBottom.name = "SlashBot";
-            slashBottom.transform.SetScaleX(slashBottom.transform.GetScaleX() * 0.5f);
+            slashBottom.transform.SetScaleX(slashBottom.transform.GetScaleX() * 0.7f);
             slashBottom.SetActive(true);
             slashBottom.GetComponent<PolygonCollider2D>().enabled = false;
 
@@ -769,6 +788,12 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             SingleAttackDownSlash(fsm, startState, endState);
         }
 
+        private static int parryCounter = 0;
+        private static int staggerCount = 0;
+
+        // Needs to be in the json.
+        private static int lastStagger = 5;
+
         // Simon Says variables
         public static void SetupSimonSays(PlayMakerFSM fsm)
         {
@@ -817,6 +842,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             telegraphStart.AddCustomAction(() =>
             {
+                parryCounter = 0;
+
                 currentSequencePosition = 0;
                 currentSequence.Clear();
 
@@ -824,6 +851,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 {
                     currentSequence.Add(UnityEngine.Random.Range(0, nkgSaysTelegraphLights.Count));
                 }
+
+                On.HeroController.NailParry += HeroController_NailParry;
             });
 
             //telegraphStart.AddAction(new Wait() { time = telegraph, finishEvent = new("FINISHED") });
@@ -898,6 +927,14 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
 
             attacksCleanup.AddAction(new Wait() { time = 1.5f, finishEvent = new("FINISHED") });
+
+            attacksCleanup.AddCustomAction(() =>
+            {
+                On.HeroController.NailParry -= HeroController_NailParry;
+
+                DisableSlashHitboxes();
+            });
+
             attacksCleanup.AddTransition("FINISHED", "Move Choice");
 
 
@@ -910,6 +947,116 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             moveChoice.AddTransition("NKG SAYS", telegraphStart.Name);
 
             moveOptions.Add("NKG SAYS");
+        }
+
+        private static void SetupCustomStagger(PlayMakerFSM fsm)
+        {
+            var parryStaggerStart = fsm.AddState("Parry Stagger Start");
+            var parryStaggerMiddle = fsm.AddState("Parry Stagger Middle");
+            var parryStaggerContinue = fsm.AddState("Parry Stagger Continue");
+
+            var deathStart = fsm.GetValidState("Death Start");
+            var steamState = fsm.GetValidState("Steam");
+            var teleIn = fsm.GetValidState("AD Tele In");
+
+            var fbBehind = fsm.GetValidState("FB Behind");
+            var fbReTele = fsm.GetValidState("FB Re Tele");
+            var ogUppercutExplode = fsm.GetValidState("UP Explode");
+
+            parryStaggerStart.AddAction(new Wait() { time = 0.5f, finishEvent = new("FINISHED") });
+            parryStaggerStart.AddTransition("FINISHED", parryStaggerContinue.Name);
+
+            //parryStaggerStart.AddAction(new SetMeshRenderer()
+            //{
+            //    gameObject = Utils.GameObjectToOwnerDefault(_bossObject),
+            //    active = true
+            //});
+            parryStaggerMiddle.CopyActionData(teleIn);
+            parryStaggerMiddle.AddAction(deathStart.Actions[4]);
+            parryStaggerMiddle.AddAction(deathStart.Actions[15]);
+            //parryStaggerMiddle.AddAction(deathStart.Actions[16]);
+            //parryStaggerMiddle.AddAction(deathStart.Actions[17]);
+            //parryStaggerMiddle.AddAction(deathStart.Actions[18]);
+            //parryStaggerMiddle.AddAction(deathStart.Actions[29]);
+            //parryStaggerMiddle.AddAction(deathStart.Actions[31]);
+            //parryStaggerMiddle.AddAction(deathStart.Actions[32]);
+            //parryStaggerMiddle.AddAction(teleIn.Actions[0]);
+            //parryStaggerMiddle.AddAction(teleIn.Actions[2]);
+            //parryStaggerMiddle.AddAction(teleIn.Actions[5]);
+            //parryStaggerMiddle.AddAction(teleIn.Actions[6]);
+            //parryStaggerMiddle.AddAction(teleIn.Actions[7]);
+            //parryStaggerMiddle.AddAction(fbReTele.Actions[1]);
+            //parryStaggerStart.AddAction(deathStart.Actions[33]);
+            //parryStaggerMiddle.AddCustomAction(() =>
+            //{
+            //    //_bossObject.transform.SetPositionY(12f);
+            //    //_bossObject.transform.SetPositionX(86f);
+
+            //    CorruptedDreamsPlandoMod.Instance.Log($"inside stagger");
+
+            //    staggerCount++;
+            //    DisableSlashHitboxes();
+            //    CorruptedDreamsPlandoMod.Instance.Log($"disabled hitboxes");
+            //    MakeVulnerable();
+            //    CorruptedDreamsPlandoMod.Instance.Log($"made vuln");
+
+            //    if (staggerCount > lastStagger)
+            //    {
+            //        var hm = _bossObject.GetComponent<HealthManager>();
+            //        hm.hp = 50;
+            //    }
+            //    CorruptedDreamsPlandoMod.Instance.Log($"wait");
+            //});
+
+            //parryStaggerStart.AddAction(steamState.Actions[0]);
+
+            parryStaggerMiddle.AddAction(new Wait() { time = 10f, finishEvent = new("FINISHED") });
+            parryStaggerMiddle.AddTransition("FINISHED", parryStaggerContinue.Name);
+
+
+
+            parryStaggerContinue.AddAction(fbBehind.Actions[0]);
+            parryStaggerContinue.AddAction(fbReTele.Actions[0]);
+            parryStaggerContinue.AddAction(fbReTele.Actions[1]);
+            parryStaggerContinue.AddAction(ogUppercutExplode.Actions[1]);
+
+            parryStaggerContinue.AddAction(new Wait() { time = 10f, finishEvent = new("FINISHED") });
+            parryStaggerContinue.AddCustomAction(() =>
+            {
+                MakeInvincible();
+            });
+
+            parryStaggerContinue.AddTransition("FINISHED", "Move Choice");
+
+            fsm.AddGlobalTransition("PARRY STAGGER", parryStaggerStart.Name);
+        }
+
+        private static void DisableSlashHitboxes()
+        {
+            var slashes = _bossObject.GetComponentsInChildren<PolygonCollider2D>();
+            foreach (var slash in slashes)
+            {
+                if (slash.gameObject.name.ToLower().Contains("slash"))
+                {
+                    slash.enabled = false;
+                }
+            }
+        }
+
+        private static void HeroController_NailParry(On.HeroController.orig_NailParry orig, HeroController self)
+        {
+            orig(self);
+
+            CorruptedDreamsPlandoMod.Instance.Log($"Parry Detected {parryCounter}");
+            parryCounter++;
+
+            if (parryCounter >= 3)
+            {
+                parryCounter = 0;
+                var fsm = _bossObject.LocateMyFSM("Control");
+                CorruptedDreamsPlandoMod.Instance.Log($"Setting state");
+                fsm.SendEvent("PARRY STAGGER");
+            }
         }
 
         // Shriek Wave Variables
@@ -1073,7 +1220,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             ddarkPillarsStep.AddCustomAction(() =>
             {
                 // This is always a valid 
-                CorruptedDreamsPlandoMod.Instance.Log($"ddark {ddarkCurrentIndex}");
                 if (ddarkCurrentIndex < ddarkTelegraphs.Count)
                 {
                     ddarkTelegraphs[ddarkCurrentIndex].transform.SetPositionAndRotation(Utils.Hero().transform.position, Quaternion.identity);
@@ -1162,7 +1308,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 fireballShooter.PreFireDelay = BlasterTelegraph;
                 fireballShooter.RemoveParticles = true;
                 fireballShooter.DamageToDeal = 2;
-                CorruptedDreamsPlandoMod.Instance.Log("Made fireball shooter");
 
                 blasterSpawners.Add(go);
             }
@@ -1198,7 +1343,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             {
                 // This is always a valid 
                 //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Step 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
-                CorruptedDreamsPlandoMod.Instance.Log($"shoot {blasterCurrentIndex}");
+                //CorruptedDreamsPlandoMod.Instance.Log($"shoot {blasterCurrentIndex}");
                 if (0 <= blasterCurrentIndex && blasterCurrentIndex <= blasterSpawners.Count - 1)
                 {
                     blasterSpawners[blasterCurrentIndex].GetComponent<FireballShooter>().ShootStraight();
@@ -1258,10 +1403,15 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             // TODO fix hp gates for fireballs.
             #region balloon
 
-            var inflateState = fsm.GetState("Inflate");
+            var deflateState = fsm.GetValidState("Deflate");
+            //deflateState.Actions[0].Enabled = false;
+
+
+
+            var inflateState = fsm.GetValidState("Inflate");
 
             // This usually makes NKG vulnerable to spells while ballooned. Lets disable that.
-            inflateState.GetFirstActionOfType<SetTag>().Enabled = false;
+            //inflateState.GetFirstActionOfType<SetTag>().Enabled = false;
 
             var fireballShooterUp = new FireballShooter();
             //fireballShooterUp.name = "Up Shot";

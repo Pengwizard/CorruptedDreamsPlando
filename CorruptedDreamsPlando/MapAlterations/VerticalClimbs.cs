@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static System.TimeZoneInfo;
 
 namespace CorruptedDreamsPlando.MapAlterations
@@ -67,6 +68,13 @@ namespace CorruptedDreamsPlando.MapAlterations
 
                 var corpse = GameObject.Find("Col_outside_corpse_collapse_020003");
                 corpse.transform.SetPosition2D(32.6201f, 4.94f);
+
+                var platform2 = GameObject.Instantiate(platform);
+                platform.transform.SetPosition2D(40.7f, 3.3f);
+                var corpse2 = GameObject.Instantiate(corpse);
+                corpse2.transform.SetScaleX(-1);
+                corpse.transform.SetPosition2D(40.5f, 4.94f);
+
             }
 
             orig(self);

@@ -30,5 +30,5 @@
   "WhiteSolidUpTime": 0.5,
   "WhiteSolidUpDelay": 2.0,
   "PhaseChangeHpGate": 0.5,
-  "PhaseChangeHpMultiplier": 2
+  "PhaseChangeHpMultiplier": 5
 }

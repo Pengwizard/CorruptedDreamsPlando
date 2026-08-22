@@ -19,11 +19,17 @@ namespace CorruptedDreamsPlando.MapAlterations
         {
             orig(self);
             var zombie = GameObject.Find("_Enemies/Zombie Runner");
-            if (zombie != null)
+            if (zombie == null)
             {
-                var hpm = zombie.GetComponent<HealthManager>();
-                hpm.hp = 9999;
+                zombie = GameObject.Find("Zombie Runner");
+                if (zombie == null)
+                {
+                    return;
+                }
             }
+
+            var hpm = zombie.GetComponent<HealthManager>();
+            hpm.hp = 9999;
         }
 
         public static void Unload()
