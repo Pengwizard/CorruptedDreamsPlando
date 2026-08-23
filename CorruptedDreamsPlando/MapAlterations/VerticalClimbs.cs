@@ -16,7 +16,7 @@ namespace CorruptedDreamsPlando.MapAlterations
         public string transitionObject;
     }
 
-    public class VerticalClimbs
+    public class VerticalClimbs : IMapAlteration
     {
         public static Dictionary<string, TransitionInfo> transitionInfo = new()
         {
@@ -46,13 +46,13 @@ namespace CorruptedDreamsPlando.MapAlterations
             }
         };
 
-        public static void Initialize()
+        public void Initialize()
         {
             On.GameManager.OnNextLevelReady += onSceneChange;
 
         }
 
-        public static void Unload()
+        public void Unload()
         {
             On.GameManager.OnNextLevelReady -= onSceneChange;
         }

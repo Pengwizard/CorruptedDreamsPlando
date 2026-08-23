@@ -65,7 +65,7 @@ namespace CorruptedDreamsPlando
             MapChanger.Events.OnSetGameMap += OnSetGameMap;
         }
 
-        public CorruptedDreamShields cds;
+        public MapAlterationsManager mam;
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
             Log("Initializing");
@@ -97,14 +97,14 @@ namespace CorruptedDreamsPlando
             // Map Alterations
             // TODO make "map alterations" module
 
-            FuckRightSideShrogo.Initialize();
-            LoopTransitions.Initialize();
-            LurienElevatorOutOfService.Initialize();
-            EnemyDisabler.Initialize();
-            VerticalClimbs.Initialize();
-            UpDirectionSign.Initialize();
-            AMoundSoulTotem.Initialize();
-            NoDreamPlats.Initialize();
+            //FuckRightSideShrogo.Initialize();
+            //LoopTransitions.Initialize();
+            //LurienElevatorOutOfService.Initialize();
+            //EnemyDisabler.Initialize();
+            //VerticalClimbs.Initialize();
+            //UpDirectionSign.Initialize();
+            //AMoundSoulTotem.Initialize();
+            //NoDreamPlats.Initialize();
 
             RandoController.OnExportCompleted += AddModules;
             //TraitorLordDream.Initialize();
@@ -123,14 +123,14 @@ namespace CorruptedDreamsPlando
             //CorruptedSoulTyrant.Initialize();
             //CorruptedGPZ.Initialize();
 
-            CorruptedNKG.Initialize();
+            //CorruptedNKG.Initialize();
 
             MapChanger.Events.OnEnterGame += OnEnterGame;
 
 
             // For testing
-            cds = new CorruptedDreamShields();
-            cds.Initialize();
+            mam = new();
+            mam.Initialize();
 
             Log("Initialized");
         }

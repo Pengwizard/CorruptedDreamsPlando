@@ -1,10 +1,21 @@
 {
+  "NkgSaysLastStagger": 5,
+  "NkgSaysStartingTelegraphTime": 0.75,
+  "NkgSaysTelegraphSpacing": 0.05,
+  "ParryRequirements": [ 1, 2, 3, 3, 4, 5 ],
+  "AttackCount": [ 2, 2, 4, 4, 6, 6 ],
+  "ShriekSpawnerCount": 16,
+  "ShriekSpawnerFirstX": 70,
+  "ShriekSpawnerLastX": 100,
+  "ShriekOffsetY": -1.8,
+  "ShriekSpawnDelay": 0.125,
   "BlasterInitialDistance": 10,
   "BlasterCount": 16,
   "BlasterSpeed": 25,
   "BlasterTelegraphDelayMod": 4,
   "BlasterShotDelay": 0.3,
   "BlasterShotScale": 1.2,
+  "SpiralSpawnOffset": 3,
   "BalloonPatterns": [
     {
       "SpiralSpeed": 8,
@@ -18,12 +29,6 @@
       "SpiralSwitchDirectionInterval": 3
     }
   ],
-  "SpiralSpawnOffset": 3,
-  "ShriekSpawnerCount": 16,
-  "ShriekSpawnerFirstX": 70,
-  "ShriekSpawnerLastX": 100,
-  "ShriekOffsetY": -1.8,
-  "ShriekSpawnDelay": 0.125,
   "RoarWaitTime": 2.0,
   "TitleFadeUpDelay": 2.0,
   "TitleFadeDownDelay": 0.5,

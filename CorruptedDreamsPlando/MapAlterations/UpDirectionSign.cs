@@ -14,7 +14,7 @@ namespace CorruptedDreamsPlando.MapAlterations
         public float y;
     }
 
-    public class UpDirectionSign
+    public class UpDirectionSign : IMapAlteration
     {
         public static Dictionary<string, PlacementInfo> placementInfo = new()
         {
@@ -43,13 +43,13 @@ namespace CorruptedDreamsPlando.MapAlterations
 
         public static ISprite signSprite = new EmbeddedSprite("upSign");
 
-        public static void Initialize()
+        public void Initialize()
         {
             On.GameManager.OnNextLevelReady += onSceneChange;
 
         }
 
-        public static void Unload()
+        public void Unload()
         {
             On.GameManager.OnNextLevelReady -= onSceneChange;
         }

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace CorruptedDreamsPlando.MapAlterations
 {
-    public class LoopTransitions
+    public class LoopTransitions : IMapAlteration
     {
         private static Dictionary<string, List<string>> roomsToModify = new Dictionary<string, List<string>>
         {
@@ -28,13 +28,13 @@ namespace CorruptedDreamsPlando.MapAlterations
             // {SceneNames.Deepnest_43, new List<string>{ "bot1" } },
         };
 
-        public static void Initialize()
+        public void Initialize()
         {
             On.GameManager.OnNextLevelReady += onSceneChange;
 
         }
 
-        public static void Unload()
+        public void Unload()
         {
             On.GameManager.OnNextLevelReady -= onSceneChange;
 

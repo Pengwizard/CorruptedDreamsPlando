@@ -9,17 +9,17 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-namespace CorruptedDreamsPlando.Modules
+namespace CorruptedDreamsPlando.MapAlterations
 {
     // TODO: Maybe add respawn hazard next to elevator?
-    public class LurienElevatorOutOfService
+    public class LurienElevatorOutOfService : IMapAlteration
     {
-        public static void Initialize()
+        public void Initialize()
         {
             On.GameManager.OnNextLevelReady += onSceneChange;
         }
 
-        public static void Unload()
+        public void Unload()
         {
             On.GameManager.OnNextLevelReady -= onSceneChange;
         }

@@ -13,9 +13,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UObject = UnityEngine.Object;
 
-namespace CorruptedDreamsPlando.Modules
+namespace CorruptedDreamsPlando.MapAlterations
 {
-    public class CorruptedDreamShields // : ItemChanger.Modules.Module
+    public class CorruptedDreamShields : IMapAlteration
     {
         public static Dictionary<string, string> StandardDreamEnters = new Dictionary<string, string>
         {

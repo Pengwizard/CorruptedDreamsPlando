@@ -7,12 +7,11 @@ using UnityEngine;
 using static System.TimeZoneInfo;
 namespace CorruptedDreamsPlando.MapAlterations
 {
-    public class AMoundSoulTotem
+    public class AMoundSoulTotem : IMapAlteration
     {
-        public static void Initialize()
+        public void Initialize()
         {
             On.GameManager.OnNextLevelReady += onSceneChange;
-
         }
 
         private static void onSceneChange(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
@@ -32,7 +31,7 @@ namespace CorruptedDreamsPlando.MapAlterations
             hpm.hp = 9999;
         }
 
-        public static void Unload()
+        public void Unload()
         {
             On.GameManager.OnNextLevelReady -= onSceneChange;
         }

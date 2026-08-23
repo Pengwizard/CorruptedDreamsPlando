@@ -11,9 +11,9 @@ using System.Collections;
 
 namespace CorruptedDreamsPlando.MapAlterations
 {
-    public class NoDreamPlats
+    public class NoDreamPlats : IMapAlteration
     {
-        public static void Initialize()
+        public void Initialize()
         {
             On.DreamPlatform.OnEnable += DreamPlatform_OnEnable;
         }
@@ -24,7 +24,7 @@ namespace CorruptedDreamsPlando.MapAlterations
             self.gameObject.SetActive(false);
         }
 
-        public static void Unload()
+        public void Unload()
         {
             On.DreamPlatform.OnEnable -= DreamPlatform_OnEnable;
         }

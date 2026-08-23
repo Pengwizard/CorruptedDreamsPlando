@@ -11,15 +11,15 @@ using UObject = UnityEngine.Object;
 
 namespace CorruptedDreamsPlando.MapAlterations
 {
-    public class FuckRightSideShrogo
+    public class FuckRightSideShrogo : IMapAlteration
     {
-        public static void Initialize()
+        public void Initialize()
         {
             On.GameManager.OnNextLevelReady += onSceneChange;
 
         }
 
-        public static void Unload()
+        public void Unload()
         {
             On.GameManager.OnNextLevelReady -= onSceneChange;
 

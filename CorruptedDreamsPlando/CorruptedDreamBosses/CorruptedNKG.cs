@@ -27,40 +27,51 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public List<float> SpiralShotDelay;
     }
 
-    internal class GhasterBlasterPattern
-    {
-
-    }
-
     internal class AnimationModifiersNkg
     {
-        // Shriek Wave
-        public int ShriekSpawnerCount;
-        public float ShriekSpawnerFirstX;
-        public float ShriekSpawnerLastX;
-        public float ShriekOffsetY;
-        public float ShriekSpawnDelay;
+        // Staggers
+        public int NkgSaysLastStagger = 5;
+        public float NkgSaysStartingTelegraphTime = 0.75f;
+        public float NkgSaysTelegraphSpacing = 0.05f;
+        public List<int> ParryRequirements = new() { 1, 2, 3, 3, 4, 5 };
+        public List<int> AttackCount = new() { 2, 2, 4, 4, 6, 6 };
 
-        // Spiral
-        public List<BalloonAttackPattern> BalloonPatterns;
-        public float SpiralSpawnOffset;
+        // Shriek Wave
+        public int ShriekSpawnerCount = 16;
+        public float ShriekSpawnerFirstX = 70f;
+        public float ShriekSpawnerLastX = 100f;
+        public float ShriekOffsetY = -1.8f;
+        public float ShriekSpawnDelay = 0.125f;
 
         // Ghaster Blaster
-        public float BlasterInitialDistance;
-        public int BlasterCount;
-        public float BlasterSpeed;
-        public float BlasterTelegraphDelayMod;
-        public float BlasterShotDelay;
-        public float BlasterShotScale;
+        public float BlasterInitialDistance = 10;
+        public int BlasterCount = 16;
+        public float BlasterSpeed = 25;
+        public float BlasterTelegraphDelayMod = 4;
+        public float BlasterShotDelay = 0.3f;
+        public float BlasterShotScale = 1.2f;
+
+        // Spiral
+        public List<BalloonAttackPattern> BalloonPatterns = new()
+        {
+            new() {
+                SpiralSpeed = 8,
+                SpiralInwardVel = -1.30f,
+                SpiralShotCount = 15,
+                SpiralShotDelay = new() {1.5f, 0.5f, 0.5f},
+                SpiralSwitchDirectionInterval = 3
+            }
+        };
+        public float SpiralSpawnOffset = 3;
 
         // Numbers for Phase Change bit
-        public float RoarWaitTime;
-        public float WhiteSolidUpTime;
-        public float WhiteSolidUpDelay;
-        public float TitleFadeUpDelay;
-        public float TitleFadeDownDelay;
-        public float PhaseChangeHpGate;
-        public float PhaseChangeHpMultiplier;
+        public float RoarWaitTime = 2.0f;
+        public float TitleFadeUpDelay = 2.0f;
+        public float TitleFadeDownDelay = 0.5f;
+        public float WhiteSolidUpTime = 0.5f;
+        public float WhiteSolidUpDelay = 2.0f;
+        public float PhaseChangeHpGate = 0.5f;
+        public float PhaseChangeHpMultiplier = 5;
 
 
         public static AnimationModifiersNkg FromJsonFile()
@@ -83,6 +94,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static readonly FsmID controlFSM = new("Nightmare Grimm Boss", "Control");
 
         private static bool phaseChanged;
+        private static bool alreadyChangedOnce = false;
         private static GameObject _bossObject;
         private static int _startingHp;
         private static int _phase1Hp;
@@ -101,7 +113,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public static void UnpackModifiers()
         {
-            _modifiers = AnimationModifiersNkg.FromJsonFile();
+            _modifiers = new AnimationModifiersNkg();
+            try
+            {
+                _modifiers = AnimationModifiersNkg.FromJsonFile();
+            } catch (Exception e) { }
         }
 
         // Enter "PC Pillar Retry", exit "Roar End"
@@ -308,10 +324,10 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             SetupPhaseChangeAnimationSequence(fsm, "Tele Out");
             SetupTitleScream(fsm);
 
-            var rageRoarState = fsm.GetState("Roar");
+            //var rageRoarState = fsm.GetValidState("Roar");
             //Satchel.FsmUtil.AddFirstAction(rageRoarState, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
 
-            var roarEndPhase = fsm.GetState("Roar End");
+            //var roarEndPhase = fsm.GetValidState("Roar End");
             //Satchel.FsmUtil.AddAction(roarEndPhase, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
 
             // Rage starts at "4+" state after modifications
@@ -365,11 +381,14 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     CorruptedDreamsPlandoMod.Instance.Log("Raging");
                     Grayscaler.TickCamera();
 
+                    isFirstMove = false;
+                    MakeInvincible();
                     ModifyAttackPatterns(fsm);
                     ModifyVariables(fsm);
                     ModifyAnimationTimes(fsm);
 
                     phaseChanged = true;
+                    alreadyChangedOnce = true;
                 }
             });
 
@@ -384,8 +403,13 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var healthManager = _bossObject.GetComponent<HealthManager>();
             _startingHp = healthManager.hp;
             healthManager.hp = 9999;
-            _phase1Hp = 10; // (int)(_startingHp * _modifiers.PhaseChangeHpGate);
+            _phase1Hp = (int)(_startingHp * _modifiers.PhaseChangeHpGate);
             var phaseTransitionGate = healthManager.hp - _phase1Hp;
+            if (alreadyChangedOnce)
+            {
+                phaseTransitionGate = healthManager.hp - 10;
+            }
+
             CorruptedDreamsPlandoMod.Instance.Log($"Setting up phase change, will trigger at {phaseTransitionGate} hp");
 
             string setupRageTransition = "SETUP RAGE";
@@ -414,11 +438,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static void MakeInvincible()
         {
-            //var hm = _bossObject.GetComponent<HealthManager>();
-            ////hm.SetIsDead(false);
-            //hm.IsInvincible = true;
-            //hm.InvincibleFromDirection = 0;
-            //hm.SetPreventInvincibleEffect(true);
+            var hm = _bossObject.GetComponent<HealthManager>();
+            //hm.SetIsDead(false);
+            hm.IsInvincible = true;
+            hm.InvincibleFromDirection = 0;
+            hm.SetPreventInvincibleEffect(true);
         }
 
         private static void MakeVulnerable()
@@ -455,7 +479,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static void ModifyAttackPatterns(PlayMakerFSM fsm)
         {
-
             SetupMoveChoice(fsm);
 
             SetupNewBalloonPhase(fsm);
@@ -539,9 +562,15 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             telegraphObject.transform.SetScaleY(1f);
             var lightPulse = telegraphObject.LocateMyFSM("Light Pulse");
             var st1 = lightPulse.GetValidState("State 1");
+
             var scaler = st1.GetFirstActionOfType<iTweenScaleBy>();
             scaler.loopType = iTween.LoopType.none;
-            scaler.time = time;
+
+            st1.AddCustomAction(() =>
+            {
+                scaler.time = GetNkgSaysTelegraphTime();
+            });
+
             scaler.easeType = iTween.EaseType.linear;
             scaler.vector = finalScale;
 
@@ -791,16 +820,20 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static int parryCounter = 0;
         private static int staggerCount = 0;
 
-        // Needs to be in the json.
-        private static int lastStagger = 5;
+        public static float GetNkgSaysTelegraphTime()
+        {
+            return _modifiers.NkgSaysStartingTelegraphTime - (_modifiers.NkgSaysTelegraphSpacing * (staggerCount + 1));
+        }
+
+        public static void UpdateTimes(PlayMakerFSM fsm)
+        {
+
+        }
 
         // Simon Says variables
         public static void SetupSimonSays(PlayMakerFSM fsm)
         {
-            // TODO This number will somehow need to change between phases.
-            float initialTelegraphTime = 0.75f;
-            float spacing = 0.05f;
-            float telegraphTime = initialTelegraphTime - spacing;
+            float telegraphTime = GetNkgSaysTelegraphTime();
 
             int currentAttackCount = 3;
 
@@ -864,7 +897,9 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             {
                 nkgSaysTelegraphLights[currentSequence[currentSequencePosition]].SetActive(true);
             });
-            telegraphStep.AddAction(new Wait() { time = initialTelegraphTime + 0.05f, finishEvent = new("FINISHED") });
+
+            telegraphStep.AddAction(new Wait() { time = GetNkgSaysTelegraphTime() + (_modifiers.NkgSaysTelegraphSpacing * 2), finishEvent = new("FINISHED") });
+
             telegraphStep.AddTransition("FINISHED", telegraphPause.Name);
 
             telegraphPause.AddCustomAction(() =>
@@ -920,7 +955,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     fsm.SendEvent("NKG SAYS ATTACK DONE");
                 }
             });
-            attacksPause.AddAction(new Wait() { time = 0.5f, finishEvent = new("NKG SAYS ATTACK CONTINUE") });
+
+            attacksPause.AddAction(new Wait() { time = GetNkgSaysTelegraphTime(), finishEvent = new("NKG SAYS ATTACK CONTINUE") });
 
             attacksPause.AddTransition("NKG SAYS ATTACK CONTINUE", attacksStep.Name);
             attacksPause.AddTransition("NKG SAYS ATTACK DONE", attacksCleanup.Name);
@@ -964,22 +1000,22 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var ogUppercutExplode = fsm.GetValidState("UP Explode");
 
             parryStaggerStart.AddAction(new Wait() { time = 0.5f, finishEvent = new("FINISHED") });
-            parryStaggerStart.AddTransition("FINISHED", parryStaggerContinue.Name);
+            parryStaggerStart.AddTransition("FINISHED", parryStaggerMiddle.Name);
 
-            //parryStaggerStart.AddAction(new SetMeshRenderer()
-            //{
-            //    gameObject = Utils.GameObjectToOwnerDefault(_bossObject),
-            //    active = true
-            //});
+            parryStaggerStart.AddAction(new SetMeshRenderer()
+            {
+                gameObject = Utils.GameObjectToOwnerDefault(_bossObject),
+                active = true
+            });
             parryStaggerMiddle.CopyActionData(teleIn);
             parryStaggerMiddle.AddAction(deathStart.Actions[4]);
             parryStaggerMiddle.AddAction(deathStart.Actions[15]);
-            //parryStaggerMiddle.AddAction(deathStart.Actions[16]);
-            //parryStaggerMiddle.AddAction(deathStart.Actions[17]);
-            //parryStaggerMiddle.AddAction(deathStart.Actions[18]);
-            //parryStaggerMiddle.AddAction(deathStart.Actions[29]);
-            //parryStaggerMiddle.AddAction(deathStart.Actions[31]);
-            //parryStaggerMiddle.AddAction(deathStart.Actions[32]);
+            parryStaggerMiddle.AddAction(deathStart.Actions[16]);
+            parryStaggerMiddle.AddAction(deathStart.Actions[17]);
+            parryStaggerMiddle.AddAction(deathStart.Actions[18]);
+            parryStaggerMiddle.AddAction(deathStart.Actions[29]);
+            parryStaggerMiddle.AddAction(deathStart.Actions[31]);
+            parryStaggerMiddle.AddAction(deathStart.Actions[32]);
             //parryStaggerMiddle.AddAction(teleIn.Actions[0]);
             //parryStaggerMiddle.AddAction(teleIn.Actions[2]);
             //parryStaggerMiddle.AddAction(teleIn.Actions[5]);
@@ -987,43 +1023,49 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             //parryStaggerMiddle.AddAction(teleIn.Actions[7]);
             //parryStaggerMiddle.AddAction(fbReTele.Actions[1]);
             //parryStaggerStart.AddAction(deathStart.Actions[33]);
-            //parryStaggerMiddle.AddCustomAction(() =>
-            //{
-            //    //_bossObject.transform.SetPositionY(12f);
-            //    //_bossObject.transform.SetPositionX(86f);
+            parryStaggerMiddle.AddCustomAction(() =>
+            {
+                //_bossObject.transform.SetPositionY(12f);
+                //_bossObject.transform.SetPositionX(86f);
 
-            //    CorruptedDreamsPlandoMod.Instance.Log($"inside stagger");
+                CorruptedDreamsPlandoMod.Instance.Log($"inside stagger");
 
-            //    staggerCount++;
-            //    DisableSlashHitboxes();
-            //    CorruptedDreamsPlandoMod.Instance.Log($"disabled hitboxes");
-            //    MakeVulnerable();
-            //    CorruptedDreamsPlandoMod.Instance.Log($"made vuln");
+                staggerCount++;
+                DisableSlashHitboxes();
+                CorruptedDreamsPlandoMod.Instance.Log($"disabled hitboxes");
+                MakeVulnerable();
+                CorruptedDreamsPlandoMod.Instance.Log($"made vuln");
 
-            //    if (staggerCount > lastStagger)
-            //    {
-            //        var hm = _bossObject.GetComponent<HealthManager>();
-            //        hm.hp = 50;
-            //    }
-            //    CorruptedDreamsPlandoMod.Instance.Log($"wait");
-            //});
+                if (staggerCount > _modifiers.NkgSaysLastStagger)
+                {
+                    var hm = _bossObject.GetComponent<HealthManager>();
+                    hm.Die(0, AttackTypes.Nail, true);
+                }
+                CorruptedDreamsPlandoMod.Instance.Log($"wait");
+            });
 
             //parryStaggerStart.AddAction(steamState.Actions[0]);
 
-            parryStaggerMiddle.AddAction(new Wait() { time = 10f, finishEvent = new("FINISHED") });
+            parryStaggerMiddle.AddAction(new Wait() { time = 3f, finishEvent = new("FINISHED") });
             parryStaggerMiddle.AddTransition("FINISHED", parryStaggerContinue.Name);
-
-
 
             parryStaggerContinue.AddAction(fbBehind.Actions[0]);
             parryStaggerContinue.AddAction(fbReTele.Actions[0]);
             parryStaggerContinue.AddAction(fbReTele.Actions[1]);
             parryStaggerContinue.AddAction(ogUppercutExplode.Actions[1]);
 
-            parryStaggerContinue.AddAction(new Wait() { time = 10f, finishEvent = new("FINISHED") });
+            parryStaggerContinue.AddAction(new Wait() { time = 2f, finishEvent = new("FINISHED") });
             parryStaggerContinue.AddCustomAction(() =>
             {
                 MakeInvincible();
+
+                var telegraphStep = fsm.GetValidState("NKG Says Telegraph Step");
+                var telegraphWait = telegraphStep.GetFirstActionOfType<Wait>();
+                telegraphWait.time = GetNkgSaysTelegraphTime();
+
+                var attacksPause = fsm.GetValidState("NKG Says Attacks Pause");
+                var attacksWait = telegraphStep.GetFirstActionOfType<Wait>();
+                attacksWait.time = GetNkgSaysTelegraphTime();
             });
 
             parryStaggerContinue.AddTransition("FINISHED", "Move Choice");
@@ -1050,7 +1092,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             CorruptedDreamsPlandoMod.Instance.Log($"Parry Detected {parryCounter}");
             parryCounter++;
 
-            if (parryCounter >= 3)
+            if (parryCounter >= _modifiers.ParryRequirements[staggerCount])
             {
                 parryCounter = 0;
                 var fsm = _bossObject.LocateMyFSM("Control");
@@ -1384,7 +1426,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             blasterCirclePause.AddTransition("BLASTER CIRCLE DONE", blasterCircleCleanup.Name);
 
             // Cleanup step is currently doing nothing
-            blasterCircleCleanup.AddAction(new Wait() { time = 1f, finishEvent = new("FINISHED") });
+            // Needs longer cooldown because this attack is async
+            blasterCircleCleanup.AddAction(new Wait() { time = 2f, finishEvent = new("FINISHED") });
 
 
 
@@ -1404,8 +1447,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             #region balloon
 
             var deflateState = fsm.GetValidState("Deflate");
-            //deflateState.Actions[0].Enabled = false;
-
+            deflateState.Actions[0].Enabled = false;
 
 
             var inflateState = fsm.GetValidState("Inflate");
@@ -1447,7 +1489,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var shootSpirals = fsm.AddState("Shade Repeat");
             var shootPause = fsm.AddState("Shade Pause");
 
-            var firePause = fsm.GetState("Fire Pause");
+            var firePause = fsm.GetValidState("Fire Pause");
             firePause.RemoveTransition("FINISHED");
             firePause.AddTransition("FINISHED", shootSpirals.Name);
 
