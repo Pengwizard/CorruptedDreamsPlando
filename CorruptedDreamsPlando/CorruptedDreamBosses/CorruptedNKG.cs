@@ -350,7 +350,9 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             // We completely disable the regular stagger, cant afford it
             var stunControl = _bossObject.LocateMyFSM("Stun");
-            stunControl.enabled = false;
+            //stunControl.enabled = false;
+            stunControl.GetVariable<FsmInt>("Stun Hit Max").Value = 18 * 6;
+            stunControl.GetVariable<FsmInt>("Stun Combo").Value = 18 * 2;
         }
 
         public static void SetupTitleScream(PlayMakerFSM fsm)
@@ -582,8 +584,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                         rerollAttack = rerollAttack || (lastAttack == moveIndex);
                     }
 
-                    //nextMove = moveOptions[moveIndex];
-                    nextMove = "DDARK PILLARS";
+                    nextMove = moveOptions[moveIndex];
                     lastAttack = moveIndex;
                     balloonCounter++;
                 }
@@ -1291,7 +1292,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var moveChoice = fsm.GetValidState("Move Choice");
             moveChoice.AddTransition("SHRIEK WAVE", shriekWaveStart.Name);
 
-            moveOptions.Add("SHRIEK WAVE");
+            //moveOptions.Add("SHRIEK WAVE");
         }
 
         // DDark Attack Variables
@@ -1412,7 +1413,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             // Cleanup step is currently doing nothing
             ddarkPillarsCleanup.AddAction(new Wait() { time = 0.75f, finishEvent = new("FINISHED") });
 
-            ddarkPillarsCleanup.AddTransition("FINISHED", "Move Choice");
+            ddarkPillarsCleanup.AddTransition("FINISHED", "Shriek Wave Start");
 
             var moveChoice = fsm.GetValidState("Move Choice");
             moveChoice.AddTransition("DDARK PILLARS", ddarkPillarsStart.Name);
