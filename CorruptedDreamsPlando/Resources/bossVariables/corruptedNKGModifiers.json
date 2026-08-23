@@ -20,7 +20,7 @@
     {
       "SpiralSpeed": 8,
       "SpiralInwardVel": -1.30,
-      "SpiralShotCount": 15,
+      "SpiralShotCount": 1,
       "SpiralShotDelay": [
         1.5,
         0.5,
@@ -29,6 +29,9 @@
       "SpiralSwitchDirectionInterval": 3
     }
   ],
+  "DDarkCount": 7,
+  "DDarkTelegraphBuildup": 1,
+  "DDarkTelegraphSpacing": 0.4,
   "RoarWaitTime": 2.0,
   "TitleFadeUpDelay": 2.0,
   "TitleFadeDownDelay": 0.5,

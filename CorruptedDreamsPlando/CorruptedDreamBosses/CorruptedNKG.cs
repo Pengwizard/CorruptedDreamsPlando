@@ -66,13 +66,19 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         };
         public float SpiralSpawnOffset = 3;
 
+        // DDarks
+        public float DDarkCount = 6;
+        public float DDarkTelegraphBuildup = 1f;
+        public float DDarkTelegraphSpacing = 0.4f;
+
+
         // Numbers for Phase Change bit
         public float RoarWaitTime = 2.0f;
         public float TitleFadeUpDelay = 2.0f;
         public float TitleFadeDownDelay = 0.5f;
         public float WhiteSolidUpTime = 0.5f;
         public float WhiteSolidUpDelay = 2.0f;
-        public float PhaseChangeHpGate = 0.5f;
+        public float PhaseChangeHpGate = 0.3f;
         public float PhaseChangeHpMultiplier = 5;
 
 
@@ -182,7 +188,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var roarState = fsm.AddState("Roar");
             var roarEndState = fsm.AddState("Roar End");
 
-            myTeleIn.GetFirstActionOfType<SetPosition>().x = 75;
+            myTeleIn.GetFirstActionOfType<SetPosition>().x = balloonBaseX;
 
             myRetry.RemoveTransition("FINISHED");
             myPos.RemoveTransition("FINISHED");
@@ -282,7 +288,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             {
                 appearing.transform.position = fsm.gameObject.transform.position;
                 appearing.transform.SetPositionY(17.2f);
-                appearing.transform.SetPositionX(73.3f);
+                appearing.transform.SetPositionX(balloonBaseX - 1.7f);
                 appearing.SetActive(true);
             });
 
@@ -1292,9 +1298,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static int ddarkCurrentIndex = 0;
 
         // TODO move to modifiers
-        private static float DDarkTelegraph = 1f;
-        private static int DDarkCount = 4;
-        private static Vector3 DDarkFinalScale = new Vector3(1f, 5, 1);
 
         public static void SetupDDarkAttack(PlayMakerFSM fsm)
         {
@@ -1304,13 +1307,16 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             CleanupGameObjectList(ddarkTelegraphs);
             CleanupGameObjectList(ddarkContainers);
 
-            for (int i = 0; i < DDarkCount; i++)
+            for (int i = 0; i < _modifiers.DDarkCount; i++)
             {
                 var ddarkTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
                 //SetupTelegraph(ddarkTelegraph, Vector3.zero, DDarkFinalScale, DDarkTelegraph);
 
-                //var lightPulse = ddarkTelegraph.LocateMyFSM("Light Pulse");
-                //var de = lightPulse.GetValidState("Deactivate");
+                var lightPulse = ddarkTelegraph.LocateMyFSM("Light Pulse");
+                var state1 = lightPulse.GetValidState("State 1");
+                var tween = state1.GetFirstActionOfType<iTweenScaleBy>();
+                tween.time = 1f;
+                tween.vector = new Vector3(2f, 2f, 2f);
 
                 var diveContainer = DescendingDarkSpawner.Instance.GetDDarkSpawner(
                     2,
@@ -1321,18 +1327,18 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 ddarkContainers.Add(diveContainer);
             }
 
-            var myRetry = fsm.CopyState("Pillar Retry", "DDark Teleport Retry");
-            var myPos = fsm.CopyState("Pillar Pos", "DDark Teleport Pos");
-            var myTeleIn = fsm.CopyState("Pillar Tele In", "DDark Teleport Tele In");
-            var myAntic = fsm.CopyState("Pillar Antic", "DDark Teleport Antic");
+            //var myRetry = fsm.CopyState("Pillar Retry", "DDark Teleport Retry");
+            //var myPos = fsm.CopyState("Pillar Pos", "DDark Teleport Pos");
+            //var myTeleIn = fsm.CopyState("Pillar Tele In", "DDark Teleport Tele In");
+            //var myAntic = fsm.CopyState("Pillar Antic", "DDark Teleport Antic");
 
-            myTeleIn.GetFirstActionOfType<SetPosition>().x = 75;
+            //myTeleIn.GetFirstActionOfType<SetPosition>().x = 75;
 
-            myRetry.RemoveTransition("FINISHED");
-            myPos.RemoveTransition("FINISHED");
-            myPos.RemoveTransition("CANCEL");
-            myTeleIn.RemoveTransition("FINISHED");
-            myAntic.RemoveTransition("FINISHED");
+            //myRetry.RemoveTransition("FINISHED");
+            //myPos.RemoveTransition("FINISHED");
+            //myPos.RemoveTransition("CANCEL");
+            //myTeleIn.RemoveTransition("FINISHED");
+            //myAntic.RemoveTransition("FINISHED");
 
 
             var ddarkPillarsStart = fsm.AddState("DDark Pillars Start");
@@ -1346,47 +1352,47 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 ddarkCurrentIndex = 0;
             });
 
-            ddarkPillarsStart.AddTransition("FINISHED", myPos.Name);
+            ddarkPillarsStart.AddTransition("FINISHED", ddarkPillarsTelegraph.Name);
 
-            myRetry.AddTransition("FINISHED", myPos.Name);
-            myPos.AddTransition("FINISHED", myTeleIn.Name);
-            myPos.AddTransition("CANCEL", myRetry.Name);
-            myTeleIn.AddTransition("FINISHED", myAntic.Name);
-            myAntic.AddTransition("FINISHED", ddarkPillarsTelegraph.Name);
+            //myRetry.AddTransition("FINISHED", myPos.Name);
+            //myPos.AddTransition("FINISHED", myTeleIn.Name);
+            //myPos.AddTransition("CANCEL", myRetry.Name);
+            //myTeleIn.AddTransition("FINISHED", myAntic.Name);
+            //myAntic.AddTransition("FINISHED", ddarkPillarsTelegraph.Name);
 
             ddarkPillarsTelegraph.AddCustomAction(() =>
             {
-                ddarkTelegraphs[ddarkCurrentIndex].transform.SetScaleX(1f);
-                ddarkTelegraphs[ddarkCurrentIndex].transform.SetScaleY(1f);
+                var curIn = ddarkCurrentIndex;
+                ddarkTelegraphs[curIn].transform.SetScaleX(1f);
+                ddarkTelegraphs[curIn].transform.SetScaleY(1f);
 
-                ddarkTelegraphs[ddarkCurrentIndex].transform.SetPosition2D(Utils.Hero().transform.position);
-                ddarkTelegraphs[ddarkCurrentIndex].transform.SetPositionY(actualGroundY);
-                ddarkTelegraphs[ddarkCurrentIndex].SetActive(true);
+                ddarkTelegraphs[curIn].transform.SetPosition2D(Utils.Hero().transform.position);
+                ddarkTelegraphs[curIn].transform.SetPositionY(actualGroundY);
+                ddarkTelegraphs[curIn].SetActive(true);
 
-                ddarkContainers[ddarkCurrentIndex].transform.SetPosition2D(Utils.Hero().transform.position);
-                ddarkContainers[ddarkCurrentIndex].transform.SetPositionY(actualGroundY);
+                ddarkContainers[curIn].transform.SetPosition2D(Utils.Hero().transform.position);
+                ddarkContainers[curIn].transform.SetPositionY(actualGroundY);
+
+                Satchel.CoroutineHelper.WaitForSecondsBeforeInvoke(_modifiers.DDarkTelegraphBuildup, () =>
+                {
+                    ddarkTelegraphs[curIn].SetActive(false);
+                    ddarkContainers[curIn].SetActive(false);
+                    ddarkContainers[curIn].SetActive(true);
+                });
             });
 
-            ddarkPillarsTelegraph.AddAction(new Wait() { time = DDarkTelegraph + 1f, finishEvent = new("FINISHED") });
+            ddarkPillarsTelegraph.AddAction(new Wait() { time = _modifiers.DDarkTelegraphSpacing, finishEvent = new("FINISHED") });
             ddarkPillarsTelegraph.AddTransition("FINISHED", ddarkPillarsBlast.Name);
 
             ddarkPillarsBlast.AddCustomAction(() =>
             {
-                // This is always a valid 
-                ddarkContainers[ddarkCurrentIndex].SetActive(false);
-                ddarkContainers[ddarkCurrentIndex].SetActive(true);
-
-                ddarkTelegraphs[ddarkCurrentIndex].SetActive(false);
-
-                //telegraphObject.transform.SetScaleX(1f);
-                //telegraphObject.transform.SetScaleY(1f);
             });
+
             ddarkPillarsBlast.AddTransition("FINISHED", ddarkPillarsPause.Name);
 
 
             ddarkPillarsPause.AddCustomAction(() =>
             {
-
                 ddarkCurrentIndex++;
 
                 if (ddarkCurrentIndex < ddarkTelegraphs.Count)
@@ -1402,9 +1408,9 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             ddarkPillarsPause.AddTransition("DDARK PILLARS DONE", ddarkPillarsCleanup.Name);
 
             // Cleanup step is currently doing nothing
-            ddarkPillarsCleanup.AddAction(new Wait() { time = 0.5f, finishEvent = new("FINISHED") });
+            ddarkPillarsCleanup.AddAction(new Wait() { time = 0.75f, finishEvent = new("FINISHED") });
 
-            ddarkPillarsCleanup.AddTransition("FINISHED", "Tele Out");
+            ddarkPillarsCleanup.AddTransition("FINISHED", "Move Choice");
 
             var moveChoice = fsm.GetValidState("Move Choice");
             moveChoice.AddTransition("DDARK PILLARS", ddarkPillarsStart.Name);
