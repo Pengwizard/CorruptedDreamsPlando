@@ -306,7 +306,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             return (direction >= 90 && direction < 270) ? direction - 180 : direction;
         }
 
-        public static void ModifyShadeSoulFlightBase(
+        public void ModifyShadeSoulFlightBase(
             PlayMakerFSM castFSM,
             float direction,
             bool removeParticles,
@@ -493,7 +493,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         private IEnumerator DelayScale(GameObject fb, float scale)
         {
             var x = fb.transform.GetScaleX();
-            while (x > scale)
+            while (x != scale)
             {
                 x = fb.transform.GetScaleX();
                 fb.transform.SetScaleY(scale);

@@ -123,7 +123,7 @@ namespace CorruptedDreamsPlando
             //CorruptedSoulTyrant.Initialize();
             //CorruptedGPZ.Initialize();
 
-            //CorruptedNKG.Initialize();
+            CorruptedNKG.Initialize();
 
             MapChanger.Events.OnEnterGame += OnEnterGame;
 

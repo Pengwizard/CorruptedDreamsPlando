@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml.Linq;
 using CorruptedDreamsPlando.FsmEditTemplates;
 using CorruptedDreamsPlando.ShaderThings;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using IL;
 using ItemChanger;
+using ItemChanger.Internal;
 using Newtonsoft.Json;
 using Satchel;
 using Satchel.Futils;
@@ -76,7 +78,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public static AnimationModifiersNkg FromJsonFile()
         {
-            var path = "C:\\clean\\corruptedNKGModifiers.json";
+            var path = "C:\\clean\\hkMods\\CorruptedDreamsPlando\\CorruptedDreamsPlando\\Resources\\bossVariables\\corruptedNKGModifiers.json";
 
             using (StreamReader r = new StreamReader(path))
             {
@@ -89,7 +91,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
     public class CorruptedNKG
     {
-        // TODO:
+
+        private static bool hardcoreNKG = false;
 
         private static readonly FsmID controlFSM = new("Nightmare Grimm Boss", "Control");
 
@@ -324,11 +327,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             SetupPhaseChangeAnimationSequence(fsm, "Tele Out");
             SetupTitleScream(fsm);
 
-            //var rageRoarState = fsm.GetValidState("Roar");
-            //Satchel.FsmUtil.AddFirstAction(rageRoarState, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
+            var rageRoarState = fsm.GetValidState("Roar");
+            Satchel.FsmUtil.AddFirstAction(rageRoarState, new SetInvincible() { Invincible = true, InvincibleFromDirection = 0 });
 
-            //var roarEndPhase = fsm.GetValidState("Roar End");
-            //Satchel.FsmUtil.AddAction(roarEndPhase, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
+            var roarEndPhase = fsm.GetValidState("Roar End");
+            Satchel.FsmUtil.AddAction(roarEndPhase, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
 
             // Rage starts at "4+" state after modifications
             // Can modify this from the start i guess
@@ -346,7 +349,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         {
             FsmEditTemplates.FullScreenTitleDrop.SetupTitleUp(
                 fsm,
-                "Soul Symposer Grimm",
+                "Grimm",
                 "Roar",
                 "Roar End",
                 _modifiers.TitleFadeUpDelay,
@@ -357,7 +360,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 UnityEngine.Color.white,
                 "FINISHED",
                 null,
-                "");
+                "Soul Symposer");
         }
 
         public static FsmState SetupRageSetupState(
@@ -382,7 +385,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     Grayscaler.TickCamera();
 
                     isFirstMove = false;
-                    MakeInvincible();
+                    //MakeInvincible();
                     ModifyAttackPatterns(fsm);
                     ModifyVariables(fsm);
                     ModifyAnimationTimes(fsm);
@@ -489,9 +492,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             SetupAbyssShriekWave(fsm);
 
-            SetupSimonSays(fsm);
-
-            SetupCustomStagger(fsm);
+            if (hardcoreNKG)
+            {
+                SetupSimonSays(fsm);
+                SetupCustomStagger(fsm);
+            }
         }
         
         private static void CleanupGameObjectList(List<GameObject> gos)
@@ -503,6 +508,10 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             gos.Clear();
         }
+
+        private static int lastAttack = -1;
+        private static int balloonCounterLimit = 6;
+        private static int balloonCounter = balloonCounterLimit;
 
         public static void SetupMoveChoice(PlayMakerFSM fsm)
         {
@@ -521,30 +530,54 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             // We are keeping none of the original moves essentially, so we just remove all the move choice options, and then re-add them, except balloon
             var moveChoice = fsm.GetValidState("Move Choice");
             moveChoice.RemoveTransition("FIREBATS");
-            moveChoice.RemoveTransition("SLASH");
-            moveChoice.RemoveTransition("AIR DASH");
+
             moveChoice.RemoveTransition("SPIKES");
             moveChoice.RemoveTransition("PILLARS");
             moveChoice.RemoveTransition("BALLOON");
 
-            moveChoice.GetAction(0).Enabled = false;
-            moveChoice.GetAction(1).Enabled = false;
-            moveChoice.GetAction(2).Enabled = false;
+            if (hardcoreNKG)
+            {
+                moveChoice.RemoveTransition("SLASH");
+                moveChoice.RemoveTransition("AIR DASH");
+            } else
+            {
+                moveOptions.Add("SLASH");
+                moveOptions.Add("AIR DASH");
+
+                On.HeroController.NailParry += HeroController_NailParry;
+            }
+
+            moveChoice.GetFirstActionOfType<SendRandomEventV3>().Enabled = false;
+            moveChoice.GetFirstActionOfType<SetBoolValue>().Enabled = false;
+            moveChoice.GetFirstActionOfType<BoolTest>().Enabled = false;
+
+            balloonCounter = balloonCounterLimit;
 
             // TODO: When adding telegraph, add a move counter, and after X moves do telegraph.
             moveChoice.AddCustomAction(() =>
             {
                 var nextMove = "";
-                if (isFirstMove)
+                if (balloonCounter >= balloonCounterLimit)
                 {
                     nextMove = "BALLOON SPIRAL";
-                    isFirstMove = false;
+                    balloonCounter = 0;
                 }
                 else
                 {
                     var moveIndex = UnityEngine.Random.Range(0, moveOptions.Count);
-                    nextMove = moveOptions[moveIndex];
-                    //nextMove = "NKG SAYS";
+                    bool rerollAttack = true;
+                    while (rerollAttack)
+                    {
+                        rerollAttack = false;
+                        moveIndex = UnityEngine.Random.Range(0, moveOptions.Count);
+
+                        rerollAttack = rerollAttack || (lastAttack == moveIndex);
+                    }
+
+                    //nextMove = moveOptions[moveIndex];
+                    nextMove = "DDARK PILLARS";
+                    lastAttack = moveIndex;
+                    balloonCounter++;
                 }
 
                 //CorruptedDreamsPlandoMod.Instance.Log($"Move Choice {nextMove}");
@@ -578,8 +611,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var de = lightPulse.GetValidState("Deactivate");
             de.AddCustomAction(() =>
             {
-                telegraphObject.transform.SetScaleX(1f);
-                telegraphObject.transform.SetScaleY(1f);
+                //telegraphObject.transform.SetScaleX(1f);
+                //telegraphObject.transform.SetScaleY(1f);
 
                 telegraphObject.SetActive(false);
             });
@@ -824,12 +857,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         {
             return _modifiers.NkgSaysStartingTelegraphTime - (_modifiers.NkgSaysTelegraphSpacing * (staggerCount + 1));
         }
-
-        public static void UpdateTimes(PlayMakerFSM fsm)
-        {
-
-        }
-
         // Simon Says variables
         public static void SetupSimonSays(PlayMakerFSM fsm)
         {
@@ -1085,21 +1112,64 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             }
         }
 
+        public class ParryReward : MonoBehaviour
+        {
+            public static void SpawnSoul(Transform transform)
+            {
+                var prefab = ObjectCache.SoulOrb;
+                Destroy(prefab.Spawn());
+                prefab.SetActive(true);
+
+                // Give 34 soul per usage.
+                // double if dream wielder is equipped
+                // max if can dream gate.
+                int soulToGive = 17 * 2;
+                int masksToHeal = 1;
+
+                FlingUtils.Config config = new()
+                {
+                    Prefab = prefab,
+                    AmountMin = soulToGive,
+                    AmountMax = soulToGive,
+                    SpeedMin = 10,
+                    SpeedMax = 20,
+                    AngleMin = 0,
+                    AngleMax = 360,
+                };
+                var objs = FlingUtils.SpawnAndFling(config, transform, Vector3.zero);
+
+                // Heal on parry.
+                HeroController.instance.AddHealth(masksToHeal);
+
+                IEnumerator Routine()
+                {
+                    yield return new WaitForSeconds(10f);
+                    foreach (var o in objs)
+                    {
+                        Destroy(o);
+                    }
+                }
+
+                var sos = GameManager.instance.gameObject.GetComponent<ParryReward>();
+                if (sos == null)
+                {
+                    sos = GameManager.instance.gameObject.AddComponent<ParryReward>();
+                }
+
+                sos.StartCoroutine(Routine());
+                Destroy(prefab);
+            }
+        }
+
         private static void HeroController_NailParry(On.HeroController.orig_NailParry orig, HeroController self)
         {
             orig(self);
 
             CorruptedDreamsPlandoMod.Instance.Log($"Parry Detected {parryCounter}");
-            parryCounter++;
 
-            if (parryCounter >= _modifiers.ParryRequirements[staggerCount])
-            {
-                parryCounter = 0;
-                var fsm = _bossObject.LocateMyFSM("Control");
-                CorruptedDreamsPlandoMod.Instance.Log($"Setting state");
-                fsm.SendEvent("PARRY STAGGER");
-            }
+            ParryReward.SpawnSoul(Utils.Hero().transform);
         }
+
 
         // Shriek Wave Variables
         private static int shriekDirectionStep = 0;
@@ -1194,6 +1264,15 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             shriekWavePause.AddTransition("SHRIEK WAVE DONE", shriekWaveCleanup.Name);
 
             // Cleanup step is currently doing nothing
+            shriekWaveCleanup.AddCustomAction(() =>
+            {
+                leftScreenTelegraph.transform.SetScaleX(1f);
+                leftScreenTelegraph.transform.SetScaleY(1f);
+
+                rightScreenTelegraph.transform.SetScaleX(1f);
+                rightScreenTelegraph.transform.SetScaleY(1f);
+            });
+
             shriekWaveCleanup.AddAction(new Wait() { time = 1f, finishEvent = new("FINISHED") });
             shriekWaveCleanup.AddTransition("FINISHED", "Move Choice");
 
@@ -1213,7 +1292,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static int ddarkCurrentIndex = 0;
 
         // TODO move to modifiers
-        private static float DDarkTelegraph = 0.4f;
+        private static float DDarkTelegraph = 1f;
         private static int DDarkCount = 4;
         private static Vector3 DDarkFinalScale = new Vector3(1f, 5, 1);
 
@@ -1228,26 +1307,37 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             for (int i = 0; i < DDarkCount; i++)
             {
                 var ddarkTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
-                SetupTelegraph(ddarkTelegraph, Vector3.zero, DDarkFinalScale, DDarkTelegraph);
+                //SetupTelegraph(ddarkTelegraph, Vector3.zero, DDarkFinalScale, DDarkTelegraph);
 
-                var lightPulse = ddarkTelegraph.LocateMyFSM("Light Pulse");
-                var de = lightPulse.GetValidState("Deactivate");
+                //var lightPulse = ddarkTelegraph.LocateMyFSM("Light Pulse");
+                //var de = lightPulse.GetValidState("Deactivate");
 
                 var diveContainer = DescendingDarkSpawner.Instance.GetDDarkSpawner(
                     2,
                     Utils.Hero(),
-                    actualGroundY, DDarkTelegraph, GetClipState(DescendingDarkSpawner.DDarkAudio));
-
-                //DescendingDarkSpawner.Instance.AddDDarkAtEndOfFSM(de, 2, Vector3.zero);
-
-                //de.AddAction(GetClipState(DescendingDarkSpawner.DDarkAudio));
+                    actualGroundY, 0.1f, GetClipState(DescendingDarkSpawner.DDarkAudio));
 
                 ddarkTelegraphs.Add(ddarkTelegraph);
                 ddarkContainers.Add(diveContainer);
             }
 
+            var myRetry = fsm.CopyState("Pillar Retry", "DDark Teleport Retry");
+            var myPos = fsm.CopyState("Pillar Pos", "DDark Teleport Pos");
+            var myTeleIn = fsm.CopyState("Pillar Tele In", "DDark Teleport Tele In");
+            var myAntic = fsm.CopyState("Pillar Antic", "DDark Teleport Antic");
+
+            myTeleIn.GetFirstActionOfType<SetPosition>().x = 75;
+
+            myRetry.RemoveTransition("FINISHED");
+            myPos.RemoveTransition("FINISHED");
+            myPos.RemoveTransition("CANCEL");
+            myTeleIn.RemoveTransition("FINISHED");
+            myAntic.RemoveTransition("FINISHED");
+
+
             var ddarkPillarsStart = fsm.AddState("DDark Pillars Start");
-            var ddarkPillarsStep = fsm.AddState("DDark Pillars Step");
+            var ddarkPillarsTelegraph = fsm.AddState("DDark Pillars Telegraph");
+            var ddarkPillarsBlast = fsm.AddState("DDark Pillars Blast");
             var ddarkPillarsPause = fsm.AddState("DDark Pillars Pause");
             var ddarkPillarsCleanup = fsm.AddState("DDark Pillars Cleanup");
 
@@ -1256,33 +1346,47 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 ddarkCurrentIndex = 0;
             });
 
-            ddarkPillarsStart.AddTransition("FINISHED", ddarkPillarsStep.Name);
+            ddarkPillarsStart.AddTransition("FINISHED", myPos.Name);
 
+            myRetry.AddTransition("FINISHED", myPos.Name);
+            myPos.AddTransition("FINISHED", myTeleIn.Name);
+            myPos.AddTransition("CANCEL", myRetry.Name);
+            myTeleIn.AddTransition("FINISHED", myAntic.Name);
+            myAntic.AddTransition("FINISHED", ddarkPillarsTelegraph.Name);
 
-            ddarkPillarsStep.AddCustomAction(() =>
+            ddarkPillarsTelegraph.AddCustomAction(() =>
             {
-                // This is always a valid 
-                if (ddarkCurrentIndex < ddarkTelegraphs.Count)
-                {
-                    ddarkTelegraphs[ddarkCurrentIndex].transform.SetPositionAndRotation(Utils.Hero().transform.position, Quaternion.identity);
-                    ddarkTelegraphs[ddarkCurrentIndex].transform.SetPositionY(actualGroundY);
+                ddarkTelegraphs[ddarkCurrentIndex].transform.SetScaleX(1f);
+                ddarkTelegraphs[ddarkCurrentIndex].transform.SetScaleY(1f);
 
-                    ddarkTelegraphs[ddarkCurrentIndex].SetActive(true);
+                ddarkTelegraphs[ddarkCurrentIndex].transform.SetPosition2D(Utils.Hero().transform.position);
+                ddarkTelegraphs[ddarkCurrentIndex].transform.SetPositionY(actualGroundY);
+                ddarkTelegraphs[ddarkCurrentIndex].SetActive(true);
 
-                    ddarkContainers[ddarkCurrentIndex].SetActive(true);
-                }
+                ddarkContainers[ddarkCurrentIndex].transform.SetPosition2D(Utils.Hero().transform.position);
+                ddarkContainers[ddarkCurrentIndex].transform.SetPositionY(actualGroundY);
             });
 
-            //ddarkPillarsStep.AddAction(GetClipState(DescendingDarkSpawner.DDarkAudio, DDarkTelegraph));
-            ddarkPillarsStep.AddAction(new Wait() { time = DDarkTelegraph * 3, finishEvent = new("FINISHED") });
-            ddarkPillarsStep.AddTransition("FINISHED", ddarkPillarsPause.Name);
+            ddarkPillarsTelegraph.AddAction(new Wait() { time = DDarkTelegraph + 1f, finishEvent = new("FINISHED") });
+            ddarkPillarsTelegraph.AddTransition("FINISHED", ddarkPillarsBlast.Name);
+
+            ddarkPillarsBlast.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                ddarkContainers[ddarkCurrentIndex].SetActive(false);
+                ddarkContainers[ddarkCurrentIndex].SetActive(true);
+
+                ddarkTelegraphs[ddarkCurrentIndex].SetActive(false);
+
+                //telegraphObject.transform.SetScaleX(1f);
+                //telegraphObject.transform.SetScaleY(1f);
+            });
+            ddarkPillarsBlast.AddTransition("FINISHED", ddarkPillarsPause.Name);
+
 
             ddarkPillarsPause.AddCustomAction(() =>
             {
-                // This is always a valid 
-                // Note that this check is just <, not <=, because the one above includes the last step
-                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Pause 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
-                ddarkContainers[ddarkCurrentIndex].SetActive(false);
+
                 ddarkCurrentIndex++;
 
                 if (ddarkCurrentIndex < ddarkTelegraphs.Count)
@@ -1294,13 +1398,13 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     fsm.SendEvent("DDARK PILLARS DONE");
                 }
             });
-            ddarkPillarsPause.AddTransition("DDARK PILLARS CONTINUE", ddarkPillarsStep.Name);
+            ddarkPillarsPause.AddTransition("DDARK PILLARS CONTINUE", ddarkPillarsTelegraph.Name);
             ddarkPillarsPause.AddTransition("DDARK PILLARS DONE", ddarkPillarsCleanup.Name);
 
             // Cleanup step is currently doing nothing
-            ddarkPillarsCleanup.AddAction(new Wait() { time = 1f, finishEvent = new("FINISHED") });
+            ddarkPillarsCleanup.AddAction(new Wait() { time = 0.5f, finishEvent = new("FINISHED") });
 
-            ddarkPillarsCleanup.AddTransition("FINISHED", "Move Choice");
+            ddarkPillarsCleanup.AddTransition("FINISHED", "Tele Out");
 
             var moveChoice = fsm.GetValidState("Move Choice");
             moveChoice.AddTransition("DDARK PILLARS", ddarkPillarsStart.Name);
@@ -1349,7 +1453,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 fireballShooter.ShotScale = BlasterShotScale;
                 fireballShooter.PreFireDelay = BlasterTelegraph;
                 fireballShooter.RemoveParticles = true;
-                fireballShooter.DamageToDeal = 2;
+                fireballShooter.DamageToDeal = 1;
 
                 blasterSpawners.Add(go);
             }
@@ -1371,7 +1475,13 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     blasterDirection = -1;
                 }
 
-                blasterCurrentIndex = UnityEngine.Random.Range(0, BlasterCount / 2);
+                if (blasterDirection == 1)
+                {
+                    blasterCurrentIndex = 0;
+                } else
+                {
+                    blasterCurrentIndex = BlasterCount / 2;
+                }
                 blasterFireCount = UnityEngine.Random.Range(BlasterCount, BlasterCount * 2);
             });
 
@@ -1440,6 +1550,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         }
 
         private static BalloonAttackPattern currentPattern;
+        private static List<GameObject> spiralContainers = new();
 
         public static void SetupNewBalloonPhase(PlayMakerFSM fsm)
         {
@@ -1447,7 +1558,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             #region balloon
 
             var deflateState = fsm.GetValidState("Deflate");
-            deflateState.Actions[0].Enabled = false;
+            //deflateState.Actions[0].Enabled = false;
 
 
             var inflateState = fsm.GetValidState("Inflate");
@@ -1455,22 +1566,29 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             // This usually makes NKG vulnerable to spells while ballooned. Lets disable that.
             //inflateState.GetFirstActionOfType<SetTag>().Enabled = false;
 
-            var fireballShooterUp = new FireballShooter();
-            //fireballShooterUp.name = "Up Shot";
+            CleanupGameObjectList(spiralContainers);
+
+            var upCont = new GameObject();
+            var fireballShooterUp = upCont.AddComponent<FireballShooter>();
             fireballShooterUp.SpawnOffset = new Vector3(0, _modifiers.SpiralSpawnOffset, 0);
+            upCont.name = $"Spiral (Up)";
 
-            var fireballShooterDown = new FireballShooter();
-            //fireballShooterDown.name = "Down Shot";
+            var downCont = new GameObject();
+            var fireballShooterDown = downCont.AddComponent<FireballShooter>();
             fireballShooterDown.SpawnOffset = new Vector3(0, -_modifiers.SpiralSpawnOffset, 0);
+            downCont.name = $"Spiral (down)";
 
-            var fireballShooterLeft = new FireballShooter();
-            //fireballShooterLeft.name = "Left Shot";
+            var leftCont = new GameObject();
+            var fireballShooterLeft = leftCont.AddComponent<FireballShooter>();
             fireballShooterLeft.SpawnOffset = new Vector3(_modifiers.SpiralSpawnOffset, 0, 0);
+            leftCont.name = $"Spiral (left)";
 
-            var fireballShooterRight = new FireballShooter();
-            //fireballShooterRight.name = "Right Shot";
+            var rightCont = new GameObject();
+            var fireballShooterRight = rightCont.AddComponent<FireballShooter>();
             fireballShooterRight.SpawnOffset = new Vector3(-_modifiers.SpiralSpawnOffset, 0, 0);
+            rightCont.name = $"Spiral (right)";
 
+            spiralContainers = new() { upCont, downCont, leftCont, rightCont };
             List<FireballShooter> shooterList = new() { fireballShooterUp, fireballShooterDown, fireballShooterLeft, fireballShooterRight };
 
             foreach (var shooter in shooterList)
@@ -1552,7 +1670,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var balloonPos = fsm.GetValidState("Balloon Pos");
             var moveChoice = fsm.GetValidState("Move Choice");
             moveChoice.AddTransition("BALLOON SPIRAL", balloonPos.Name);
-            moveOptions.Add("BALLOON SPIRAL");
+            //moveOptions.Add("BALLOON SPIRAL");
 
             #endregion
         }

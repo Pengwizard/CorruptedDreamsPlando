@@ -151,7 +151,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             pillar.transform.SetParent(diveContainer.transform);
             pillar.transform.position = diveContainer.transform.position;
             mega.transform.SetParent(diveContainer.transform);
-            mega.transform.position = diveContainer.transform.position + new Vector3(0, 6, 0);
+            mega.transform.position = diveContainer.transform.position + new Vector3(0, 5, 0);
 
 
             GameObject[] gos = { slam, pillar, mega };
@@ -179,14 +179,14 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             var doPillar = fsm.GetValidState("Activate Pillar");
             var doMega = fsm.GetValidState("Activate Mega");
 
-            if (followTarget != null)
-            {
-                targetState.AddCustomAction(() =>
-                {
-                    diveContainer.transform.SetPositionAndRotation(followTarget.transform.position, Quaternion.identity);
-                    diveContainer.transform.SetPositionY(groundY);
-                });
-            }
+            //if (followTarget != null)
+            //{
+            //    targetState.AddCustomAction(() =>
+            //    {
+            //        diveContainer.transform.SetPositionAndRotation(followTarget.transform.position, Quaternion.identity);
+            //        diveContainer.transform.SetPositionY(groundY);
+            //    });
+            //}
 
             if (telegraphWait > 0)
             {
@@ -201,11 +201,11 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
 
             doSlam.AddAction(ActivateAndResetGameObject(slam));
-            doSlam.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
+            //doSlam.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
             doSlam.AddTransition("FINISHED", doPillar.Name);
 
             doPillar.AddAction(ActivateAndResetGameObject(pillar));
-            doPillar.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
+            //doPillar.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
             doPillar.AddTransition("FINISHED", doMega.Name);
 
             doMega.AddAction(ActivateAndResetGameObject(mega));
