@@ -22,3 +22,7 @@ RandoPlus
 RecentItemsDisplay
 TheGloryOfBeingAFoolRandomizer
 SpellStaller
+Scatternest
+Extra Rando
+BingoUI
+Benchwarp

@@ -91,11 +91,20 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>$(HollowKnightRefs)/Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
+    <Reference Include="Benchwarp">
+      <HintPath>$(HollowKnightRefs)/Mods/Benchwarp/Benchwarp.dll</HintPath>
+    </Reference>
+    <Reference Include="BingoUI">
+      <HintPath>$(HollowKnightRefs)/Mods/BingoUI/BingoUI.dll</HintPath>
+    </Reference>
     <Reference Include="CustomPoolInjector">
       <HintPath>$(HollowKnightRefs)/Mods/CustomPoolInjector/CustomPoolInjector.dll</HintPath>
     </Reference>
     <Reference Include="DebugMod">
       <HintPath>$(HollowKnightRefs)/Mods/DebugMod/DebugMod.dll</HintPath>
+    </Reference>
+    <Reference Include="ExtraRando">
+      <HintPath>$(HollowKnightRefs)/Mods/Extra Rando/ExtraRando.dll</HintPath>
     </Reference>
     <Reference Include="GalaxyCSharp">
       <HintPath>$(HollowKnightRefs)/GalaxyCSharp.dll</HintPath>
@@ -183,6 +192,9 @@
     </Reference>
     <Reference Include="Satchel">
       <HintPath>$(HollowKnightRefs)/Mods/Satchel/Satchel.dll</HintPath>
+    </Reference>
+    <Reference Include="Scatternest">
+      <HintPath>$(HollowKnightRefs)/Mods/Scatternest/Scatternest.dll</HintPath>
     </Reference>
     <Reference Include="SFCore">
       <HintPath>$(HollowKnightRefs)/Mods/SFCore/SFCore.dll</HintPath>

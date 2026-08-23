@@ -359,7 +359,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             var damageHero = fb.AddComponent<DamageHero>();
             damageHero.damageDealt = damageToDeal;
 
-
             if (extraModificaitons != null)
             {
                 extraModificaitons(fb, fbControl);
@@ -393,6 +392,8 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     fb.transform.eulerAngles = Vector3.forward * GetVisualRotation(direction);
                 });
                 fb.AddComponent<DummySpinner>().StartCoroutine(DelayScale(fb, scale));
+
+                fb.layer = LayerMask.NameToLayer("Enemies");
 
                 return true;
             };
@@ -492,10 +493,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
         private IEnumerator DelayScale(GameObject fb, float scale)
         {
-            var x = fb.transform.GetScaleX();
+            var x = Math.Abs(fb.transform.GetScaleX());
             while (x != scale)
             {
-                x = fb.transform.GetScaleX();
+                x = Math.Abs(fb.transform.GetScaleX());
                 fb.transform.SetScaleY(scale);
                 if (fb.transform.GetScaleX() >= 0)
                 {
@@ -504,11 +505,14 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 else
                 {
                     fb.transform.SetScaleX(-scale);
-
                 }
 
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForEndOfFrame();
             }
+
+            var spr = fb.GetComponent<tk2dSprite>();
+            var ogScale = spr.scale;
+            spr.scale = ogScale * 1.1f;
         }
 
 

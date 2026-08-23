@@ -42,27 +42,41 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public int ShriekSpawnerCount = 16;
         public float ShriekSpawnerFirstX = 70f;
         public float ShriekSpawnerLastX = 100f;
-        public float ShriekOffsetY = -1.8f;
-        public float ShriekSpawnDelay = 0.125f;
+        public float ShriekOffsetY = -2.1f;
+        public float ShriekSpawnDelay = 0.120f;
 
         // Ghaster Blaster
         public float BlasterInitialDistance = 10;
         public int BlasterCount = 16;
         public float BlasterSpeed = 25;
         public float BlasterTelegraphDelayMod = 4;
-        public float BlasterShotDelay = 0.3f;
+        public float BlasterShotDelay = 0.25f;
         public float BlasterShotScale = 1.2f;
 
         // Spiral
         public List<BalloonAttackPattern> BalloonPatterns = new()
         {
             new() {
-                SpiralSpeed = 8,
-                SpiralInwardVel = -1.30f,
+                SpiralSpeed = 10,
+                SpiralInwardVel = -1.35f,
+                SpiralShotCount = 16,
+                SpiralShotDelay = new() {1.5f, 0.5f, 0.5f, 0.5f},
+                SpiralSwitchDirectionInterval = 4
+            },
+            new() {
+                SpiralSpeed = 12,
+                SpiralInwardVel = -1.2f,
                 SpiralShotCount = 15,
                 SpiralShotDelay = new() {1.5f, 0.5f, 0.5f},
                 SpiralSwitchDirectionInterval = 3
-            }
+            },
+            new() {
+                SpiralSpeed = 12,
+                SpiralInwardVel = -1.3f,
+                SpiralShotCount = 16,
+                SpiralShotDelay = new() {1.5f, 0.5f},
+                SpiralSwitchDirectionInterval = 16
+            },
         };
         public float SpiralSpawnOffset = 3;
 
@@ -78,8 +92,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public float TitleFadeDownDelay = 0.5f;
         public float WhiteSolidUpTime = 0.5f;
         public float WhiteSolidUpDelay = 2.0f;
-        public float PhaseChangeHpGate = 0.3f;
-        public float PhaseChangeHpMultiplier = 5;
+        public float PhaseChangeHpGate = 0.1f;
+        public float PhaseChangeHpMultiplier = 3;
 
 
         public static AnimationModifiersNkg FromJsonFile()
@@ -112,6 +126,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public static void Initialize()
         {
+            // TODO: Change to raw FSM editing
             Events.AddFsmEdit(controlFSM, SetupPhaseChange);
         }
 
@@ -520,8 +535,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         }
 
         private static int lastAttack = -1;
-        private static int balloonCounterLimit = 6;
-        private static int balloonCounter = balloonCounterLimit;
+        private static float balloonCounterLimit = 6;
+        private static float balloonCounter = balloonCounterLimit;
 
         public static void SetupMoveChoice(PlayMakerFSM fsm)
         {
@@ -545,6 +560,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             moveChoice.RemoveTransition("PILLARS");
             moveChoice.RemoveTransition("BALLOON");
 
+            moveOptions.Clear();
+
             if (hardcoreNKG)
             {
                 moveChoice.RemoveTransition("SLASH");
@@ -552,6 +569,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             } else
             {
                 moveOptions.Add("SLASH");
+                moveOptions.Add("SLASH");
+                //moveOptions.Add("AIR DASH");
                 moveOptions.Add("AIR DASH");
 
                 On.HeroController.NailParry += HeroController_NailParry;
@@ -561,6 +580,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             moveChoice.GetFirstActionOfType<SetBoolValue>().Enabled = false;
             moveChoice.GetFirstActionOfType<BoolTest>().Enabled = false;
 
+            balloonCounterLimit = 5;
             balloonCounter = balloonCounterLimit;
 
             // TODO: When adding telegraph, add a move counter, and after X moves do telegraph.
@@ -571,17 +591,17 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 {
                     nextMove = "BALLOON SPIRAL";
                     balloonCounter = 0;
+                    balloonCounterLimit += 0.34f;
                 }
                 else
                 {
                     var moveIndex = UnityEngine.Random.Range(0, moveOptions.Count);
-                    bool rerollAttack = true;
-                    while (rerollAttack)
+                    //bool rerollAttack = true;
+                    CorruptedDreamsPlandoMod.Instance.Log($"Move Choice {moveIndex}");
+                    while (lastAttack == moveIndex)
                     {
-                        rerollAttack = false;
                         moveIndex = UnityEngine.Random.Range(0, moveOptions.Count);
-
-                        rerollAttack = rerollAttack || (lastAttack == moveIndex);
+                        CorruptedDreamsPlandoMod.Instance.Log($"Rerolled into {moveIndex}");
                     }
 
                     nextMove = moveOptions[moveIndex];
@@ -1219,8 +1239,10 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             shriekWaveStart.AddCustomAction(() =>
             {
-                var direction = UnityEngine.Random.Range(0, 2);
-                if (direction == 0)
+                var direction = (Utils.Hero().transform.position.x >= 85) ? 1 : 0;
+                //var direction = UnityEngine.Random.Range(0, 2);
+
+                if (direction == 1)
                 {
                     // Going right, index goes up
                     shriekDirectionStep = 1;
@@ -1292,7 +1314,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var moveChoice = fsm.GetValidState("Move Choice");
             moveChoice.AddTransition("SHRIEK WAVE", shriekWaveStart.Name);
 
-            //moveOptions.Add("SHRIEK WAVE");
+            moveOptions.Add("SHRIEK WAVE");
         }
 
         // DDark Attack Variables
@@ -1413,7 +1435,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             // Cleanup step is currently doing nothing
             ddarkPillarsCleanup.AddAction(new Wait() { time = 0.75f, finishEvent = new("FINISHED") });
 
-            ddarkPillarsCleanup.AddTransition("FINISHED", "Shriek Wave Start");
+            ddarkPillarsCleanup.AddTransition("FINISHED", "Move Choice");
 
             var moveChoice = fsm.GetValidState("Move Choice");
             moveChoice.AddTransition("DDARK PILLARS", ddarkPillarsStart.Name);
@@ -1462,7 +1484,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 fireballShooter.ShotScale = BlasterShotScale;
                 fireballShooter.PreFireDelay = BlasterTelegraph;
                 fireballShooter.RemoveParticles = true;
-                fireballShooter.DamageToDeal = 1;
+                fireballShooter.DamageToDeal = 2;
 
                 blasterSpawners.Add(go);
             }
@@ -1484,7 +1506,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     blasterDirection = -1;
                 }
 
-                if (blasterDirection == 1)
+                if (blasterDirection == -1)
                 {
                     blasterCurrentIndex = 0;
                 } else
@@ -1492,7 +1514,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     blasterCurrentIndex = BlasterCount / 2;
                 }
                 blasterFireCount = UnityEngine.Random.Range(0, BlasterCount);
-                blasterFireCount += BlasterCount / 2;
+                blasterFireCount += BlasterCount;
             });
 
             // Satchel.FsmUtil.AddAction(shriekWaveStart, GetClipState(AbyssShriekSpawner.ShriekAudio));
@@ -1569,6 +1591,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             var deflateState = fsm.GetValidState("Deflate");
             //deflateState.Actions[0].Enabled = false;
+            deflateState.AddAction(new Wait() { time = 2f, finishEvent = new("FINISHED") });
 
 
             var inflateState = fsm.GetValidState("Inflate");
@@ -1611,7 +1634,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
                 shooter.Speed = 0;
                 shooter.SpiralShotInfo.inwardForce = 0;
-                shooter.DamageToDeal = 1;
+                shooter.DamageToDeal = 2;
             }
 
             var shootSpirals = fsm.AddState("Shade Repeat");

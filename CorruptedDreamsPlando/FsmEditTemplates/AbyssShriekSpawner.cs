@@ -115,6 +115,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     var damageHero = c.AddComponent<DamageHero>();
                     damageHero.damageDealt = damageToDeal;
                 }
+
+                var spr = part.GetComponent<tk2dSprite>();
+                var ogScale = spr.scale;
+                spr.scale = ogScale * 1.1f;
             }
 
             var waitState = newShriek.LocateMyFSM("FSM").GetValidState("Wait");

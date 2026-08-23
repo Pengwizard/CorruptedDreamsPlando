@@ -69,7 +69,6 @@ namespace CorruptedDreamsPlando
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
             Log("Initializing");
-            Log($"{Preloader.Instance.GetPreloadNames()}");
 
             Preloader.Instance.Initialize(preloadedObjects);
             FullScreenTitleDrop.InitializePrefabs();
