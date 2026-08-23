@@ -325,6 +325,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             CorruptedDreamsPlandoMod.Instance.Log("Changing NKG");
             phaseChanged = false;
 
+            On.HeroController.NailParry -= HeroController_NailParry;
+
             CorruptedDreamsPlandoMod.Instance.Log("Unpacking Modifiers");
             UnpackModifiers();
 
@@ -1488,7 +1490,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 {
                     blasterCurrentIndex = BlasterCount / 2;
                 }
-                blasterFireCount = UnityEngine.Random.Range(BlasterCount, BlasterCount * 2);
+                blasterFireCount = UnityEngine.Random.Range(0, BlasterCount);
+                blasterFireCount += BlasterCount / 2;
             });
 
             // Satchel.FsmUtil.AddAction(shriekWaveStart, GetClipState(AbyssShriekSpawner.ShriekAudio));
