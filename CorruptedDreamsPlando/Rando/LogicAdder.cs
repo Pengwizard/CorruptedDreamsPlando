@@ -154,7 +154,7 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Soul_Tyrant", "DETERMINATION + Defeated_Soul_Tyrant"));
             lmb.AddLogicDef(new RawLogicDef("Boss_Essence-White_Defender", "DETERMINATION + Defeated_White_Defender"));
             lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Grey_Prince_Zote", "DETERMINATION + Defeated_Grey_Prince_Zote"));
-            //lmb.AddLogicDef(new RawLogicDef("Boss_Essence-NKG", "SHIELD_BREAKER"));
+            lmb.AddLogicDef(new RawLogicDef("Boss_Essence-NKG", "FLAMES>8"));
 
 
             // Boss Logic

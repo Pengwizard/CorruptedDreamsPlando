@@ -26,3 +26,6 @@ Scatternest
 Extra Rando
 BingoUI
 Benchwarp
+FStats
+Rope Rando
+FrogCore

@@ -29,7 +29,7 @@ namespace CorruptedDreamsPlando.Testing
 
             var h = Utils.Hero();
             var dnail = h.LocateMyFSM("Dream Nail");
-            //SetupGasterBlaster(dnail);
+            SetupGasterBlaster(dnail);
 
             //var spawnPoint = new UnityEngine.Vector3(25f, 6.4f, 0.002f);
 
@@ -138,7 +138,7 @@ namespace CorruptedDreamsPlando.Testing
             var BlasterShotDelay = 0.2f;
             var BlasterTelegraph = BlasterShotDelay * 5;
             var BaseOffset = -10f;
-            var BlasterShotScale = 1.2f;
+            var BlasterShotScale = 1f;
             // Step 1 - figure out the amount and distance and angle we want these to be from the knight
             float angleOfFireIntervals = 360.0f / (BlasterCount);
 

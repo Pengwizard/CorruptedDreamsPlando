@@ -4,39 +4,66 @@
   "NkgSaysTelegraphSpacing": 0.05,
   "ParryRequirements": [ 1, 2, 3, 3, 4, 5 ],
   "AttackCount": [ 2, 2, 4, 4, 6, 6 ],
+
   "ShriekSpawnerCount": 16,
   "ShriekSpawnerFirstX": 70,
   "ShriekSpawnerLastX": 100,
-  "ShriekOffsetY": -1.8,
-  "ShriekSpawnDelay": 0.125,
+  "ShriekOffsetY": -2.1,
+  "ShriekSpawnDelay": 0.12,
+
   "BlasterInitialDistance": 10,
   "BlasterCount": 16,
   "BlasterSpeed": 25,
   "BlasterTelegraphDelayMod": 4,
-  "BlasterShotDelay": 0.3,
+  "BlasterShotDelay": 0.25,
   "BlasterShotScale": 1.2,
+
   "SpiralSpawnOffset": 3,
   "BalloonPatterns": [
     {
-      "SpiralSpeed": 8,
+      "SpiralSpeed": 10,
+      "SpiralInwardVel": -1.35,
+      "SpiralShotCount": 16,
+      "SpiralShotDelay": [
+        1.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "SpiralSwitchDirectionInterval": 4
+    },
+    {
+      "SpiralSpeed": 12,
       "SpiralInwardVel": -1.30,
-      "SpiralShotCount": 1,
+      "SpiralShotCount": 16,
+      "SpiralShotDelay": [
+        1.5,
+        0.5
+      ],
+      "SpiralSwitchDirectionInterval": 16
+    },
+    {
+      "SpiralSpeed": 10,
+      "SpiralInwardVel": -1.20,
+      "SpiralShotCount": 18,
       "SpiralShotDelay": [
         1.5,
         0.5,
         0.5
       ],
-      "SpiralSwitchDirectionInterval": 3
+      "SpiralSwitchDirectionInterval": 6
     }
   ],
+
   "DDarkCount": 7,
   "DDarkTelegraphBuildup": 1,
   "DDarkTelegraphSpacing": 0.4,
+
   "RoarWaitTime": 2.0,
   "TitleFadeUpDelay": 2.0,
   "TitleFadeDownDelay": 0.5,
   "WhiteSolidUpTime": 0.5,
   "WhiteSolidUpDelay": 2.0,
-  "PhaseChangeHpGate": 0.1,
-  "PhaseChangeHpMultiplier": 5
+  "PhaseChangeHpGate": 0.15,
+  "PhaseChangeHpMultiplier": 4
 }

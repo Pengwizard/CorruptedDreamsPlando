@@ -43,6 +43,7 @@ namespace CorruptedDreamsPlando
 
             VoidCaster.InitializeHooks();
             Determination.InitializeHooks();
+            LetterOfCredits.InitializeHooks();
             // BirthplaceAccess.InitializeHooks();
         }
 
@@ -68,6 +69,17 @@ namespace CorruptedDreamsPlando
         public MapAlterationsManager mam;
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
+            // TODO: 
+            // * Fix spell sprites to use the regular spell sprites when grimm uses them
+            // * Add music swap
+            // * Try to make grimm and hit attacks grayscale
+            // * Add stats to letter of credits, or to FStats for the end of the plando
+            // * Make a branch from the final iteration to preserve dead code
+            // * clean the shit out of the code on the main branch
+            // * Make version with Letter of Credits, and pre-make a version with pain key
+            // * Disable void spells in PoP
+
+
             Log("Initializing");
 
             Preloader.Instance.Initialize(preloadedObjects);
@@ -156,6 +168,7 @@ namespace CorruptedDreamsPlando
         public bool ColletedDetermination = false;
         public bool CollectedBirthplaceAccess = false;
         public bool CollectedDreamerMap = false;
+        public bool CollectedLetterOfCredits = false;
     }
 
     public class GlobalSettings

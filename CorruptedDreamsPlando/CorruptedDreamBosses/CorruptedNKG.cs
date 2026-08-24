@@ -65,23 +65,23 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             },
             new() {
                 SpiralSpeed = 12,
-                SpiralInwardVel = -1.2f,
-                SpiralShotCount = 15,
-                SpiralShotDelay = new() {1.5f, 0.5f, 0.5f},
-                SpiralSwitchDirectionInterval = 3
-            },
-            new() {
-                SpiralSpeed = 12,
                 SpiralInwardVel = -1.3f,
                 SpiralShotCount = 16,
                 SpiralShotDelay = new() {1.5f, 0.5f},
                 SpiralSwitchDirectionInterval = 16
             },
+            new() {
+                SpiralSpeed = 10,
+                SpiralInwardVel = -1.2f,
+                SpiralShotCount = 18,
+                SpiralShotDelay = new() {1.5f, 0.5f, 0.5f},
+                SpiralSwitchDirectionInterval = 6
+            },
         };
         public float SpiralSpawnOffset = 3;
 
         // DDarks
-        public float DDarkCount = 6;
+        public float DDarkCount = 7;
         public float DDarkTelegraphBuildup = 1f;
         public float DDarkTelegraphSpacing = 0.4f;
 
@@ -92,7 +92,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public float TitleFadeDownDelay = 0.5f;
         public float WhiteSolidUpTime = 0.5f;
         public float WhiteSolidUpDelay = 2.0f;
-        public float PhaseChangeHpGate = 0.1f;
+        public float PhaseChangeHpGate = 0.15f;
         public float PhaseChangeHpMultiplier = 3;
 
 
@@ -141,12 +141,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             try
             {
                 _modifiers = AnimationModifiersNkg.FromJsonFile();
-            } catch (Exception e) { }
+            }
+            catch (Exception e) { }
         }
 
-        // Enter "PC Pillar Retry", exit "Roar End"
-
-        private static AudioPlayerOneShotSingle GetClipState(FsmObject audioClip, float delay=0f, float volume=5f)
+        private static AudioPlayerOneShotSingle GetClipState(FsmObject audioClip, float delay = 0f, float volume = 5f)
         {
             var grimmControl = GameObject.Find("Grimm Control");
             var grimmControlFsm = grimmControl.LocateMyFSM("Control");
@@ -295,8 +294,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 delay = 3,
             });
 
-            // TODO: Remove music during phase change, and hit with new music
-
             var appearing = GameObject.Find("Grimm Control/Appear Scene/Grimm Appear");
 
             roarState.AddCustomAction(() =>
@@ -321,12 +318,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             });
 
             roarState.AddAction(new Wait() { time = _modifiers.RoarWaitTime, finishEvent = new("FINISHED") });
-
-            //roarEndState.AddCustomAction(() =>
-            //{
-            //    var roarEmitter = fsm.GetVariable<FsmGameObject>("Roar Emitter");
-            //    roarEmitter.Value.LocateMyFSM("emitter").SendEvent("END"); 
-            //});
 
             roarEndState.AddCustomAction(() =>
             {
@@ -523,7 +514,14 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 SetupCustomStagger(fsm);
             }
         }
-        
+
+
+        private static void ModifyEvasionBats(PlayMakerFSM fsm)
+        {
+            var toFirebats = fsm.GetValidState("To Firebats");
+            toFirebats.ChangeTransition("FINISHED", "Tele Out");
+        }
+
         private static void CleanupGameObjectList(List<GameObject> gos)
         {
             foreach (var go in gos)
@@ -535,7 +533,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         }
 
         private static int lastAttack = -1;
-        private static float balloonCounterLimit = 6;
+        private static float balloonCounterLimit = 5;
         private static float balloonCounter = balloonCounterLimit;
 
         public static void SetupMoveChoice(PlayMakerFSM fsm)
@@ -566,7 +564,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             {
                 moveChoice.RemoveTransition("SLASH");
                 moveChoice.RemoveTransition("AIR DASH");
-            } else
+            }
+            else
             {
                 moveOptions.Add("SLASH");
                 moveOptions.Add("SLASH");
@@ -580,7 +579,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             moveChoice.GetFirstActionOfType<SetBoolValue>().Enabled = false;
             moveChoice.GetFirstActionOfType<BoolTest>().Enabled = false;
 
-            balloonCounterLimit = 5;
+            balloonCounterLimit = -100;
             balloonCounter = balloonCounterLimit;
 
             // TODO: When adding telegraph, add a move counter, and after X moves do telegraph.
@@ -591,7 +590,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 {
                     nextMove = "BALLOON SPIRAL";
                     balloonCounter = 0;
-                    balloonCounterLimit += 0.34f;
+                    balloonCounterLimit += 0.66f;
+                    balloonCounterLimit = Mathf.Min(balloonCounterLimit, 11);
                 }
                 else
                 {
@@ -650,6 +650,576 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
             telegraphObject.SetActive(false);
         }
+
+        public class ParryReward : MonoBehaviour
+        {
+            public static void SpawnSoul(Transform transform)
+            {
+                var prefab = ObjectCache.SoulOrb;
+                Destroy(prefab.Spawn());
+                prefab.SetActive(true);
+
+                // Give 34 soul per usage.
+                // double if dream wielder is equipped
+                // max if can dream gate.
+                int soulToGive = 17 * 2;
+                int masksToHeal = 1;
+
+                FlingUtils.Config config = new()
+                {
+                    Prefab = prefab,
+                    AmountMin = soulToGive,
+                    AmountMax = soulToGive,
+                    SpeedMin = 10,
+                    SpeedMax = 20,
+                    AngleMin = 0,
+                    AngleMax = 360,
+                };
+                var objs = FlingUtils.SpawnAndFling(config, transform, Vector3.zero);
+
+                // Heal on parry.
+                HeroController.instance.AddHealth(masksToHeal);
+
+                IEnumerator Routine()
+                {
+                    yield return new WaitForSeconds(10f);
+                    foreach (var o in objs)
+                    {
+                        Destroy(o);
+                    }
+                }
+
+                var sos = GameManager.instance.gameObject.GetComponent<ParryReward>();
+                if (sos == null)
+                {
+                    sos = GameManager.instance.gameObject.AddComponent<ParryReward>();
+                }
+
+                sos.StartCoroutine(Routine());
+                Destroy(prefab);
+            }
+        }
+
+        private static void HeroController_NailParry(On.HeroController.orig_NailParry orig, HeroController self)
+        {
+            orig(self);
+
+            CorruptedDreamsPlandoMod.Instance.Log($"Parry Detected {parryCounter}");
+
+            ParryReward.SpawnSoul(Utils.Hero().transform);
+        }
+
+
+        // Shriek Wave Variables
+        private static int shriekDirectionStep = 0;
+        private static int shriekCurrentIndex = 0;
+        private static List<GameObject> shriekSpawners = new List<GameObject>();
+
+        public static GameObject leftScreenTelegraph;
+        public static GameObject rightScreenTelegraph;
+
+        public static void SetupAbyssShriekWave(PlayMakerFSM fsm)
+        {
+            // TODO move to modifiers
+            float telegraph = 0.4f;
+
+            leftScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+            rightScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+            SetupTelegraph(leftScreenTelegraph, new Vector3(69f, 11f, 0.52f), new Vector3(5, 5, 1), telegraph);
+            SetupTelegraph(rightScreenTelegraph, new Vector3(101f, 11f, 0.52f), new Vector3(5, 5, 1), telegraph);
+            //leftScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+
+
+            var totalSpread = _modifiers.ShriekSpawnerLastX - _modifiers.ShriekSpawnerFirstX;
+            float interval = totalSpread / (_modifiers.ShriekSpawnerCount - 1);
+
+            CleanupGameObjectList(shriekSpawners);
+
+            for (int i = 0; i < _modifiers.ShriekSpawnerCount; ++i)
+            {
+                var xPos = _modifiers.ShriekSpawnerFirstX + (i * interval);
+                var newShriek = AbyssShriekSpawner.Instance.CreateShriekSpawner(2, new Vector3(xPos, groundY + _modifiers.ShriekOffsetY, 0));
+                shriekSpawners.Add(newShriek);
+            }
+
+            var shriekWaveStart = fsm.AddState("Shriek Wave Start");
+            var shriekWaveStep = fsm.AddState("Shriek Wave Step");
+            var shriekWavePause = fsm.AddState("Shriek Wave Pause");
+            var shriekWaveCleanup = fsm.AddState("Shriek Wave Cleanup");
+
+            shriekWaveStart.AddCustomAction(() =>
+            {
+                var direction = (Utils.Hero().transform.position.x >= 85) ? 1 : 0;
+                //var direction = UnityEngine.Random.Range(0, 2);
+
+                if (direction == 1)
+                {
+                    // Going right, index goes up
+                    shriekDirectionStep = 1;
+                    shriekCurrentIndex = 0;
+                    leftScreenTelegraph.SetActive(true);
+                }
+                else
+                {
+                    // Going left
+                    shriekDirectionStep = -1;
+                    shriekCurrentIndex = shriekSpawners.Count - 1;
+                    rightScreenTelegraph.SetActive(true);
+                }
+            });
+
+            shriekWaveStart.AddAction(GetClipState(AbyssShriekSpawner.ShriekAudio));
+            shriekWaveStart.AddAction(new Wait() { time = telegraph, finishEvent = new("FINISHED") });
+            shriekWaveStart.AddTransition("FINISHED", shriekWaveStep.Name);
+
+
+            shriekWaveStep.AddAction(GetClipState(AbyssShriekSpawner.ShriekAudio));
+
+            shriekWaveStep.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Step 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                if (0 <= shriekCurrentIndex && shriekCurrentIndex <= shriekSpawners.Count - 1)
+                {
+                    shriekSpawners[shriekCurrentIndex].SetActive(true);
+                }
+            });
+            shriekWaveStep.AddAction(new Wait() { time = _modifiers.ShriekSpawnDelay, finishEvent = new("FINISHED") });
+            shriekWaveStep.AddTransition("FINISHED", shriekWavePause.Name);
+
+            shriekWavePause.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                // Note that this check is just <, not <=, because the one above includes the last step
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Pause 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                shriekCurrentIndex += shriekDirectionStep;
+                if (0 <= shriekCurrentIndex && shriekCurrentIndex <= shriekSpawners.Count - 1)
+                {
+                    fsm.SendEvent("SHRIEK WAVE CONTINUE");
+                }
+                else
+                {
+                    fsm.SendEvent("SHRIEK WAVE DONE");
+                }
+            });
+            shriekWavePause.AddTransition("SHRIEK WAVE CONTINUE", shriekWaveStep.Name);
+            shriekWavePause.AddTransition("SHRIEK WAVE DONE", shriekWaveCleanup.Name);
+
+            // Cleanup step is currently doing nothing
+            shriekWaveCleanup.AddCustomAction(() =>
+            {
+                leftScreenTelegraph.transform.SetScaleX(1f);
+                leftScreenTelegraph.transform.SetScaleY(1f);
+
+                rightScreenTelegraph.transform.SetScaleX(1f);
+                rightScreenTelegraph.transform.SetScaleY(1f);
+            });
+
+            shriekWaveCleanup.AddAction(new Wait() { time = 1f, finishEvent = new("FINISHED") });
+            shriekWaveCleanup.AddTransition("FINISHED", "Move Choice");
+
+
+            // Now we need to insert this flow into the regular attacks flow.
+            // For shriek wave, grimm won't be on screen, so no need to bring him in.
+
+            var moveChoice = fsm.GetValidState("Move Choice");
+            moveChoice.AddTransition("SHRIEK WAVE", shriekWaveStart.Name);
+
+            moveOptions.Add("SHRIEK WAVE");
+        }
+
+        // DDark Attack Variables
+        private static List<GameObject> ddarkTelegraphs = new List<GameObject>();
+        private static List<GameObject> ddarkContainers = new List<GameObject>();
+        private static int ddarkCurrentIndex = 0;
+
+        // TODO move to modifiers
+
+        public static void SetupDDarkAttack(PlayMakerFSM fsm)
+        {
+            // Have beam of light telegraph
+            // also need to restructure the ddark thing so you get the spawner i think?
+
+            CleanupGameObjectList(ddarkTelegraphs);
+            CleanupGameObjectList(ddarkContainers);
+
+            for (int i = 0; i < _modifiers.DDarkCount; i++)
+            {
+                var ddarkTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
+                //SetupTelegraph(ddarkTelegraph, Vector3.zero, DDarkFinalScale, DDarkTelegraph);
+
+                var lightPulse = ddarkTelegraph.LocateMyFSM("Light Pulse");
+                var state1 = lightPulse.GetValidState("State 1");
+                var tween = state1.GetFirstActionOfType<iTweenScaleBy>();
+                tween.time = 1f;
+                tween.vector = new Vector3(2f, 2f, 2f);
+
+                var diveContainer = DescendingDarkSpawner.Instance.GetDDarkSpawner(
+                    2,
+                    Utils.Hero(),
+                    actualGroundY, 0.1f, GetClipState(DescendingDarkSpawner.DDarkAudio));
+
+                ddarkTelegraphs.Add(ddarkTelegraph);
+                ddarkContainers.Add(diveContainer);
+            }
+
+            //var myRetry = fsm.CopyState("Pillar Retry", "DDark Teleport Retry");
+            //var myPos = fsm.CopyState("Pillar Pos", "DDark Teleport Pos");
+            //var myTeleIn = fsm.CopyState("Pillar Tele In", "DDark Teleport Tele In");
+            //var myAntic = fsm.CopyState("Pillar Antic", "DDark Teleport Antic");
+
+            //myTeleIn.GetFirstActionOfType<SetPosition>().x = 75;
+
+            //myRetry.RemoveTransition("FINISHED");
+            //myPos.RemoveTransition("FINISHED");
+            //myPos.RemoveTransition("CANCEL");
+            //myTeleIn.RemoveTransition("FINISHED");
+            //myAntic.RemoveTransition("FINISHED");
+
+
+            var ddarkPillarsStart = fsm.AddState("DDark Pillars Start");
+            var ddarkPillarsTelegraph = fsm.AddState("DDark Pillars Telegraph");
+            var ddarkPillarsBlast = fsm.AddState("DDark Pillars Blast");
+            var ddarkPillarsPause = fsm.AddState("DDark Pillars Pause");
+            var ddarkPillarsCleanup = fsm.AddState("DDark Pillars Cleanup");
+
+            ddarkPillarsStart.AddCustomAction(() =>
+            {
+                ddarkCurrentIndex = 0;
+            });
+
+            ddarkPillarsStart.AddTransition("FINISHED", ddarkPillarsTelegraph.Name);
+
+            //myRetry.AddTransition("FINISHED", myPos.Name);
+            //myPos.AddTransition("FINISHED", myTeleIn.Name);
+            //myPos.AddTransition("CANCEL", myRetry.Name);
+            //myTeleIn.AddTransition("FINISHED", myAntic.Name);
+            //myAntic.AddTransition("FINISHED", ddarkPillarsTelegraph.Name);
+
+            ddarkPillarsTelegraph.AddCustomAction(() =>
+            {
+                var curIn = ddarkCurrentIndex;
+                ddarkTelegraphs[curIn].transform.SetScaleX(1f);
+                ddarkTelegraphs[curIn].transform.SetScaleY(1f);
+
+                ddarkTelegraphs[curIn].transform.SetPosition2D(Utils.Hero().transform.position);
+                ddarkTelegraphs[curIn].transform.SetPositionY(actualGroundY);
+                ddarkTelegraphs[curIn].SetActive(true);
+
+                ddarkContainers[curIn].transform.SetPosition2D(Utils.Hero().transform.position);
+                ddarkContainers[curIn].transform.SetPositionY(actualGroundY);
+
+                Satchel.CoroutineHelper.WaitForSecondsBeforeInvoke(_modifiers.DDarkTelegraphBuildup, () =>
+                {
+                    ddarkTelegraphs[curIn].SetActive(false);
+                    ddarkContainers[curIn].SetActive(false);
+                    ddarkContainers[curIn].SetActive(true);
+                });
+            });
+
+            ddarkPillarsTelegraph.AddAction(new Wait() { time = _modifiers.DDarkTelegraphSpacing, finishEvent = new("FINISHED") });
+            ddarkPillarsTelegraph.AddTransition("FINISHED", ddarkPillarsBlast.Name);
+
+            ddarkPillarsBlast.AddCustomAction(() =>
+            {
+            });
+
+            ddarkPillarsBlast.AddTransition("FINISHED", ddarkPillarsPause.Name);
+
+
+            ddarkPillarsPause.AddCustomAction(() =>
+            {
+                ddarkCurrentIndex++;
+
+                if (ddarkCurrentIndex < ddarkTelegraphs.Count)
+                {
+                    fsm.SendEvent("DDARK PILLARS CONTINUE");
+                }
+                else
+                {
+                    fsm.SendEvent("DDARK PILLARS DONE");
+                }
+            });
+            ddarkPillarsPause.AddTransition("DDARK PILLARS CONTINUE", ddarkPillarsTelegraph.Name);
+            ddarkPillarsPause.AddTransition("DDARK PILLARS DONE", ddarkPillarsCleanup.Name);
+
+            // Cleanup step is currently doing nothing
+            ddarkPillarsCleanup.AddAction(new Wait() { time = 0.75f, finishEvent = new("FINISHED") });
+
+            ddarkPillarsCleanup.AddTransition("FINISHED", "Move Choice");
+
+            var moveChoice = fsm.GetValidState("Move Choice");
+            moveChoice.AddTransition("DDARK PILLARS", ddarkPillarsStart.Name);
+
+            moveOptions.Add("DDARK PILLARS");
+        }
+
+        private static List<GameObject> blasterSpawners = new List<GameObject>();
+        private static int blasterDirection = 0;
+        private static int blasterCurrentIndex = 0;
+        private static int blasterFireCount = 0;
+
+        public static void SetupGasterBlaster(PlayMakerFSM fsm)
+        {
+            var BlasterCount = _modifiers.BlasterCount;
+            var BlasterSpeed = _modifiers.BlasterSpeed;
+            var BlasterShotDelay = _modifiers.BlasterShotDelay;
+            var BlasterTelegraph = BlasterShotDelay * _modifiers.BlasterTelegraphDelayMod;
+            var BlasterBaseOffset = -_modifiers.BlasterInitialDistance;
+            var BlasterShotScale = _modifiers.BlasterShotScale;
+
+            float angleOfFireIntervals = 360.0f / (BlasterCount);
+
+            CleanupGameObjectList(blasterSpawners);
+
+            for (int i = 0; i < BlasterCount; ++i)
+            {
+                var angle = i * angleOfFireIntervals;
+                var rds = angle * Mathf.Deg2Rad;
+
+                float xOffset = Mathf.Cos(rds) * BlasterBaseOffset;
+                float yOffset = Mathf.Sin(rds) * BlasterBaseOffset;
+
+                var go = new GameObject();
+
+                var fireballShooter = go.AddComponent<FireballShooter>();
+
+                go.name = $"Blaster Circle ({angle})";
+
+                //fireballShooterUp.name = "Up Shot";
+                fireballShooter.SpawnOffset = new Vector3(xOffset, yOffset, 0);
+                fireballShooter.BaseObject = Utils.Hero();
+                fireballShooter.Direction = angle;
+                fireballShooter.ForceLeft = true;
+                fireballShooter.Speed = BlasterSpeed;
+                fireballShooter.ShotScale = BlasterShotScale;
+                fireballShooter.PreFireDelay = BlasterTelegraph;
+                fireballShooter.RemoveParticles = true;
+                fireballShooter.DamageToDeal = 2;
+
+                blasterSpawners.Add(go);
+            }
+
+            var blasterCircleStart = fsm.AddState("Blaster Circle Start");
+            var blasterCircleStep = fsm.AddState("Blaster Circle Step");
+            var blasterCirclePause = fsm.AddState("Blaster Circle Pause");
+            var blasterCircleCleanup = fsm.AddState("Blaster Circle Cleanup");
+
+            blasterCircleStart.AddCustomAction(() =>
+            {
+                var direction = UnityEngine.Random.Range(0, 2);
+                if (direction == 0)
+                {
+                    blasterDirection = 1;
+                }
+                else
+                {
+                    blasterDirection = -1;
+                }
+
+                if (blasterDirection == -1)
+                {
+                    blasterCurrentIndex = 0;
+                }
+                else
+                {
+                    blasterCurrentIndex = BlasterCount / 2;
+                }
+                blasterFireCount = UnityEngine.Random.Range(0, BlasterCount);
+                blasterFireCount += BlasterCount;
+            });
+
+            // Satchel.FsmUtil.AddAction(shriekWaveStart, GetClipState(AbyssShriekSpawner.ShriekAudio));
+            blasterCircleStart.AddTransition("FINISHED", blasterCircleStep.Name);
+
+
+            //Satchel.FsmUtil.AddAction(shriekWaveStep, GetClipState(AbyssShriekSpawner.ShriekAudio, 0f, 3f));
+
+            blasterCircleStep.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Step 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                //CorruptedDreamsPlandoMod.Instance.Log($"shoot {blasterCurrentIndex}");
+                if (0 <= blasterCurrentIndex && blasterCurrentIndex <= blasterSpawners.Count - 1)
+                {
+                    blasterSpawners[blasterCurrentIndex].GetComponent<FireballShooter>().ShootStraight();
+                }
+            });
+
+            blasterCircleStep.AddAction(new Wait() { time = BlasterShotDelay, finishEvent = new("FINISHED") });
+            blasterCircleStep.AddTransition("FINISHED", blasterCirclePause.Name);
+
+            blasterCirclePause.AddCustomAction(() =>
+            {
+                // This is always a valid 
+                // Note that this check is just <, not <=, because the one above includes the last step
+                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Pause 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
+                blasterCurrentIndex += blasterDirection;
+                if (blasterCurrentIndex < 0)
+                {
+                    blasterCurrentIndex = blasterSpawners.Count - 1;
+                }
+
+                if (blasterCurrentIndex > blasterSpawners.Count - 1)
+                {
+                    blasterCurrentIndex = 0;
+                }
+
+                blasterFireCount--;
+
+                if (blasterFireCount >= 0)
+                {
+                    fsm.SendEvent("BLASTER CIRCLE CONTINUE");
+                }
+                else
+                {
+                    fsm.SendEvent("BLASTER CIRCLE DONE");
+                }
+            });
+            blasterCirclePause.AddTransition("BLASTER CIRCLE CONTINUE", blasterCircleStep.Name);
+            blasterCirclePause.AddTransition("BLASTER CIRCLE DONE", blasterCircleCleanup.Name);
+
+            // Cleanup step is currently doing nothing
+            // Needs longer cooldown because this attack is async
+            blasterCircleCleanup.AddAction(new Wait() { time = 2f, finishEvent = new("FINISHED") });
+
+
+
+            blasterCircleCleanup.AddTransition("FINISHED", "Move Choice");
+
+            var moveChoice = fsm.GetValidState("Move Choice");
+            moveChoice.AddTransition("BLASTER CIRCLE", blasterCircleStart.Name);
+
+            moveOptions.Add("BLASTER CIRCLE");
+        }
+
+        private static BalloonAttackPattern currentPattern;
+        private static List<GameObject> spiralContainers = new();
+
+        public static void SetupNewBalloonPhase(PlayMakerFSM fsm)
+        {
+            // TODO fix hp gates for fireballs.
+            #region balloon
+
+            var deflateState = fsm.GetValidState("Deflate");
+            //deflateState.Actions[0].Enabled = false;
+            deflateState.AddAction(new Wait() { time = 2f, finishEvent = new("FINISHED") });
+
+
+            var inflateState = fsm.GetValidState("Inflate");
+
+            // This usually makes NKG vulnerable to spells while ballooned. Lets disable that.
+            //inflateState.GetFirstActionOfType<SetTag>().Enabled = false;
+
+            CleanupGameObjectList(spiralContainers);
+
+            var upCont = new GameObject();
+            var fireballShooterUp = upCont.AddComponent<FireballShooter>();
+            fireballShooterUp.SpawnOffset = new Vector3(0, _modifiers.SpiralSpawnOffset, 0);
+            upCont.name = $"Spiral (Up)";
+
+            var downCont = new GameObject();
+            var fireballShooterDown = downCont.AddComponent<FireballShooter>();
+            fireballShooterDown.SpawnOffset = new Vector3(0, -_modifiers.SpiralSpawnOffset, 0);
+            downCont.name = $"Spiral (down)";
+
+            var leftCont = new GameObject();
+            var fireballShooterLeft = leftCont.AddComponent<FireballShooter>();
+            fireballShooterLeft.SpawnOffset = new Vector3(_modifiers.SpiralSpawnOffset, 0, 0);
+            leftCont.name = $"Spiral (left)";
+
+            var rightCont = new GameObject();
+            var fireballShooterRight = rightCont.AddComponent<FireballShooter>();
+            fireballShooterRight.SpawnOffset = new Vector3(-_modifiers.SpiralSpawnOffset, 0, 0);
+            rightCont.name = $"Spiral (right)";
+
+            spiralContainers = new() { upCont, downCont, leftCont, rightCont };
+            List<FireballShooter> shooterList = new() { fireballShooterUp, fireballShooterDown, fireballShooterLeft, fireballShooterRight };
+
+            foreach (var shooter in shooterList)
+            {
+                // Common for all fireball shooters
+                shooter.SpawnPoint = new Vector3(balloonBaseX, balloonBaseY, 0);
+                shooter.RemoveParticles = true;
+
+                shooter.SpiralShotInfo.clockwise = true;
+
+                shooter.Speed = 0;
+                shooter.SpiralShotInfo.inwardForce = 0;
+                shooter.DamageToDeal = 2;
+            }
+
+            var shootSpirals = fsm.AddState("Shade Repeat");
+            var shootPause = fsm.AddState("Shade Pause");
+
+            var firePause = fsm.GetValidState("Fire Pause");
+            firePause.RemoveTransition("FINISHED");
+            firePause.AddTransition("FINISHED", shootSpirals.Name);
+
+            firePause.AddCustomAction(() =>
+            {
+                fireballsShotBalloon = 0;
+                var patternIndex = UnityEngine.Random.Range(0, _modifiers.BalloonPatterns.Count);
+                currentPattern = _modifiers.BalloonPatterns[patternIndex];
+
+                foreach (var shooter in shooterList)
+                {
+                    shooter.Speed = currentPattern.SpiralSpeed;
+                    shooter.SpiralShotInfo.inwardForce = currentPattern.SpiralInwardVel;
+                }
+            });
+
+
+            fsm.AddVariable<FsmFloat>("ShootWait");
+            var shootWait = fsm.GetVariable<FsmFloat>("ShootWait");
+
+            shootPause.AddTransition("FINISHED", shootSpirals.Name);
+            shootPause.AddCustomAction(() =>
+            {
+                shootWait.Value = currentPattern.SpiralShotDelay[fireballsShotBalloon % currentPattern.SpiralShotDelay.Count];
+                if (fireballsShotBalloon % currentPattern.SpiralSwitchDirectionInterval == 0)
+                {
+                    foreach (var shooter in shooterList)
+                    {
+                        shooter.SpiralShotInfo.clockwise = !shooter.SpiralShotInfo.clockwise;
+
+                    }
+                }
+            });
+            shootPause.AddAction(new Wait() { time = shootWait, finishEvent = new("FINISHED") });
+
+            shootSpirals.AddTransition("CONTINUE", shootPause.Name);
+            shootSpirals.AddTransition("END", "End Pause");
+
+            shootSpirals.AddCustomAction(() =>
+            {
+                if (fireballsShotBalloon >= currentPattern.SpiralShotCount)
+                {
+                    fsm.SendEvent("END");
+                }
+                else
+                {
+                    fireballsShotBalloon++;
+
+                    foreach (var shooter in shooterList)
+                    {
+                        shooter.ShootSpiral();
+                    }
+
+                    fsm.SendEvent("CONTINUE");
+                }
+
+
+            });
+
+            var balloonPos = fsm.GetValidState("Balloon Pos");
+            var moveChoice = fsm.GetValidState("Move Choice");
+            moveChoice.AddTransition("BALLOON SPIRAL", balloonPos.Name);
+            //moveOptions.Add("BALLOON SPIRAL");
+
+            #endregion
+        }
+
 
         private static List<GameObject> nkgSaysTelegraphLights = new();
         private static List<int> currentSequence = new();
@@ -1140,572 +1710,5 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 }
             }
         }
-
-        public class ParryReward : MonoBehaviour
-        {
-            public static void SpawnSoul(Transform transform)
-            {
-                var prefab = ObjectCache.SoulOrb;
-                Destroy(prefab.Spawn());
-                prefab.SetActive(true);
-
-                // Give 34 soul per usage.
-                // double if dream wielder is equipped
-                // max if can dream gate.
-                int soulToGive = 17 * 2;
-                int masksToHeal = 1;
-
-                FlingUtils.Config config = new()
-                {
-                    Prefab = prefab,
-                    AmountMin = soulToGive,
-                    AmountMax = soulToGive,
-                    SpeedMin = 10,
-                    SpeedMax = 20,
-                    AngleMin = 0,
-                    AngleMax = 360,
-                };
-                var objs = FlingUtils.SpawnAndFling(config, transform, Vector3.zero);
-
-                // Heal on parry.
-                HeroController.instance.AddHealth(masksToHeal);
-
-                IEnumerator Routine()
-                {
-                    yield return new WaitForSeconds(10f);
-                    foreach (var o in objs)
-                    {
-                        Destroy(o);
-                    }
-                }
-
-                var sos = GameManager.instance.gameObject.GetComponent<ParryReward>();
-                if (sos == null)
-                {
-                    sos = GameManager.instance.gameObject.AddComponent<ParryReward>();
-                }
-
-                sos.StartCoroutine(Routine());
-                Destroy(prefab);
-            }
-        }
-
-        private static void HeroController_NailParry(On.HeroController.orig_NailParry orig, HeroController self)
-        {
-            orig(self);
-
-            CorruptedDreamsPlandoMod.Instance.Log($"Parry Detected {parryCounter}");
-
-            ParryReward.SpawnSoul(Utils.Hero().transform);
-        }
-
-
-        // Shriek Wave Variables
-        private static int shriekDirectionStep = 0;
-        private static int shriekCurrentIndex = 0;
-        private static List<GameObject> shriekSpawners = new List<GameObject>();
-
-        public static GameObject leftScreenTelegraph;
-        public static GameObject rightScreenTelegraph;
-
-        public static void SetupAbyssShriekWave(PlayMakerFSM fsm)
-        {
-            // TODO move to modifiers
-            float telegraph = 0.4f;
-
-            leftScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
-            rightScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
-            SetupTelegraph(leftScreenTelegraph, new Vector3(69f, 11f, 0.52f), new Vector3(5, 5, 1), telegraph);
-            SetupTelegraph(rightScreenTelegraph, new Vector3(101f, 11f, 0.52f), new Vector3(5, 5, 1), telegraph);
-            //leftScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
-
-
-            var totalSpread = _modifiers.ShriekSpawnerLastX - _modifiers.ShriekSpawnerFirstX;
-            float interval = totalSpread / (_modifiers.ShriekSpawnerCount - 1);
-
-            CleanupGameObjectList(shriekSpawners);
-
-            for (int i = 0; i < _modifiers.ShriekSpawnerCount; ++i)
-            {
-                var xPos = _modifiers.ShriekSpawnerFirstX + (i * interval);
-                var newShriek = AbyssShriekSpawner.Instance.CreateShriekSpawner(2, new Vector3(xPos, groundY + _modifiers.ShriekOffsetY, 0));
-                shriekSpawners.Add(newShriek);
-            }
-
-            var shriekWaveStart = fsm.AddState("Shriek Wave Start");
-            var shriekWaveStep = fsm.AddState("Shriek Wave Step");
-            var shriekWavePause = fsm.AddState("Shriek Wave Pause");
-            var shriekWaveCleanup = fsm.AddState("Shriek Wave Cleanup");
-
-            shriekWaveStart.AddCustomAction(() =>
-            {
-                var direction = (Utils.Hero().transform.position.x >= 85) ? 1 : 0;
-                //var direction = UnityEngine.Random.Range(0, 2);
-
-                if (direction == 1)
-                {
-                    // Going right, index goes up
-                    shriekDirectionStep = 1;
-                    shriekCurrentIndex = 0;
-                    leftScreenTelegraph.SetActive(true);
-                }
-                else
-                {
-                    // Going left
-                    shriekDirectionStep = -1;
-                    shriekCurrentIndex = shriekSpawners.Count - 1;
-                    rightScreenTelegraph.SetActive(true);
-                }
-            });
-
-            shriekWaveStart.AddAction(GetClipState(AbyssShriekSpawner.ShriekAudio));
-            shriekWaveStart.AddAction(new Wait() { time = telegraph, finishEvent = new("FINISHED") });
-            shriekWaveStart.AddTransition("FINISHED", shriekWaveStep.Name);
-
-
-            shriekWaveStep.AddAction(GetClipState(AbyssShriekSpawner.ShriekAudio));
-
-            shriekWaveStep.AddCustomAction(() =>
-            {
-                // This is always a valid 
-                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Step 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
-                if (0 <= shriekCurrentIndex && shriekCurrentIndex <= shriekSpawners.Count - 1)
-                {
-                    shriekSpawners[shriekCurrentIndex].SetActive(true);
-                }
-            });
-            shriekWaveStep.AddAction(new Wait() { time = _modifiers.ShriekSpawnDelay, finishEvent = new("FINISHED") });
-            shriekWaveStep.AddTransition("FINISHED", shriekWavePause.Name);
-
-            shriekWavePause.AddCustomAction(() =>
-            {
-                // This is always a valid 
-                // Note that this check is just <, not <=, because the one above includes the last step
-                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Pause 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
-                shriekCurrentIndex += shriekDirectionStep;
-                if (0 <= shriekCurrentIndex && shriekCurrentIndex <= shriekSpawners.Count - 1)
-                {
-                    fsm.SendEvent("SHRIEK WAVE CONTINUE");
-                } else
-                {
-                    fsm.SendEvent("SHRIEK WAVE DONE");
-                }
-            });
-            shriekWavePause.AddTransition("SHRIEK WAVE CONTINUE", shriekWaveStep.Name);
-            shriekWavePause.AddTransition("SHRIEK WAVE DONE", shriekWaveCleanup.Name);
-
-            // Cleanup step is currently doing nothing
-            shriekWaveCleanup.AddCustomAction(() =>
-            {
-                leftScreenTelegraph.transform.SetScaleX(1f);
-                leftScreenTelegraph.transform.SetScaleY(1f);
-
-                rightScreenTelegraph.transform.SetScaleX(1f);
-                rightScreenTelegraph.transform.SetScaleY(1f);
-            });
-
-            shriekWaveCleanup.AddAction(new Wait() { time = 1f, finishEvent = new("FINISHED") });
-            shriekWaveCleanup.AddTransition("FINISHED", "Move Choice");
-
-
-            // Now we need to insert this flow into the regular attacks flow.
-            // For shriek wave, grimm won't be on screen, so no need to bring him in.
-
-            var moveChoice = fsm.GetValidState("Move Choice");
-            moveChoice.AddTransition("SHRIEK WAVE", shriekWaveStart.Name);
-
-            moveOptions.Add("SHRIEK WAVE");
-        }
-
-        // DDark Attack Variables
-        private static List<GameObject> ddarkTelegraphs = new List<GameObject>();
-        private static List<GameObject> ddarkContainers = new List<GameObject>();
-        private static int ddarkCurrentIndex = 0;
-
-        // TODO move to modifiers
-
-        public static void SetupDDarkAttack(PlayMakerFSM fsm)
-        {
-            // Have beam of light telegraph
-            // also need to restructure the ddark thing so you get the spawner i think?
-
-            CleanupGameObjectList(ddarkTelegraphs);
-            CleanupGameObjectList(ddarkContainers);
-
-            for (int i = 0; i < _modifiers.DDarkCount; i++)
-            {
-                var ddarkTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
-                //SetupTelegraph(ddarkTelegraph, Vector3.zero, DDarkFinalScale, DDarkTelegraph);
-
-                var lightPulse = ddarkTelegraph.LocateMyFSM("Light Pulse");
-                var state1 = lightPulse.GetValidState("State 1");
-                var tween = state1.GetFirstActionOfType<iTweenScaleBy>();
-                tween.time = 1f;
-                tween.vector = new Vector3(2f, 2f, 2f);
-
-                var diveContainer = DescendingDarkSpawner.Instance.GetDDarkSpawner(
-                    2,
-                    Utils.Hero(),
-                    actualGroundY, 0.1f, GetClipState(DescendingDarkSpawner.DDarkAudio));
-
-                ddarkTelegraphs.Add(ddarkTelegraph);
-                ddarkContainers.Add(diveContainer);
-            }
-
-            //var myRetry = fsm.CopyState("Pillar Retry", "DDark Teleport Retry");
-            //var myPos = fsm.CopyState("Pillar Pos", "DDark Teleport Pos");
-            //var myTeleIn = fsm.CopyState("Pillar Tele In", "DDark Teleport Tele In");
-            //var myAntic = fsm.CopyState("Pillar Antic", "DDark Teleport Antic");
-
-            //myTeleIn.GetFirstActionOfType<SetPosition>().x = 75;
-
-            //myRetry.RemoveTransition("FINISHED");
-            //myPos.RemoveTransition("FINISHED");
-            //myPos.RemoveTransition("CANCEL");
-            //myTeleIn.RemoveTransition("FINISHED");
-            //myAntic.RemoveTransition("FINISHED");
-
-
-            var ddarkPillarsStart = fsm.AddState("DDark Pillars Start");
-            var ddarkPillarsTelegraph = fsm.AddState("DDark Pillars Telegraph");
-            var ddarkPillarsBlast = fsm.AddState("DDark Pillars Blast");
-            var ddarkPillarsPause = fsm.AddState("DDark Pillars Pause");
-            var ddarkPillarsCleanup = fsm.AddState("DDark Pillars Cleanup");
-
-            ddarkPillarsStart.AddCustomAction(() =>
-            {
-                ddarkCurrentIndex = 0;
-            });
-
-            ddarkPillarsStart.AddTransition("FINISHED", ddarkPillarsTelegraph.Name);
-
-            //myRetry.AddTransition("FINISHED", myPos.Name);
-            //myPos.AddTransition("FINISHED", myTeleIn.Name);
-            //myPos.AddTransition("CANCEL", myRetry.Name);
-            //myTeleIn.AddTransition("FINISHED", myAntic.Name);
-            //myAntic.AddTransition("FINISHED", ddarkPillarsTelegraph.Name);
-
-            ddarkPillarsTelegraph.AddCustomAction(() =>
-            {
-                var curIn = ddarkCurrentIndex;
-                ddarkTelegraphs[curIn].transform.SetScaleX(1f);
-                ddarkTelegraphs[curIn].transform.SetScaleY(1f);
-
-                ddarkTelegraphs[curIn].transform.SetPosition2D(Utils.Hero().transform.position);
-                ddarkTelegraphs[curIn].transform.SetPositionY(actualGroundY);
-                ddarkTelegraphs[curIn].SetActive(true);
-
-                ddarkContainers[curIn].transform.SetPosition2D(Utils.Hero().transform.position);
-                ddarkContainers[curIn].transform.SetPositionY(actualGroundY);
-
-                Satchel.CoroutineHelper.WaitForSecondsBeforeInvoke(_modifiers.DDarkTelegraphBuildup, () =>
-                {
-                    ddarkTelegraphs[curIn].SetActive(false);
-                    ddarkContainers[curIn].SetActive(false);
-                    ddarkContainers[curIn].SetActive(true);
-                });
-            });
-
-            ddarkPillarsTelegraph.AddAction(new Wait() { time = _modifiers.DDarkTelegraphSpacing, finishEvent = new("FINISHED") });
-            ddarkPillarsTelegraph.AddTransition("FINISHED", ddarkPillarsBlast.Name);
-
-            ddarkPillarsBlast.AddCustomAction(() =>
-            {
-            });
-
-            ddarkPillarsBlast.AddTransition("FINISHED", ddarkPillarsPause.Name);
-
-
-            ddarkPillarsPause.AddCustomAction(() =>
-            {
-                ddarkCurrentIndex++;
-
-                if (ddarkCurrentIndex < ddarkTelegraphs.Count)
-                {
-                    fsm.SendEvent("DDARK PILLARS CONTINUE");
-                }
-                else
-                {
-                    fsm.SendEvent("DDARK PILLARS DONE");
-                }
-            });
-            ddarkPillarsPause.AddTransition("DDARK PILLARS CONTINUE", ddarkPillarsTelegraph.Name);
-            ddarkPillarsPause.AddTransition("DDARK PILLARS DONE", ddarkPillarsCleanup.Name);
-
-            // Cleanup step is currently doing nothing
-            ddarkPillarsCleanup.AddAction(new Wait() { time = 0.75f, finishEvent = new("FINISHED") });
-
-            ddarkPillarsCleanup.AddTransition("FINISHED", "Move Choice");
-
-            var moveChoice = fsm.GetValidState("Move Choice");
-            moveChoice.AddTransition("DDARK PILLARS", ddarkPillarsStart.Name);
-
-            moveOptions.Add("DDARK PILLARS");
-        }
-
-        private static List<GameObject> blasterSpawners = new List<GameObject>();
-        private static int blasterDirection = 0;
-        private static int blasterCurrentIndex = 0;
-        private static int blasterFireCount = 0;
-
-        public static void SetupGasterBlaster(PlayMakerFSM fsm)
-        {
-            var BlasterCount = _modifiers.BlasterCount;
-            var BlasterSpeed = _modifiers.BlasterSpeed;
-            var BlasterShotDelay = _modifiers.BlasterShotDelay;
-            var BlasterTelegraph = BlasterShotDelay * _modifiers.BlasterTelegraphDelayMod;
-            var BlasterBaseOffset = -_modifiers.BlasterInitialDistance;
-            var BlasterShotScale = _modifiers.BlasterShotScale;
-
-            float angleOfFireIntervals = 360.0f / (BlasterCount);
-
-            CleanupGameObjectList(blasterSpawners);
-
-            for (int i = 0; i < BlasterCount; ++i)
-            {
-                var angle = i * angleOfFireIntervals;
-                var rds = angle * Mathf.Deg2Rad;
-
-                float xOffset = Mathf.Cos(rds) * BlasterBaseOffset;
-                float yOffset = Mathf.Sin(rds) * BlasterBaseOffset;
-
-                var go = new GameObject();
-
-                var fireballShooter = go.AddComponent<FireballShooter>();
-
-                go.name = $"Blaster Circle ({angle})";
-
-                //fireballShooterUp.name = "Up Shot";
-                fireballShooter.SpawnOffset = new Vector3(xOffset, yOffset, 0);
-                fireballShooter.BaseObject = Utils.Hero();
-                fireballShooter.Direction = angle;
-                fireballShooter.ForceLeft = true;
-                fireballShooter.Speed = BlasterSpeed;
-                fireballShooter.ShotScale = BlasterShotScale;
-                fireballShooter.PreFireDelay = BlasterTelegraph;
-                fireballShooter.RemoveParticles = true;
-                fireballShooter.DamageToDeal = 2;
-
-                blasterSpawners.Add(go);
-            }
-
-            var blasterCircleStart = fsm.AddState("Blaster Circle Start");
-            var blasterCircleStep = fsm.AddState("Blaster Circle Step");
-            var blasterCirclePause = fsm.AddState("Blaster Circle Pause");
-            var blasterCircleCleanup = fsm.AddState("Blaster Circle Cleanup");
-
-            blasterCircleStart.AddCustomAction(() =>
-            {
-                var direction = UnityEngine.Random.Range(0, 2);
-                if (direction == 0)
-                {
-                    blasterDirection = 1;
-                }
-                else
-                {
-                    blasterDirection = -1;
-                }
-
-                if (blasterDirection == -1)
-                {
-                    blasterCurrentIndex = 0;
-                } else
-                {
-                    blasterCurrentIndex = BlasterCount / 2;
-                }
-                blasterFireCount = UnityEngine.Random.Range(0, BlasterCount);
-                blasterFireCount += BlasterCount;
-            });
-
-            // Satchel.FsmUtil.AddAction(shriekWaveStart, GetClipState(AbyssShriekSpawner.ShriekAudio));
-            blasterCircleStart.AddTransition("FINISHED", blasterCircleStep.Name);
-
-
-            //Satchel.FsmUtil.AddAction(shriekWaveStep, GetClipState(AbyssShriekSpawner.ShriekAudio, 0f, 3f));
-
-            blasterCircleStep.AddCustomAction(() =>
-            {
-                // This is always a valid 
-                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Step 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
-                //CorruptedDreamsPlandoMod.Instance.Log($"shoot {blasterCurrentIndex}");
-                if (0 <= blasterCurrentIndex && blasterCurrentIndex <= blasterSpawners.Count - 1)
-                {
-                    blasterSpawners[blasterCurrentIndex].GetComponent<FireballShooter>().ShootStraight();
-                }
-            });
-
-            blasterCircleStep.AddAction(new Wait() { time = BlasterShotDelay, finishEvent = new("FINISHED") });
-            blasterCircleStep.AddTransition("FINISHED", blasterCirclePause.Name);
-
-            blasterCirclePause.AddCustomAction(() =>
-            {
-                // This is always a valid 
-                // Note that this check is just <, not <=, because the one above includes the last step
-                //CorruptedDreamsPlandoMod.Instance.Log($"Shriek Wave Pause 0 {shriekCurrentIndex} {shriekSpawners.Count - 1}");
-                blasterCurrentIndex += blasterDirection;
-                if (blasterCurrentIndex < 0)
-                {
-                    blasterCurrentIndex = blasterSpawners.Count - 1;
-                }
-
-                if (blasterCurrentIndex > blasterSpawners.Count - 1)
-                {
-                    blasterCurrentIndex = 0;
-                }
-
-                blasterFireCount--;
-
-                if (blasterFireCount >= 0)
-                {
-                    fsm.SendEvent("BLASTER CIRCLE CONTINUE");
-                }
-                else
-                {
-                    fsm.SendEvent("BLASTER CIRCLE DONE");
-                }
-            });
-            blasterCirclePause.AddTransition("BLASTER CIRCLE CONTINUE", blasterCircleStep.Name);
-            blasterCirclePause.AddTransition("BLASTER CIRCLE DONE", blasterCircleCleanup.Name);
-
-            // Cleanup step is currently doing nothing
-            // Needs longer cooldown because this attack is async
-            blasterCircleCleanup.AddAction(new Wait() { time = 2f, finishEvent = new("FINISHED") });
-
-
-
-            blasterCircleCleanup.AddTransition("FINISHED", "Move Choice");
-
-            var moveChoice = fsm.GetValidState("Move Choice");
-            moveChoice.AddTransition("BLASTER CIRCLE", blasterCircleStart.Name);
-
-            moveOptions.Add("BLASTER CIRCLE");
-        }
-
-        private static BalloonAttackPattern currentPattern;
-        private static List<GameObject> spiralContainers = new();
-
-        public static void SetupNewBalloonPhase(PlayMakerFSM fsm)
-        {
-            // TODO fix hp gates for fireballs.
-            #region balloon
-
-            var deflateState = fsm.GetValidState("Deflate");
-            //deflateState.Actions[0].Enabled = false;
-            deflateState.AddAction(new Wait() { time = 2f, finishEvent = new("FINISHED") });
-
-
-            var inflateState = fsm.GetValidState("Inflate");
-
-            // This usually makes NKG vulnerable to spells while ballooned. Lets disable that.
-            //inflateState.GetFirstActionOfType<SetTag>().Enabled = false;
-
-            CleanupGameObjectList(spiralContainers);
-
-            var upCont = new GameObject();
-            var fireballShooterUp = upCont.AddComponent<FireballShooter>();
-            fireballShooterUp.SpawnOffset = new Vector3(0, _modifiers.SpiralSpawnOffset, 0);
-            upCont.name = $"Spiral (Up)";
-
-            var downCont = new GameObject();
-            var fireballShooterDown = downCont.AddComponent<FireballShooter>();
-            fireballShooterDown.SpawnOffset = new Vector3(0, -_modifiers.SpiralSpawnOffset, 0);
-            downCont.name = $"Spiral (down)";
-
-            var leftCont = new GameObject();
-            var fireballShooterLeft = leftCont.AddComponent<FireballShooter>();
-            fireballShooterLeft.SpawnOffset = new Vector3(_modifiers.SpiralSpawnOffset, 0, 0);
-            leftCont.name = $"Spiral (left)";
-
-            var rightCont = new GameObject();
-            var fireballShooterRight = rightCont.AddComponent<FireballShooter>();
-            fireballShooterRight.SpawnOffset = new Vector3(-_modifiers.SpiralSpawnOffset, 0, 0);
-            rightCont.name = $"Spiral (right)";
-
-            spiralContainers = new() { upCont, downCont, leftCont, rightCont };
-            List<FireballShooter> shooterList = new() { fireballShooterUp, fireballShooterDown, fireballShooterLeft, fireballShooterRight };
-
-            foreach (var shooter in shooterList)
-            {
-                // Common for all fireball shooters
-                shooter.SpawnPoint = new Vector3(balloonBaseX, balloonBaseY, 0);
-                shooter.RemoveParticles = true;
-
-                shooter.SpiralShotInfo.clockwise = true;
-
-                shooter.Speed = 0;
-                shooter.SpiralShotInfo.inwardForce = 0;
-                shooter.DamageToDeal = 2;
-            }
-
-            var shootSpirals = fsm.AddState("Shade Repeat");
-            var shootPause = fsm.AddState("Shade Pause");
-
-            var firePause = fsm.GetValidState("Fire Pause");
-            firePause.RemoveTransition("FINISHED");
-            firePause.AddTransition("FINISHED", shootSpirals.Name);
-
-            firePause.AddCustomAction(() =>
-            {
-                fireballsShotBalloon = 0;
-                var patternIndex = UnityEngine.Random.Range(0, _modifiers.BalloonPatterns.Count);
-                currentPattern = _modifiers.BalloonPatterns[patternIndex];
-
-                foreach (var shooter in shooterList)
-                {
-                    shooter.Speed = currentPattern.SpiralSpeed;
-                    shooter.SpiralShotInfo.inwardForce = currentPattern.SpiralInwardVel;
-                }
-            });
-
-
-            fsm.AddVariable<FsmFloat>("ShootWait");
-            var shootWait = fsm.GetVariable<FsmFloat>("ShootWait");
-
-            shootPause.AddTransition("FINISHED", shootSpirals.Name);
-            shootPause.AddCustomAction(() =>
-            {
-                shootWait.Value = currentPattern.SpiralShotDelay[fireballsShotBalloon % currentPattern.SpiralShotDelay.Count];
-                if (fireballsShotBalloon % currentPattern.SpiralSwitchDirectionInterval == 0)
-                {
-                    foreach (var shooter in shooterList)
-                    {
-                        shooter.SpiralShotInfo.clockwise = !shooter.SpiralShotInfo.clockwise;
-
-                    }
-                }
-            });
-            shootPause.AddAction(new Wait() { time = shootWait, finishEvent = new("FINISHED") });
-
-            shootSpirals.AddTransition("CONTINUE", shootPause.Name);
-            shootSpirals.AddTransition("END", "End Pause");
-
-            shootSpirals.AddCustomAction(() =>
-            {
-                if (fireballsShotBalloon >= currentPattern.SpiralShotCount)
-                {
-                    fsm.SendEvent("END");
-                }
-                else
-                {
-                    fireballsShotBalloon++;
-
-                    foreach (var shooter in shooterList)
-                    {
-                        shooter.ShootSpiral();
-                    }
-
-                    fsm.SendEvent("CONTINUE");
-                }
-
-
-            });
-
-            var balloonPos = fsm.GetValidState("Balloon Pos");
-            var moveChoice = fsm.GetValidState("Move Choice");
-            moveChoice.AddTransition("BALLOON SPIRAL", balloonPos.Name);
-            //moveOptions.Add("BALLOON SPIRAL");
-
-            #endregion
-        }
     }
-}
+    }

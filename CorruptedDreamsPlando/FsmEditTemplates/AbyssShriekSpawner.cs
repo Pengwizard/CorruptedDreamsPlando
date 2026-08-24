@@ -117,6 +117,8 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 }
 
                 var spr = part.GetComponent<tk2dSprite>();
+                SpriteSwapper.SetupSpellTextureSwap(spr);
+
                 var ogScale = spr.scale;
                 spr.scale = ogScale * 1.1f;
             }

@@ -11,7 +11,6 @@ namespace CorruptedDreamsPlando.Locations
     public class CustomBossEssenceLocation : AutoLocation
     {
         public static string nkgEssecnceLocation = "Boss_Essence-NKG";
-        public static string tlEssecnceLocation = "Boss_Essence-Traitor_Lord";
 
         protected override void OnLoad()
         {
@@ -42,17 +41,6 @@ namespace CorruptedDreamsPlando.Locations
                         Ref.Settings.Placements[nkgEssecnceLocation].GiveAll(gi);
                     }
 
-                    //if (TraitorLordDream.killedTraitorLordInDream)
-                    //{
-                    //    GiveInfo gi = new()
-                    //    {
-                    //        FlingType = FlingType.Everywhere,
-                    //        Container = Container.Unknown,
-                    //        MessageType = MessageType.Corner,
-                    //        Transform = self.gameObject.transform
-                    //    };
-                    //    Ref.Settings.Placements[tlEssecnceLocation].GiveAll(gi);
-                    //}
                 }, summonState.Actions.Length);
             }
         }

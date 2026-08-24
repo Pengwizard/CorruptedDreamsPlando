@@ -28,6 +28,11 @@ namespace CorruptedDreamsPlando.Rando
             {
                 RSMInterop.Hook();
             }
+
+            if (ModHooks.GetMod("FStatsMod") is Mod)
+            {
+                FStatsInterop.Hook(); 
+            }
         }
 
         private static void AddRgbModule(RandoController controller)
@@ -44,7 +49,7 @@ namespace CorruptedDreamsPlando.Rando
         {
             Finder.DefineCustomItem(new VoidCasterItem());
             Finder.DefineCustomItem(new DeterminationItem());
-            Finder.DefineCustomItem(new BirthplaceAccessItem());
+            Finder.DefineCustomItem(new LetterOfCreditsItem());
         }
 
         public static InteropTag AddTag(TaggableObject obj)
@@ -58,11 +63,11 @@ namespace CorruptedDreamsPlando.Rando
 
         public static void AddCustomLocations()
         {
-            //CustomBossEssenceLocation scareLoc = new() { name = CustomBossEssenceLocation.nkgEssecnceLocation };
+            CustomBossEssenceLocation scareLoc = new() { name = CustomBossEssenceLocation.nkgEssecnceLocation };
             //CustomBossEssenceLocation scare2Loc = new() { name = CustomBossEssenceLocation.tlEssecnceLocation };
 
             //DefineLoc(scare2Loc, SceneNames.Fungus3_23, "EssenceIcon", 2, 2);
-            //DefineLoc(scareLoc, SceneNames.Grimm_Main_Tent, "EssenceIcon", 0,0);
+            DefineLoc(scareLoc, SceneNames.Grimm_Main_Tent, "NKGPin", 0,0);
         }
 
         public static void DefineLoc(AbstractLocation loc, string scene, string sprite, float x, float y)
