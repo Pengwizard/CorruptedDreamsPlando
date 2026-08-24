@@ -19,8 +19,8 @@ namespace CorruptedDreamsPlando.Testing
 
         public static void Initialize()
         {
-            Events.AddFsmEdit(dreamNailId, HookDreamNail);
-            On.GameManager.OnNextLevelReady += onSceneChange;
+            //Events.AddFsmEdit(dreamNailId, HookDreamNail);
+            //On.GameManager.OnNextLevelReady += onSceneChange;
         }
 
         private static void onSceneChange(On.GameManager.orig_OnNextLevelReady orig, GameManager self)

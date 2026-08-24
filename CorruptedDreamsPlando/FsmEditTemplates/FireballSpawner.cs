@@ -234,6 +234,8 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 fireballTop.Find("particles b").SetActive(false);
             }
 
+            // Fucking idk
+            fireballTop.transform.SetScaleX(1);
             fireballTop.transform.eulerAngles = Vector3.forward * visualRotation;
 
             List<FsmState> castStates = new()
@@ -513,9 +515,9 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             var spr = fb.GetComponent<tk2dSprite>();
             SpriteSwapper.SetupSpellTextureSwap(spr);
             var ogScale = spr.scale;
-            ogScale.x *= 1.1f;
-            ogScale.y *= 1.3f;
-            ogScale.z *= 1.1f;
+            ogScale.x *= 1f;
+            ogScale.y *= 1.36f;
+            ogScale.z *= 1f;
             spr.scale = ogScale;
         }
 

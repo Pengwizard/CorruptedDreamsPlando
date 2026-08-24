@@ -12,23 +12,20 @@ namespace CorruptedDreamsPlando.Modules
     {
         private List<IMapAlteration> alterations = new();
 
-        private IEnumerable<Type> GetAllTypesThatImplementInterface<T>()
-        {
-            return System.Reflection.Assembly.GetExecutingAssembly()
-                .GetTypes()
-                .Where(type => typeof(T).IsAssignableFrom(type) && !type.IsInterface);
-        }
-
         public void Initialize()
         {
             if (alterations.Count == 0)
             {
-                var alterationsList = GetAllTypesThatImplementInterface<IMapAlteration>();
-                foreach (var alter in alterationsList)
-                {
-                    var newAlter = (IMapAlteration)Activator.CreateInstance(alter);
-                    alterations.Add(newAlter);
-                }
+                alterations.Add(new AbridgedColo());
+                alterations.Add(new AMoundSoulTotem());
+                alterations.Add(new CorruptedDreamShields());
+                alterations.Add(new EnemyDisabler());
+                alterations.Add(new FuckRightSideShrogo());
+                alterations.Add(new LoopTransitions());
+                alterations.Add(new LurienElevatorOutOfService());
+                alterations.Add(new NoDreamPlats());
+                alterations.Add(new UpDirectionSign());
+                alterations.Add(new VerticalClimbs());
             }
 
             foreach (var alter in alterations)

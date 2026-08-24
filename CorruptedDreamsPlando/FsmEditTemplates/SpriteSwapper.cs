@@ -30,9 +30,12 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     spellTexture.LoadImage(bytes, true);
                     spellTexture.name = "PeekaIsAwesome";
                 }
-                (_spellAnimation, _spellCollection) = animator.Library.CloneTk2dAnimationWithCollectionSetTexture(spellTexture, "PeekaIsAwesome");
 
-                _spellCollection = spellObject.Collection.CloneTk2dCollectionWithTexture(spellTexture, "PeekaIsAwesomeCollection");
+                //_spellCollection = animator.DefaultClip.frames[0].spriteCollection.CloneTk2dCollectionWithTexture(spellTexture, "PeekaIsAwesome");
+
+                tk2dSpriteAnimationClip clip = Array.Find(animator.Library.clips, c => c.name == "Ball Lv2");
+                _spellCollection = clip.frames[0].spriteCollection.CloneTk2dCollectionWithTexture(spellTexture, "PeekaIsAwesome");
+                _spellAnimation = animator.Library.CloneTk2dAnimationWithCollection(_spellCollection, "PeekaIsAwesome");
             }
 
             animator.Library = _spellAnimation;

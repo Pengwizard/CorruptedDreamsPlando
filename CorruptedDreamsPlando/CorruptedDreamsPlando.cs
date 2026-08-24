@@ -70,9 +70,7 @@ namespace CorruptedDreamsPlando
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
             // TODO: 
-            // * Fix spell sprites to use the regular spell sprites when grimm uses them
             // * Add music swap
-            // * Try to make grimm and hit attacks grayscale
             // * Add stats to letter of credits, or to FStats for the end of the plando
             // * Make a branch from the final iteration to preserve dead code
             // * clean the shit out of the code on the main branch
@@ -136,7 +134,7 @@ namespace CorruptedDreamsPlando
 
             CorruptedNKG.Initialize();
 
-            MapChanger.Events.OnEnterGame += OnEnterGame;
+            //MapChanger.Events.OnEnterGame += OnEnterGame;
 
 
             // For testing

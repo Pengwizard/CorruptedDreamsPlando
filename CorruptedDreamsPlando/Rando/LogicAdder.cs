@@ -23,7 +23,7 @@ namespace CorruptedDreamsPlando.Rando
 
         private static void ApplyLogic(GenerationSettings gs, LogicManagerBuilder lmb)
         {
-            var skillNames = new List<string> { VoidCaster.skillName, Determination.skillName, BirthplaceAccess.skillName };
+            var skillNames = new List<string> { VoidCaster.skillName, Determination.skillName, LetterOfCredits.skillName };
             foreach (string sk in skillNames)
             {
                 Term term = lmb.GetOrAddTerm(sk, TermType.Int);

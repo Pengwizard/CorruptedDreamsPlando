@@ -22,7 +22,7 @@ namespace CorruptedDreamsPlando.Rando
 
         private static void SetupItems(RequestBuilder rb)
         {
-            List<string> customSkillNames = new List<string>{ Determination.skillName, VoidCaster.skillName, BirthplaceAccess.skillName };
+            List<string> customSkillNames = new List<string>{ Determination.skillName, VoidCaster.skillName, LetterOfCredits.skillName };
             foreach (string name in customSkillNames) {
                 rb.EditItemRequest(name, info =>
                 {

@@ -954,7 +954,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            433
+            432
           ]
         }
       ],
@@ -991,7 +991,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 433,
+              "id": 432,
               "obtained": false
             }
           ],
@@ -1130,7 +1130,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            467
+            466
           ]
         }
       ],
@@ -1161,7 +1161,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 467,
+              "id": 466,
               "obtained": false
             }
           ],
@@ -1245,7 +1245,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            383
+            382
           ]
         }
       ],
@@ -1277,7 +1277,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 383,
+              "id": 382,
               "obtained": false
             }
           ],
@@ -1303,7 +1303,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            434
+            433
           ]
         }
       ],
@@ -1340,7 +1340,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 434,
+              "id": 433,
               "obtained": false
             }
           ],
@@ -1434,7 +1434,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            449
+            448
           ]
         }
       ],
@@ -1465,7 +1465,83 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 449,
+              "id": 448,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        }
+      ],
+      "Visited": "None"
+    },
+    "Boss_Essence-NKG": {
+      "$type": "ItemChanger.Placements.AutoPlacement, ItemChanger",
+      "Location": {
+        "$type": "CorruptedDreamsPlando.Locations.CustomBossEssenceLocation, CorruptedDreamsPlando",
+        "name": "Boss_Essence-NKG",
+        "sceneName": null,
+        "flingType": "Everywhere",
+        "tags": [
+          {
+            "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+            "Properties": {
+              "ModSource": "CorruptedDreamsPlando",
+              "PinSprite": {
+                "$type": "CorruptedDreamsPlando.EmbeddedSprite, CorruptedDreamsPlando",
+                "key": "NKGPin"
+              },
+              "WorldMapLocation": {
+                "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]], mscorlib",
+                "Item1": "Grimm_Main_Tent",
+                "Item2": 0.0,
+                "Item3": 0.0
+              }
+            },
+            "Message": "RandoSupplementalMetadata"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
+          "ids": [
+            485
+          ]
+        }
+      ],
+      "Cost": null,
+      "SupportsCost": false,
+      "Name": "Boss_Essence-NKG",
+      "Items": [
+        {
+          "$type": "CorruptedDreamsPlando.Skills.LetterOfCreditsItem, CorruptedDreamsPlando",
+          "name": "CorruptedDreams_Letter_of_Credits",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+            "name": {
+              "$type": "ItemChanger.BoxedString, ItemChanger",
+              "Value": "Letter of Credits"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.BoxedString, ItemChanger",
+              "Value": "Thanks for playing\r\n Midautumn's Knightmare!\r\n\r\nThis plando was made by Nopre\r\n\r\nThanks to Staxis, cron, maginall, choombert, Jalepino Joe, aPress, and BlossomTheCellist for playtesting!\r\n\r\nAnd Purenail and TheMathGeek_314 for teaching me how to mod and letting me reference their past mods!\r\n\r\nBirdie should Hydrate"
+            },
+            "sprite": {
+              "$type": "CorruptedDreamsPlando.EmbeddedSprite, CorruptedDreamsPlando",
+              "key": "LetterOfCredits"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+              "Properties": {
+                "ModSource": "CorruptedDreamsPlando"
+              },
+              "Message": "RandoSupplementalMetadata"
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 485,
               "obtained": false
             }
           ],
@@ -1970,7 +2046,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            412
+            411
           ]
         }
       ],
@@ -2008,7 +2084,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 412,
+              "id": 411,
               "obtained": false
             }
           ],
@@ -2059,8 +2135,8 @@
             142,
             373,
             374,
-            387,
-            388
+            386,
+            387
           ]
         }
       ],
@@ -2489,7 +2565,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 387,
+              "id": 386,
               "obtained": false
             }
           ],
@@ -2567,7 +2643,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 388,
+              "id": 387,
               "obtained": false
             }
           ],
@@ -3220,7 +3296,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            389
+            388
           ]
         }
       ],
@@ -3255,7 +3331,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 389,
+              "id": 388,
               "obtained": false
             }
           ],
@@ -3657,7 +3733,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            468
+            467
           ]
         }
       ],
@@ -3688,7 +3764,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 468,
+              "id": 467,
               "obtained": false
             }
           ],
@@ -3981,7 +4057,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            411
+            410
           ]
         }
       ],
@@ -4018,7 +4094,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 411,
+              "id": 410,
               "obtained": false
             }
           ],
@@ -5084,7 +5160,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            475
+            474
           ]
         }
       ],
@@ -5115,7 +5191,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 475,
+              "id": 474,
               "obtained": false
             }
           ],
@@ -5149,7 +5225,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            465
+            464
           ]
         }
       ],
@@ -5180,7 +5256,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 465,
+              "id": 464,
               "obtained": false
             }
           ],
@@ -5319,6 +5395,7 @@
             275,
             276,
             282,
+            400,
             401,
             402,
             403,
@@ -5327,8 +5404,7 @@
             406,
             407,
             408,
-            409,
-            410
+            409
           ]
         }
       ],
@@ -7633,6 +7709,51 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 400,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.IntItem, ItemChanger",
+          "fieldName": "flamesCollected",
+          "amount": 1,
+          "name": "Grimmkin_Flame",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
+            "preview": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
+            },
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Flame"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
               "id": 401,
               "obtained": false
             }
@@ -7998,51 +8119,6 @@
             }
           ],
           "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.IntItem, ItemChanger",
-          "fieldName": "flamesCollected",
-          "amount": 1,
-          "name": "Grimmkin_Flame",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
-            "preview": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Flame"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 410,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
         }
       ],
       "Visited": "None",
@@ -8140,7 +8216,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            463
+            462
           ]
         }
       ],
@@ -8171,7 +8247,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 463,
+              "id": 462,
               "obtained": false
             }
           ],
@@ -8205,7 +8281,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            464
+            463
           ]
         }
       ],
@@ -8236,7 +8312,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 464,
+              "id": 463,
               "obtained": false
             }
           ],
@@ -8350,7 +8426,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            472
+            471
           ]
         }
       ],
@@ -8381,7 +8457,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 472,
+              "id": 471,
               "obtained": false
             }
           ],
@@ -8465,7 +8541,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            481
+            480
           ]
         }
       ],
@@ -8524,7 +8600,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 481,
+              "id": 480,
               "obtained": false
             }
           ],
@@ -8666,7 +8742,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            476
+            475
           ]
         }
       ],
@@ -8699,7 +8775,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 476,
+              "id": 475,
               "obtained": false
             }
           ],
@@ -8725,7 +8801,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            400
+            399
           ]
         }
       ],
@@ -8769,7 +8845,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 400,
+              "id": 399,
               "obtained": false
             }
           ],
@@ -9258,7 +9334,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            394
+            393
           ]
         }
       ],
@@ -9302,7 +9378,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 394,
+              "id": 393,
               "obtained": false
             }
           ],
@@ -9665,7 +9741,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            445
+            444
           ]
         }
       ],
@@ -9696,7 +9772,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 445,
+              "id": 444,
               "obtained": false
             }
           ],
@@ -9719,7 +9795,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            477
+            476
           ]
         }
       ],
@@ -9751,7 +9827,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 477,
+              "id": 476,
               "obtained": false
             }
           ],
@@ -10059,7 +10135,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            452
+            451
           ]
         }
       ],
@@ -10090,7 +10166,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 452,
+              "id": 451,
               "obtained": false
             }
           ],
@@ -10173,7 +10249,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            444
+            443
           ]
         }
       ],
@@ -10202,7 +10278,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 444,
+              "id": 443,
               "obtained": false
             }
           ],
@@ -10353,7 +10429,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            442
+            441
           ]
         }
       ],
@@ -10390,7 +10466,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 442,
+              "id": 441,
               "obtained": false
             }
           ],
@@ -10501,7 +10577,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            446
+            445
           ]
         }
       ],
@@ -10533,7 +10609,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 446,
+              "id": 445,
               "obtained": false
             }
           ],
@@ -10828,7 +10904,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            469
+            468
           ]
         }
       ],
@@ -10859,7 +10935,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 469,
+              "id": 468,
               "obtained": false
             }
           ],
@@ -11058,7 +11134,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            426
+            425
           ]
         }
       ],
@@ -11095,7 +11171,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 426,
+              "id": 425,
               "obtained": false
             }
           ],
@@ -11143,7 +11219,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            384
+            383
           ]
         }
       ],
@@ -11174,7 +11250,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 384,
+              "id": 383,
               "obtained": false
             }
           ],
@@ -12078,7 +12154,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            420
+            419
           ]
         }
       ],
@@ -12115,7 +12191,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 420,
+              "id": 419,
               "obtained": false
             }
           ],
@@ -12415,7 +12491,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            397
+            396
           ]
         }
       ],
@@ -12459,7 +12535,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 397,
+              "id": 396,
               "obtained": false
             }
           ],
@@ -12607,7 +12683,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            482
+            481
           ]
         }
       ],
@@ -12637,7 +12713,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 482,
+              "id": 481,
               "obtained": false
             }
           ],
@@ -12930,7 +13006,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            386
+            385
           ]
         }
       ],
@@ -12967,7 +13043,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 386,
+              "id": 385,
               "obtained": false
             }
           ],
@@ -13250,7 +13326,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            419
+            418
           ]
         }
       ],
@@ -13287,7 +13363,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 419,
+              "id": 418,
               "obtained": false
             }
           ],
@@ -13831,7 +13907,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            437
+            436
           ]
         }
       ],
@@ -13868,7 +13944,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 437,
+              "id": 436,
               "obtained": false
             }
           ],
@@ -13952,7 +14028,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            471
+            470
           ]
         }
       ],
@@ -13983,7 +14059,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 471,
+              "id": 470,
               "obtained": false
             }
           ],
@@ -14027,7 +14103,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            416
+            415
           ]
         }
       ],
@@ -14064,7 +14140,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 416,
+              "id": 415,
               "obtained": false
             }
           ],
@@ -14447,7 +14523,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            398
+            397
           ]
         }
       ],
@@ -14491,7 +14567,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 398,
+              "id": 397,
               "obtained": false
             }
           ],
@@ -14671,7 +14747,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            424
+            423
           ]
         }
       ],
@@ -14708,7 +14784,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 424,
+              "id": 423,
               "obtained": false
             }
           ],
@@ -14744,7 +14820,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            425
+            424
           ]
         }
       ],
@@ -14781,7 +14857,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 425,
+              "id": 424,
               "obtained": false
             }
           ],
@@ -14829,7 +14905,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            470
+            469
           ]
         }
       ],
@@ -14860,7 +14936,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 470,
+              "id": 469,
               "obtained": false
             }
           ],
@@ -14949,7 +15025,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            473
+            472
           ]
         }
       ],
@@ -14980,7 +15056,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 473,
+              "id": 472,
               "obtained": false
             }
           ],
@@ -15436,7 +15512,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            417
+            416
           ]
         }
       ],
@@ -15473,7 +15549,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 417,
+              "id": 416,
               "obtained": false
             }
           ],
@@ -15826,7 +15902,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            485
+            484
           ]
         }
       ],
@@ -15856,7 +15932,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 485,
+              "id": 484,
               "obtained": false
             }
           ],
@@ -16456,7 +16532,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            451
+            450
           ]
         }
       ],
@@ -16487,7 +16563,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 451,
+              "id": 450,
               "obtained": false
             }
           ],
@@ -16655,7 +16731,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            474
+            473
           ]
         }
       ],
@@ -16686,7 +16762,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 474,
+              "id": 473,
               "obtained": false
             }
           ],
@@ -17219,7 +17295,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            459
+            458
           ]
         }
       ],
@@ -17250,7 +17326,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 459,
+              "id": 458,
               "obtained": false
             }
           ],
@@ -19344,7 +19420,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            429
+            428
           ]
         }
       ],
@@ -19381,7 +19457,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 429,
+              "id": 428,
               "obtained": false
             }
           ],
@@ -19664,7 +19740,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            454
+            453
           ]
         }
       ],
@@ -19695,7 +19771,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 454,
+              "id": 453,
               "obtained": false
             }
           ],
@@ -19721,7 +19797,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            439
+            438
           ]
         }
       ],
@@ -19758,7 +19834,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 439,
+              "id": 438,
               "obtained": false
             }
           ],
@@ -19781,9 +19857,9 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
+            390,
             391,
-            392,
-            393
+            392
           ]
         }
       ],
@@ -19833,7 +19909,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 391,
+              "id": 390,
               "obtained": false
             }
           ],
@@ -19881,7 +19957,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 392,
+              "id": 391,
               "obtained": false
             }
           ],
@@ -19929,7 +20005,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 393,
+              "id": 392,
               "obtained": false
             }
           ],
@@ -20926,7 +21002,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            385
+            384
           ]
         }
       ],
@@ -20994,7 +21070,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 385,
+              "id": 384,
               "obtained": false
             }
           ],
@@ -21307,7 +21383,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            466
+            465
           ]
         }
       ],
@@ -21339,7 +21415,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 466,
+              "id": 465,
               "obtained": false
             }
           ],
@@ -21365,7 +21441,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            457
+            456
           ]
         }
       ],
@@ -21396,7 +21472,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 457,
+              "id": 456,
               "obtained": false
             }
           ],
@@ -21498,7 +21574,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            414
+            413
           ]
         }
       ],
@@ -21535,7 +21611,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 414,
+              "id": 413,
               "obtained": false
             }
           ],
@@ -21858,7 +21934,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            455
+            454
           ]
         }
       ],
@@ -21889,7 +21965,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 455,
+              "id": 454,
               "obtained": false
             }
           ],
@@ -22049,7 +22125,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            448
+            447
           ]
         }
       ],
@@ -22080,7 +22156,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 448,
+              "id": 447,
               "obtained": false
             }
           ],
@@ -22745,7 +22821,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            382
+            486
           ]
         }
       ],
@@ -22753,53 +22829,55 @@
       "Name": "Charm_Notch-Grimm",
       "Items": [
         {
-          "$type": "ItemChanger.Items.BoolItem, ItemChanger",
-          "fieldName": "hasDoubleJump",
-          "setValue": true,
-          "name": "Monarch_Wings",
+          "$type": "ItemChanger.Items.MultiBoolItem, ItemChanger",
+          "fieldNames": [
+            "hasSuperDash",
+            "canSuperDash"
+          ],
+          "name": "Crystal_Heart",
           "UIDef": {
             "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
             "bigSprite": {
               "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "Prompts.Wings"
+              "key": "Prompts.Superdash"
             },
             "take": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_ITEM_INTRO5"
+              "key": "GET_ITEM_INTRO2"
             },
             "press": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "BUTTON_DESC_PRESS"
+              "key": "BUTTON_DESC_HOLD"
             },
             "buttonSkin": {
               "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
-              "button": "JUMP"
+              "button": "SUPER_DASH"
             },
             "descOne": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_DOUBLEJUMP_1"
+              "key": "GET_SUPERDASH_1"
             },
             "descTwo": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_DOUBLEJUMP_2"
+              "key": "GET_SUPERDASH_2"
             },
             "name": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "UI",
-              "key": "INV_NAME_DOUBLEJUMP"
+              "key": "INV_NAME_SUPERDASH"
             },
             "shopDesc": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "UI",
-              "key": "INV_DESC_DOUBLEJUMP"
+              "key": "INV_DESC_SUPERDASH"
             },
             "sprite": {
               "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Wings"
+              "key": "ShopIcons.Superdash"
             }
           },
           "tags": [
@@ -22810,7 +22888,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 382,
+              "id": 486,
               "obtained": false
             }
           ],
@@ -22993,7 +23071,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            422
+            421
           ]
         }
       ],
@@ -23030,7 +23108,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 422,
+              "id": 421,
               "obtained": false
             }
           ],
@@ -23394,7 +23472,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            415
+            414
           ]
         }
       ],
@@ -23431,7 +23509,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 415,
+              "id": 414,
               "obtained": false
             }
           ],
@@ -23532,7 +23610,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            450
+            449
           ]
         }
       ],
@@ -23563,7 +23641,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 450,
+              "id": 449,
               "obtained": false
             }
           ],
@@ -23589,7 +23667,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            436
+            435
           ]
         }
       ],
@@ -23626,7 +23704,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 436,
+              "id": 435,
               "obtained": false
             }
           ],
@@ -23781,7 +23859,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            421
+            420
           ]
         }
       ],
@@ -23818,7 +23896,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 421,
+              "id": 420,
               "obtained": false
             }
           ],
@@ -23923,7 +24001,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            440
+            439
           ]
         }
       ],
@@ -23960,7 +24038,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 440,
+              "id": 439,
               "obtained": false
             }
           ],
@@ -24356,7 +24434,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            483
+            482
           ]
         }
       ],
@@ -24386,7 +24464,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 483,
+              "id": 482,
               "obtained": false
             }
           ],
@@ -24602,7 +24680,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            399
+            398
           ]
         }
       ],
@@ -24646,7 +24724,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 399,
+              "id": 398,
               "obtained": false
             }
           ],
@@ -24694,7 +24772,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            438
+            437
           ]
         }
       ],
@@ -24731,7 +24809,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 438,
+              "id": 437,
               "obtained": false
             }
           ],
@@ -25390,7 +25468,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            428
+            427
           ]
         }
       ],
@@ -25427,7 +25505,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 428,
+              "id": 427,
               "obtained": false
             }
           ],
@@ -25538,7 +25616,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            430
+            429
           ]
         }
       ],
@@ -25575,7 +25653,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 430,
+              "id": 429,
               "obtained": false
             }
           ],
@@ -25914,7 +25992,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            435
+            434
           ]
         }
       ],
@@ -25951,7 +26029,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 435,
+              "id": 434,
               "obtained": false
             }
           ],
@@ -26112,7 +26190,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            484
+            483
           ]
         }
       ],
@@ -26142,7 +26220,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 484,
+              "id": 483,
               "obtained": false
             }
           ],
@@ -26363,7 +26441,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            418
+            417
           ]
         }
       ],
@@ -26400,7 +26478,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 418,
+              "id": 417,
               "obtained": false
             }
           ],
@@ -26493,7 +26571,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            480
+            479
           ]
         }
       ],
@@ -26523,7 +26601,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 480,
+              "id": 479,
               "obtained": false
             }
           ],
@@ -26708,7 +26786,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            453
+            452
           ]
         }
       ],
@@ -26739,7 +26817,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 453,
+              "id": 452,
               "obtained": false
             }
           ],
@@ -27205,7 +27283,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            461
+            460
           ]
         }
       ],
@@ -27236,7 +27314,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 461,
+              "id": 460,
               "obtained": false
             }
           ],
@@ -27266,7 +27344,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            456
+            455
           ]
         }
       ],
@@ -27297,7 +27375,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 456,
+              "id": 455,
               "obtained": false
             }
           ],
@@ -27463,7 +27541,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            432
+            431
           ]
         }
       ],
@@ -27500,7 +27578,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 432,
+              "id": 431,
               "obtained": false
             }
           ],
@@ -28138,7 +28216,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            390
+            389
           ]
         }
       ],
@@ -28165,7 +28243,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 390,
+              "id": 389,
               "obtained": false
             }
           ],
@@ -28191,7 +28269,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            431
+            430
           ]
         }
       ],
@@ -28228,7 +28306,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 431,
+              "id": 430,
               "obtained": false
             }
           ],
@@ -28251,7 +28329,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            443
+            442
           ]
         }
       ],
@@ -28283,7 +28361,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 443,
+              "id": 442,
               "obtained": false
             }
           ],
@@ -28643,7 +28721,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            423
+            422
           ]
         }
       ],
@@ -28680,7 +28758,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 423,
+              "id": 422,
               "obtained": false
             }
           ],
@@ -28764,7 +28842,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            441
+            440
           ]
         }
       ],
@@ -28801,7 +28879,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 441,
+              "id": 440,
               "obtained": false
             }
           ],
@@ -29026,7 +29104,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            413
+            412
           ]
         }
       ],
@@ -29063,7 +29141,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 413,
+              "id": 412,
               "obtained": false
             }
           ],
@@ -29166,8 +29244,8 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            478,
-            479
+            477,
+            478
           ]
         }
       ],
@@ -29199,7 +29277,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 478,
+              "id": 477,
               "obtained": false
             }
           ],
@@ -29229,7 +29307,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 479,
+              "id": 478,
               "obtained": false
             }
           ],
@@ -29376,7 +29454,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            395
+            394
           ]
         }
       ],
@@ -29420,7 +29498,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 395,
+              "id": 394,
               "obtained": false
             }
           ],
@@ -29577,7 +29655,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            396
+            395
           ]
         }
       ],
@@ -29621,7 +29699,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 396,
+              "id": 395,
               "obtained": false
             }
           ],
@@ -29757,7 +29835,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            447
+            446
           ]
         }
       ],
@@ -29788,7 +29866,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 447,
+              "id": 446,
               "obtained": false
             }
           ],
@@ -29956,7 +30034,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            460
+            459
           ]
         }
       ],
@@ -29987,7 +30065,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 460,
+              "id": 459,
               "obtained": false
             }
           ],
@@ -30981,7 +31059,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            427
+            426
           ]
         }
       ],
@@ -31018,7 +31096,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 427,
+              "id": 426,
               "obtained": false
             }
           ],
@@ -31044,7 +31122,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            458
+            457
           ]
         }
       ],
@@ -31075,7 +31153,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 458,
+              "id": 457,
               "obtained": false
             }
           ],
@@ -31286,7 +31364,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            462
+            461
           ]
         }
       ],
@@ -31317,7 +31395,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 462,
+              "id": 461,
               "obtained": false
             }
           ],

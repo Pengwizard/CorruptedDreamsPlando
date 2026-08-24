@@ -16,13 +16,13 @@
   "BlasterSpeed": 25,
   "BlasterTelegraphDelayMod": 4,
   "BlasterShotDelay": 0.25,
-  "BlasterShotScale": 1.2,
+  "BlasterShotScale": 1.1,
 
   "SpiralSpawnOffset": 3,
   "BalloonPatterns": [
     {
       "SpiralSpeed": 10,
-      "SpiralInwardVel": -1.35,
+      "SpiralInwardVel": -1.3,
       "SpiralShotCount": 16,
       "SpiralShotDelay": [
         1.5,
@@ -30,6 +30,7 @@
         0.5,
         0.5
       ],
+      "ShotScale": 1,
       "SpiralSwitchDirectionInterval": 4
     },
     {
@@ -40,22 +41,38 @@
         1.5,
         0.5
       ],
-      "SpiralSwitchDirectionInterval": 16
+      "ShotScale": 1,
+      "SpiralSwitchDirectionInterval":  16
     },
     {
-      "SpiralSpeed": 10,
-      "SpiralInwardVel": -1.20,
-      "SpiralShotCount": 18,
+      "SpiralSpeed": 9,
+      "SpiralInwardVel": -1.25,
+      "SpiralShotCount": 15,
       "SpiralShotDelay": [
         1.5,
         0.5,
         0.5
       ],
-      "SpiralSwitchDirectionInterval": 6
+      "ShotScale": 0.8,
+      "SpiralSwitchDirectionInterval": 3
+    },
+    {
+      "SpiralSpeed": 10,
+      "SpiralInwardVel": -1.20,
+      "SpiralShotCount": 15,
+      "SpiralShotDelay": [
+        1.9,
+        0.3,
+        0.3,
+        0.3,
+        0.3
+      ],
+      "ShotScale": 1,
+      "SpiralSwitchDirectionInterval": 5
     }
   ],
 
-  "DDarkCount": 7,
+  "DDarkCount": 6,
   "DDarkTelegraphBuildup": 1,
   "DDarkTelegraphSpacing": 0.4,
 
@@ -65,5 +82,5 @@
   "WhiteSolidUpTime": 0.5,
   "WhiteSolidUpDelay": 2.0,
   "PhaseChangeHpGate": 0.15,
-  "PhaseChangeHpMultiplier": 4
+  "PhaseChangeHpMultiplier": 3
 }

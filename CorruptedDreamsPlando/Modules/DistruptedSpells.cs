@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using CorruptedDreamsPlando.CorruptedDreamBosses;
 using CorruptedDreamsPlando.Skills;
 using HutongGames.PlayMaker.Actions;
@@ -22,6 +23,13 @@ namespace CorruptedDreamsPlando.Modules
             ApplyHooks();
         }
 
+        private static List<string> unfizzleRooms = new()
+        {
+            SceneNames.Crossroads_ShamanTemple,
+            SceneNames.Crossroads_10,
+            SceneNames.Crossroads_06
+        };
+
         public static void ApplyHooks()
         {
             On.GameManager.OnNextLevelReady += onSceneChange;
@@ -31,7 +39,7 @@ namespace CorruptedDreamsPlando.Modules
             SpellStabilizer.ShouldFizzle = () => {
                 bool t = 
                     !spellStall.IsEquipped
-                    && GameManager.instance.sceneName != SceneNames.Crossroads_ShamanTemple;
+                    && !unfizzleRooms.Contains(GameManager.instance.sceneName);
                 if (t)
                 {
                     GameHelper.DisplayMessage("The spell fizzles, scattering into unfocused Soul...");
