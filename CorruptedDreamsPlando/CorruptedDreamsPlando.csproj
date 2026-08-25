@@ -44,8 +44,6 @@
     <None Remove="build.yml" />
     <None Remove="dependabot.yml" />
     <None Remove="README.md" />
-    <None Remove="Resources\BirthplaceAccess.png" />
-    <None Remove="Resources\BirthplaceAccess_Small.png" />
     <None Remove="Resources\Determination.png" />
     <None Remove="Resources\DungDoor.png" />
     <None Remove="Resources\DungKey.png" />
@@ -64,11 +62,6 @@
     <None Remove="Resources\VoidCaster_Small.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\BirthplaceAccess_Small.png" />
-    <EmbeddedResource Include="Resources\bossVariables\corruptedSoulTyrantModifiers.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\BirthplaceAccess.png" />
     <EmbeddedResource Include="Resources\Determination.png" />
     <EmbeddedResource Include="Resources\DungDoor.png" />
     <EmbeddedResource Include="Resources\DungKey.png" />

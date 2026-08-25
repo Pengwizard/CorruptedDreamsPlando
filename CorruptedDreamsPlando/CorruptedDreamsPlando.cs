@@ -49,30 +49,11 @@ namespace CorruptedDreamsPlando
 
         public override List<(string, string)> GetPreloadNames() => Preloader.Instance.GetPreloadNames();
 
-        private static void OnSetGameMap(GameObject goMap)
-        {
-            try
-            {
-                VmmPinManager.MakePins(goMap);
-            }
-            catch (Exception e)
-            {
-                Instance.LogError(e);
-            }
-        }
-
-        private static void OnEnterGame()
-        {
-            MapChanger.Events.OnSetGameMap += OnSetGameMap;
-        }
-
         public MapAlterationsManager mam;
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
             // TODO: 
             // * Add music swap
-            // * Add stats to letter of credits, or to FStats for the end of the plando
-            // * Make a branch from the final iteration to preserve dead code
             // * clean the shit out of the code on the main branch
             // * Have more people playtest NKG
             // * Disable void spells in PoP

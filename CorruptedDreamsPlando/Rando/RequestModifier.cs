@@ -50,7 +50,7 @@ namespace CorruptedDreamsPlando.Rando
 
         public static void ApplyNkgRewardDef(RequestBuilder rb)
         {
-            AddAndEditLocation(rb, CustomBossEssenceLocation.nkgEssecnceLocation, FlingType.Everywhere, false, SceneNames.Town);
+            AddAndEditLocation(rb, CustomBossEssenceLocation.nkgEssecnceLocation, FlingType.Everywhere, false, SceneNames.Grimm_Main_Tent);
             //AddAndEditLocation(rb, CustomBossEssenceLocation.tlEssecnceLocation, FlingType.Everywhere, false, SceneNames.Fungus3_23);
         }
 

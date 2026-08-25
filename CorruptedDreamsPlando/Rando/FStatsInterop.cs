@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using FStats;
-using FStats.StatControllers;
-using FStats.Util;
 using HutongGames.PlayMaker.Actions;
-using KorzUtils.Helper;
-using RandomizerCore.Extensions;
-using RandoPlus;
-using Steamworks;
 
 namespace CorruptedDreamsPlando.Rando
 {
@@ -68,6 +61,7 @@ namespace CorruptedDreamsPlando.Rando
             {
                 if (self.Fsm.FsmComponent.gameObject.name.Contains("Fireball") &&
                     self.Fsm.FsmComponent.gameObject.name.Contains("Top") &&
+                    !self.Fsm.FsmComponent.gameObject.name.ToLower().Contains("cd") &&
                     self.Fsm.Name == "Fireball Cast")
                 {
                     FireballsCast++;
@@ -86,7 +80,7 @@ namespace CorruptedDreamsPlando.Rando
             yield return new()
             {
                 Title = "Midautumn's Knightmare",
-                MainStat = "Usage Stages",
+                MainStat = "Usage Stats",
                 StatColumns = colums,
                 Priority = BuiltinScreenPriorityValues.ExtensionStats
             };
