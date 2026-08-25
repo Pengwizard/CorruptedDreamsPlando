@@ -114,6 +114,12 @@
     <Reference Include="GalaxyCSharp">
       <HintPath>$(HollowKnightRefs)/GalaxyCSharp.dll</HintPath>
     </Reference>
+    <Reference Include="HKTool.FakeHK">
+      <HintPath>$(HollowKnightRefs)/Mods/HKTool/HKTool.FakeHK.dll</HintPath>
+    </Reference>
+    <Reference Include="HKTool2">
+      <HintPath>$(HollowKnightRefs)/Mods/HKTool/HKTool2.dll</HintPath>
+    </Reference>
     <Reference Include="ICExtraDeployers">
       <HintPath>$(HollowKnightRefs)/Mods/ICExtraDeployers/ICExtraDeployers.dll</HintPath>
     </Reference>
@@ -191,6 +197,9 @@
     </Reference>
     <Reference Include="RandoSettingsManager">
       <HintPath>$(HollowKnightRefs)/Mods/RandoSettingsManager/RandoSettingsManager.dll</HintPath>
+    </Reference>
+    <Reference Include="RandoStats">
+      <HintPath>$(HollowKnightRefs)/Mods/RandoStats/RandoStats.dll</HintPath>
     </Reference>
     <Reference Include="RecentItemsDisplay">
       <HintPath>$(HollowKnightRefs)/Mods/RecentItemsDisplay/RecentItemsDisplay.dll</HintPath>

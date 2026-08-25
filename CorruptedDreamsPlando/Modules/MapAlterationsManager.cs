@@ -26,6 +26,7 @@ namespace CorruptedDreamsPlando.Modules
                 alterations.Add(new NoDreamPlats());
                 alterations.Add(new UpDirectionSign());
                 alterations.Add(new VerticalClimbs());
+                alterations.Add(new UnkillableMyla());
             }
 
             foreach (var alter in alterations)

@@ -29,3 +29,5 @@ Benchwarp
 FStats
 Rope Rando
 FrogCore
+RandoStats
+HKTool

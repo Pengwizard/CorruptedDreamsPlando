@@ -1479,7 +1479,7 @@
       "Location": {
         "$type": "CorruptedDreamsPlando.Locations.CustomBossEssenceLocation, CorruptedDreamsPlando",
         "name": "Boss_Essence-NKG",
-        "sceneName": null,
+        "sceneName": "Grimm_Main_Tent",
         "flingType": "Everywhere",
         "tags": [
           {
@@ -1493,8 +1493,8 @@
               "WorldMapLocation": {
                 "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]], mscorlib",
                 "Item1": "Grimm_Main_Tent",
-                "Item2": 0.0,
-                "Item3": 0.0
+                "Item2": 71.6,
+                "Item3": 6.4
               }
             },
             "Message": "RandoSupplementalMetadata"
