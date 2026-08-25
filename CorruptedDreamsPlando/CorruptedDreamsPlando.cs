@@ -74,7 +74,7 @@ namespace CorruptedDreamsPlando
             // * Add stats to letter of credits, or to FStats for the end of the plando
             // * Make a branch from the final iteration to preserve dead code
             // * clean the shit out of the code on the main branch
-            // * Make version with Letter of Credits, and pre-make a version with pain key
+            // * Have more people playtest NKG
             // * Disable void spells in PoP
 
 
