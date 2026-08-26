@@ -56,7 +56,6 @@ namespace CorruptedDreamsPlando
             // * Add music swap
             // * clean the shit out of the code on the main branch
             // * Have more people playtest NKG
-            // * Disable void spells in PoP
 
 
             Log("Initializing");

@@ -44,6 +44,7 @@
     <None Remove="build.yml" />
     <None Remove="dependabot.yml" />
     <None Remove="README.md" />
+    <None Remove="Resources\bgm\supernkgbgm.wav" />
     <None Remove="Resources\Determination.png" />
     <None Remove="Resources\DungDoor.png" />
     <None Remove="Resources\DungKey.png" />
@@ -62,10 +63,10 @@
     <None Remove="Resources\VoidCaster_Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\bgm\supernkgbgm.wav" />
     <EmbeddedResource Include="Resources\Determination.png" />
     <EmbeddedResource Include="Resources\DungDoor.png" />
     <EmbeddedResource Include="Resources\DungKey.png" />
-    <EmbeddedResource Include="Resources\EssenceIcon.png" />
     <EmbeddedResource Include="Resources\LetterOfCredits.png" />
     <EmbeddedResource Include="Resources\logic.json" />
     <EmbeddedResource Include="Resources\NKGPin.png" />
@@ -458,6 +459,9 @@
     </Reference>
     <Reference Include="WavLib">
       <HintPath>$(HollowKnightRefs)/Mods/SFCore/WavLib.dll</HintPath>
+    </Reference>
+    <Reference Include="WavLib">
+      <HintPath>$(HollowKnightRefs)/Mods/WavLib/WavLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

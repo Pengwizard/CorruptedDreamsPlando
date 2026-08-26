@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Xml.Linq;
 using CorruptedDreamsPlando.FsmEditTemplates;
@@ -12,10 +14,12 @@ using HutongGames.PlayMaker.Actions;
 using IL;
 using ItemChanger;
 using ItemChanger.Internal;
+using Modding;
 using Newtonsoft.Json;
 using Satchel;
 using Satchel.Futils;
 using UnityEngine;
+using WavLib;
 using static SceneLoad;
 
 namespace CorruptedDreamsPlando.CorruptedDreamBosses
@@ -135,16 +139,70 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         private static int _phase1Hp;
         private static AnimationModifiersNkg _modifiers;
 
+        private const string _hiveKnightAudioName = "Hive Knight v2-86";
+        private static AudioClip _superNkgBossMusic = null;
+        private static void LoadSuperAudioClip()
+        {
+            if (_superNkgBossMusic == null)
+            {
+                var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CorruptedDreamsPlando.Resources.bgm.supernkgbgm.wav");
+                var curMusicCue = GameManager.instance.AudioManager.CurrentMusicCue;
+
+                WavData.Inspect(assetStream, CorruptedDreamsPlandoMod.Instance.Log);
+                WavData wavData = new WavData();
+                wavData.Parse(assetStream, CorruptedDreamsPlandoMod.Instance.Log);
+                assetStream.Close();
+
+                float[] wavSoundData = wavData.GetSamples();
+                _superNkgBossMusic = AudioClip.Create("NightmareGrimm2", wavSoundData.Length / wavData.FormatChunk.NumChannels, wavData.FormatChunk.NumChannels, (int)wavData.FormatChunk.SampleRate, false);
+                _superNkgBossMusic.SetData(wavSoundData, 0);
+                GameObject.DontDestroyOnLoad(_superNkgBossMusic);
+            }
+        }
 
         public static void Initialize()
         {
             // TODO: Change to raw FSM editing
             Events.AddFsmEdit(controlFSM, SetupPhaseChange);
+            On.AudioManager.BeginApplyMusicCue += OnApplyMusicCue;
         }
 
         public static void Unload()
         {
             Events.RemoveFsmEdit(controlFSM, SetupPhaseChange);
+            On.AudioManager.BeginApplyMusicCue -= OnApplyMusicCue;
+        }
+
+        private static IEnumerator OnApplyMusicCue(On.AudioManager.orig_BeginApplyMusicCue orig, AudioManager self, MusicCue musicCue, float delayTime, float transitionTime, bool applySnapshot)
+        {
+            bool changed = false;
+            MusicCue.MusicChannelInfo[] infos = ReflectionHelper.GetField<MusicCue, MusicCue.MusicChannelInfo[]>(musicCue, "channelInfos");
+
+            foreach (MusicCue.MusicChannelInfo info in infos)
+            {
+                AudioClip origAudio = ReflectionHelper.GetField<MusicCue.MusicChannelInfo, AudioClip>(info, "clip");
+
+                if (origAudio != null)
+                {
+                    CorruptedDreamsPlandoMod.Instance.Log($"Checking to replace {origAudio.name}");
+                    if (origAudio.name != _hiveKnightAudioName)
+                    {
+                        continue;
+                    }
+
+                    AudioClip possibleReplace = _superNkgBossMusic;
+                    if (possibleReplace != null)
+                    {
+                        // Change Audio Clip
+                        ReflectionHelper.SetField<MusicCue.MusicChannelInfo, AudioClip>(info, "clip", possibleReplace);
+                        changed = true;
+                    }
+                }
+            }
+
+            if (changed) ReflectionHelper.SetField<MusicCue, MusicCue.MusicChannelInfo[]>(musicCue, "channelInfos", infos);
+
+            yield return orig(self, musicCue, delayTime, transitionTime, applySnapshot);
         }
 
         public static void UnpackModifiers()
@@ -196,8 +254,55 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             };
         }
 
+        private static FsmState GetHiveKnightMusicCue(PlayMakerFSM fsm)
+        {
+            var hiveKnight = Preloader.Instance.HiveKnight;
+            var hkControl = hiveKnight.LocateMyFSM("Control");
+            var musicState = hkControl.GetValidState("Music");
+
+            var startHiveKnightMusic = fsm.AddState("Start Hive Knight Music");
+            //startHiveKnightMusic.CopyActionData(musicState);
+
+            //startHiveKnightMusic.GetFirstActionOfType<GGCheckIfBossScene>().Enabled = false;
+
+
+
+            var cue = musicState.GetFirstActionOfType<ApplyMusicCue>();
+            cue.delayTime = 1f;
+
+            //startHiveKnightMusic.AddCustomAction(() =>
+            //{
+            //    GameManager.instance.AudioManager.ApplyMusicCue((MusicCue)cue.musicCue.Value, 3.9f, 0f, true);
+            //});
+
+            startHiveKnightMusic.AddCustomAction(() =>
+            {
+                GameManager.instance.AudioManager.ApplyMusicCue((MusicCue)cue.musicCue.Value, 1f, 0f, true);
+            });
+
+            startHiveKnightMusic.AddAction(musicState.GetFirstActionOfType<TransitionToAudioSnapshot>());
+            var snap = startHiveKnightMusic.GetFirstActionOfType<TransitionToAudioSnapshot>();
+            snap.transitionTime = 1f;
+
+            return startHiveKnightMusic;
+        }
+
+        private static FsmState GetKillMusicState(PlayMakerFSM fsm)
+        {
+            var deathStart = fsm.GetValidState("Death Start");
+
+            var killMusic = fsm.AddState("Kill Music");
+            killMusic.AddAction(deathStart.GetFirstActionOfType<TransitionToAudioSnapshot>());
+
+            killMusic.GetFirstActionOfType<TransitionToAudioSnapshot>().transitionTime = 0f;
+
+            return killMusic;
+
+        }
+
         private static void SetupPhaseChangeAnimationSequence(PlayMakerFSM fsm, string stateAfterRoar)
         {
+            //On.AudioManager.BeginApplyMusicCue += OnApplyMusicCue;
 
             var grimmControl = GameObject.Find("Grimm Control");
             var grimmControlFsm = grimmControl.LocateMyFSM("Control");
@@ -211,7 +316,12 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var myTeleIn = fsm.CopyState("Pillar Tele In", "PC Pillar Tele In");
             var myAntic = fsm.CopyState("Pillar Antic", "PC Pillar Antic");
 
+            var killMusic = GetKillMusicState(fsm);
+
             var roarState = fsm.AddState("Roar");
+
+            var musicState = GetHiveKnightMusicCue(fsm);
+
             var roarEndState = fsm.AddState("Roar End");
 
             myTeleIn.GetFirstActionOfType<SetPosition>().x = balloonBaseX;
@@ -226,8 +336,15 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             myPos.AddTransition("FINISHED", myTeleIn.Name);
             myPos.AddTransition("CANCEL", myRetry.Name);
             myTeleIn.AddTransition("FINISHED", myAntic.Name);
-            myAntic.AddTransition("FINISHED", roarState.Name);
-            roarState.AddTransition("FINISHED", roarEndState.Name);
+
+            myAntic.AddTransition("FINISHED", killMusic.Name);
+
+            killMusic.AddTransition("FINISHED", roarState.Name);
+
+            roarState.AddTransition("FINISHED", musicState.Name);
+
+            musicState.AddTransition("FINISHED", roarEndState.Name);
+
             roarEndState.AddTransition("FINISHED", stateAfterRoar);
 
             //var roarWaveEmitter = GameObject.Find("Roar Wave Emitter");
@@ -340,6 +457,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         private static void SetupPhaseChange(PlayMakerFSM fsm)
         {
+            LoadSuperAudioClip();
+
             CorruptedDreamsPlandoMod.Instance.Log("Changing NKG");
             phaseChanged = false;
 
@@ -378,7 +497,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             FsmEditTemplates.FullScreenTitleDrop.SetupTitleUp(
                 fsm,
                 "Grimm",
-                "Roar",
+                "Start Hive Knight Music",
                 "Roar End",
                 _modifiers.TitleFadeUpDelay,
                 _modifiers.TitleFadeDownDelay,
@@ -552,7 +671,8 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
         public static void SetupMoveChoice(PlayMakerFSM fsm)
         {
-            // Disabling the phase transition balloon, making it a regular move
+
+            // Disabling the phase transition balloon, making it a regular move 
             // TODO: We might make it again later, but we want more steps and different patterns and stuff so...
             var rageBalloon = fsm.GetValidState("Balloon?");
             rageBalloon.RemoveTransition("BALLOON 1");

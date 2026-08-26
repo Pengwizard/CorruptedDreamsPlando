@@ -31,3 +31,4 @@ Rope Rando
 FrogCore
 RandoStats
 HKTool
+WavLib

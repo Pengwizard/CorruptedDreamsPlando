@@ -63,12 +63,21 @@ namespace CorruptedDreamsPlando.Skills
 
         static List<string> spellLevelInts = new List<string>{ "fireballLevel", "screamLevel", "quakeLevel" };
 
+        static List<string> pathOfPain = new List<string> { SceneNames.White_Palace_18, SceneNames.White_Palace_17, SceneNames.White_Palace_19, SceneNames.White_Palace_20 };
+
         private static int PlayerData_GetInt(On.PlayerData.orig_GetInt orig, PlayerData self, string intName)
         {
             if (spellLevelInts.Contains(intName)) {
                 if (!CorruptedDreamsPlandoMod.LS.CollectedVoidCaster)
                 {
                     // Change all events passing to be into the "less than" because that goes into level 1.
+                    return Math.Min(1, orig(self, intName));
+                }
+
+
+
+                if (pathOfPain.Contains(GameManager.instance.sceneName))
+                {
                     return Math.Min(1, orig(self, intName));
                 }
             }

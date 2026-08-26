@@ -29,6 +29,10 @@ namespace CorruptedDreamsPlando
         [Preload(SceneNames.Town, "RestBench/Light Small")]
         public GameObject BenchLight { get; private set; }
 
+        // Hive Knight boss scene
+        [Preload(SceneNames.Hive_05, "Battle Scene/Hive Knight")]
+        public GameObject HiveKnight { get; private set; }
+
         // Dream Entrance and Traitor Lord
 
         [Preload(SceneNames.Crossroads_10_boss_defeated, "Prayer Room/FK Corpse/Dream Enter")]
