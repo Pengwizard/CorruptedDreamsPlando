@@ -77,33 +77,8 @@ namespace CorruptedDreamsPlando.MapAlterations
             if (self.sceneName == SceneNames.Waterways_15)
             {
                 var dungSleep = GameObject.Find("Dung Defender_Sleep");
-                //dungSleep.GetComponent<DeactivateIfPlayerdataFalse>().enabled = false;
-                //dungSleep.GetComponent<DeactivateIfPlayerdataTrue>().enabled = false;
                 dungSleep.SetActive(true);
             }
-
-            //if (self.sceneName == SceneNames.Grimm_Main_Tent)
-            //{
-            //    //// This entire tent is a special case...
-            //    //if (!PlayerData.instance.gotGrimmNotch)
-            //    //{
-            //    //    // player didn't get notch, nothing special here...
-            //    //    return;
-            //    //}
-
-            //    var backroomMask = GameObject.Find("Backroom Mask");
-            //    // No masks, no problems.
-            //    backroomMask.SetActive(false);
-
-            //    var dreamEnter = GameObject.Find("Dream Enter Grimm");
-            //    // var sleepShield = GameObject.Find("Grimm_sleep_shield");
-
-            //    dreamEnter.SetActive(CorruptedDreamsPlandoMod.LS.ColletedDetermination);
-            //    GameObject shield = UObject.Instantiate(Preloader.Instance.GrimmShield, new Vector3(167.89f, 12.7f, -0.008f), Quaternion.identity);
-            //    // sleepShield.SetActive(!CorruptedDreamsPlandoMod.LS.ColletedDetermination);
-            //    shield.GetComponent<DeactivateIfPlayerdataTrue>().enabled = false;
-            //    shield.SetActive(!CorruptedDreamsPlandoMod.LS.ColletedDetermination);
-            //}
         }
 
         public static void PlaceShieldIfNeeded(Vector3 position)

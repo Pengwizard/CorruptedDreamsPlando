@@ -34,22 +34,6 @@ namespace CorruptedDreamsPlando.ShaderThings
             GrayscaleShader = assetBundle.LoadAsset<Shader>("assets/shaders/grayscaler.shader");
         }
 
-        public static void GrayscaleObject(GameObject obj)
-        {
-            // TODO Fix
-            //try
-            //{
-            //    var p = obj.GetOrAddComponent<LocalPostProcess>();
-            //    p.material.SetFloat("RedPercent", 0);
-            //    p.material.SetFloat("GreenPercent", 0);
-            //    p.material.SetFloat("BluePercent", 0);
-            //    obj.GetComponent<MeshRenderer>().material.shader = p.material.shader;
-            //} catch (Exception e)
-            //{
-            //    CorruptedDreamsPlandoMod.Instance.Log($"Failed to add local post process");
-            //}
-        }
-
         public static void SetupCamera(On.GameManager.orig_OnNextLevelReady orig, GameManager self)
         {
             var mc = GameCameras.instance.mainCamera.gameObject.GetOrAddComponent<CameraPostProcess>();
@@ -64,7 +48,6 @@ namespace CorruptedDreamsPlando.ShaderThings
         public static void RestoreCamera()
         {
             GameCameras.instance.mainCamera.gameObject.GetOrAddComponent<CameraPostProcess>().StartCoroutine(CameraPostProcess.TickMaterialUp());
-            //CameraPostProcess.RestoreMaterial();
         }
 
         public class LocalPostProcess : MonoBehaviour

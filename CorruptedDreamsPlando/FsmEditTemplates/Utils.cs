@@ -127,12 +127,9 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         }
 
 
-        // TODO Move to Telegraph Utils?
         public static GameObject MakeBlankTelegraphLight()
         {
             var telegraphObject = GameObject.Instantiate(Preloader.Instance.BenchLight);
-            //leftScreenTelegraph = GameObject.Instantiate(Preloader.Instance.BenchLight);
-            // telegraphObject.transform.SetPosition3D(position.x, position.y, position.z);
             telegraphObject.transform.SetScaleX(1f);
             telegraphObject.transform.SetScaleY(1f);
             var lightPulse = telegraphObject.LocateMyFSM("Light Pulse");

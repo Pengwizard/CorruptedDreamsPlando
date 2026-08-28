@@ -11,7 +11,6 @@ using System.Collections;
 
 namespace CorruptedDreamsPlando.MapAlterations
 {
-    // TODO: Maybe add respawn hazard next to elevator?
     public class LurienElevatorOutOfService : IMapAlteration
     {
         public void Initialize()

@@ -25,7 +25,6 @@ namespace CorruptedDreamsPlando.MapAlterations
             {SceneNames.Deepnest_East_02, new List<string>{ "right1" } },
             {SceneNames.Deepnest_East_03, new List<string>{ "right1", "right2" } },
             {SceneNames.Deepnest_42, new List<string>{ "top1" } },
-            // {SceneNames.Deepnest_43, new List<string>{ "bot1" } },
         };
 
         public void Initialize()

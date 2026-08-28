@@ -64,10 +64,7 @@ namespace CorruptedDreamsPlando.Rando
         public static void AddCustomLocations()
         {
             CustomBossEssenceLocation scareLoc = new() { name = CustomBossEssenceLocation.nkgEssecnceLocation, sceneName = SceneNames.Grimm_Main_Tent };
-            //CustomBossEssenceLocation scare2Loc = new() { name = CustomBossEssenceLocation.tlEssecnceLocation };
-
-            //DefineLoc(scare2Loc, SceneNames.Fungus3_23, "EssenceIcon", 2, 2);
-            DefineLoc(scareLoc, SceneNames.Grimm_Main_Tent, "NKGPin", 71.6f,6.4f);
+            DefineLoc(scareLoc, SceneNames.Grimm_Main_Tent, "NKGPin", 0f, 0f);
         }
 
         public static void DefineLoc(AbstractLocation loc, string scene, string sprite, float x, float y)

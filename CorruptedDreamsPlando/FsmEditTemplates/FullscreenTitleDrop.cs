@@ -43,7 +43,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             FsmState flashDown = Satchel.FsmUtil.AddState(fsm, "Title Flash Down");
 
 
-            // flashUp.AddTransition("FINISHED", "Title Flash Down");
             Satchel.FsmUtil.AddTransition(flashUp, "FINISHED", "Title Flash Down");
             if (fsmStateAfterTitle != "")
             {
@@ -61,12 +60,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
             GameObject bossTitle = UObject.Instantiate(Preloader.Instance.BossTitlePrefab, new Vector3(0, 0, 0), Quaternion.identity);
             bossTitle.SetActive(true);
-            //bossTitle.SetActive(false);
             var bossTitleTMP = bossTitle.GetComponent<TextMeshPro>();
             foreach (var g in bossTitle.GetComponentsInChildren<TextMeshPro>())
             {
                 g.color = fgColor;
-                // g.text = pretitleText;
                 if (subTitleText != null)
                 {
                     g.SetText(subTitleText);
@@ -82,13 +79,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             bossTitleTMP.SetText(titleText);
 
             whiteFader.SetActive(true);
-            //whiteFader.SetActive(false);
-            // whiteFader.SetActive(false);
             whiteFader.GetComponent<SpriteRenderer>().enabled = true;
-            // whiteFader.GetComponent<SpriteRenderer>().enabled = false;
 
 
-            var titleStart = Satchel.FsmUtil.GetState(fsm, fsmStateToStartFrom);
+            var titleStart = Satchel.FsmUtil.GetValidState(fsm, fsmStateToStartFrom);
 
             titleStart.RemoveTransitionsOn(startTitleFsmEvent);
             Satchel.FsmUtil.AddTransition(titleStart, startTitleFsmEvent, "Title Flash Up");
@@ -105,18 +99,12 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             slot4FadeGroup.target = new FsmOwnerDefault() { GameObject = new FsmGameObject { Value = bossTitle }, OwnerOption = OwnerDefaultOption.SpecifyGameObject };
             slot4FadeGroup.fast = false;
 
-            //Satchel.FsmUtil.AddCustomAction(flashUp, () => {
-            //    // if you want to do something before text goes up.
-            //});
-
-            // Satchel.FsmUtil.AddAction(flashUp, slot0FlashUp);
 
             // Specifically using Satchel here because every 2nd utility pack has a version of FSM utils...
             Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = 1f });
             Satchel.FsmUtil.AddCustomAction(flashUp, (() => {
                 whiteFader.SetActive(true);
                 bossTitle.SetActive(true);
-                //CorruptedDreamsPlandoMod.Instance.Log("Bringing up screen");
                 whiteFader.transform.SetScaleX(ogX * 3f);
                 whiteFader.transform.SetScaleY(ogY * 3f);
                 whiteFader.LocateMyFSM("FSM").SetState("Init");
@@ -127,7 +115,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             Satchel.FsmUtil.AddAction(flashUp, new Wait() { time = titleFadeUpDelay });
 
             Satchel.FsmUtil.AddCustomAction(flashDown, (() => {
-                // If we fucked something up with the camera lets fix it.
+                // This is specifically to reset the grayscaling camera.
                 Grayscaler.RestoreCamera();
             }));
             Satchel.FsmUtil.AddAction(flashDown, slot4FadeGroup);

@@ -29,9 +29,7 @@ namespace CorruptedDreamsPlando.Skills
 
         public static void InitializeHooks()
         {
-            //On.HeroController.Update += HeroController_Update;
             On.PlayerData.GetInt += PlayerData_GetInt;
-            On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter += LimitSpellLevel;
 
             SetupInventoryItem();
         }
@@ -61,13 +59,14 @@ namespace CorruptedDreamsPlando.Skills
             return orig;
         }
 
-        static List<string> spellLevelInts = new List<string>{ "fireballLevel", "screamLevel", "quakeLevel" };
+        static List<string> spellLevelInts = new List<string> { "fireballLevel", "screamLevel", "quakeLevel" };
 
         static List<string> pathOfPain = new List<string> { SceneNames.White_Palace_18, SceneNames.White_Palace_17, SceneNames.White_Palace_19, SceneNames.White_Palace_20 };
 
         private static int PlayerData_GetInt(On.PlayerData.orig_GetInt orig, PlayerData self, string intName)
         {
-            if (spellLevelInts.Contains(intName)) {
+            if (spellLevelInts.Contains(intName))
+            {
                 if (!CorruptedDreamsPlandoMod.LS.CollectedVoidCaster)
                 {
                     // Change all events passing to be into the "less than" because that goes into level 1.
@@ -84,37 +83,7 @@ namespace CorruptedDreamsPlando.Skills
 
             return orig(self, intName);
         }
-
-        private static void HeroController_Update(On.HeroController.orig_Update orig, HeroController self)
-        {
-            orig(self);
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                CorruptedDreamsPlandoMod.LS.CollectedVoidCaster = !CorruptedDreamsPlandoMod.LS.CollectedVoidCaster;
-            }
-        }
-
-        public static void LimitSpellLevel(
-    On.HutongGames.PlayMaker.Actions.IntCompare.orig_OnEnter orig,
-    HutongGames.PlayMaker.Actions.IntCompare self)
-        {
-                if (self.Fsm.FsmComponent.gameObject.name.Contains("Knight") &&
-                        self.Fsm.Name == "Spell Control" &&
-                        self.State.Name.Contains("Level Check"))
-                {
-                if (!CorruptedDreamsPlandoMod.LS.CollectedVoidCaster)
-                {
-                    // Change all events passing to be into the "less than" because that goes into level 1.
-                    // self.integer2 = 3;
-                } else
-                {
-                    // self.integer2 = 1;
-                }
-            }
-            orig(self);
-        }
     }
-
 
     public class VoidCasterItem : AbstractItem
     {

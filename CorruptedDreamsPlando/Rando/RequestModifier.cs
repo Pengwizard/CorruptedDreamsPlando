@@ -17,7 +17,7 @@ namespace CorruptedDreamsPlando.Rando
             RequestBuilder.OnUpdate.Subscribe(-499, SetupItems);
             RequestBuilder.OnUpdate.Subscribe(-100, ApplyNkgRewardDef);
             RequestBuilder.OnUpdate.Subscribe(0, CloneSettings);
-            RequestBuilder.OnUpdate.Subscribe(1200, RemoveGrimmkinLocations);
+            //RequestBuilder.OnUpdate.Subscribe(1200, RemoveGrimmkinLocations);
         }
 
         private static void SetupItems(RequestBuilder rb)

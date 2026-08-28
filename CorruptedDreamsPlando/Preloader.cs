@@ -32,39 +32,5 @@ namespace CorruptedDreamsPlando
         // Hive Knight boss scene
         [Preload(SceneNames.Hive_05, "Battle Scene/Hive Knight")]
         public GameObject HiveKnight { get; private set; }
-
-        // Dream Entrance and Traitor Lord
-
-        [Preload(SceneNames.Crossroads_10_boss_defeated, "Prayer Room/FK Corpse/Dream Enter")]
-        public GameObject FCDreamEnter { get; private set; }
-
-        [Preload(SceneNames.Dream_01_False_Knight, "Dream Entry")]
-        public GameObject FCDreamEntryPrefab { get; private set; }
-
-        [Preload("Fungus3_23", "Cloth Corpse")]
-        public GameObject ClothCorpse { get; private set; }
-
-        [Preload(SceneNames.Fungus3_40, "Dream Gate")]
-        public GameObject DreamFightBarrier { get; private set; }
-
-
-        // Zotelings
-        [Preload("GG_Mighty_Zote", "Battle Control/Tall Zotes/Zote Crew Tall")]
-        public GameObject TallZote { get; private set; }
-
-        [Preload("GG_Mighty_Zote", "Battle Control/Fat Zotes/Zote Crew Fat (1)")]
-        public GameObject FatZote { get; private set; }
-
-        [Preload("GG_Mighty_Zote", "Battle Control/Zotelings/Ordeal Zoteling")]
-        public GameObject Zoteling { get; private set; }
-
-        [Preload("GG_Mighty_Zote", "Battle Control/Zote Fluke")]
-        public GameObject ZoteFluke { get; private set; }
-
-        [Preload("GG_Mighty_Zote", "Battle Control/Zote Salubra")]
-        public GameObject ZoteSalubra { get; private set; }
-
-        [Preload("GG_Mighty_Zote", "Battle Control/Zote Thwomp")]
-        public GameObject ZoteThwomp { get; private set; }
     }
 }

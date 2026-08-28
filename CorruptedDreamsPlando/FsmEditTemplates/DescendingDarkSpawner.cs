@@ -58,7 +58,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             {
                 var knight = GameObject.Find("Knight");
                 PlayMakerFSM fsm = knight.LocateMyFSM("Spell Control");
-                var state = fsm.GetState("Q2 Land");
+                var state = fsm.GetValidState("Q2 Land");
                 _ddarkAudio = state.GetFirstActionOfType<AudioPlay>().oneShotClip;
                 CorruptedDreamsPlandoMod.Instance.Log(_ddarkAudio);
             }
@@ -101,16 +101,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 }
                 return _ddarkMega;
             }
-        }
-
-        private static void MakeInvuln(GameObject go)
-        {
-            go.layer = LayerMask.NameToLayer("Enemy Attack");
-        }
-
-        private static void MakeVuln(GameObject go)
-        {
-            go.layer = LayerMask.NameToLayer("Enemies");
         }
 
         public GameObject MakeDiveContainer()
@@ -184,15 +174,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             var doPillar = fsm.GetValidState("Activate Pillar");
             var doMega = fsm.GetValidState("Activate Mega");
 
-            //if (followTarget != null)
-            //{
-            //    targetState.AddCustomAction(() =>
-            //    {
-            //        diveContainer.transform.SetPositionAndRotation(followTarget.transform.position, Quaternion.identity);
-            //        diveContainer.transform.SetPositionY(groundY);
-            //    });
-            //}
-
             if (telegraphWait > 0)
             {
                 targetState.AddAction(new Wait() { time = telegraphWait, finishEvent = new("FINISHED") });
@@ -206,19 +187,14 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             }
 
             doSlam.AddAction(ActivateAndResetGameObject(slam));
-            //doSlam.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
             doSlam.AddTransition("FINISHED", doPillar.Name);
 
             doPillar.AddAction(ActivateAndResetGameObject(pillar));
-            //doPillar.AddAction(new Wait() { time = 0.1f, finishEvent = new("FINISHED") });
             doPillar.AddTransition("FINISHED", doMega.Name);
 
             doMega.AddAction(ActivateAndResetGameObject(mega));
 
-            //diveContainer.transform.SetScaleX(0.9f);
             slam.transform.SetScaleX(0.9f);
-            //diveContainer.transform.SetScaleY(0.9f);
-            //diveContainer.transform.SetScaleZ(0.9f);
 
             return diveContainer;
         }
@@ -325,7 +301,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             Satchel.FsmUtil.AddAction(fsm, activatePillar);
             Satchel.FsmUtil.AddAction(fsm, new Wait() { time = 0.75f });
             Satchel.FsmUtil.AddAction(fsm, activateMega);
-            //Satchel.FsmUtil.AddAction(fsm, new Wait() { time = 0.75f });
             Satchel.FsmUtil.AddAction(fsm, new SetInvincible() { Invincible = false, InvincibleFromDirection = 0 });
 
             fsm.AddCustomAction(() =>
@@ -338,11 +313,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
         public IEnumerator ActivateDDarkForObjectOnCondition(GameObject go, int damageToDeal, Vector3 spawnOffset, Func<GameObject, bool> condition)
         {
-            // TODO Add audio
-
-
-            // Setting up the DDark objects
-            // TODO Extract to other method and share code with FSM
             GameObject slam = GameObject.Instantiate(DDarkSlam);
             GameObject pillar = GameObject.Instantiate(DDarkPillar);
             GameObject mega = GameObject.Instantiate(DDarkMega);

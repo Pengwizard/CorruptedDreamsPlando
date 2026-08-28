@@ -46,13 +46,9 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
         public FireballShooter()
         {
             spawner = new FireballSpawner();
-             //On.HeroController.Update += HeroController_Update;
             BaseObject = null;
             ShotScale = 1f;
         }
-
-        // Deprecated
-        public bool ForceLeft = false;
 
         public void ShootStraight()
         {

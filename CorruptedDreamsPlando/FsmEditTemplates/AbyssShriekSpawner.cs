@@ -134,8 +134,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
         public void AddShriekAtEndOfFSM(FsmState fsm, int damageToDeal, Vector3 spawnOffset, bool useWraithsAudio=false)
         {
-            //GameObject shriek = GameObject.Instantiate(ShriekObject);
-
             try
             {
                 if (useWraithsAudio)
@@ -145,12 +143,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     if (_shriekAudio != null)
                     {
                         AudioPlayerOneShotSingle playSpellAudio = new AudioPlayerOneShotSingle();
-                        //playSpellAudio. = new HutongGames.PlayMaker.FsmOwnerDefault()
-                        //{
-                        //    GameObject = new FsmGameObject { Value = fsm.Fsm.GameObject },
-                        //    OwnerOption = OwnerDefaultOption.SpecifyGameObject
-                        //};
-                        // TODO: Audio needs to be determined by the game
                         playSpellAudio.volume = 5f;
                         playSpellAudio.audioClip = _shriekAudio;
 
@@ -168,7 +160,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                             GameObject = new FsmGameObject { Value = fsm.Fsm.GameObject },
                             OwnerOption = OwnerDefaultOption.SpecifyGameObject
                         };
-                        // TODO: Audio needs to be determined by the game
                         playSpellAudio.volume = 5f;
                         playSpellAudio.oneShotClip = _shriekAudio;
 

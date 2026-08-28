@@ -7,6 +7,7 @@ using ItemChanger.Modules;
 
 namespace CorruptedDreamsPlando.Modules
 {
+    // This is copied from the Knight of Nights plando by Purenail.
     internal class Shadeless // : Module
     {
         private static readonly FsmID deathAnimId = new("Hero Death", "Hero Death Anim");

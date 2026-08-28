@@ -1,21 +1,14 @@
 using CorruptedDreamsPlando.CorruptedDreamBosses;
 using CorruptedDreamsPlando.FsmEditTemplates;
-using CorruptedDreamsPlando.MapAlterations;
 using CorruptedDreamsPlando.Modules;
 using CorruptedDreamsPlando.ShaderThings;
 using CorruptedDreamsPlando.Skills;
 using CorruptedDreamsPlando.Testing;
-using ItemChanger;
-using ItemChanger.Locations;
-using MapChanger;
 using Modding;
-using MoreDoors.Data;
 using RandomizerMod.RC;
 using System;
 using System.Collections.Generic;
-using System.Security.Policy;
 using UnityEngine;
-using UnityStandardAssets.ImageEffects;
 
 namespace CorruptedDreamsPlando
 {
@@ -44,7 +37,6 @@ namespace CorruptedDreamsPlando
             VoidCaster.InitializeHooks();
             Determination.InitializeHooks();
             LetterOfCredits.InitializeHooks();
-            // BirthplaceAccess.InitializeHooks();
         }
 
         public override List<(string, string)> GetPreloadNames() => Preloader.Instance.GetPreloadNames();
@@ -53,7 +45,6 @@ namespace CorruptedDreamsPlando
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
             // TODO: 
-            // * Add music swap
             // * clean the shit out of the code on the main branch
             // * Have more people playtest NKG
 
@@ -74,48 +65,13 @@ namespace CorruptedDreamsPlando
             MapAlterations.DungDoorAdder.AddDungDoor();
             Rando.RandoInterop.Hook();
 
-            //TraitorLordDream.DreamEnterPrefab = preloadedObjects[SceneNames.Crossroads_10_boss_defeated]["Prayer Room/FK Corpse/Dream Enter"];
-            //TraitorLordDream.DreamEntry = preloadedObjects[SceneNames.Dream_01_False_Knight]["Dream Entry"];
-            //TraitorLordDream.ClothCorpsePrefab = preloadedObjects[SceneNames.Fungus3_23]["Cloth Corpse"];
-            //TraitorLordDream.DreamArenaBorder = preloadedObjects[SceneNames.Fungus3_40]["Dream Gate"];
-
-            //CorruptedLostKin.WhiteSolidPrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/white_solid"];
-            //CorruptedLostKin.BossTitlePrefab = preloadedObjects[SceneNames.Dream_Final_Boss]["Boss Control/Boss Title"];
-
-
-            // Map Alterations
-            // TODO make "map alterations" module
-
-            //FuckRightSideShrogo.Initialize();
-            //LoopTransitions.Initialize();
-            //LurienElevatorOutOfService.Initialize();
-            //EnemyDisabler.Initialize();
-            //VerticalClimbs.Initialize();
-            //UpDirectionSign.Initialize();
-            //AMoundSoulTotem.Initialize();
-            //NoDreamPlats.Initialize();
-
             RandoController.OnExportCompleted += AddModules;
-            //TraitorLordDream.Initialize();
-            //SoulRefiller.Initialize();
-            // todo make "extra gimmicks" module
+
             InstantSalubraSoulRefill.Initialize();
             Shadeless.Initialize();
             DistruptedSpells.Initialize();
 
-            // Super boss time!
-            // TODO make "super bosses" into a module.
-
-            // TODO: Re add these bosses later
-            //CorruptedLostKin.Initialize();
-            //CorruptedWhiteDefender.Initialize();
-            //CorruptedSoulTyrant.Initialize();
-            //CorruptedGPZ.Initialize();
-
             CorruptedNKG.Initialize();
-
-            //MapChanger.Events.OnEnterGame += OnEnterGame;
-
 
             // For testing
             mam = new();
@@ -126,7 +82,6 @@ namespace CorruptedDreamsPlando
 
         public void AddModules(RandoController rc)
         {
-            //ItemChangerMod.Modules.Add<CorruptedDreamShields>();
         }
 
         public static LocalSettings LS { get; set; } = new();
@@ -144,8 +99,6 @@ namespace CorruptedDreamsPlando
         public bool Enabled = true;
         public bool CollectedVoidCaster = false;
         public bool ColletedDetermination = false;
-        public bool CollectedBirthplaceAccess = false;
-        public bool CollectedDreamerMap = false;
         public bool CollectedLetterOfCredits = false;
     }
 

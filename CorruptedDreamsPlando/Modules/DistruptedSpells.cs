@@ -12,6 +12,7 @@ namespace CorruptedDreamsPlando.Modules
     public class DistruptedSpells
     {
 
+        public static int displayedMessage = 0;
         public static void Initialize()
         {
             ApplyHooks();
@@ -36,7 +37,11 @@ namespace CorruptedDreamsPlando.Modules
                     && !unfizzleRooms.Contains(GameManager.instance.sceneName);
                 if (t)
                 {
-                    GameHelper.DisplayMessage("The spell fizzles, scattering into unfocused Soul...");
+                    if (displayedMessage <= 2)
+                    {
+                        GameHelper.DisplayMessage("The spell fizzles, scattering into unstable Soul...");
+                        displayedMessage++;
+                    }
                 }
 
                 return t;

@@ -165,7 +165,6 @@ namespace CorruptedDreamsPlando.Testing
                 fireballShooter.SpawnOffset = new Vector3(xOffset, yOffset, 0);
                 fireballShooter.BaseObject = Utils.Hero();
                 fireballShooter.Direction = angle;
-                fireballShooter.ForceLeft = true;
                 fireballShooter.Speed = BlasterSpeed;
                 fireballShooter.ShotScale = BlasterShotScale;
                 fireballShooter.PreFireDelay = BlasterTelegraph;

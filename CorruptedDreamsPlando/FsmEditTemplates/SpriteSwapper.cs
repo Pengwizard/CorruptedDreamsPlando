@@ -31,8 +31,6 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                     spellTexture.name = "PeekaIsAwesome";
                 }
 
-                //_spellCollection = animator.DefaultClip.frames[0].spriteCollection.CloneTk2dCollectionWithTexture(spellTexture, "PeekaIsAwesome");
-
                 tk2dSpriteAnimationClip clip = Array.Find(animator.Library.clips, c => c.name == "Ball Lv2");
                 _spellCollection = clip.frames[0].spriteCollection.CloneTk2dCollectionWithTexture(spellTexture, "PeekaIsAwesome");
                 _spellAnimation = animator.Library.CloneTk2dAnimationWithCollection(_spellCollection, "PeekaIsAwesome");

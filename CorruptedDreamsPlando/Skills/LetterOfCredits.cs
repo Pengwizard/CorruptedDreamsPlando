@@ -23,17 +23,7 @@ namespace CorruptedDreamsPlando.Skills
 
         public static void InitializeHooks()
         {
-            //On.HeroController.Update += HeroController_Update;
             SetupInventoryItem();
-        }
-
-        private static void HeroController_Update(On.HeroController.orig_Update orig, HeroController self)
-        {
-            orig(self);
-            //if (Input.GetKeyDown(KeyCode.Alpha8))
-            //{
-            //    CorruptedDreamsPlandoMod.LS.CollectedLetterOfCredits = !CorruptedDreamsPlandoMod.LS.CollectedLetterOfCredits;
-            //}
         }
 
         public static void SetupInventoryItem()
