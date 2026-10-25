@@ -22,7 +22,7 @@ namespace CorruptedDreamsPlando.Skills
 
         public static string baseName = "Birthplace_Access";
         public static string skillName = SkillCommon.MakeItemName(baseName);
-        public static string uiName = SkillCommon.CleanName(baseName);
+        public static string uiName = invName;
         public static string description = "Was made for caretakers to get access to the Birthplace without a King's Soul.";
         public static ISprite pickupSprite = new EmbeddedSprite("BirthplaceAccess");
 

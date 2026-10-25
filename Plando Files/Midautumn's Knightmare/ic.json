@@ -7,26 +7,6 @@
         "Name": "BaldurHealthCap"
       },
       {
-        "$type": "CorruptedDreamsPlando.Modules.Shadeless, CorruptedDreamsPlando",
-        "Name": "Shadeless"
-      },
-      {
-        "$type": "CorruptedDreamsPlando.Modules.MapAlterationsManager, CorruptedDreamsPlando",
-        "Name": "MapAlterationsManager"
-      },
-            {
-        "$type": "CorruptedDreamsPlando.Modules.InstantSalubraSoulRefill, CorruptedDreamsPlando",
-        "Name": "InstantSalubraSoulRefill"
-      },
-            {
-        "$type": "CorruptedDreamsPlando.Modules.DistruptedSpells, CorruptedDreamsPlando",
-        "Name": "DistruptedSpells"
-      },
-            {
-        "$type": "CorruptedDreamsPlando.CorruptedDreamBosses.CorruptedNKG, CorruptedDreamsPlando",
-        "Name": "CorruptedNKG"
-      },
-      {
         "$type": "ItemChanger.Modules.BlueDoorUnlock, ItemChanger",
         "blueHealthThreshold": 1,
         "Name": "BlueDoorUnlock"
@@ -418,11 +398,11 @@
           "CustomKeys": {
             "MapperKey": true,
             "SlyKey": false,
-            "BrettaKey": true,
-            "ZoteKey": true,
+            "BrettaKey": false,
+            "ZoteKey": false,
             "RelicKey": false,
             "GladeKey": false,
-            "BirthplaceKey": true
+            "BirthplaceKey": false
           },
           "SplitTram": false,
           "SplitElevator": false,
@@ -629,7 +609,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            490
+            482
           ]
         }
       ],
@@ -665,7 +645,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 490,
+              "id": 482,
               "obtained": false
             }
           ],
@@ -1033,7 +1013,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            430
+            423
           ]
         }
       ],
@@ -1070,7 +1050,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 430,
+              "id": 423,
               "obtained": false
             }
           ],
@@ -1093,7 +1073,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            360
+            356
           ]
         }
       ],
@@ -1125,7 +1105,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 360,
+              "id": 356,
               "obtained": false
             }
           ],
@@ -1209,7 +1189,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            464
+            456
           ]
         }
       ],
@@ -1240,7 +1220,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 464,
+              "id": 456,
               "obtained": false
             }
           ],
@@ -1263,7 +1243,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            488
+            480
           ]
         }
       ],
@@ -1299,7 +1279,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 488,
+              "id": 480,
               "obtained": false
             }
           ],
@@ -1325,7 +1305,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            302
+            298
           ]
         }
       ],
@@ -1357,7 +1337,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 302,
+              "id": 298,
               "obtained": false
             }
           ],
@@ -1383,7 +1363,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            380
+            374
           ]
         }
       ],
@@ -1415,7 +1395,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 380,
+              "id": 374,
               "obtained": false
             }
           ],
@@ -1441,7 +1421,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            431
+            424
           ]
         }
       ],
@@ -1478,7 +1458,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 431,
+              "id": 424,
               "obtained": false
             }
           ],
@@ -1572,7 +1552,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            446
+            439
           ]
         }
       ],
@@ -1603,7 +1583,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 446,
+              "id": 439,
               "obtained": false
             }
           ],
@@ -1643,7 +1623,8 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            483
+            475,
+            490
           ]
         }
       ],
@@ -1662,7 +1643,7 @@
             },
             "shopDesc": {
               "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "Thanks for playing\r\n Midautumn's Knightmare!\r\n\r\nThis plando was made by Nopre\r\n\r\nThanks to Staxis, cron, maginall, choombert, Jalepino Joe, aPress, and BlossomTheCellist for playtesting!\r\n\r\nAnd Purenail and TheMathGeek_314 for teaching me how to mod and letting me reference their past mods!\r\n\r\nBirdie should Hydrate"
+              "Value": "Thanks for playing\r\n Midautumn's Knightmare!\r\n\r\nThis plando was made by Nopre\r\n\r\nThanks to Staxis, cron, maginall, choombert, Jalepino Joe, aPress, and BlossomTheCellist for playtesting!\r\n\r\nCustom NKG OST by RYS\r\n\r\nAnd Purenail and TheMathGeek_314 for teaching me how to mod and letting me reference their past mods!\r\n\r\nBirdie should Hydrate"
             },
             "sprite": {
               "$type": "CorruptedDreamsPlando.EmbeddedSprite, CorruptedDreamsPlando",
@@ -1679,7 +1660,43 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 483,
+              "id": 475,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "MoreDoors.IC.KeyItem, MoreDoors",
+          "DoorName": "Pain",
+          "name": "MoreDoors-Pain_Key",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+            "name": {
+              "$type": "ItemChanger.BoxedString, ItemChanger",
+              "Value": "Pain Key"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.BoxedString, ItemChanger",
+              "Value": "This looks like it's been beaten to hell by blades, does it even work?"
+            },
+            "sprite": {
+              "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+              "key": "Keys.Pain"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+              "Properties": {
+                "ModSource": "MoreDoors",
+                "PoolGroup": "Keys"
+              },
+              "Message": "RandoSupplementalMetadata"
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 490,
               "obtained": false
             }
           ],
@@ -1779,7 +1796,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            296
+            293
           ]
         }
       ],
@@ -1811,7 +1828,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 296,
+              "id": 293,
               "obtained": false
             }
           ],
@@ -1930,8 +1947,8 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            307,
-            312
+            303,
+            308
           ]
         }
       ],
@@ -1969,7 +1986,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 307,
+              "id": 303,
               "obtained": false
             }
           ],
@@ -2005,7 +2022,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 312,
+              "id": 308,
               "obtained": false
             }
           ],
@@ -2035,7 +2052,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            304
+            300
           ]
         }
       ],
@@ -2102,7 +2119,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 304,
+              "id": 300,
               "obtained": false
             }
           ],
@@ -2128,7 +2145,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            363
+            358
           ]
         }
       ],
@@ -2162,7 +2179,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 363,
+              "id": 358,
               "obtained": false
             }
           ],
@@ -2184,7 +2201,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            409
+            402
           ]
         }
       ],
@@ -2222,7 +2239,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 409,
+              "id": 402,
               "obtained": false
             }
           ],
@@ -2271,10 +2288,10 @@
             139,
             140,
             141,
-            372,
-            373,
-            384,
-            385
+            366,
+            367,
+            378,
+            379
           ]
         }
       ],
@@ -2581,7 +2598,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 372,
+              "id": 366,
               "obtained": false
             }
           ],
@@ -2625,7 +2642,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 373,
+              "id": 367,
               "obtained": false
             }
           ],
@@ -2703,7 +2720,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 384,
+              "id": 378,
               "obtained": false
             }
           ],
@@ -2781,7 +2798,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 385,
+              "id": 379,
               "obtained": false
             }
           ],
@@ -2825,7 +2842,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            346
+            342
           ]
         }
       ],
@@ -2856,7 +2873,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 346,
+              "id": 342,
               "obtained": false
             }
           ],
@@ -2946,7 +2963,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            342
+            338
           ]
         }
       ],
@@ -2977,7 +2994,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 342,
+              "id": 338,
               "obtained": false
             }
           ],
@@ -3079,7 +3096,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            337
+            333
           ]
         }
       ],
@@ -3110,7 +3127,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 337,
+              "id": 333,
               "obtained": false
             }
           ],
@@ -3146,8 +3163,8 @@
           "ids": [
             133,
             134,
-            285,
-            286
+            282,
+            283
           ]
         }
       ],
@@ -3354,7 +3371,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 285,
+              "id": 282,
               "obtained": false
             }
           ],
@@ -3393,7 +3410,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 286,
+              "id": 283,
               "obtained": false
             }
           ],
@@ -3434,7 +3451,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            386
+            380
           ]
         }
       ],
@@ -3469,7 +3486,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 386,
+              "id": 380,
               "obtained": false
             }
           ],
@@ -3813,7 +3830,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            291
+            288
           ]
         }
       ],
@@ -3841,7 +3858,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 291,
+              "id": 288,
               "obtained": false
             }
           ],
@@ -3871,7 +3888,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            465
+            457
           ]
         }
       ],
@@ -3902,7 +3919,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 465,
+              "id": 457,
               "obtained": false
             }
           ],
@@ -4006,7 +4023,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            235
+            234
           ]
         }
       ],
@@ -4037,7 +4054,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 235,
+              "id": 234,
               "obtained": false
             }
           ],
@@ -4131,7 +4148,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            489
+            481
           ]
         }
       ],
@@ -4167,7 +4184,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 489,
+              "id": 481,
               "obtained": false
             }
           ],
@@ -4254,7 +4271,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            408
+            401
           ]
         }
       ],
@@ -4291,7 +4308,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 408,
+              "id": 401,
               "obtained": false
             }
           ],
@@ -4816,7 +4833,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            495
+            487
           ]
         }
       ],
@@ -4847,7 +4864,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 495,
+              "id": 487,
               "obtained": false
             }
           ],
@@ -4991,7 +5008,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            339
+            335
           ]
         }
       ],
@@ -5022,7 +5039,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 339,
+              "id": 335,
               "obtained": false
             }
           ],
@@ -5293,7 +5310,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            350
+            346
           ]
         }
       ],
@@ -5325,7 +5342,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 350,
+              "id": 346,
               "obtained": false
             }
           ],
@@ -5361,7 +5378,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            472
+            464
           ]
         }
       ],
@@ -5392,7 +5409,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 472,
+              "id": 464,
               "obtained": false
             }
           ],
@@ -5426,7 +5443,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            462
+            454
           ]
         }
       ],
@@ -5457,7 +5474,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 462,
+              "id": 454,
               "obtained": false
             }
           ],
@@ -5556,6 +5573,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
+            236,
             237,
             238,
             239,
@@ -5592,21 +5610,17 @@
             270,
             271,
             272,
-            273,
-            274,
-            275,
-            281,
+            278,
+            392,
+            393,
+            394,
+            395,
+            396,
+            397,
             398,
             399,
             400,
-            401,
-            402,
-            403,
-            404,
-            405,
-            406,
-            407,
-            496
+            488
           ]
         }
       ],
@@ -5616,54 +5630,60 @@
       "Name": "Iselda",
       "Items": [
         {
-          "$type": "AccessRandomizer.IC.BirthplaceKeyItem, AccessRandomizer",
-          "name": "Birthplace_Key",
+          "$type": "ItemChanger.Items.SpellItem, ItemChanger",
+          "fieldName": "screamLevel",
+          "spellLevel": 2,
+          "name": "Abyss_Shriek",
           "UIDef": {
-            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+            "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+            "bigSprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "Prompts.Scream2"
+            },
+            "take": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_ITEM_INTRO3"
+            },
+            "press": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "BUTTON_DESC_TAP"
+            },
+            "buttonSkin": {
+              "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
+              "button": "QUICK_CAST"
+            },
+            "descOne": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_SCREAM2_1"
+            },
+            "descTwo": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_SCREAM2_2"
+            },
             "name": {
-              "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "Birthplace Key"
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "INV_NAME_SPELL_SCREAM2"
             },
             "shopDesc": {
-              "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "I am the shadow, the keeper of light. If you want the sun's power, then show me your own."
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "INV_DESC_SPELL_SCREAM2"
             },
             "sprite": {
-              "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-              "Key": "BirthplaceKey"
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Scream2"
             }
           },
           "tags": [
             {
-              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-              "Properties": {
-                "ModSource": "AccessRandomizer",
-                "PoolGroup": "Keys",
-                "PinSprite": {
-                  "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-                  "Key": "BirthplaceKey"
-                }
-              },
-              "Message": "RandoSupplementalMetadata"
-            },
-            {
-              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-              "Properties": {
-                "CanMimic": {
-                  "$type": "ItemChanger.BoxedBool, ItemChanger",
-                  "Value": true
-                },
-                "MimicNames": {
-                  "$type": "System.String[], mscorlib",
-                  "$values": [
-                    "Birthday Key",
-                    "Void Heart [67]",
-                    "Birtplace Key",
-                    "Birthplace"
-                  ]
-                }
-              },
-              "Message": "CurseData"
+              "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
+              "predecessor": "Howling_Wraiths",
+              "successor": null
             },
             {
               "$type": "ItemChanger.CostTag, ItemChanger",
@@ -5676,7 +5696,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 237,
+              "id": 236,
               "obtained": false
             }
           ],
@@ -5749,6 +5769,79 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 237,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.BoolItem, ItemChanger",
+          "fieldName": "dreamNailUpgraded",
+          "setValue": true,
+          "name": "Awoken_Dream_Nail",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+            "bigSprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "Prompts.Dreamnail"
+            },
+            "take": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_ITEM_INTRO5"
+            },
+            "press": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "BUTTON_DESC_HOLD"
+            },
+            "buttonSkin": {
+              "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
+              "button": "DREAM_NAIL"
+            },
+            "descOne": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_DREAMNAILUPGRADE_1"
+            },
+            "descTwo": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_DREAMNAILUPGRADE_2"
+            },
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "INV_NAME_DREAMNAIL_B"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "INV_DESC_DREAMNAIL_B"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Dreamnail"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
+              "predecessor": "Dream_Gate",
+              "successor": null
+            },
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
               "id": 238,
               "obtained": false
             }
@@ -5756,59 +5849,59 @@
           "obtainState": "Unobtained"
         },
         {
-          "$type": "ItemChanger.Items.SpellItem, ItemChanger",
-          "fieldName": "screamLevel",
-          "spellLevel": 2,
-          "name": "Abyss_Shriek",
+          "$type": "ItemChanger.Items.BoolItem, ItemChanger",
+          "fieldName": "dreamNailUpgraded",
+          "setValue": true,
+          "name": "Awoken_Dream_Nail",
           "UIDef": {
             "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
             "bigSprite": {
               "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "Prompts.Scream2"
+              "key": "Prompts.Dreamnail"
             },
             "take": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_ITEM_INTRO3"
+              "key": "GET_ITEM_INTRO5"
             },
             "press": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "BUTTON_DESC_TAP"
+              "key": "BUTTON_DESC_HOLD"
             },
             "buttonSkin": {
               "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
-              "button": "QUICK_CAST"
+              "button": "DREAM_NAIL"
             },
             "descOne": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_SCREAM2_1"
+              "key": "GET_DREAMNAILUPGRADE_1"
             },
             "descTwo": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_SCREAM2_2"
+              "key": "GET_DREAMNAILUPGRADE_2"
             },
             "name": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "UI",
-              "key": "INV_NAME_SPELL_SCREAM2"
+              "key": "INV_NAME_DREAMNAIL_B"
             },
             "shopDesc": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "UI",
-              "key": "INV_DESC_SPELL_SCREAM2"
+              "key": "INV_DESC_DREAMNAIL_B"
             },
             "sprite": {
               "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Scream2"
+              "key": "ShopIcons.Dreamnail"
             }
           },
           "tags": [
             {
               "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
-              "predecessor": "Howling_Wraiths",
+              "predecessor": "Dream_Gate",
               "successor": null
             },
             {
@@ -5902,219 +5995,6 @@
           "obtainState": "Unobtained"
         },
         {
-          "$type": "ItemChanger.Items.BoolItem, ItemChanger",
-          "fieldName": "dreamNailUpgraded",
-          "setValue": true,
-          "name": "Awoken_Dream_Nail",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
-            "bigSprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "Prompts.Dreamnail"
-            },
-            "take": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_ITEM_INTRO5"
-            },
-            "press": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "BUTTON_DESC_HOLD"
-            },
-            "buttonSkin": {
-              "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
-              "button": "DREAM_NAIL"
-            },
-            "descOne": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_DREAMNAILUPGRADE_1"
-            },
-            "descTwo": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_DREAMNAILUPGRADE_2"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_NAME_DREAMNAIL_B"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_DESC_DREAMNAIL_B"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Dreamnail"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
-              "predecessor": "Dream_Gate",
-              "successor": null
-            },
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 241,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.BoolItem, ItemChanger",
-          "fieldName": "dreamNailUpgraded",
-          "setValue": true,
-          "name": "Awoken_Dream_Nail",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
-            "bigSprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "Prompts.Dreamnail"
-            },
-            "take": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_ITEM_INTRO5"
-            },
-            "press": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "BUTTON_DESC_HOLD"
-            },
-            "buttonSkin": {
-              "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
-              "button": "DREAM_NAIL"
-            },
-            "descOne": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_DREAMNAILUPGRADE_1"
-            },
-            "descTwo": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_DREAMNAILUPGRADE_2"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_NAME_DREAMNAIL_B"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_DESC_DREAMNAIL_B"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Dreamnail"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
-              "predecessor": "Dream_Gate",
-              "successor": null
-            },
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 242,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "AccessRandomizer.IC.BrettaKeyItem, AccessRandomizer",
-          "name": "Bretta_Key",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
-            "name": {
-              "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "Bretta Key"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "I hope you rescue me out of chivalry even though you can enter my home. -Bretta"
-            },
-            "sprite": {
-              "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-              "Key": "BrettaKey"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-              "Properties": {
-                "ModSource": "AccessRandomizer",
-                "PoolGroup": "Keys",
-                "PinSprite": {
-                  "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-                  "Key": "BrettaKey"
-                }
-              },
-              "Message": "RandoSupplementalMetadata"
-            },
-            {
-              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-              "Properties": {
-                "CanMimic": {
-                  "$type": "ItemChanger.BoxedBool, ItemChanger",
-                  "Value": true
-                },
-                "MimicNames": {
-                  "$type": "System.String[], mscorlib",
-                  "$values": [
-                    "Brettor Key",
-                    "Greta Key",
-                    "Barret Key",
-                    "Baretta Key"
-                  ]
-                }
-              },
-              "Message": "CurseData"
-            },
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 243,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
           "$type": "CorruptedDreamsPlando.Skills.DeterminationItem, CorruptedDreamsPlando",
           "name": "CorruptedDreams_Determination",
           "UIDef": {
@@ -6169,7 +6049,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 244,
+              "id": 241,
               "obtained": false
             }
           ],
@@ -6227,7 +6107,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 245,
+              "id": 242,
               "obtained": false
             }
           ],
@@ -6300,7 +6180,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 246,
+              "id": 243,
               "obtained": false
             }
           ],
@@ -6373,7 +6253,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 247,
+              "id": 244,
               "obtained": false
             }
           ],
@@ -6412,7 +6292,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 248,
+              "id": 245,
               "obtained": false
             }
           ],
@@ -6458,7 +6338,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 249,
+              "id": 246,
               "obtained": false
             }
           ],
@@ -6533,7 +6413,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 250,
+              "id": 247,
               "obtained": false
             }
           ],
@@ -6594,7 +6474,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 251,
+              "id": 248,
               "obtained": false
             }
           ],
@@ -6634,7 +6514,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 252,
+              "id": 249,
               "obtained": false
             }
           ],
@@ -6679,7 +6559,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 253,
+              "id": 250,
               "obtained": false
             }
           ],
@@ -6724,7 +6604,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 254,
+              "id": 251,
               "obtained": false
             }
           ],
@@ -6769,7 +6649,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 255,
+              "id": 252,
               "obtained": false
             }
           ],
@@ -6814,7 +6694,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 256,
+              "id": 253,
               "obtained": false
             }
           ],
@@ -6881,7 +6761,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 257,
+              "id": 254,
               "obtained": false
             }
           ],
@@ -6943,7 +6823,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 258,
+              "id": 255,
               "obtained": false
             }
           ],
@@ -7005,6 +6885,227 @@
             {
               "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
               "predecessor": "Mothwing_Cloak",
+              "successor": null
+            },
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 256,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.ShadeCloakItem, ItemChanger",
+          "fieldNames": [
+            "hasShadowDash",
+            "canShadowDash"
+          ],
+          "name": "Shade_Cloak",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+            "bigSprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "Prompts.Shadowdash"
+            },
+            "take": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_ITEM_INTRO7"
+            },
+            "press": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "BUTTON_DESC_PRESS"
+            },
+            "buttonSkin": {
+              "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
+              "button": "DASH"
+            },
+            "descOne": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_SHADOWDASH_1"
+            },
+            "descTwo": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_SHADOWDASH_2"
+            },
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_SHOP_NAME_SHADOWDASH"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_SHOP_DESC_SHADOWDASH"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Shadowdash"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
+              "predecessor": "Mothwing_Cloak",
+              "successor": null
+            },
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 257,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.SpellItem, ItemChanger",
+          "fieldName": "fireballLevel",
+          "spellLevel": 2,
+          "name": "Shade_Soul",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+            "bigSprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "Prompts.Fireball2"
+            },
+            "take": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_ITEM_INTRO3"
+            },
+            "press": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "BUTTON_DESC_TAP"
+            },
+            "buttonSkin": {
+              "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
+              "button": "QUICK_CAST"
+            },
+            "descOne": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_FIREBALL2_1"
+            },
+            "descTwo": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_FIREBALL2_2"
+            },
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "INV_NAME_SPELL_FIREBALL2"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "INV_DESC_SPELL_FIREBALL2"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Fireball2"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
+              "predecessor": "Vengeful_Spirit",
+              "successor": null
+            },
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 258,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.SpellItem, ItemChanger",
+          "fieldName": "fireballLevel",
+          "spellLevel": 2,
+          "name": "Shade_Soul",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+            "bigSprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "Prompts.Fireball2"
+            },
+            "take": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_ITEM_INTRO3"
+            },
+            "press": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "BUTTON_DESC_TAP"
+            },
+            "buttonSkin": {
+              "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
+              "button": "QUICK_CAST"
+            },
+            "descOne": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_FIREBALL2_1"
+            },
+            "descTwo": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "Prompts",
+              "key": "GET_FIREBALL2_2"
+            },
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "INV_NAME_SPELL_FIREBALL2"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "INV_DESC_SPELL_FIREBALL2"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Fireball2"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
+              "predecessor": "Vengeful_Spirit",
               "successor": null
             },
             {
@@ -7025,63 +7126,56 @@
           "obtainState": "Unobtained"
         },
         {
-          "$type": "ItemChanger.Items.ShadeCloakItem, ItemChanger",
-          "fieldNames": [
-            "hasShadowDash",
-            "canShadowDash"
-          ],
-          "name": "Shade_Cloak",
+          "$type": "ItemChanger.Items.BoolItem, ItemChanger",
+          "fieldName": "hasPinGrub",
+          "setValue": true,
+          "name": "Collector's_Map",
           "UIDef": {
             "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
             "bigSprite": {
               "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "Prompts.Shadowdash"
+              "key": "Prompts.CollectorsMap"
             },
             "take": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_ITEM_INTRO7"
+              "key": "GET_ITEM_INTRO1"
             },
             "press": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "BUTTON_DESC_PRESS"
+              "key": "BUTTON_DESC_HOLD"
             },
             "buttonSkin": {
               "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
-              "button": "DASH"
+              "button": "QUICK_MAP"
             },
             "descOne": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_SHADOWDASH_1"
+              "key": "GET_MAP_2"
             },
             "descTwo": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_SHADOWDASH_2"
+              "key": "GET_COLLECTOR_MAP"
             },
             "name": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_SHOP_NAME_SHADOWDASH"
+              "sheet": "Prompts",
+              "key": "COLLECTOR_MAP"
             },
             "shopDesc": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "UI",
-              "key": "ITEMCHANGER_SHOP_DESC_SHADOWDASH"
+              "key": "ITEMCHANGER_GET_COLLECTOR_MAP"
             },
             "sprite": {
               "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Shadowdash"
+              "key": "ShopIcons.CollectorsMap"
             }
           },
           "tags": [
-            {
-              "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
-              "predecessor": "Mothwing_Cloak",
-              "successor": null
-            },
             {
               "$type": "ItemChanger.CostTag, ItemChanger",
               "Cost": {
@@ -7100,61 +7194,56 @@
           "obtainState": "Unobtained"
         },
         {
-          "$type": "ItemChanger.Items.SpellItem, ItemChanger",
-          "fieldName": "fireballLevel",
-          "spellLevel": 2,
-          "name": "Shade_Soul",
+          "$type": "ItemChanger.Items.BoolItem, ItemChanger",
+          "fieldName": "hasPinGrub",
+          "setValue": true,
+          "name": "Collector's_Map",
           "UIDef": {
             "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
             "bigSprite": {
               "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "Prompts.Fireball2"
+              "key": "Prompts.CollectorsMap"
             },
             "take": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_ITEM_INTRO3"
+              "key": "GET_ITEM_INTRO1"
             },
             "press": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "BUTTON_DESC_TAP"
+              "key": "BUTTON_DESC_HOLD"
             },
             "buttonSkin": {
               "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
-              "button": "QUICK_CAST"
+              "button": "QUICK_MAP"
             },
             "descOne": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_FIREBALL2_1"
+              "key": "GET_MAP_2"
             },
             "descTwo": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "Prompts",
-              "key": "GET_FIREBALL2_2"
+              "key": "GET_COLLECTOR_MAP"
             },
             "name": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_NAME_SPELL_FIREBALL2"
+              "sheet": "Prompts",
+              "key": "COLLECTOR_MAP"
             },
             "shopDesc": {
               "$type": "ItemChanger.LanguageString, ItemChanger",
               "sheet": "UI",
-              "key": "INV_DESC_SPELL_FIREBALL2"
+              "key": "ITEMCHANGER_GET_COLLECTOR_MAP"
             },
             "sprite": {
               "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Fireball2"
+              "key": "ShopIcons.CollectorsMap"
             }
           },
           "tags": [
-            {
-              "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
-              "predecessor": "Vengeful_Spirit",
-              "successor": null
-            },
             {
               "$type": "ItemChanger.CostTag, ItemChanger",
               "Cost": {
@@ -7167,215 +7256,6 @@
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
               "id": 261,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.SpellItem, ItemChanger",
-          "fieldName": "fireballLevel",
-          "spellLevel": 2,
-          "name": "Shade_Soul",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
-            "bigSprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "Prompts.Fireball2"
-            },
-            "take": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_ITEM_INTRO3"
-            },
-            "press": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "BUTTON_DESC_TAP"
-            },
-            "buttonSkin": {
-              "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
-              "button": "QUICK_CAST"
-            },
-            "descOne": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_FIREBALL2_1"
-            },
-            "descTwo": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_FIREBALL2_2"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_NAME_SPELL_FIREBALL2"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_DESC_SPELL_FIREBALL2"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Fireball2"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.Tags.ItemChainTag, ItemChanger",
-              "predecessor": "Vengeful_Spirit",
-              "successor": null
-            },
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 262,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.BoolItem, ItemChanger",
-          "fieldName": "hasPinGrub",
-          "setValue": true,
-          "name": "Collector's_Map",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
-            "bigSprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "Prompts.CollectorsMap"
-            },
-            "take": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_ITEM_INTRO1"
-            },
-            "press": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "BUTTON_DESC_HOLD"
-            },
-            "buttonSkin": {
-              "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
-              "button": "QUICK_MAP"
-            },
-            "descOne": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_MAP_2"
-            },
-            "descTwo": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_COLLECTOR_MAP"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "COLLECTOR_MAP"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_GET_COLLECTOR_MAP"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.CollectorsMap"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 263,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.BoolItem, ItemChanger",
-          "fieldName": "hasPinGrub",
-          "setValue": true,
-          "name": "Collector's_Map",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
-            "bigSprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "Prompts.CollectorsMap"
-            },
-            "take": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_ITEM_INTRO1"
-            },
-            "press": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "BUTTON_DESC_HOLD"
-            },
-            "buttonSkin": {
-              "$type": "ItemChanger.UIDefs.HeroActionButtonSkin, ItemChanger",
-              "button": "QUICK_MAP"
-            },
-            "descOne": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_MAP_2"
-            },
-            "descTwo": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "GET_COLLECTOR_MAP"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "Prompts",
-              "key": "COLLECTOR_MAP"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_GET_COLLECTOR_MAP"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.CollectorsMap"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 264,
               "obtained": false
             }
           ],
@@ -7414,7 +7294,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 265,
+              "id": 262,
               "obtained": false
             }
           ],
@@ -7454,12 +7334,129 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 266,
+              "id": 263,
               "obtained": false
             }
           ],
           "obtainState": "Unobtained",
           "gotBool": "gotCharm_33"
+        },
+        {
+          "$type": "ItemChanger.Items.VesselFragmentItem, ItemChanger",
+          "amount": 1,
+          "name": "Vessel_Fragment",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "INV_NAME_SOULORBS_1"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "SHOP_DESC_SOULORBS_1"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.VesselFragment"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 264,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.VesselFragmentItem, ItemChanger",
+          "amount": 1,
+          "name": "Vessel_Fragment",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "INV_NAME_SOULORBS_1"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "SHOP_DESC_SOULORBS_1"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.VesselFragment"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 265,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.VesselFragmentItem, ItemChanger",
+          "amount": 1,
+          "name": "Vessel_Fragment",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "INV_NAME_SOULORBS_1"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "SHOP_DESC_SOULORBS_1"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.VesselFragment"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 266,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
         },
         {
           "$type": "ItemChanger.Items.VesselFragmentItem, ItemChanger",
@@ -7696,123 +7693,6 @@
           "obtainState": "Unobtained"
         },
         {
-          "$type": "ItemChanger.Items.VesselFragmentItem, ItemChanger",
-          "amount": 1,
-          "name": "Vessel_Fragment",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_NAME_SOULORBS_1"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "SHOP_DESC_SOULORBS_1"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.VesselFragment"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 273,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.VesselFragmentItem, ItemChanger",
-          "amount": 1,
-          "name": "Vessel_Fragment",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_NAME_SOULORBS_1"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "SHOP_DESC_SOULORBS_1"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.VesselFragment"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 274,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.VesselFragmentItem, ItemChanger",
-          "amount": 1,
-          "name": "Vessel_Fragment",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_NAME_SOULORBS_1"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "SHOP_DESC_SOULORBS_1"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.VesselFragment"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 275,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
           "$type": "ItemChanger.Items.CustomSkillItem, ItemChanger",
           "boolName": "hasElevatorPass",
           "moduleName": "ItemChanger.Modules.ElevatorPass, ItemChanger",
@@ -7844,62 +7724,310 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 281,
+              "id": 278,
               "obtained": false
             }
           ],
           "obtainState": "Unobtained"
         },
         {
-          "$type": "AccessRandomizer.IC.ZoteKeyItem, AccessRandomizer",
-          "name": "Zote_Key",
+          "$type": "ItemChanger.Items.IntItem, ItemChanger",
+          "fieldName": "flamesCollected",
+          "amount": 1,
+          "name": "Grimmkin_Flame",
           "UIDef": {
-            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
+            "preview": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
+            },
             "name": {
-              "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "Zote Key"
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
             },
             "shopDesc": {
-              "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "Now where did I leave this one? -Cornifer"
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
             },
             "sprite": {
-              "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-              "Key": "ZoteKey"
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Flame"
             }
           },
           "tags": [
             {
-              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-              "Properties": {
-                "ModSource": "AccessRandomizer",
-                "PoolGroup": "Keys",
-                "PinSprite": {
-                  "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-                  "Key": "ZoteKey"
-                }
-              },
-              "Message": "RandoSupplementalMetadata"
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
             },
             {
-              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-              "Properties": {
-                "CanMimic": {
-                  "$type": "ItemChanger.BoxedBool, ItemChanger",
-                  "Value": true
-                },
-                "MimicNames": {
-                  "$type": "System.String[], mscorlib",
-                  "$values": [
-                    "Zone Key",
-                    "Zotte Key",
-                    "Invincible fearless etc key",
-                    "Z o t e"
-                  ]
-                }
-              },
-              "Message": "CurseData"
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 392,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.IntItem, ItemChanger",
+          "fieldName": "flamesCollected",
+          "amount": 1,
+          "name": "Grimmkin_Flame",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
+            "preview": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
             },
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Flame"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 393,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.IntItem, ItemChanger",
+          "fieldName": "flamesCollected",
+          "amount": 1,
+          "name": "Grimmkin_Flame",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
+            "preview": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
+            },
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Flame"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 394,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.IntItem, ItemChanger",
+          "fieldName": "flamesCollected",
+          "amount": 1,
+          "name": "Grimmkin_Flame",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
+            "preview": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
+            },
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Flame"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 395,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.IntItem, ItemChanger",
+          "fieldName": "flamesCollected",
+          "amount": 1,
+          "name": "Grimmkin_Flame",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
+            "preview": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
+            },
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Flame"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 396,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.IntItem, ItemChanger",
+          "fieldName": "flamesCollected",
+          "amount": 1,
+          "name": "Grimmkin_Flame",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
+            "preview": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
+            },
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Flame"
+            }
+          },
+          "tags": [
+            {
+              "$type": "ItemChanger.CostTag, ItemChanger",
+              "Cost": {
+                "$type": "ItemChanger.GeoCost, ItemChanger",
+                "amount": 1,
+                "Paid": false,
+                "DiscountRate": 1.0
+              }
+            },
+            {
+              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
+              "id": 397,
+              "obtained": false
+            }
+          ],
+          "obtainState": "Unobtained"
+        },
+        {
+          "$type": "ItemChanger.Items.IntItem, ItemChanger",
+          "fieldName": "flamesCollected",
+          "amount": 1,
+          "name": "Grimmkin_Flame",
+          "UIDef": {
+            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
+            "preview": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
+            },
+            "name": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
+            },
+            "shopDesc": {
+              "$type": "ItemChanger.LanguageString, ItemChanger",
+              "sheet": "UI",
+              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
+            },
+            "sprite": {
+              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
+              "key": "ShopIcons.Flame"
+            }
+          },
+          "tags": [
             {
               "$type": "ItemChanger.CostTag, ItemChanger",
               "Cost": {
@@ -8008,321 +8136,6 @@
           "obtainState": "Unobtained"
         },
         {
-          "$type": "ItemChanger.Items.IntItem, ItemChanger",
-          "fieldName": "flamesCollected",
-          "amount": 1,
-          "name": "Grimmkin_Flame",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
-            "preview": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Flame"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 401,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.IntItem, ItemChanger",
-          "fieldName": "flamesCollected",
-          "amount": 1,
-          "name": "Grimmkin_Flame",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
-            "preview": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Flame"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 402,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.IntItem, ItemChanger",
-          "fieldName": "flamesCollected",
-          "amount": 1,
-          "name": "Grimmkin_Flame",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
-            "preview": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Flame"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 403,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.IntItem, ItemChanger",
-          "fieldName": "flamesCollected",
-          "amount": 1,
-          "name": "Grimmkin_Flame",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
-            "preview": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Flame"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 404,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.IntItem, ItemChanger",
-          "fieldName": "flamesCollected",
-          "amount": 1,
-          "name": "Grimmkin_Flame",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
-            "preview": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Flame"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 405,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.IntItem, ItemChanger",
-          "fieldName": "flamesCollected",
-          "amount": 1,
-          "name": "Grimmkin_Flame",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
-            "preview": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Flame"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 406,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "ItemChanger.Items.IntItem, ItemChanger",
-          "fieldName": "flamesCollected",
-          "amount": 1,
-          "name": "Grimmkin_Flame",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.SplitUIDef, ItemChanger",
-            "preview": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_NAME_GRIMMKIN_FLAME"
-            },
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_POSTVIEW_GRIMMKIN_FLAME"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_DESC_GRIMMKIN_FLAME"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Flame"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.CostTag, ItemChanger",
-              "Cost": {
-                "$type": "ItemChanger.GeoCost, ItemChanger",
-                "amount": 1,
-                "Paid": false,
-                "DiscountRate": 1.0
-              }
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 407,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
           "$type": "ItemChanger.Items.Grimmchild1Item, ItemChanger",
           "charmNum": 40,
           "name": "Grimmchild1",
@@ -8355,7 +8168,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 496,
+              "id": 488,
               "obtained": false
             }
           ],
@@ -8393,7 +8206,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            332
+            328
           ]
         }
       ],
@@ -8424,7 +8237,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 332,
+              "id": 328,
               "obtained": false
             }
           ],
@@ -8458,7 +8271,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            460
+            452
           ]
         }
       ],
@@ -8489,7 +8302,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 460,
+              "id": 452,
               "obtained": false
             }
           ],
@@ -8523,7 +8336,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            461
+            453
           ]
         }
       ],
@@ -8554,7 +8367,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 461,
+              "id": 453,
               "obtained": false
             }
           ],
@@ -8668,7 +8481,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            469
+            461
           ]
         }
       ],
@@ -8699,7 +8512,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 469,
+              "id": 461,
               "obtained": false
             }
           ],
@@ -8783,7 +8596,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            478
+            470
           ]
         }
       ],
@@ -8842,7 +8655,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 478,
+              "id": 470,
               "obtained": false
             }
           ],
@@ -8984,7 +8797,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            473
+            465
           ]
         }
       ],
@@ -9017,7 +8830,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 473,
+              "id": 465,
               "obtained": false
             }
           ],
@@ -9043,7 +8856,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            397
+            391
           ]
         }
       ],
@@ -9087,7 +8900,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 397,
+              "id": 391,
               "obtained": false
             }
           ],
@@ -9117,7 +8930,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            300
+            296
           ]
         }
       ],
@@ -9149,7 +8962,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 300,
+              "id": 296,
               "obtained": false
             }
           ],
@@ -9576,7 +9389,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            391
+            385
           ]
         }
       ],
@@ -9620,7 +9433,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 391,
+              "id": 385,
               "obtained": false
             }
           ],
@@ -9720,7 +9533,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            335
+            331
           ]
         }
       ],
@@ -9751,7 +9564,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 335,
+              "id": 331,
               "obtained": false
             }
           ],
@@ -9774,7 +9587,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            486
+            478
           ]
         }
       ],
@@ -9810,7 +9623,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 486,
+              "id": 478,
               "obtained": false
             }
           ],
@@ -9917,7 +9730,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            376
+            370
           ]
         }
       ],
@@ -9948,7 +9761,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 376,
+              "id": 370,
               "obtained": false
             }
           ],
@@ -9984,7 +9797,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            349
+            345
           ]
         }
       ],
@@ -10016,7 +9829,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 349,
+              "id": 345,
               "obtained": false
             }
           ],
@@ -10042,7 +9855,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            442
+            435
           ]
         }
       ],
@@ -10073,7 +9886,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 442,
+              "id": 435,
               "obtained": false
             }
           ],
@@ -10096,7 +9909,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            474
+            466
           ]
         }
       ],
@@ -10128,7 +9941,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 474,
+              "id": 466,
               "obtained": false
             }
           ],
@@ -10287,7 +10100,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            322
+            318
           ]
         }
       ],
@@ -10319,7 +10132,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 322,
+              "id": 318,
               "obtained": false
             }
           ],
@@ -10436,7 +10249,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            449
+            442
           ]
         }
       ],
@@ -10467,7 +10280,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 449,
+              "id": 442,
               "obtained": false
             }
           ],
@@ -10550,7 +10363,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            441
+            434
           ]
         }
       ],
@@ -10579,7 +10392,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 441,
+              "id": 434,
               "obtained": false
             }
           ],
@@ -10673,7 +10486,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            333
+            329
           ]
         }
       ],
@@ -10704,7 +10517,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 333,
+              "id": 329,
               "obtained": false
             }
           ],
@@ -10730,7 +10543,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            439
+            432
           ]
         }
       ],
@@ -10767,94 +10580,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 439,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        }
-      ],
-      "Visited": "None"
-    },
-    "Birthplace_Key": {
-      "$type": "ItemChanger.Placements.MutablePlacement, ItemChanger",
-      "Location": {
-        "$type": "AccessRandomizer.IC.BirthplaceKeyLocation, AccessRandomizer",
-        "x": 17.4,
-        "y": 5.4,
-        "elevation": 0.0,
-        "managed": false,
-        "forceShiny": false,
-        "name": "Birthplace_Key",
-        "sceneName": "Abyss_06_Core",
-        "flingType": "Everywhere",
-        "tags": [
-          {
-            "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-            "Properties": {
-              "ModSource": "AccessRandomizer",
-              "PoolGroup": "Keys",
-              "PinSprite": {
-                "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-                "Key": "BirthplaceKey"
-              },
-              "VanillaItem": "Birthplace_Key",
-              "WorldMapLocations": {
-                "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
-                "$values": [
-                  {
-                    "Item1": "Abyss_06_Core",
-                    "Item2": 17.4,
-                    "Item3": 5.4
-                  }
-                ]
-              }
-            },
-            "Message": "RandoSupplementalMetadata"
-          }
-        ]
-      },
-      "containerType": "Unknown",
-      "tags": [
-        {
-          "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
-          "ids": [
-            369
-          ]
-        }
-      ],
-      "Cost": null,
-      "Name": "Birthplace_Key",
-      "Items": [
-        {
-          "$type": "ItemChanger.Items.LifebloodItem, ItemChanger",
-          "amount": 2,
-          "name": "Lifeblood_Cocoon_Small",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_NAME_LIFEBLOOD_COCOON_SMALL"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "ITEMCHANGER_DESC_LIFEBLOOD_COCOON"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.Lifeblood"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.Tags.PersistentItemTag, ItemChanger",
-              "Persistence": "SemiPersistent"
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 369,
+              "id": 432,
               "obtained": false
             }
           ],
@@ -10878,7 +10604,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            443
+            436
           ]
         }
       ],
@@ -10910,7 +10636,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 443,
+              "id": 436,
               "obtained": false
             }
           ],
@@ -10950,7 +10676,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            236
+            235
           ]
         }
       ],
@@ -10981,7 +10707,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 236,
+              "id": 235,
               "obtained": false
             }
           ],
@@ -11069,7 +10795,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            377
+            371
           ]
         }
       ],
@@ -11117,7 +10843,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 377,
+              "id": 371,
               "obtained": false
             }
           ],
@@ -11205,7 +10931,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            466
+            458
           ]
         }
       ],
@@ -11236,7 +10962,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 466,
+              "id": 458,
               "obtained": false
             }
           ],
@@ -11324,8 +11050,8 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            309,
-            314
+            305,
+            310
           ]
         }
       ],
@@ -11363,7 +11089,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 309,
+              "id": 305,
               "obtained": false
             }
           ],
@@ -11399,7 +11125,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 314,
+              "id": 310,
               "obtained": false
             }
           ],
@@ -11435,7 +11161,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            423
+            416
           ]
         }
       ],
@@ -11472,7 +11198,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 423,
+              "id": 416,
               "obtained": false
             }
           ],
@@ -11520,7 +11246,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            381
+            375
           ]
         }
       ],
@@ -11551,7 +11277,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 381,
+              "id": 375,
               "obtained": false
             }
           ],
@@ -11648,7 +11374,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            368
+            363
           ]
         }
       ],
@@ -11683,7 +11409,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 368,
+              "id": 363,
               "obtained": false
             }
           ],
@@ -11769,7 +11495,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            283
+            280
           ]
         }
       ],
@@ -11800,7 +11526,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 283,
+              "id": 280,
               "obtained": false
             }
           ],
@@ -11826,7 +11552,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            319
+            315
           ]
         }
       ],
@@ -11858,7 +11584,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 319,
+              "id": 315,
               "obtained": false
             }
           ],
@@ -12028,7 +11754,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            234
+            233
           ]
         }
       ],
@@ -12072,7 +11798,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 234,
+              "id": 233,
               "obtained": false
             }
           ],
@@ -12220,8 +11946,8 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            308,
-            313
+            304,
+            309
           ]
         }
       ],
@@ -12259,7 +11985,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 308,
+              "id": 304,
               "obtained": false
             }
           ],
@@ -12295,7 +12021,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 313,
+              "id": 309,
               "obtained": false
             }
           ],
@@ -12337,7 +12063,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            344
+            340
           ]
         }
       ],
@@ -12368,7 +12094,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 344,
+              "id": 340,
               "obtained": false
             }
           ],
@@ -12394,7 +12120,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            366
+            361
           ]
         }
       ],
@@ -12429,7 +12155,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 366,
+              "id": 361,
               "obtained": false
             }
           ],
@@ -12455,7 +12181,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            417
+            410
           ]
         }
       ],
@@ -12492,7 +12218,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 417,
+              "id": 410,
               "obtained": false
             }
           ],
@@ -12576,7 +12302,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            365
+            360
           ]
         }
       ],
@@ -12611,7 +12337,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 365,
+              "id": 360,
               "obtained": false
             }
           ],
@@ -12792,7 +12518,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            394
+            388
           ]
         }
       ],
@@ -12836,7 +12562,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 394,
+              "id": 388,
               "obtained": false
             }
           ],
@@ -12923,7 +12649,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            341
+            337
           ]
         }
       ],
@@ -12954,7 +12680,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 341,
+              "id": 337,
               "obtained": false
             }
           ],
@@ -12984,7 +12710,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            479
+            471
           ]
         }
       ],
@@ -13014,7 +12740,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 479,
+              "id": 471,
               "obtained": false
             }
           ],
@@ -13037,7 +12763,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            379
+            373
           ]
         }
       ],
@@ -13069,7 +12795,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 379,
+              "id": 373,
               "obtained": false
             }
           ],
@@ -13307,7 +13033,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            383
+            377
           ]
         }
       ],
@@ -13344,7 +13070,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 383,
+              "id": 377,
               "obtained": false
             }
           ],
@@ -13627,7 +13353,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            416
+            409
           ]
         }
       ],
@@ -13664,7 +13390,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 416,
+              "id": 409,
               "obtained": false
             }
           ],
@@ -13780,7 +13506,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            354
+            350
           ]
         }
       ],
@@ -13812,7 +13538,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 354,
+              "id": 350,
               "obtained": false
             }
           ],
@@ -14154,7 +13880,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            362
+            357
           ]
         }
       ],
@@ -14182,7 +13908,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 362,
+              "id": 357,
               "obtained": false
             }
           ],
@@ -14208,7 +13934,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            434
+            427
           ]
         }
       ],
@@ -14245,7 +13971,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 434,
+              "id": 427,
               "obtained": false
             }
           ],
@@ -14271,7 +13997,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            326
+            322
           ]
         }
       ],
@@ -14303,7 +14029,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 326,
+              "id": 322,
               "obtained": false
             }
           ],
@@ -14329,7 +14055,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            468
+            460
           ]
         }
       ],
@@ -14360,7 +14086,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 468,
+              "id": 460,
               "obtained": false
             }
           ],
@@ -14404,7 +14130,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            413
+            406
           ]
         }
       ],
@@ -14441,7 +14167,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 413,
+              "id": 406,
               "obtained": false
             }
           ],
@@ -14528,7 +14254,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            359
+            355
           ]
         }
       ],
@@ -14560,7 +14286,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 359,
+              "id": 355,
               "obtained": false
             }
           ],
@@ -14586,7 +14312,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            324
+            320
           ]
         }
       ],
@@ -14618,7 +14344,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 324,
+              "id": 320,
               "obtained": false
             }
           ],
@@ -14706,7 +14432,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            327
+            323
           ]
         }
       ],
@@ -14738,7 +14464,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 327,
+              "id": 323,
               "obtained": false
             }
           ],
@@ -14768,7 +14494,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            280
+            277
           ]
         }
       ],
@@ -14798,7 +14524,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 280,
+              "id": 277,
               "obtained": false
             }
           ],
@@ -14824,7 +14550,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            395
+            389
           ]
         }
       ],
@@ -14868,7 +14594,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 395,
+              "id": 389,
               "obtained": false
             }
           ],
@@ -14977,7 +14703,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            340
+            336
           ]
         }
       ],
@@ -15008,7 +14734,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 340,
+              "id": 336,
               "obtained": false
             }
           ],
@@ -15048,7 +14774,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            421
+            414
           ]
         }
       ],
@@ -15085,7 +14811,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 421,
+              "id": 414,
               "obtained": false
             }
           ],
@@ -15121,7 +14847,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            422
+            415
           ]
         }
       ],
@@ -15158,7 +14884,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 422,
+              "id": 415,
               "obtained": false
             }
           ],
@@ -15206,7 +14932,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            467
+            459
           ]
         }
       ],
@@ -15237,7 +14963,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 467,
+              "id": 459,
               "obtained": false
             }
           ],
@@ -15267,7 +14993,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            374
+            368
           ]
         }
       ],
@@ -15295,7 +15021,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 374,
+              "id": 368,
               "obtained": false
             }
           ],
@@ -15326,7 +15052,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            470
+            462
           ]
         }
       ],
@@ -15357,7 +15083,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 470,
+              "id": 462,
               "obtained": false
             }
           ],
@@ -15587,8 +15313,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            165,
-            361
+            165
           ]
         }
       ],
@@ -15654,64 +15379,6 @@
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
               "id": 165,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        },
-        {
-          "$type": "AccessRandomizer.IC.ZoteKeyItem, AccessRandomizer",
-          "name": "Zote_Key",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
-            "name": {
-              "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "Zote Key"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "Now where did I leave this one? -Cornifer"
-            },
-            "sprite": {
-              "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-              "Key": "ZoteKey"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-              "Properties": {
-                "ModSource": "AccessRandomizer",
-                "PoolGroup": "Keys",
-                "PinSprite": {
-                  "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-                  "Key": "ZoteKey"
-                }
-              },
-              "Message": "RandoSupplementalMetadata"
-            },
-            {
-              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-              "Properties": {
-                "CanMimic": {
-                  "$type": "ItemChanger.BoxedBool, ItemChanger",
-                  "Value": true
-                },
-                "MimicNames": {
-                  "$type": "System.String[], mscorlib",
-                  "$values": [
-                    "Zone Key",
-                    "Zotte Key",
-                    "Invincible fearless etc key",
-                    "Z o t e"
-                  ]
-                }
-              },
-              "Message": "CurseData"
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 361,
               "obtained": false
             }
           ],
@@ -15813,7 +15480,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            414
+            407
           ]
         }
       ],
@@ -15850,7 +15517,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 414,
+              "id": 407,
               "obtained": false
             }
           ],
@@ -16145,7 +15812,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            279
+            276
           ]
         }
       ],
@@ -16176,7 +15843,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 279,
+              "id": 276,
               "obtained": false
             }
           ],
@@ -16203,7 +15870,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            482
+            474
           ]
         }
       ],
@@ -16233,7 +15900,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 482,
+              "id": 474,
               "obtained": false
             }
           ],
@@ -16259,7 +15926,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            338
+            334
           ]
         }
       ],
@@ -16290,7 +15957,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 338,
+              "id": 334,
               "obtained": false
             }
           ],
@@ -16465,7 +16132,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            353
+            349
           ]
         }
       ],
@@ -16497,7 +16164,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 353,
+              "id": 349,
               "obtained": false
             }
           ],
@@ -16520,7 +16187,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            485
+            477
           ]
         }
       ],
@@ -16556,7 +16223,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 485,
+              "id": 477,
               "obtained": false
             }
           ],
@@ -16644,7 +16311,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            320
+            316
           ]
         }
       ],
@@ -16676,7 +16343,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 320,
+              "id": 316,
               "obtained": false
             }
           ],
@@ -16892,7 +16559,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            448
+            441
           ]
         }
       ],
@@ -16923,7 +16590,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 448,
+              "id": 441,
               "obtained": false
             }
           ],
@@ -17029,7 +16696,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            316
+            312
           ]
         }
       ],
@@ -17060,7 +16727,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 316,
+              "id": 312,
               "obtained": false
             }
           ],
@@ -17091,7 +16758,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            471
+            463
           ]
         }
       ],
@@ -17122,7 +16789,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 471,
+              "id": 463,
               "obtained": false
             }
           ],
@@ -17158,7 +16825,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            336
+            332
           ]
         }
       ],
@@ -17189,7 +16856,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 336,
+              "id": 332,
               "obtained": false
             }
           ],
@@ -17230,7 +16897,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            298
+            489
           ]
         }
       ],
@@ -17238,58 +16905,46 @@
       "Name": "Vessel_Fragment-Basin",
       "Items": [
         {
-          "$type": "AccessRandomizer.IC.BirthplaceKeyItem, AccessRandomizer",
-          "name": "Birthplace_Key",
+          "$type": "CorruptedDreamsPlando.Skills.BirthplaceAccessItem, CorruptedDreamsPlando",
+          "name": "CorruptedDreams_Birthplace_Access",
           "UIDef": {
-            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+            "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+            "bigSprite": {
+              "$type": "CorruptedDreamsPlando.EmbeddedSprite, CorruptedDreamsPlando",
+              "key": "BirthplaceAccess"
+            },
+            "take": null,
+            "press": null,
+            "buttonSkin": null,
+            "descOne": {
+              "$type": "ItemChanger.BoxedString, ItemChanger",
+              "Value": "Was made for caretakers to get access to the Birthplace without a King's Soul."
+            },
+            "descTwo": null,
             "name": {
               "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "Birthplace Key"
+              "Value": "Caretaker's Key"
             },
             "shopDesc": {
               "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "I am the shadow, the keeper of light. If you want the sun's power, then show me your own."
+              "Value": "Was made for caretakers to get access to the Birthplace without a King's Soul."
             },
             "sprite": {
-              "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-              "Key": "BirthplaceKey"
+              "$type": "CorruptedDreamsPlando.EmbeddedSprite, CorruptedDreamsPlando",
+              "key": "BirthplaceAccess"
             }
           },
           "tags": [
             {
               "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
               "Properties": {
-                "ModSource": "AccessRandomizer",
-                "PoolGroup": "Keys",
-                "PinSprite": {
-                  "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-                  "Key": "BirthplaceKey"
-                }
+                "ModSource": "CorruptedDreamsPlando"
               },
               "Message": "RandoSupplementalMetadata"
             },
             {
-              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-              "Properties": {
-                "CanMimic": {
-                  "$type": "ItemChanger.BoxedBool, ItemChanger",
-                  "Value": true
-                },
-                "MimicNames": {
-                  "$type": "System.String[], mscorlib",
-                  "$values": [
-                    "Birthday Key",
-                    "Void Heart [67]",
-                    "Birtplace Key",
-                    "Birthplace"
-                  ]
-                }
-              },
-              "Message": "CurseData"
-            },
-            {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 298,
+              "id": 489,
               "obtained": false
             }
           ],
@@ -17598,7 +17253,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            330
+            326
           ]
         }
       ],
@@ -17629,7 +17284,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 330,
+              "id": 326,
               "obtained": false
             }
           ],
@@ -17655,7 +17310,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            456
+            449
           ]
         }
       ],
@@ -17686,7 +17341,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 456,
+              "id": 449,
               "obtained": false
             }
           ],
@@ -17789,7 +17444,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            303
+            299
           ]
         }
       ],
@@ -17826,7 +17481,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 303,
+              "id": 299,
               "obtained": false
             }
           ],
@@ -18137,8 +17792,8 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            310,
-            315
+            306,
+            311
           ]
         }
       ],
@@ -18176,7 +17831,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 310,
+              "id": 306,
               "obtained": false
             }
           ],
@@ -18212,7 +17867,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 315,
+              "id": 311,
               "obtained": false
             }
           ],
@@ -18481,7 +18136,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            292
+            289
           ]
         }
       ],
@@ -18509,7 +18164,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 292,
+              "id": 289,
               "obtained": false
             }
           ],
@@ -18599,7 +18254,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            288
+            285
           ]
         }
       ],
@@ -18637,7 +18292,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 288,
+              "id": 285,
               "obtained": false
             }
           ],
@@ -19594,117 +19249,6 @@
       "Visited": "None",
       "Cost": null
     },
-    "Bretta_Key": {
-      "$type": "ItemChanger.Placements.MutablePlacement, ItemChanger",
-      "Location": {
-        "$type": "AccessRandomizer.IC.BrettaKeyLocation, AccessRandomizer",
-        "x": 62.4,
-        "y": 56.4,
-        "elevation": 0.0,
-        "managed": false,
-        "forceShiny": false,
-        "name": "Bretta_Key",
-        "sceneName": "Fungus2_23",
-        "flingType": "Everywhere",
-        "tags": [
-          {
-            "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-            "Properties": {
-              "ModSource": "AccessRandomizer",
-              "PoolGroup": "Keys",
-              "PinSprite": {
-                "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-                "Key": "BrettaKey"
-              },
-              "VanillaItem": "Bretta_Key",
-              "MapLocations": {
-                "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
-                "$values": [
-                  {
-                    "Item1": "Fungus2_23",
-                    "Item2": -0.25,
-                    "Item3": 0.1
-                  }
-                ]
-              }
-            },
-            "Message": "RandoSupplementalMetadata"
-          }
-        ]
-      },
-      "containerType": "Unknown",
-      "tags": [
-        {
-          "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
-          "ids": [
-            232
-          ]
-        }
-      ],
-      "Cost": null,
-      "Name": "Bretta_Key",
-      "Items": [
-        {
-          "$type": "AccessRandomizer.IC.BrettaKeyItem, AccessRandomizer",
-          "name": "Bretta_Key",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
-            "name": {
-              "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "Bretta Key"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.BoxedString, ItemChanger",
-              "Value": "I hope you rescue me out of chivalry even though you can enter my home. -Bretta"
-            },
-            "sprite": {
-              "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-              "Key": "BrettaKey"
-            }
-          },
-          "tags": [
-            {
-              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-              "Properties": {
-                "ModSource": "AccessRandomizer",
-                "PoolGroup": "Keys",
-                "PinSprite": {
-                  "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-                  "Key": "BrettaKey"
-                }
-              },
-              "Message": "RandoSupplementalMetadata"
-            },
-            {
-              "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-              "Properties": {
-                "CanMimic": {
-                  "$type": "ItemChanger.BoxedBool, ItemChanger",
-                  "Value": true
-                },
-                "MimicNames": {
-                  "$type": "System.String[], mscorlib",
-                  "$values": [
-                    "Brettor Key",
-                    "Greta Key",
-                    "Barret Key",
-                    "Baretta Key"
-                  ]
-                }
-              },
-              "Message": "CurseData"
-            },
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 232,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        }
-      ],
-      "Visited": "None"
-    },
     "Lifeblood_Cocoon-Failed_Tramway": {
       "$type": "ItemChanger.Placements.MutablePlacement, ItemChanger",
       "Location": {
@@ -19780,7 +19324,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            426
+            419
           ]
         }
       ],
@@ -19817,7 +19361,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 426,
+              "id": 419,
               "obtained": false
             }
           ],
@@ -19971,7 +19515,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            345
+            341
           ]
         }
       ],
@@ -20002,7 +19546,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 345,
+              "id": 341,
               "obtained": false
             }
           ],
@@ -20100,7 +19644,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            451
+            444
           ]
         }
       ],
@@ -20131,7 +19675,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 451,
+              "id": 444,
               "obtained": false
             }
           ],
@@ -20157,7 +19701,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            436
+            429
           ]
         }
       ],
@@ -20194,7 +19738,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 436,
+              "id": 429,
               "obtained": false
             }
           ],
@@ -20217,7 +19761,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            491
+            483
           ]
         }
       ],
@@ -20253,7 +19797,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 491,
+              "id": 483,
               "obtained": false
             }
           ],
@@ -20276,9 +19820,9 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            388,
-            389,
-            390
+            382,
+            383,
+            384
           ]
         }
       ],
@@ -20328,7 +19872,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 388,
+              "id": 382,
               "obtained": false
             }
           ],
@@ -20376,7 +19920,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 389,
+              "id": 383,
               "obtained": false
             }
           ],
@@ -20424,7 +19968,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 390,
+              "id": 384,
               "obtained": false
             }
           ],
@@ -20505,7 +20049,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            493
+            485
           ]
         }
       ],
@@ -20541,7 +20085,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 493,
+              "id": 485,
               "obtained": false
             }
           ],
@@ -20621,7 +20165,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            293
+            290
           ]
         }
       ],
@@ -20652,7 +20196,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 293,
+              "id": 290,
               "obtained": false
             }
           ],
@@ -20696,7 +20240,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            233
+            232
           ]
         }
       ],
@@ -20740,7 +20284,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 233,
+              "id": 232,
               "obtained": false
             }
           ],
@@ -20766,7 +20310,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            357
+            353
           ]
         }
       ],
@@ -20797,7 +20341,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 357,
+              "id": 353,
               "obtained": false
             }
           ],
@@ -21295,7 +20839,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            356
+            352
           ]
         }
       ],
@@ -21326,7 +20870,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 356,
+              "id": 352,
               "obtained": false
             }
           ],
@@ -21412,7 +20956,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            325
+            321
           ]
         }
       ],
@@ -21444,7 +20988,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 325,
+              "id": 321,
               "obtained": false
             }
           ],
@@ -21480,7 +21024,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            382
+            376
           ]
         }
       ],
@@ -21548,7 +21092,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 382,
+              "id": 376,
               "obtained": false
             }
           ],
@@ -21740,7 +21284,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            348
+            344
           ]
         }
       ],
@@ -21772,7 +21316,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 348,
+              "id": 344,
               "obtained": false
             }
           ],
@@ -21808,7 +21352,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            355
+            351
           ]
         }
       ],
@@ -21839,7 +21383,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 355,
+              "id": 351,
               "obtained": false
             }
           ],
@@ -21861,7 +21405,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            463
+            455
           ]
         }
       ],
@@ -21893,7 +21437,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 463,
+              "id": 455,
               "obtained": false
             }
           ],
@@ -21919,7 +21463,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            454
+            447
           ]
         }
       ],
@@ -21950,7 +21494,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 454,
+              "id": 447,
               "obtained": false
             }
           ],
@@ -21976,7 +21520,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            321
+            317
           ]
         }
       ],
@@ -22008,7 +21552,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 321,
+              "id": 317,
               "obtained": false
             }
           ],
@@ -22052,7 +21596,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            411
+            404
           ]
         }
       ],
@@ -22089,7 +21633,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 411,
+              "id": 404,
               "obtained": false
             }
           ],
@@ -22119,7 +21663,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            301
+            297
           ]
         }
       ],
@@ -22151,7 +21695,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 301,
+              "id": 297,
               "obtained": false
             }
           ],
@@ -22181,7 +21725,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            343
+            339
           ]
         }
       ],
@@ -22212,7 +21756,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 343,
+              "id": 339,
               "obtained": false
             }
           ],
@@ -22238,7 +21782,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            290
+            287
           ]
         }
       ],
@@ -22266,7 +21810,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 290,
+              "id": 287,
               "obtained": false
             }
           ],
@@ -22350,7 +21894,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            323
+            319
           ]
         }
       ],
@@ -22382,7 +21926,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 323,
+              "id": 319,
               "obtained": false
             }
           ],
@@ -22412,7 +21956,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            452
+            445
           ]
         }
       ],
@@ -22443,7 +21987,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 452,
+              "id": 445,
               "obtained": false
             }
           ],
@@ -22473,7 +22017,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            371
+            365
           ]
         }
       ],
@@ -22508,7 +22052,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 371,
+              "id": 365,
               "obtained": false
             }
           ],
@@ -22603,7 +22147,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            445
+            438
           ]
         }
       ],
@@ -22634,7 +22178,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 445,
+              "id": 438,
               "obtained": false
             }
           ],
@@ -22915,8 +22459,8 @@
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
             135,
-            295,
-            297
+            292,
+            294
           ]
         }
       ],
@@ -23068,7 +22612,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 295,
+              "id": 292,
               "obtained": false
             }
           ],
@@ -23110,7 +22654,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 297,
+              "id": 294,
               "obtained": false
             }
           ],
@@ -23299,7 +22843,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            484
+            476
           ]
         }
       ],
@@ -23366,7 +22910,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 484,
+              "id": 476,
               "obtained": false
             }
           ],
@@ -23549,7 +23093,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            419
+            412
           ]
         }
       ],
@@ -23586,7 +23130,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 419,
+              "id": 412,
               "obtained": false
             }
           ],
@@ -23673,7 +23217,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            492
+            484
           ]
         }
       ],
@@ -23709,7 +23253,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 492,
+              "id": 484,
               "obtained": false
             }
           ],
@@ -23934,7 +23478,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            328
+            324
           ]
         }
       ],
@@ -23965,7 +23509,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 328,
+              "id": 324,
               "obtained": false
             }
           ],
@@ -24009,7 +23553,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            412
+            405
           ]
         }
       ],
@@ -24046,7 +23590,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 412,
+              "id": 405,
               "obtained": false
             }
           ],
@@ -24082,7 +23626,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            370
+            364
           ]
         }
       ],
@@ -24117,7 +23661,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 370,
+              "id": 364,
               "obtained": false
             }
           ],
@@ -24147,7 +23691,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            447
+            440
           ]
         }
       ],
@@ -24178,7 +23722,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 447,
+              "id": 440,
               "obtained": false
             }
           ],
@@ -24204,7 +23748,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            433
+            426
           ]
         }
       ],
@@ -24241,7 +23785,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 433,
+              "id": 426,
               "obtained": false
             }
           ],
@@ -24334,7 +23878,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            276
+            273
           ]
         }
       ],
@@ -24366,7 +23910,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 276,
+              "id": 273,
               "obtained": false
             }
           ],
@@ -24396,7 +23940,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            418
+            411
           ]
         }
       ],
@@ -24433,7 +23977,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 418,
+              "id": 411,
               "obtained": false
             }
           ],
@@ -24538,7 +24082,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            437
+            430
           ]
         }
       ],
@@ -24575,7 +24119,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 437,
+              "id": 430,
               "obtained": false
             }
           ],
@@ -24662,7 +24206,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            494
+            486
           ]
         }
       ],
@@ -24698,7 +24242,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 494,
+              "id": 486,
               "obtained": false
             }
           ],
@@ -24960,7 +24504,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            277
+            274
           ]
         }
       ],
@@ -24994,7 +24538,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 277,
+              "id": 274,
               "obtained": false
             }
           ],
@@ -25030,7 +24574,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            480
+            472
           ]
         }
       ],
@@ -25060,7 +24604,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 480,
+              "id": 472,
               "obtained": false
             }
           ],
@@ -25276,7 +24820,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            396
+            390
           ]
         }
       ],
@@ -25320,7 +24864,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 396,
+              "id": 390,
               "obtained": false
             }
           ],
@@ -25368,7 +24912,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            435
+            428
           ]
         }
       ],
@@ -25405,7 +24949,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 435,
+              "id": 428,
               "obtained": false
             }
           ],
@@ -25547,8 +25091,8 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            306,
-            311
+            302,
+            307
           ]
         }
       ],
@@ -25586,7 +25130,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 306,
+              "id": 302,
               "obtained": false
             }
           ],
@@ -25622,7 +25166,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 311,
+              "id": 307,
               "obtained": false
             }
           ],
@@ -25662,7 +25206,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            364
+            359
           ]
         }
       ],
@@ -25693,7 +25237,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 364,
+              "id": 359,
               "obtained": false
             }
           ],
@@ -25932,7 +25476,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            367
+            362
           ]
         }
       ],
@@ -25967,7 +25511,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 367,
+              "id": 362,
               "obtained": false
             }
           ],
@@ -26064,7 +25608,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            425
+            418
           ]
         }
       ],
@@ -26101,7 +25645,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 425,
+              "id": 418,
               "obtained": false
             }
           ],
@@ -26212,7 +25756,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            427
+            420
           ]
         }
       ],
@@ -26249,7 +25793,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 427,
+              "id": 420,
               "obtained": false
             }
           ],
@@ -26526,7 +26070,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            358
+            354
           ]
         }
       ],
@@ -26558,7 +26102,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 358,
+              "id": 354,
               "obtained": false
             }
           ],
@@ -26588,7 +26132,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            432
+            425
           ]
         }
       ],
@@ -26625,7 +26169,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 432,
+              "id": 425,
               "obtained": false
             }
           ],
@@ -26661,7 +26205,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            331
+            327
           ]
         }
       ],
@@ -26692,7 +26236,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 331,
+              "id": 327,
               "obtained": false
             }
           ],
@@ -26722,7 +26266,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            287
+            284
           ]
         }
       ],
@@ -26756,7 +26300,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 287,
+              "id": 284,
               "obtained": false
             }
           ],
@@ -26786,7 +26330,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            481
+            473
           ]
         }
       ],
@@ -26816,7 +26360,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 481,
+              "id": 473,
               "obtained": false
             }
           ],
@@ -26850,7 +26394,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            375
+            369
           ]
         }
       ],
@@ -26915,7 +26459,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 375,
+              "id": 369,
               "obtained": false
             }
           ],
@@ -26937,7 +26481,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            487
+            479
           ]
         }
       ],
@@ -26973,7 +26517,7 @@
             },
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 487,
+              "id": 479,
               "obtained": false
             }
           ],
@@ -27063,7 +26607,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            415
+            408
           ]
         }
       ],
@@ -27100,7 +26644,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 415,
+              "id": 408,
               "obtained": false
             }
           ],
@@ -27126,7 +26670,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            329
+            325
           ]
         }
       ],
@@ -27157,7 +26701,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 329,
+              "id": 325,
               "obtained": false
             }
           ],
@@ -27193,7 +26737,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            477
+            469
           ]
         }
       ],
@@ -27223,7 +26767,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 477,
+              "id": 469,
               "obtained": false
             }
           ],
@@ -27408,7 +26952,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            450
+            443
           ]
         }
       ],
@@ -27439,7 +26983,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 450,
+              "id": 443,
               "obtained": false
             }
           ],
@@ -27590,7 +27134,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            351
+            347
           ]
         }
       ],
@@ -27622,7 +27166,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 351,
+              "id": 347,
               "obtained": false
             }
           ],
@@ -27905,7 +27449,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            458
+            450
           ]
         }
       ],
@@ -27936,7 +27480,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 458,
+              "id": 450,
               "obtained": false
             }
           ],
@@ -27966,7 +27510,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            453
+            446
           ]
         }
       ],
@@ -27997,7 +27541,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 453,
+              "id": 446,
               "obtained": false
             }
           ],
@@ -28163,7 +27707,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            429
+            422
           ]
         }
       ],
@@ -28200,7 +27744,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 429,
+              "id": 422,
               "obtained": false
             }
           ],
@@ -28777,7 +28321,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            282
+            279
           ]
         }
       ],
@@ -28808,7 +28352,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 282,
+              "id": 279,
               "obtained": false
             }
           ],
@@ -28838,7 +28382,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            387
+            381
           ]
         }
       ],
@@ -28865,7 +28409,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 387,
+              "id": 381,
               "obtained": false
             }
           ],
@@ -28891,7 +28435,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            428
+            421
           ]
         }
       ],
@@ -28928,7 +28472,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 428,
+              "id": 421,
               "obtained": false
             }
           ],
@@ -28951,7 +28495,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            440
+            433
           ]
         }
       ],
@@ -28983,7 +28527,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 440,
+              "id": 433,
               "obtained": false
             }
           ],
@@ -29013,7 +28557,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            299
+            295
           ]
         }
       ],
@@ -29045,7 +28589,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 299,
+              "id": 295,
               "obtained": false
             }
           ],
@@ -29147,7 +28691,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            352
+            348
           ]
         }
       ],
@@ -29179,7 +28723,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 352,
+              "id": 348,
               "obtained": false
             }
           ],
@@ -29343,7 +28887,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            420
+            413
           ]
         }
       ],
@@ -29380,7 +28924,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 420,
+              "id": 413,
               "obtained": false
             }
           ],
@@ -29464,7 +29008,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            438
+            431
           ]
         }
       ],
@@ -29501,7 +29045,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 438,
+              "id": 431,
               "obtained": false
             }
           ],
@@ -29588,7 +29132,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            378
+            372
           ]
         }
       ],
@@ -29620,7 +29164,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 378,
+              "id": 372,
               "obtained": false
             }
           ],
@@ -29726,7 +29270,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            410
+            403
           ]
         }
       ],
@@ -29763,7 +29307,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 410,
+              "id": 403,
               "obtained": false
             }
           ],
@@ -29866,8 +29410,8 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            475,
-            476
+            467,
+            468
           ]
         }
       ],
@@ -29899,7 +29443,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 475,
+              "id": 467,
               "obtained": false
             }
           ],
@@ -29929,7 +29473,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 476,
+              "id": 468,
               "obtained": false
             }
           ],
@@ -30076,7 +29620,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            392
+            386
           ]
         }
       ],
@@ -30120,7 +29664,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 392,
+              "id": 386,
               "obtained": false
             }
           ],
@@ -30277,7 +29821,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            393
+            387
           ]
         }
       ],
@@ -30321,7 +29865,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 393,
+              "id": 387,
               "obtained": false
             }
           ],
@@ -30399,7 +29943,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            317
+            313
           ]
         }
       ],
@@ -30430,7 +29974,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 317,
+              "id": 313,
               "obtained": false
             }
           ],
@@ -30457,7 +30001,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            444
+            437
           ]
         }
       ],
@@ -30488,7 +30032,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 444,
+              "id": 437,
               "obtained": false
             }
           ],
@@ -30572,7 +30116,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            284
+            281
           ]
         }
       ],
@@ -30604,90 +30148,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 284,
-              "obtained": false
-            }
-          ],
-          "obtainState": "Unobtained"
-        }
-      ],
-      "Visited": "None"
-    },
-    "Zote_Key": {
-      "$type": "ItemChanger.Placements.MutablePlacement, ItemChanger",
-      "Location": {
-        "$type": "AccessRandomizer.IC.ZoteKeyLocation, AccessRandomizer",
-        "x": 56.2,
-        "y": 12.4,
-        "elevation": 0.0,
-        "managed": false,
-        "forceShiny": false,
-        "name": "Zote_Key",
-        "sceneName": "Deepnest_33",
-        "flingType": "Everywhere",
-        "tags": [
-          {
-            "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
-            "Properties": {
-              "ModSource": "AccessRandomizer",
-              "PoolGroup": "Keys",
-              "PinSprite": {
-                "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
-                "Key": "ZoteKey"
-              },
-              "VanillaItem": "Zote_Key",
-              "MapLocations": {
-                "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
-                "$values": [
-                  {
-                    "Item1": "Deepnest_33",
-                    "Item2": -0.12,
-                    "Item3": -0.15
-                  }
-                ]
-              }
-            },
-            "Message": "RandoSupplementalMetadata"
-          }
-        ]
-      },
-      "containerType": "Unknown",
-      "tags": [
-        {
-          "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
-          "ids": [
-            457
-          ]
-        }
-      ],
-      "Cost": null,
-      "Name": "Zote_Key",
-      "Items": [
-        {
-          "$type": "ItemChanger.Items.RelicItem, ItemChanger",
-          "trinketNum": 3,
-          "name": "King's_Idol",
-          "UIDef": {
-            "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
-            "name": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_NAME_TRINKET3"
-            },
-            "shopDesc": {
-              "$type": "ItemChanger.LanguageString, ItemChanger",
-              "sheet": "UI",
-              "key": "INV_DESC_TRINKET3"
-            },
-            "sprite": {
-              "$type": "ItemChanger.ItemChangerSprite, ItemChanger",
-              "key": "ShopIcons.KingsIdol"
-            }
-          },
-          "tags": [
-            {
-              "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 457,
+              "id": 281,
               "obtained": false
             }
           ],
@@ -30771,7 +30232,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            289
+            286
           ]
         }
       ],
@@ -30802,7 +30263,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 289,
+              "id": 286,
               "obtained": false
             }
           ],
@@ -30898,7 +30359,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            334
+            330
           ]
         }
       ],
@@ -30929,7 +30390,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 334,
+              "id": 330,
               "obtained": false
             }
           ],
@@ -31242,7 +30703,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            278
+            275
           ]
         }
       ],
@@ -31276,7 +30737,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 278,
+              "id": 275,
               "obtained": false
             }
           ],
@@ -31384,7 +30845,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            347
+            343
           ]
         }
       ],
@@ -31416,7 +30877,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 347,
+              "id": 343,
               "obtained": false
             }
           ],
@@ -31509,7 +30970,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            318
+            314
           ]
         }
       ],
@@ -31541,7 +31002,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 318,
+              "id": 314,
               "obtained": false
             }
           ],
@@ -31618,7 +31079,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            294
+            291
           ]
         }
       ],
@@ -31651,7 +31112,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 294,
+              "id": 291,
               "obtained": false
             }
           ],
@@ -31681,7 +31142,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            424
+            417
           ]
         }
       ],
@@ -31718,7 +31179,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 424,
+              "id": 417,
               "obtained": false
             }
           ],
@@ -31744,7 +31205,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            455
+            448
           ]
         }
       ],
@@ -31775,7 +31236,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 455,
+              "id": 448,
               "obtained": false
             }
           ],
@@ -31823,7 +31284,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            305
+            301
           ]
         }
       ],
@@ -31851,7 +31312,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 305,
+              "id": 301,
               "obtained": false
             }
           ],
@@ -31986,7 +31447,7 @@
         {
           "$type": "RandomizerMod.IC.RandoPlacementTag, RandomizerMod",
           "ids": [
-            459
+            451
           ]
         }
       ],
@@ -32017,7 +31478,7 @@
           "tags": [
             {
               "$type": "RandomizerMod.IC.RandoItemTag, RandomizerMod",
-              "id": 459,
+              "id": 451,
               "obtained": false
             }
           ],
