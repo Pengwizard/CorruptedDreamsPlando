@@ -50,6 +50,7 @@ namespace CorruptedDreamsPlando.Rando
             Finder.DefineCustomItem(new VoidCasterItem());
             Finder.DefineCustomItem(new DeterminationItem());
             Finder.DefineCustomItem(new LetterOfCreditsItem());
+            Finder.DefineCustomItem(new BirthplaceAccessItem());
         }
 
         public static InteropTag AddTag(TaggableObject obj)

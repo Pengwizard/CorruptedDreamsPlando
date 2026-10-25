@@ -8,20 +8,20 @@ using ItemChanger.Modules;
 namespace CorruptedDreamsPlando.Modules
 {
     // This is copied from the Knight of Nights plando by Purenail.
-    internal class Shadeless // : Module
+    internal class Shadeless : Module
     {
         private static readonly FsmID deathAnimId = new("Hero Death", "Hero Death Anim");
 
         public static bool IsShadeless;
 
-        public static /*override*/ void Initialize()
+        public override void Initialize()
         {
             Events.AddFsmEdit(deathAnimId, ModifyDeathAnim);
             ModHooks.GetPlayerBoolHook += HookIsShadeless;
             IsShadeless = true;
         }
 
-        public static /*override*/ void Unload()
+        public override void Unload()
         {
             Events.RemoveFsmEdit(deathAnimId, ModifyDeathAnim);
             ModHooks.GetPlayerBoolHook -= HookIsShadeless;

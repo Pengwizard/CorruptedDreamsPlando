@@ -194,7 +194,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 
             doMega.AddAction(ActivateAndResetGameObject(mega));
 
-            slam.transform.SetScaleX(0.9f);
+            slam.transform.SetScaleX(0.8f);
 
             return diveContainer;
         }
@@ -256,7 +256,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             pillar.transform.SetParent(diveContanier.transform);
             pillar.transform.position = diveContanier.transform.position + spawnOffset;
             mega.transform.SetParent(diveContanier.transform);
-            mega.transform.position = diveContanier.transform.position + new Vector3(0, 6, 0) + spawnOffset;
+            mega.transform.position = diveContanier.transform.position + new Vector3(0, 5, 0) + spawnOffset;
 
             GameObject[] gos = { slam, pillar, mega };
 

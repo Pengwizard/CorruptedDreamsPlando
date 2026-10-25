@@ -351,7 +351,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
             });
 
             List<GameObject> children = new List<GameObject>();
-            fb.layer = LayerMask.NameToLayer("Enemy Attack");
+            fb.layer = LayerMask.NameToLayer("Enemies");
             fb.RemoveComponent<DamageEnemies>();
             fb.LocateMyFSM("damages_enemy").enabled = false;
             var damageHero = fb.AddComponent<DamageHero>();

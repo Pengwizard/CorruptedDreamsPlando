@@ -23,7 +23,7 @@ namespace CorruptedDreamsPlando.Rando
 
         private static void ApplyLogic(GenerationSettings gs, LogicManagerBuilder lmb)
         {
-            var skillNames = new List<string> { VoidCaster.skillName, Determination.skillName, LetterOfCredits.skillName };
+            var skillNames = new List<string> { VoidCaster.skillName, Determination.skillName, LetterOfCredits.skillName, BirthplaceAccess.skillName };
             foreach (string sk in skillNames)
             {
                 Term term = lmb.GetOrAddTerm(sk, TermType.Int);
@@ -83,6 +83,9 @@ namespace CorruptedDreamsPlando.Rando
             // End of white palace CorruptedDreams_Void_Caster
             lmb.AddLogicDef(new RawLogicDef("White_Palace_13[left1]", "VOID_SPELLS"));
 
+            // Fixing abyss
+            lmb.AddLogicDef(new RawLogicDef("Abyss_06_Core[bot1]", $"Abyss_06_Core[bot1] | Abyss_06_Core + {BirthplaceAccess.skillName}"));
+
 
             // Crystal Peak disconnecting top from bottom
             lmb.AddLogicDef(new RawLogicDef("Mines_05", "Mines_05[right1] | Mines_05[top1] | Mines_05[left1] | Mines_05[left2]"));
@@ -117,9 +120,11 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Wanderer's_Journal-Greenpath_Lower", "Fungus1_11 + NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Wanderer's_Journal-Fungal_Wastes_Thorns_Gauntlet", "Fungus2_04 + NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Shape_of_Unn", "Fungus1_Slug[right1] + FULLDASH + EXTRA_SPELL_STALL + Dream_Sifter"));
-            lmb.AddLogicDef(new RawLogicDef("Bretta_Key", "FIVE_CASTS + Dream_Sifter"));
+            lmb.AddLogicDef(new RawLogicDef("Mask_Shard-Bretta", "FIVE_CASTS + Dream_Sifter"));
             lmb.AddLogicDef(new RawLogicDef("Mask_Shard-Queen's_Station", "NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Hallownest_Seal-Queen's_Station", "ANY_SPELL_STALL"));
+
+            lmb.AddLogicDef(new RawLogicDef("Soul_Eater", "NARROW_SPELL_STALL"));
 
             lmb.AddLogicDef(new RawLogicDef("Grub-Queen's_Gardens_Marmu", "(Fungus3_48[bot1] | Fungus3_48[right2]) + NARROW_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Grub-Isma's_Grove", "FULL_SPELL_STALL + TRAM"));
@@ -144,11 +149,13 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Hallownest_Seal-Deepnest_By_Mantis_Lords", "Deepnest_16[bot1] + ANY_SPELL_STALL + EXTRA_SPELL_STALL + Dream_Sifter"));
             lmb.AddLogicDef(new RawLogicDef("Lifeblood_Cocoon-Mantis_Village", "(Fungus2_15[top3] | Fungus2_15[right1]) + ANY_SPELL_STALL + (EXTRA_SPELL_STALL | Dream_Sifter)"));
 
+            // Need to add caretaker key logic for birthplace
 
             lmb.AddLogicDef(new RawLogicDef("Grub-Waterways_Requires_Tram",
                 "Waterways_14[bot1] + RIGHTSUPERDASH"));
 
             // Dream Bosses
+
             lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Failed_Champion", "DETERMINATION + Defeated_Failed_Champion"));
             lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Lost_Kin", "DETERMINATION + Defeated_Lost_Kin"));
             lmb.AddLogicDef(new RawLogicDef("Boss_Essence-Soul_Tyrant", "DETERMINATION + Defeated_Soul_Tyrant"));
@@ -161,6 +168,7 @@ namespace CorruptedDreamsPlando.Rando
             lmb.AddLogicDef(new RawLogicDef("Uumuu_Arena", "Fungus3_archive_02[top1] + EXTRA_SPELL_STALL"));
             lmb.AddLogicDef(new RawLogicDef("Defeated_Dung_Defender", "Waterways_05_Proxy[bot1] + (ANYCLAW | WINGS) + COMBAT[Dung_Defender] + MOREDOORS_DUNG_DOOR_KEY"));
             lmb.AddLogicDef(new RawLogicDef("Defeated_Enraged_Guardian", "Defeated_Crystal_Guardian"));
+            lmb.AddLogicDef(new RawLogicDef("Defeated_Grey_Prince_Zote", "Room_Bretta[right1] + DREAMNAIL + COMBAT[Grey_Prince_Zote]"));
         }
     }
 }

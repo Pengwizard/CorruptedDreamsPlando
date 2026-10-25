@@ -45,6 +45,7 @@
     <None Remove="dependabot.yml" />
     <None Remove="README.md" />
     <None Remove="Resources\bgm\supernkgbgm.wav" />
+    <None Remove="Resources\BirthplaceAccess.png" />
     <None Remove="Resources\Determination.png" />
     <None Remove="Resources\DungDoor.png" />
     <None Remove="Resources\DungKey.png" />
@@ -64,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\bgm\supernkgbgm.wav" />
+    <EmbeddedResource Include="Resources\BirthplaceAccess.png" />
     <EmbeddedResource Include="Resources\Determination.png" />
     <EmbeddedResource Include="Resources\DungDoor.png" />
     <EmbeddedResource Include="Resources\DungKey.png" />

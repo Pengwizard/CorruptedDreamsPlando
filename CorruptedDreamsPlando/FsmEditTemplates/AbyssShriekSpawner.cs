@@ -120,7 +120,7 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
                 SpriteSwapper.SetupSpellTextureSwap(spr);
 
                 var ogScale = spr.scale;
-                spr.scale = ogScale * 1.1f;
+                spr.scale = ogScale * 1.05f;
             }
 
             var waitState = newShriek.LocateMyFSM("FSM").GetValidState("Wait");

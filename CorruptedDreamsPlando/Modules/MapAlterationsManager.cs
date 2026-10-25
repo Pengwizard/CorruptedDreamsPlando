@@ -5,14 +5,15 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using CorruptedDreamsPlando.MapAlterations;
+using ItemChanger.Modules;
 
 namespace CorruptedDreamsPlando.Modules
 {
-    public class MapAlterationsManager
+    public class MapAlterationsManager : ItemChanger.Modules.Module
     {
         private List<IMapAlteration> alterations = new();
 
-        public void Initialize()
+        public override void Initialize()
         {
             if (alterations.Count == 0)
             {
@@ -27,6 +28,7 @@ namespace CorruptedDreamsPlando.Modules
                 alterations.Add(new UpDirectionSign());
                 alterations.Add(new VerticalClimbs());
                 alterations.Add(new UnkillableMyla());
+                alterations.Add(new GpzAlwaysAvailable());
             }
 
             foreach (var alter in alterations)
@@ -35,7 +37,7 @@ namespace CorruptedDreamsPlando.Modules
             }
         }
 
-        public void Unload()
+        public override void Unload()
         {
             foreach (var alter in alterations)
             {

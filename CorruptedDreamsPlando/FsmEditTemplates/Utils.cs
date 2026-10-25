@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
+using KorzUtils.Helper;
 using Satchel;
 using UnityEngine;
 
@@ -13,6 +14,10 @@ namespace CorruptedDreamsPlando.FsmEditTemplates
 {
     public static class Utils
     {
+        public static void DisplayDreamText(string message)
+        {
+            GameHelper.DisplayMessage(message);
+        }
 
         public static AnimationAccelerator GetOrAddAccel(GameObject obj)
         {

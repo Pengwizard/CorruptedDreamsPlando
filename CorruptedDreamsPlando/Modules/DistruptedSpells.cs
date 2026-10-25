@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using HutongGames.PlayMaker.Actions;
 using ItemChanger;
+using ItemChanger.Modules;
 using KorzUtils.Helper;
 using Satchel;
 using SpellStaller.Charms;
@@ -9,13 +10,18 @@ using UnityEngine;
 
 namespace CorruptedDreamsPlando.Modules
 {
-    public class DistruptedSpells
+    public class DistruptedSpells : Module
     {
 
         public static int displayedMessage = 0;
-        public static void Initialize()
+        public override void Initialize()
         {
             ApplyHooks();
+        }
+
+        public override void Unload()
+        {
+            RemoveHooks();
         }
 
         private static List<string> unfizzleRooms = new()
@@ -24,6 +30,12 @@ namespace CorruptedDreamsPlando.Modules
             SceneNames.Crossroads_10,
             SceneNames.Crossroads_06
         };
+
+        public static void RemoveHooks()
+        {
+            On.GameManager.OnNextLevelReady -= onSceneChange;
+            On.HutongGames.PlayMaker.Actions.Wait.OnEnter -= RoomBasedVSReaction;
+        }
 
         public static void ApplyHooks()
         {
@@ -51,7 +63,6 @@ namespace CorruptedDreamsPlando.Modules
             {
                 return GameManager.instance.sceneName == SceneNames.Crossroads_ShamanTemple;
             };
-
         }
 
         private static void onSceneChange(On.GameManager.orig_OnNextLevelReady orig, GameManager self)

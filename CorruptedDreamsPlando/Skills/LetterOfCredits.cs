@@ -17,7 +17,7 @@ namespace CorruptedDreamsPlando.Skills
         public static string baseName = "Letter_of_Credits";
         public static string skillName = SkillCommon.MakeItemName(baseName);
         public static string uiName = SkillCommon.CleanName(baseName);
-        public static string description = "Thanks for playing\r\n Midautumn's Knightmare!\r\n\r\nThis plando was made by Nopre\r\n\r\nThanks to Staxis, cron, maginall, choombert, Jalepino Joe, aPress, and BlossomTheCellist for playtesting!\r\n\r\nAnd Purenail and TheMathGeek_314 for teaching me how to mod and letting me reference their past mods!\r\n\r\nBirdie should Hydrate";
+        public static string description = "Thanks for playing\r\n Midautumn's Knightmare!\r\n\r\nThis plando was made by Nopre\r\n\r\nThanks to Staxis, cron, maginall, choombert, Jalepino Joe, aPress, and BlossomTheCellist for playtesting!\r\n\r\nCustom NKG OST by RYS\r\n\r\nAnd Purenail and TheMathGeek_314 for teaching me how to mod and letting me reference their past mods!\r\n\r\nBirdie should Hydrate";
         public static ISprite pickupSprite = new EmbeddedSprite("LetterOfCredits");
 
 

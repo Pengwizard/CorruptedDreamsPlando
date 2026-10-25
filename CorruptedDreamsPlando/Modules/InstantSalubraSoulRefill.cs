@@ -1,28 +1,22 @@
 ﻿using HutongGames.PlayMaker.Actions;
 using ItemChanger;
 using ItemChanger.Extensions;
-using ItemChanger.FsmStateActions;
-using ItemChanger.Internal;
-using SFCore;
-using System;
-using UnityEngine;
-using System;
-using System.Collections;
+using ItemChanger.Modules;
 
 namespace CorruptedDreamsPlando.Modules
 {
-    public class InstantSalubraSoulRefill
+    public class InstantSalubraSoulRefill : Module
     {
         private static readonly FsmID salubraBlessingId = new("Blessing Ghost", "Blessing Control");
 
 
-        public static void Initialize()
+        public override void Initialize()
         {
             Events.AddFsmEdit(salubraBlessingId, HurryUpSalubra);
         }
 
 
-        public static void Unload()
+        public override void Unload()
         {
             Events.RemoveFsmEdit(salubraBlessingId, HurryUpSalubra);
         }

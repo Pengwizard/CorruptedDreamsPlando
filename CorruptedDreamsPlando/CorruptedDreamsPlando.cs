@@ -1,9 +1,9 @@
 using CorruptedDreamsPlando.CorruptedDreamBosses;
 using CorruptedDreamsPlando.FsmEditTemplates;
+using CorruptedDreamsPlando.MapAlterations;
 using CorruptedDreamsPlando.Modules;
 using CorruptedDreamsPlando.ShaderThings;
 using CorruptedDreamsPlando.Skills;
-using CorruptedDreamsPlando.Testing;
 using Modding;
 using RandomizerMod.RC;
 using System;
@@ -37,6 +37,7 @@ namespace CorruptedDreamsPlando
             VoidCaster.InitializeHooks();
             Determination.InitializeHooks();
             LetterOfCredits.InitializeHooks();
+            BirthplaceAccess.InitializeHooks();
         }
 
         public override List<(string, string)> GetPreloadNames() => Preloader.Instance.GetPreloadNames();
@@ -59,29 +60,17 @@ namespace CorruptedDreamsPlando
             DescendingDarkSpawner.Initialize();
             AbyssShriekSpawner.Initialize();
             FireballSpawner.Initialize();
-            DreamNailHook.Initialize();
+            //DreamNailHook.Initialize();
 
             // Rando stuff
             MapAlterations.DungDoorAdder.AddDungDoor();
             Rando.RandoInterop.Hook();
 
-            RandoController.OnExportCompleted += AddModules;
 
-            InstantSalubraSoulRefill.Initialize();
-            Shadeless.Initialize();
-            DistruptedSpells.Initialize();
-
-            CorruptedNKG.Initialize();
-
-            // For testing
-            mam = new();
-            mam.Initialize();
+            GpzAlwaysAvailable.InitializeTest();
+            AbridgedColo.InitializeTest();
 
             Log("Initialized");
-        }
-
-        public void AddModules(RandoController rc)
-        {
         }
 
         public static LocalSettings LS { get; set; } = new();
@@ -100,6 +89,7 @@ namespace CorruptedDreamsPlando
         public bool CollectedVoidCaster = false;
         public bool ColletedDetermination = false;
         public bool CollectedLetterOfCredits = false;
+        public bool CollectedBirthplaceAccess = false;
     }
 
     public class GlobalSettings

@@ -14,6 +14,7 @@ using HutongGames.PlayMaker.Actions;
 using IL;
 using ItemChanger;
 using ItemChanger.Internal;
+using ItemChanger.Modules;
 using Modding;
 using Newtonsoft.Json;
 using Satchel;
@@ -21,6 +22,7 @@ using Satchel.Futils;
 using UnityEngine;
 using WavLib;
 using static SceneLoad;
+using Module = ItemChanger.Modules.Module;
 
 namespace CorruptedDreamsPlando.CorruptedDreamBosses
 {
@@ -109,23 +111,10 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         public float WhiteSolidUpTime = 0.5f;
         public float WhiteSolidUpDelay = 2.0f;
         public float PhaseChangeHpGate = 0.15f;
-        public float PhaseChangeHpMultiplier = 2.3f;
-
-
-        public static AnimationModifiersNkg FromJsonFile()
-        {
-            var path = "C:\\clean\\hkMods\\CorruptedDreamsPlando\\CorruptedDreamsPlando\\Resources\\bossVariables\\corruptedNKGModifiers.json";
-
-            using (StreamReader r = new StreamReader(path))
-            {
-                string json = r.ReadToEnd();
-                AnimationModifiersNkg items = JsonConvert.DeserializeObject<AnimationModifiersNkg>(json);
-                return items;
-            }
-        }
+        public float PhaseChangeHpMultiplier = 3f;
     }
 
-    public class CorruptedNKG
+    public class CorruptedNKG : Module
     {
 
         private static bool hardcoreNKG = false;
@@ -145,6 +134,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
         {
             if (_superNkgBossMusic == null)
             {
+                CorruptedDreamsPlandoMod.Instance.Log("Loading audio track");
                 var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CorruptedDreamsPlando.Resources.bgm.supernkgbgm.wav");
                 var curMusicCue = GameManager.instance.AudioManager.CurrentMusicCue;
 
@@ -157,17 +147,18 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                 _superNkgBossMusic = AudioClip.Create("NightmareGrimm2", wavSoundData.Length / wavData.FormatChunk.NumChannels, wavData.FormatChunk.NumChannels, (int)wavData.FormatChunk.SampleRate, false);
                 _superNkgBossMusic.SetData(wavSoundData, 0);
                 GameObject.DontDestroyOnLoad(_superNkgBossMusic);
+                CorruptedDreamsPlandoMod.Instance.Log("Done Loading audio track");
             }
         }
 
-        public static void Initialize()
+        public override void Initialize()
         {
             // TODO: Change to raw FSM editing
             Events.AddFsmEdit(controlFSM, SetupPhaseChange);
             On.AudioManager.BeginApplyMusicCue += OnApplyMusicCue;
         }
 
-        public static void Unload()
+        public override void Unload()
         {
             Events.RemoveFsmEdit(controlFSM, SetupPhaseChange);
             On.AudioManager.BeginApplyMusicCue -= OnApplyMusicCue;
@@ -210,7 +201,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             _modifiers = new AnimationModifiersNkg();
             try
             {
-                _modifiers = AnimationModifiersNkg.FromJsonFile();
+                //_modifiers = AnimationModifiersNkg.FromJsonFile();
             }
             catch (Exception e) { }
         }
@@ -243,16 +234,16 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var startHiveKnightMusic = fsm.AddState("Start Hive Knight Music");
 
             var cue = musicState.GetFirstActionOfType<ApplyMusicCue>();
-            cue.delayTime = 1f;
+            cue.delayTime = 0f;
 
             startHiveKnightMusic.AddCustomAction(() =>
             {
-                GameManager.instance.AudioManager.ApplyMusicCue((MusicCue)cue.musicCue.Value, 1f, 0f, true);
+                GameManager.instance.AudioManager.ApplyMusicCue((MusicCue)cue.musicCue.Value, 0.0f, 0f, true);
             });
 
             startHiveKnightMusic.AddAction(musicState.GetFirstActionOfType<TransitionToAudioSnapshot>());
             var snap = startHiveKnightMusic.GetFirstActionOfType<TransitionToAudioSnapshot>();
-            snap.transitionTime = 1f;
+            snap.transitionTime = 0.5f;
 
             return startHiveKnightMusic;
         }
@@ -450,6 +441,11 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var stunControl = _bossObject.LocateMyFSM("Stun");
             stunControl.GetVariable<FsmInt>("Stun Hit Max").Value = 18 * 6;
             stunControl.GetVariable<FsmInt>("Stun Combo").Value = 18 * 2;
+
+            if (!alreadyChangedOnce)
+            {
+                FsmEditTemplates.Utils.DisplayDreamText("It's recommended to turn on sfx and bgm volumes (not too loud)");
+            }
         }
 
         public static void SetupTitleScream(PlayMakerFSM fsm)
@@ -513,7 +509,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             var phaseTransitionGate = healthManager.hp - _phase1Hp;
             if (alreadyChangedOnce)
             {
-                phaseTransitionGate = healthManager.hp - 10;
+                phaseTransitionGate = healthManager.hp - 1;
             }
 
             CorruptedDreamsPlandoMod.Instance.Log($"Setting up phase change, will trigger at {phaseTransitionGate} hp");
@@ -628,7 +624,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             else
             {
                 moveOptions.Add("SLASH");
-                //moveOptions.Add("SLASH");
+                moveOptions.Add("SLASH");
                 moveOptions.Add("AIR DASH");
 
                 On.HeroController.NailParry += HeroController_NailParry;
@@ -649,7 +645,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
                     nextMove = "BALLOON SPIRAL";
                     balloonCounter = 0;
                     balloonCounterLimit += 0.5f;
-                    balloonCounterLimit = Mathf.Min(balloonCounterLimit, 7);
+                    balloonCounterLimit = Mathf.Min(balloonCounterLimit, 8);
                 }
                 else
                 {
@@ -963,7 +959,7 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             ddarkPillarsPause.AddTransition("DDARK PILLARS DONE", ddarkPillarsCleanup.Name);
 
             // Cleanup step is currently doing nothing
-            ddarkPillarsCleanup.AddAction(new Wait() { time = 0.75f, finishEvent = new("FINISHED") });
+            ddarkPillarsCleanup.AddAction(new Wait() { time = 1.5f, finishEvent = new("FINISHED") });
 
             ddarkPillarsCleanup.AddTransition("FINISHED", "Move Choice");
 
@@ -1211,14 +1207,30 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
             });
 
             var endPause = fsm.GetValidState("End Pause");
-            endPause.GetFirstActionOfType<Wait>().time = 10f;
+            //endPause.GetFirstActionOfType<Wait>().time = 5f;
+
+            
+
+            var teleOut = fsm.GetValidState("Tele Out");
+            var outPause = fsm.GetValidState("Out Pause");
+            var moveChoice = fsm.GetValidState("Move Choice");
+
+            var balTeleOut = fsm.AddState("Balloon Tele Out");
+            var balOutPause = fsm.AddState("Balloon Out Pause");
+            balTeleOut.CopyActionData(teleOut);
+            balOutPause.CopyActionData(outPause);
+
+            balTeleOut.AddTransition("FINISHED", balOutPause.Name);
+            balOutPause.AddTransition("FINISHED", moveChoice.Name);
 
             var deflateState = fsm.GetValidState("Deflate");
-            deflateState.AddAction(new Wait() { time = 10f, finishEvent = new("FINISHED") });
+            deflateState.RemoveTransition("FINISHED");
+            deflateState.AddTransition("FINISHED", balTeleOut.Name);
 
+            //deflateState.AddAction(new Wait() { time = 7f, finishEvent = new("DEFLATE FINISHED") });
+            balOutPause.GetFirstActionOfType<Wait>().time = 4f;
 
             var balloonPos = fsm.GetValidState("Balloon Pos");
-            var moveChoice = fsm.GetValidState("Move Choice");
             moveChoice.AddTransition("BALLOON SPIRAL", balloonPos.Name);
         }
     }
