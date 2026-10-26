@@ -16,19 +16,21 @@ namespace CorruptedDreamsPlando.MapAlterations
     {
         public static void InitializeTest()
         {
-            UnityEngine.SceneManagement.SceneManager.activeSceneChanged += OnSceneChange;
+            //UnityEngine.SceneManagement.SceneManager.activeSceneChanged += OnSceneChange;
             On.PlayerData.GetBool += PlayerData_GetBool;
             //On.GameManager.OnNextLevelReady += onSceneChange;
         }
 
         public void Initialize()
         {
-            UnityEngine.SceneManagement.SceneManager.activeSceneChanged += OnSceneChange;
+            //UnityEngine.SceneManagement.SceneManager.activeSceneChanged += OnSceneChange;
+            On.PlayerData.GetBool += PlayerData_GetBool;
         }
 
         public void Unload()
         {
-            UnityEngine.SceneManagement.SceneManager.activeSceneChanged -= OnSceneChange;
+            //UnityEngine.SceneManagement.SceneManager.activeSceneChanged -= OnSceneChange;
+            On.PlayerData.GetBool -= PlayerData_GetBool;
         }
 
         private static void OnSceneChange(Scene oldScene, Scene newScene)

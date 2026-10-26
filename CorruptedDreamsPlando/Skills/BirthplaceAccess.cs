@@ -29,7 +29,7 @@ namespace CorruptedDreamsPlando.Skills
 
         public static void InitializeHooks()
         {
-            On.HeroController.Update += HeroController_Update;
+            //On.HeroController.Update += HeroController_Update;
 
             On.PlayerData.GetBool += PlayerData_GetBool;
             //On.GameManager.OnNextLevelReady += onSceneChange;
@@ -176,14 +176,14 @@ namespace CorruptedDreamsPlando.Skills
             fsm.enabled = false;
         }
 
-        private static void HeroController_Update(On.HeroController.orig_Update orig, HeroController self)
-        {
-            orig(self);
-            if (Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess = !CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess;
-            }
-        }
+        //private static void HeroController_Update(On.HeroController.orig_Update orig, HeroController self)
+        //{
+        //    orig(self);
+        //    if (Input.GetKeyDown(KeyCode.Alpha8))
+        //    {
+        //        CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess = !CorruptedDreamsPlandoMod.LS.CollectedBirthplaceAccess;
+        //    }
+        //}
     }
 
 

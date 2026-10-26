@@ -7,6 +7,30 @@
         "Name": "BaldurHealthCap"
       },
       {
+        "$type": "CorruptedDreamsPlando.Modules.Shadeless, CorruptedDreamsPlando",
+        "Name": "Shadeless"
+      },
+      {
+        "$type": "CorruptedDreamsPlando.Modules.MapAlterationsManager, CorruptedDreamsPlando",
+        "Name": "MapAlterationsManager"
+      },
+            {
+        "$type": "CorruptedDreamsPlando.Modules.InstantSalubraSoulRefill, CorruptedDreamsPlando",
+        "Name": "InstantSalubraSoulRefill"
+      },
+            {
+        "$type": "CorruptedDreamsPlando.Modules.DistruptedSpells, CorruptedDreamsPlando",
+        "Name": "DistruptedSpells"
+      },
+      {
+        "$type": "CorruptedDreamsPlando.CorruptedDreamBosses.CorruptedRadiance, CorruptedDreamsPlando",
+        "Name": "CorruptedRadiance"
+      },
+      {
+        "$type": "CorruptedDreamsPlando.CorruptedDreamBosses.CorruptedNKG, CorruptedDreamsPlando",
+        "Name": "CorruptedNKG"
+      },
+      {
         "$type": "ItemChanger.Modules.BlueDoorUnlock, ItemChanger",
         "blueHealthThreshold": 1,
         "Name": "BlueDoorUnlock"
