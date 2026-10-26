@@ -66,10 +66,6 @@ namespace CorruptedDreamsPlando
             MapAlterations.DungDoorAdder.AddDungDoor();
             Rando.RandoInterop.Hook();
 
-
-            GpzAlwaysAvailable.InitializeTest();
-            AbridgedColo.InitializeTest();
-
             Log("Initialized");
         }
 

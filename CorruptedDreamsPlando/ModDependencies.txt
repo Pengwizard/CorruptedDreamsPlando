@@ -32,3 +32,4 @@ FrogCore
 RandoStats
 HKTool
 WavLib
+RandoMapMod

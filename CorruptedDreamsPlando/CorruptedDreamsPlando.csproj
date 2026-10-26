@@ -183,6 +183,9 @@
     <Reference Include="QoL">
       <HintPath>$(HollowKnightRefs)/Mods/QoL/QoL.dll</HintPath>
     </Reference>
+    <Reference Include="RandoMapMod">
+      <HintPath>$(HollowKnightRefs)/Mods/RandoMapMod/RandoMapMod.dll</HintPath>
+    </Reference>
     <Reference Include="RandomizableLevers">
       <HintPath>$(HollowKnightRefs)/Mods/Randomizable Levers/RandomizableLevers.dll</HintPath>
     </Reference>

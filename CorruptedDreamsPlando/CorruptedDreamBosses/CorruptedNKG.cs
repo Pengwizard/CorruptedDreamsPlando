@@ -175,7 +175,6 @@ namespace CorruptedDreamsPlando.CorruptedDreamBosses
 
                 if (origAudio != null)
                 {
-                    CorruptedDreamsPlandoMod.Instance.Log($"Checking to replace {origAudio.name}");
                     if (origAudio.name != _hiveKnightAudioName)
                     {
                         continue;
