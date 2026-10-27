@@ -21,7 +21,6 @@ Randomizable Levers
 RandoPlus
 RecentItemsDisplay
 TheGloryOfBeingAFoolRandomizer
-SpellStaller
 Scatternest
 Extra Rando
 BingoUI
@@ -33,3 +32,4 @@ RandoStats
 HKTool
 WavLib
 RandoMapMod
+Spell Staller Charms
