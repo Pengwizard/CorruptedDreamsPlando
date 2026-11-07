@@ -13505,48 +13505,6 @@
     {
       "Item": {
         "ItemDef": {
-          "Name": "Crossroads_Stag",
-          "Pool": "Stag",
-          "PriceCap": 500,
-          "MajorItem": false
-        },
-        "item": {
-          "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Crossroads_Stag"
-        },
-        "Priority": 0.6456522,
-        "Name": "Crossroads_Stag",
-        "Placed": "Permanent",
-        "Sphere": 95,
-        "Required": false
-      },
-      "Location": {
-        "LocationDef": {
-          "Name": "Crossroads_Stag",
-          "SceneName": "Crossroads_47",
-          "FlexibleCount": false,
-          "AdditionalProgressionPenalty": false
-        },
-        "logic": {
-          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
-          "Name": "Crossroads_Stag"
-        },
-        "costs": [
-          {
-            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
-            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
-            "GeoAmount": 50
-          }
-        ],
-        "Priority": 0.271739125,
-        "Reachable": "Permanent",
-        "Sphere": 0
-      },
-      "Index": 54
-    },
-    {
-      "Item": {
-        "ItemDef": {
           "Name": "Queen's_Station_Stag",
           "Pool": "Stag",
           "PriceCap": 500,
@@ -13584,7 +13542,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 55
+      "Index": 54
     },
     {
       "Item": {
@@ -13626,7 +13584,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 56
+      "Index": 55
     },
     {
       "Item": {
@@ -13668,7 +13626,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 57
+      "Index": 56
     },
     {
       "Item": {
@@ -13710,7 +13668,7 @@
         "Reachable": "Permanent",
         "Sphere": 67
       },
-      "Index": 58
+      "Index": 57
     },
     {
       "Item": {
@@ -13746,7 +13704,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 59
+      "Index": 58
     },
     {
       "Item": {
@@ -13788,7 +13746,7 @@
         "Reachable": "Permanent",
         "Sphere": 22
       },
-      "Index": 60
+      "Index": 59
     },
     {
       "Item": {
@@ -13830,7 +13788,7 @@
         "Reachable": "Permanent",
         "Sphere": 22
       },
-      "Index": 61
+      "Index": 60
     },
     {
       "Item": {
@@ -13872,7 +13830,7 @@
         "Reachable": "Permanent",
         "Sphere": 50
       },
-      "Index": 62
+      "Index": 61
     },
     {
       "Item": {
@@ -13908,7 +13866,7 @@
         "Reachable": "Permanent",
         "Sphere": 92
       },
-      "Index": 63
+      "Index": 62
     },
     {
       "Item": {
@@ -13944,7 +13902,7 @@
         "Reachable": "Permanent",
         "Sphere": 73
       },
-      "Index": 64
+      "Index": 63
     },
     {
       "Item": {
@@ -13980,7 +13938,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 65
+      "Index": 64
     },
     {
       "Item": {
@@ -14016,7 +13974,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 66
+      "Index": 65
     },
     {
       "Item": {
@@ -14052,7 +14010,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 67
+      "Index": 66
     },
     {
       "Item": {
@@ -14088,7 +14046,7 @@
         "Reachable": "Permanent",
         "Sphere": 86
       },
-      "Index": 68
+      "Index": 67
     },
     {
       "Item": {
@@ -14124,7 +14082,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 69
+      "Index": 68
     },
     {
       "Item": {
@@ -14160,7 +14118,7 @@
         "Reachable": "Permanent",
         "Sphere": 7
       },
-      "Index": 70
+      "Index": 69
     },
     {
       "Item": {
@@ -14196,7 +14154,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 71
+      "Index": 70
     },
     {
       "Item": {
@@ -14232,7 +14190,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 72
+      "Index": 71
     },
     {
       "Item": {
@@ -14268,7 +14226,7 @@
         "Reachable": "Permanent",
         "Sphere": 1
       },
-      "Index": 73
+      "Index": 72
     },
     {
       "Item": {
@@ -14304,7 +14262,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 74
+      "Index": 73
     },
     {
       "Item": {
@@ -14340,7 +14298,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 75
+      "Index": 74
     },
     {
       "Item": {
@@ -14376,7 +14334,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 76
+      "Index": 75
     },
     {
       "Item": {
@@ -14412,7 +14370,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 77
+      "Index": 76
     },
     {
       "Item": {
@@ -14448,7 +14406,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 78
+      "Index": 77
     },
     {
       "Item": {
@@ -14484,7 +14442,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 79
+      "Index": 78
     },
     {
       "Item": {
@@ -14520,7 +14478,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 80
+      "Index": 79
     },
     {
       "Item": {
@@ -14556,7 +14514,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 81
+      "Index": 80
     },
     {
       "Item": {
@@ -14592,7 +14550,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 82
+      "Index": 81
     },
     {
       "Item": {
@@ -14628,7 +14586,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 83
+      "Index": 82
     },
     {
       "Item": {
@@ -14664,7 +14622,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 84
+      "Index": 83
     },
     {
       "Item": {
@@ -14700,7 +14658,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 85
+      "Index": 84
     },
     {
       "Item": {
@@ -14736,7 +14694,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 86
+      "Index": 85
     },
     {
       "Item": {
@@ -14772,7 +14730,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 87
+      "Index": 86
     },
     {
       "Item": {
@@ -14808,7 +14766,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 88
+      "Index": 87
     },
     {
       "Item": {
@@ -14844,7 +14802,7 @@
         "Reachable": "Permanent",
         "Sphere": 17
       },
-      "Index": 89
+      "Index": 88
     },
     {
       "Item": {
@@ -14880,7 +14838,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 90
+      "Index": 89
     },
     {
       "Item": {
@@ -14916,7 +14874,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 91
+      "Index": 90
     },
     {
       "Item": {
@@ -14952,7 +14910,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 92
+      "Index": 91
     },
     {
       "Item": {
@@ -14988,7 +14946,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 93
+      "Index": 92
     },
     {
       "Item": {
@@ -15024,7 +14982,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 94
+      "Index": 93
     },
     {
       "Item": {
@@ -15060,7 +15018,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 95
+      "Index": 94
     },
     {
       "Item": {
@@ -15096,7 +15054,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 96
+      "Index": 95
     },
     {
       "Item": {
@@ -15132,7 +15090,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 97
+      "Index": 96
     },
     {
       "Item": {
@@ -15168,7 +15126,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 98
+      "Index": 97
     },
     {
       "Item": {
@@ -15204,7 +15162,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 99
+      "Index": 98
     },
     {
       "Item": {
@@ -15240,7 +15198,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 100
+      "Index": 99
     },
     {
       "Item": {
@@ -15276,7 +15234,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 101
+      "Index": 100
     },
     {
       "Item": {
@@ -15312,7 +15270,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 102
+      "Index": 101
     },
     {
       "Item": {
@@ -15348,7 +15306,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 103
+      "Index": 102
     },
     {
       "Item": {
@@ -15384,7 +15342,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 104
+      "Index": 103
     },
     {
       "Item": {
@@ -15420,7 +15378,7 @@
         "Reachable": "Permanent",
         "Sphere": 8
       },
-      "Index": 105
+      "Index": 104
     },
     {
       "Item": {
@@ -15456,7 +15414,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 106
+      "Index": 105
     },
     {
       "Item": {
@@ -15492,7 +15450,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 107
+      "Index": 106
     },
     {
       "Item": {
@@ -15528,7 +15486,7 @@
         "Reachable": "Permanent",
         "Sphere": 90
       },
-      "Index": 108
+      "Index": 107
     },
     {
       "Item": {
@@ -15564,7 +15522,7 @@
         "Reachable": "Permanent",
         "Sphere": 85
       },
-      "Index": 109
+      "Index": 108
     },
     {
       "Item": {
@@ -15600,7 +15558,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 110
+      "Index": 109
     },
     {
       "Item": {
@@ -15636,7 +15594,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 111
+      "Index": 110
     },
     {
       "Item": {
@@ -15672,7 +15630,7 @@
         "Reachable": "Permanent",
         "Sphere": 91
       },
-      "Index": 112
+      "Index": 111
     },
     {
       "Item": {
@@ -15708,7 +15666,7 @@
         "Reachable": "Permanent",
         "Sphere": 8
       },
-      "Index": 113
+      "Index": 112
     },
     {
       "Item": {
@@ -15744,7 +15702,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 114
+      "Index": 113
     },
     {
       "Item": {
@@ -15780,7 +15738,7 @@
         "Reachable": "Permanent",
         "Sphere": 74
       },
-      "Index": 115
+      "Index": 114
     },
     {
       "Item": {
@@ -15816,7 +15774,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 116
+      "Index": 115
     },
     {
       "Item": {
@@ -15852,7 +15810,7 @@
         "Reachable": "Permanent",
         "Sphere": 71
       },
-      "Index": 117
+      "Index": 116
     },
     {
       "Item": {
@@ -15888,7 +15846,7 @@
         "Reachable": "Permanent",
         "Sphere": 69
       },
-      "Index": 118
+      "Index": 117
     },
     {
       "Item": {
@@ -15924,7 +15882,7 @@
         "Reachable": "Permanent",
         "Sphere": 77
       },
-      "Index": 119
+      "Index": 118
     },
     {
       "Item": {
@@ -15960,7 +15918,7 @@
         "Reachable": "Permanent",
         "Sphere": 91
       },
-      "Index": 120
+      "Index": 119
     },
     {
       "Item": {
@@ -15996,7 +15954,7 @@
         "Reachable": "Permanent",
         "Sphere": 85
       },
-      "Index": 121
+      "Index": 120
     },
     {
       "Item": {
@@ -16032,7 +15990,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 122
+      "Index": 121
     },
     {
       "Item": {
@@ -16068,7 +16026,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 123
+      "Index": 122
     },
     {
       "Item": {
@@ -16104,7 +16062,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 124
+      "Index": 123
     },
     {
       "Item": {
@@ -16140,7 +16098,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 125
+      "Index": 124
     },
     {
       "Item": {
@@ -16176,7 +16134,7 @@
         "Reachable": "Permanent",
         "Sphere": 31
       },
-      "Index": 126
+      "Index": 125
     },
     {
       "Item": {
@@ -16212,7 +16170,7 @@
         "Reachable": "Permanent",
         "Sphere": 31
       },
-      "Index": 127
+      "Index": 126
     },
     {
       "Item": {
@@ -16248,7 +16206,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 128
+      "Index": 127
     },
     {
       "Item": {
@@ -16284,7 +16242,7 @@
         "Reachable": "Permanent",
         "Sphere": 80
       },
-      "Index": 129
+      "Index": 128
     },
     {
       "Item": {
@@ -16320,7 +16278,7 @@
         "Reachable": "Permanent",
         "Sphere": 63
       },
-      "Index": 130
+      "Index": 129
     },
     {
       "Item": {
@@ -16356,7 +16314,7 @@
         "Reachable": "Permanent",
         "Sphere": 87
       },
-      "Index": 131
+      "Index": 130
     },
     {
       "Item": {
@@ -16392,7 +16350,7 @@
         "Reachable": "Permanent",
         "Sphere": 87
       },
-      "Index": 132
+      "Index": 131
     },
     {
       "Item": {
@@ -16434,7 +16392,7 @@
         "Reachable": "Permanent",
         "Sphere": 89
       },
-      "Index": 133
+      "Index": 132
     },
     {
       "Item": {
@@ -16476,7 +16434,7 @@
         "Reachable": "Permanent",
         "Sphere": 89
       },
-      "Index": 134
+      "Index": 133
     },
     {
       "Item": {
@@ -16518,7 +16476,7 @@
         "Reachable": "Permanent",
         "Sphere": 20
       },
-      "Index": 135
+      "Index": 134
     },
     {
       "Item": {
@@ -16560,7 +16518,7 @@
         "Reachable": "Permanent",
         "Sphere": 36
       },
-      "Index": 136
+      "Index": 135
     },
     {
       "Item": {
@@ -16602,7 +16560,7 @@
         "Reachable": "Permanent",
         "Sphere": 36
       },
-      "Index": 137
+      "Index": 136
     },
     {
       "Item": {
@@ -16644,7 +16602,7 @@
         "Reachable": "Permanent",
         "Sphere": 36
       },
-      "Index": 138
+      "Index": 137
     },
     {
       "Item": {
@@ -16686,7 +16644,7 @@
         "Reachable": "Permanent",
         "Sphere": 36
       },
-      "Index": 139
+      "Index": 138
     },
     {
       "Item": {
@@ -16728,7 +16686,7 @@
         "Reachable": "Permanent",
         "Sphere": 36
       },
-      "Index": 140
+      "Index": 139
     },
     {
       "Item": {
@@ -16770,7 +16728,7 @@
         "Reachable": "Permanent",
         "Sphere": 36
       },
-      "Index": 141
+      "Index": 140
     },
     {
       "Item": {
@@ -16817,7 +16775,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 142
+      "Index": 141
     },
     {
       "Item": {
@@ -16864,7 +16822,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 143
+      "Index": 142
     },
     {
       "Item": {
@@ -16911,7 +16869,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 144
+      "Index": 143
     },
     {
       "Item": {
@@ -16947,7 +16905,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 145
+      "Index": 144
     },
     {
       "Item": {
@@ -16983,7 +16941,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 146
+      "Index": 145
     },
     {
       "Item": {
@@ -17019,7 +16977,7 @@
         "Reachable": "Permanent",
         "Sphere": 3
       },
-      "Index": 147
+      "Index": 146
     },
     {
       "Item": {
@@ -17055,7 +17013,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 148
+      "Index": 147
     },
     {
       "Item": {
@@ -17091,7 +17049,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 149
+      "Index": 148
     },
     {
       "Item": {
@@ -17127,7 +17085,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 150
+      "Index": 149
     },
     {
       "Item": {
@@ -17163,7 +17121,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 151
+      "Index": 150
     },
     {
       "Item": {
@@ -17199,7 +17157,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 152
+      "Index": 151
     },
     {
       "Item": {
@@ -17235,7 +17193,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 153
+      "Index": 152
     },
     {
       "Item": {
@@ -17271,7 +17229,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 154
+      "Index": 153
     },
     {
       "Item": {
@@ -17307,7 +17265,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 155
+      "Index": 154
     },
     {
       "Item": {
@@ -17343,7 +17301,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 156
+      "Index": 155
     },
     {
       "Item": {
@@ -17379,7 +17337,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 157
+      "Index": 156
     },
     {
       "Item": {
@@ -17415,7 +17373,7 @@
         "Reachable": "Permanent",
         "Sphere": 31
       },
-      "Index": 158
+      "Index": 157
     },
     {
       "Item": {
@@ -17451,7 +17409,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 159
+      "Index": 158
     },
     {
       "Item": {
@@ -17487,7 +17445,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 160
+      "Index": 159
     },
     {
       "Item": {
@@ -17523,7 +17481,7 @@
         "Reachable": "Permanent",
         "Sphere": 60
       },
-      "Index": 161
+      "Index": 160
     },
     {
       "Item": {
@@ -17565,7 +17523,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 162
+      "Index": 161
     },
     {
       "Item": {
@@ -17596,7 +17554,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 163
+      "Index": 162
     },
     {
       "Item": {
@@ -17632,7 +17590,7 @@
         "Reachable": "Permanent",
         "Sphere": 85
       },
-      "Index": 164
+      "Index": 163
     },
     {
       "Item": {
@@ -17668,7 +17626,7 @@
         "Reachable": "Permanent",
         "Sphere": 61
       },
-      "Index": 165
+      "Index": 164
     },
     {
       "Item": {
@@ -17704,7 +17662,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 166
+      "Index": 165
     },
     {
       "Item": {
@@ -17740,7 +17698,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 167
+      "Index": 166
     },
     {
       "Item": {
@@ -17776,7 +17734,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 168
+      "Index": 167
     },
     {
       "Item": {
@@ -17812,7 +17770,7 @@
         "Reachable": "Permanent",
         "Sphere": 45
       },
-      "Index": 169
+      "Index": 168
     },
     {
       "Item": {
@@ -17848,7 +17806,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 170
+      "Index": 169
     },
     {
       "Item": {
@@ -17884,7 +17842,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 171
+      "Index": 170
     },
     {
       "Item": {
@@ -17920,7 +17878,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 172
+      "Index": 171
     },
     {
       "Item": {
@@ -17956,7 +17914,7 @@
         "Reachable": "Permanent",
         "Sphere": 67
       },
-      "Index": 173
+      "Index": 172
     },
     {
       "Item": {
@@ -17992,7 +17950,7 @@
         "Reachable": "Permanent",
         "Sphere": 73
       },
-      "Index": 174
+      "Index": 173
     },
     {
       "Item": {
@@ -18028,7 +17986,7 @@
         "Reachable": "Permanent",
         "Sphere": 31
       },
-      "Index": 175
+      "Index": 174
     },
     {
       "Item": {
@@ -18064,7 +18022,7 @@
         "Reachable": "Permanent",
         "Sphere": 7
       },
-      "Index": 176
+      "Index": 175
     },
     {
       "Item": {
@@ -18100,7 +18058,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 177
+      "Index": 176
     },
     {
       "Item": {
@@ -18136,7 +18094,7 @@
         "Reachable": "Permanent",
         "Sphere": 73
       },
-      "Index": 178
+      "Index": 177
     },
     {
       "Item": {
@@ -18172,7 +18130,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 179
+      "Index": 178
     },
     {
       "Item": {
@@ -18208,7 +18166,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 180
+      "Index": 179
     },
     {
       "Item": {
@@ -18244,7 +18202,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 181
+      "Index": 180
     },
     {
       "Item": {
@@ -18280,7 +18238,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 182
+      "Index": 181
     },
     {
       "Item": {
@@ -18316,7 +18274,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 183
+      "Index": 182
     },
     {
       "Item": {
@@ -18352,7 +18310,7 @@
         "Reachable": "Permanent",
         "Sphere": 8
       },
-      "Index": 184
+      "Index": 183
     },
     {
       "Item": {
@@ -18388,7 +18346,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 185
+      "Index": 184
     },
     {
       "Item": {
@@ -18424,7 +18382,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 186
+      "Index": 185
     },
     {
       "Item": {
@@ -18460,7 +18418,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 187
+      "Index": 186
     },
     {
       "Item": {
@@ -18496,7 +18454,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 188
+      "Index": 187
     },
     {
       "Item": {
@@ -18532,7 +18490,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 189
+      "Index": 188
     },
     {
       "Item": {
@@ -18568,7 +18526,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 190
+      "Index": 189
     },
     {
       "Item": {
@@ -18604,7 +18562,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 191
+      "Index": 190
     },
     {
       "Item": {
@@ -18640,7 +18598,7 @@
         "Reachable": "Permanent",
         "Sphere": 67
       },
-      "Index": 192
+      "Index": 191
     },
     {
       "Item": {
@@ -18676,7 +18634,7 @@
         "Reachable": "Permanent",
         "Sphere": 27
       },
-      "Index": 193
+      "Index": 192
     },
     {
       "Item": {
@@ -18712,7 +18670,7 @@
         "Reachable": "Permanent",
         "Sphere": 80
       },
-      "Index": 194
+      "Index": 193
     },
     {
       "Item": {
@@ -18748,7 +18706,7 @@
         "Reachable": "Permanent",
         "Sphere": 79
       },
-      "Index": 195
+      "Index": 194
     },
     {
       "Item": {
@@ -18784,7 +18742,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 196
+      "Index": 195
     },
     {
       "Item": {
@@ -18820,7 +18778,7 @@
         "Reachable": "Permanent",
         "Sphere": 82
       },
-      "Index": 197
+      "Index": 196
     },
     {
       "Item": {
@@ -18856,7 +18814,7 @@
         "Reachable": "Permanent",
         "Sphere": 82
       },
-      "Index": 198
+      "Index": 197
     },
     {
       "Item": {
@@ -18892,7 +18850,7 @@
         "Reachable": "Permanent",
         "Sphere": 82
       },
-      "Index": 199
+      "Index": 198
     },
     {
       "Item": {
@@ -18928,7 +18886,7 @@
         "Reachable": "Permanent",
         "Sphere": 83
       },
-      "Index": 200
+      "Index": 199
     },
     {
       "Item": {
@@ -18964,7 +18922,7 @@
         "Reachable": "Permanent",
         "Sphere": 67
       },
-      "Index": 201
+      "Index": 200
     },
     {
       "Item": {
@@ -19000,7 +18958,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 202
+      "Index": 201
     },
     {
       "Item": {
@@ -19036,7 +18994,7 @@
         "Reachable": "Permanent",
         "Sphere": 78
       },
-      "Index": 203
+      "Index": 202
     },
     {
       "Item": {
@@ -19072,7 +19030,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 204
+      "Index": 203
     },
     {
       "Item": {
@@ -19108,7 +19066,7 @@
         "Reachable": "Permanent",
         "Sphere": 67
       },
-      "Index": 205
+      "Index": 204
     },
     {
       "Item": {
@@ -19144,7 +19102,7 @@
         "Reachable": "Permanent",
         "Sphere": 27
       },
-      "Index": 206
+      "Index": 205
     },
     {
       "Item": {
@@ -19180,7 +19138,7 @@
         "Reachable": "Permanent",
         "Sphere": 27
       },
-      "Index": 207
+      "Index": 206
     },
     {
       "Item": {
@@ -19216,7 +19174,7 @@
         "Reachable": "Permanent",
         "Sphere": 27
       },
-      "Index": 208
+      "Index": 207
     },
     {
       "Item": {
@@ -19252,7 +19210,7 @@
         "Reachable": "Permanent",
         "Sphere": 68
       },
-      "Index": 209
+      "Index": 208
     },
     {
       "Item": {
@@ -19288,7 +19246,7 @@
         "Reachable": "Permanent",
         "Sphere": 72
       },
-      "Index": 210
+      "Index": 209
     },
     {
       "Item": {
@@ -19324,7 +19282,7 @@
         "Reachable": "Permanent",
         "Sphere": 6
       },
-      "Index": 211
+      "Index": 210
     },
     {
       "Item": {
@@ -19366,7 +19324,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 212
+      "Index": 211
     },
     {
       "Item": {
@@ -19408,7 +19366,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 213
+      "Index": 212
     },
     {
       "Item": {
@@ -19450,7 +19408,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 214
+      "Index": 213
     },
     {
       "Item": {
@@ -19492,7 +19450,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 215
+      "Index": 214
     },
     {
       "Item": {
@@ -19534,7 +19492,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 216
+      "Index": 215
     },
     {
       "Item": {
@@ -19576,7 +19534,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 217
+      "Index": 216
     },
     {
       "Item": {
@@ -19618,7 +19576,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 218
+      "Index": 217
     },
     {
       "Item": {
@@ -19660,7 +19618,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 219
+      "Index": 218
     },
     {
       "Item": {
@@ -19702,7 +19660,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 220
+      "Index": 219
     },
     {
       "Item": {
@@ -19744,7 +19702,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 221
+      "Index": 220
     },
     {
       "Item": {
@@ -19786,7 +19744,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 222
+      "Index": 221
     },
     {
       "Item": {
@@ -19828,7 +19786,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 223
+      "Index": 222
     },
     {
       "Item": {
@@ -19870,7 +19828,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 224
+      "Index": 223
     },
     {
       "Item": {
@@ -19912,7 +19870,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 225
+      "Index": 224
     },
     {
       "Item": {
@@ -19954,7 +19912,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 226
+      "Index": 225
     },
     {
       "Item": {
@@ -19996,7 +19954,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 227
+      "Index": 226
     },
     {
       "Item": {
@@ -20038,7 +19996,7 @@
         "Reachable": "Permanent",
         "Sphere": 52
       },
-      "Index": 228
+      "Index": 227
     },
     {
       "Item": {
@@ -20074,7 +20032,7 @@
         "Reachable": "Permanent",
         "Sphere": 26
       },
-      "Index": 229
+      "Index": 228
     },
     {
       "Item": {
@@ -20110,7 +20068,7 @@
         "Reachable": "Permanent",
         "Sphere": 25
       },
-      "Index": 230
+      "Index": 229
     },
     {
       "Item": {
@@ -20141,7 +20099,7 @@
         "Reachable": "Permanent",
         "Sphere": 53
       },
-      "Index": 231
+      "Index": 230
     },
     {
       "Item": {
@@ -20177,7 +20135,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 232
+      "Index": 231
     },
     {
       "Item": {
@@ -20213,7 +20171,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 233
+      "Index": 232
     },
     {
       "Item": {
@@ -20249,7 +20207,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 234
+      "Index": 233
     },
     {
       "Item": {
@@ -20284,6 +20242,48 @@
         "Priority": 0.9782609,
         "Reachable": "Permanent",
         "Sphere": 65
+      },
+      "Index": 234
+    },
+    {
+      "Item": {
+        "ItemDef": {
+          "Name": "Abyss_Shriek",
+          "Pool": "Skill",
+          "PriceCap": 500,
+          "MajorItem": false
+        },
+        "item": {
+          "$type": "RandomizerCore.LogicItem, RandomizerCore",
+          "Name": "Abyss_Shriek"
+        },
+        "Priority": 0.158695653,
+        "Name": "Abyss_Shriek",
+        "Placed": "Permanent",
+        "Sphere": 10,
+        "Required": true
+      },
+      "Location": {
+        "LocationDef": {
+          "Name": "Iselda",
+          "SceneName": "Room_mapper",
+          "FlexibleCount": true,
+          "AdditionalProgressionPenalty": true
+        },
+        "logic": {
+          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
+          "Name": "Iselda"
+        },
+        "costs": [
+          {
+            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
+            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
+            "GeoAmount": 1
+          }
+        ],
+        "Priority": 0.308695644,
+        "Reachable": "Permanent",
+        "Sphere": 47
       },
       "Index": 235
     },
@@ -20332,19 +20332,19 @@
     {
       "Item": {
         "ItemDef": {
-          "Name": "Abyss_Shriek",
+          "Name": "Awoken_Dream_Nail",
           "Pool": "Skill",
           "PriceCap": 500,
           "MajorItem": false
         },
         "item": {
           "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Abyss_Shriek"
+          "Name": "Awoken_Dream_Nail"
         },
-        "Priority": 0.158695653,
-        "Name": "Abyss_Shriek",
+        "Priority": 0.136956528,
+        "Name": "Awoken_Dream_Nail",
         "Placed": "Permanent",
-        "Sphere": 10,
+        "Sphere": 63,
         "Required": true
       },
       "Location": {
@@ -20458,48 +20458,6 @@
     {
       "Item": {
         "ItemDef": {
-          "Name": "Awoken_Dream_Nail",
-          "Pool": "Skill",
-          "PriceCap": 500,
-          "MajorItem": false
-        },
-        "item": {
-          "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Awoken_Dream_Nail"
-        },
-        "Priority": 0.136956528,
-        "Name": "Awoken_Dream_Nail",
-        "Placed": "Permanent",
-        "Sphere": 63,
-        "Required": true
-      },
-      "Location": {
-        "LocationDef": {
-          "Name": "Iselda",
-          "SceneName": "Room_mapper",
-          "FlexibleCount": true,
-          "AdditionalProgressionPenalty": true
-        },
-        "logic": {
-          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
-          "Name": "Iselda"
-        },
-        "costs": [
-          {
-            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
-            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
-            "GeoAmount": 1
-          }
-        ],
-        "Priority": 0.308695644,
-        "Reachable": "Permanent",
-        "Sphere": 47
-      },
-      "Index": 240
-    },
-    {
-      "Item": {
-        "ItemDef": {
           "Name": "CorruptedDreams_Determination",
           "Pool": "Skills",
           "PriceCap": 1,
@@ -20537,7 +20495,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 241
+      "Index": 240
     },
     {
       "Item": {
@@ -20556,6 +20514,48 @@
         "Placed": "Permanent",
         "Sphere": 60,
         "Required": true
+      },
+      "Location": {
+        "LocationDef": {
+          "Name": "Iselda",
+          "SceneName": "Room_mapper",
+          "FlexibleCount": true,
+          "AdditionalProgressionPenalty": true
+        },
+        "logic": {
+          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
+          "Name": "Iselda"
+        },
+        "costs": [
+          {
+            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
+            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
+            "GeoAmount": 1
+          }
+        ],
+        "Priority": 0.308695644,
+        "Reachable": "Permanent",
+        "Sphere": 47
+      },
+      "Index": 241
+    },
+    {
+      "Item": {
+        "ItemDef": {
+          "Name": "Descending_Dark",
+          "Pool": "Skill",
+          "PriceCap": 500,
+          "MajorItem": false
+        },
+        "item": {
+          "$type": "RandomizerCore.LogicItem, RandomizerCore",
+          "Name": "Descending_Dark"
+        },
+        "Priority": 0.573913038,
+        "Name": "Descending_Dark",
+        "Placed": "Permanent",
+        "Sphere": 95,
+        "Required": false
       },
       "Location": {
         "LocationDef": {
@@ -20625,48 +20625,6 @@
     },
     {
       "Item": {
-        "ItemDef": {
-          "Name": "Descending_Dark",
-          "Pool": "Skill",
-          "PriceCap": 500,
-          "MajorItem": false
-        },
-        "item": {
-          "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Descending_Dark"
-        },
-        "Priority": 0.573913038,
-        "Name": "Descending_Dark",
-        "Placed": "Permanent",
-        "Sphere": 95,
-        "Required": false
-      },
-      "Location": {
-        "LocationDef": {
-          "Name": "Iselda",
-          "SceneName": "Room_mapper",
-          "FlexibleCount": true,
-          "AdditionalProgressionPenalty": true
-        },
-        "logic": {
-          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
-          "Name": "Iselda"
-        },
-        "costs": [
-          {
-            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
-            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
-            "GeoAmount": 1
-          }
-        ],
-        "Priority": 0.308695644,
-        "Reachable": "Permanent",
-        "Sphere": 47
-      },
-      "Index": 244
-    },
-    {
-      "Item": {
         "ItemDef": null,
         "item": {
           "$type": "RandomizerCore.LogicItem, RandomizerCore",
@@ -20700,7 +20658,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 245
+      "Index": 244
     },
     {
       "Item": {
@@ -20742,7 +20700,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 246
+      "Index": 245
     },
     {
       "Item": {
@@ -20784,7 +20742,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 247
+      "Index": 246
     },
     {
       "Item": {
@@ -20826,7 +20784,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 248
+      "Index": 247
     },
     {
       "Item": {
@@ -20868,7 +20826,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 249
+      "Index": 248
     },
     {
       "Item": {
@@ -20910,7 +20868,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 250
+      "Index": 249
     },
     {
       "Item": {
@@ -20952,7 +20910,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 251
+      "Index": 250
     },
     {
       "Item": {
@@ -20994,7 +20952,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 252
+      "Index": 251
     },
     {
       "Item": {
@@ -21036,7 +20994,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 253
+      "Index": 252
     },
     {
       "Item": {
@@ -21078,7 +21036,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 254
+      "Index": 253
     },
     {
       "Item": {
@@ -21096,6 +21054,48 @@
         "Name": "Not_Swim",
         "Placed": "Permanent",
         "Sphere": 69,
+        "Required": true
+      },
+      "Location": {
+        "LocationDef": {
+          "Name": "Iselda",
+          "SceneName": "Room_mapper",
+          "FlexibleCount": true,
+          "AdditionalProgressionPenalty": true
+        },
+        "logic": {
+          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
+          "Name": "Iselda"
+        },
+        "costs": [
+          {
+            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
+            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
+            "GeoAmount": 1
+          }
+        ],
+        "Priority": 0.308695644,
+        "Reachable": "Permanent",
+        "Sphere": 47
+      },
+      "Index": 254
+    },
+    {
+      "Item": {
+        "ItemDef": {
+          "Name": "Shade_Cloak",
+          "Pool": "Skill",
+          "PriceCap": 500,
+          "MajorItem": true
+        },
+        "item": {
+          "$type": "RandomizerCore.LogicItem, RandomizerCore",
+          "Name": "Shade_Cloak"
+        },
+        "Priority": 0.713043451,
+        "Name": "Shade_Cloak",
+        "Placed": "Permanent",
+        "Sphere": 73,
         "Required": true
       },
       "Location": {
@@ -21167,20 +21167,20 @@
     {
       "Item": {
         "ItemDef": {
-          "Name": "Shade_Cloak",
+          "Name": "Shade_Soul",
           "Pool": "Skill",
           "PriceCap": 500,
-          "MajorItem": true
+          "MajorItem": false
         },
         "item": {
           "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Shade_Cloak"
+          "Name": "Shade_Soul"
         },
-        "Priority": 0.713043451,
-        "Name": "Shade_Cloak",
+        "Priority": 0.2804348,
+        "Name": "Shade_Soul",
         "Placed": "Permanent",
-        "Sphere": 73,
-        "Required": true
+        "Sphere": 95,
+        "Required": false
       },
       "Location": {
         "LocationDef": {
@@ -21251,17 +21251,17 @@
     {
       "Item": {
         "ItemDef": {
-          "Name": "Shade_Soul",
-          "Pool": "Skill",
-          "PriceCap": 500,
+          "Name": "Collector's_Map",
+          "Pool": "Key",
+          "PriceCap": 1,
           "MajorItem": false
         },
         "item": {
           "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Shade_Soul"
+          "Name": "Collector's_Map"
         },
-        "Priority": 0.2804348,
-        "Name": "Shade_Soul",
+        "Priority": 0.3021739,
+        "Name": "Collector's_Map",
         "Placed": "Permanent",
         "Sphere": 95,
         "Required": false
@@ -21334,48 +21334,6 @@
     },
     {
       "Item": {
-        "ItemDef": {
-          "Name": "Collector's_Map",
-          "Pool": "Key",
-          "PriceCap": 1,
-          "MajorItem": false
-        },
-        "item": {
-          "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Collector's_Map"
-        },
-        "Priority": 0.3021739,
-        "Name": "Collector's_Map",
-        "Placed": "Permanent",
-        "Sphere": 95,
-        "Required": false
-      },
-      "Location": {
-        "LocationDef": {
-          "Name": "Iselda",
-          "SceneName": "Room_mapper",
-          "FlexibleCount": true,
-          "AdditionalProgressionPenalty": true
-        },
-        "logic": {
-          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
-          "Name": "Iselda"
-        },
-        "costs": [
-          {
-            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
-            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
-            "GeoAmount": 1
-          }
-        ],
-        "Priority": 0.308695644,
-        "Reachable": "Permanent",
-        "Sphere": 47
-      },
-      "Index": 261
-    },
-    {
-      "Item": {
         "ItemDef": null,
         "item": {
           "$type": "RandomizerCore.LogicItem, RandomizerCore",
@@ -21409,7 +21367,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 262
+      "Index": 261
     },
     {
       "Item": {
@@ -21427,6 +21385,48 @@
         "Name": "Spell_Twister",
         "Placed": "Permanent",
         "Sphere": 24,
+        "Required": true
+      },
+      "Location": {
+        "LocationDef": {
+          "Name": "Iselda",
+          "SceneName": "Room_mapper",
+          "FlexibleCount": true,
+          "AdditionalProgressionPenalty": true
+        },
+        "logic": {
+          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
+          "Name": "Iselda"
+        },
+        "costs": [
+          {
+            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
+            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
+            "GeoAmount": 1
+          }
+        ],
+        "Priority": 0.308695644,
+        "Reachable": "Permanent",
+        "Sphere": 47
+      },
+      "Index": 262
+    },
+    {
+      "Item": {
+        "ItemDef": {
+          "Name": "Vessel_Fragment",
+          "Pool": "Vessel",
+          "PriceCap": 1500,
+          "MajorItem": false
+        },
+        "item": {
+          "$type": "RandomizerCore.LogicItem, RandomizerCore",
+          "Name": "Vessel_Fragment"
+        },
+        "Priority": 0.0543478243,
+        "Name": "Vessel_Fragment",
+        "Placed": "Permanent",
+        "Sphere": 45,
         "Required": true
       },
       "Location": {
@@ -21792,48 +21792,6 @@
     {
       "Item": {
         "ItemDef": {
-          "Name": "Vessel_Fragment",
-          "Pool": "Vessel",
-          "PriceCap": 1500,
-          "MajorItem": false
-        },
-        "item": {
-          "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Vessel_Fragment"
-        },
-        "Priority": 0.0543478243,
-        "Name": "Vessel_Fragment",
-        "Placed": "Permanent",
-        "Sphere": 45,
-        "Required": true
-      },
-      "Location": {
-        "LocationDef": {
-          "Name": "Iselda",
-          "SceneName": "Room_mapper",
-          "FlexibleCount": true,
-          "AdditionalProgressionPenalty": true
-        },
-        "logic": {
-          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
-          "Name": "Iselda"
-        },
-        "costs": [
-          {
-            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
-            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
-            "GeoAmount": 1
-          }
-        ],
-        "Priority": 0.308695644,
-        "Reachable": "Permanent",
-        "Sphere": 47
-      },
-      "Index": 272
-    },
-    {
-      "Item": {
-        "ItemDef": {
           "Name": "Tram_Pass",
           "Pool": "Key",
           "PriceCap": 500,
@@ -21865,7 +21823,7 @@
         "Reachable": "Permanent",
         "Sphere": 67
       },
-      "Index": 273
+      "Index": 272
     },
     {
       "Item": {
@@ -21901,7 +21859,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 274
+      "Index": 273
     },
     {
       "Item": {
@@ -21937,7 +21895,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 275
+      "Index": 274
     },
     {
       "Item": {
@@ -21973,7 +21931,7 @@
         "Reachable": "Permanent",
         "Sphere": 67
       },
-      "Index": 276
+      "Index": 275
     },
     {
       "Item": {
@@ -22009,7 +21967,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 277
+      "Index": 276
     },
     {
       "Item": {
@@ -22051,7 +22009,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 278
+      "Index": 277
     },
     {
       "Item": {
@@ -22087,7 +22045,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 279
+      "Index": 278
     },
     {
       "Item": {
@@ -22123,7 +22081,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 280
+      "Index": 279
     },
     {
       "Item": {
@@ -22159,7 +22117,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 281
+      "Index": 280
     },
     {
       "Item": {
@@ -22201,7 +22159,7 @@
         "Reachable": "Permanent",
         "Sphere": 89
       },
-      "Index": 282
+      "Index": 281
     },
     {
       "Item": {
@@ -22243,7 +22201,7 @@
         "Reachable": "Permanent",
         "Sphere": 89
       },
-      "Index": 283
+      "Index": 282
     },
     {
       "Item": {
@@ -22279,7 +22237,7 @@
         "Reachable": "Permanent",
         "Sphere": 30
       },
-      "Index": 284
+      "Index": 283
     },
     {
       "Item": {
@@ -22315,7 +22273,7 @@
         "Reachable": "Permanent",
         "Sphere": 35
       },
-      "Index": 285
+      "Index": 284
     },
     {
       "Item": {
@@ -22351,7 +22309,7 @@
         "Reachable": "Permanent",
         "Sphere": 67
       },
-      "Index": 286
+      "Index": 285
     },
     {
       "Item": {
@@ -22387,7 +22345,7 @@
         "Reachable": "Permanent",
         "Sphere": 82
       },
-      "Index": 287
+      "Index": 286
     },
     {
       "Item": {
@@ -22423,43 +22381,7 @@
         "Reachable": "Permanent",
         "Sphere": 82
       },
-      "Index": 288
-    },
-    {
-      "Item": {
-        "ItemDef": {
-          "Name": "Lumafly_Escape",
-          "Pool": "JunkPitChest",
-          "PriceCap": 1,
-          "MajorItem": false
-        },
-        "item": {
-          "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Lumafly_Escape"
-        },
-        "Priority": 0.9978261,
-        "Name": "Lumafly_Escape",
-        "Placed": "Permanent",
-        "Sphere": 95,
-        "Required": false
-      },
-      "Location": {
-        "LocationDef": {
-          "Name": "Soul_Totem-White_Palace_Right",
-          "SceneName": "White_Palace_15",
-          "FlexibleCount": false,
-          "AdditionalProgressionPenalty": false
-        },
-        "logic": {
-          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
-          "Name": "Soul_Totem-White_Palace_Right"
-        },
-        "costs": [],
-        "Priority": 0.9173913,
-        "Reachable": "Permanent",
-        "Sphere": 82
-      },
-      "Index": 289
+      "Index": 287
     },
     {
       "Item": {
@@ -22495,7 +22417,7 @@
         "Reachable": "Permanent",
         "Sphere": 60
       },
-      "Index": 290
+      "Index": 288
     },
     {
       "Item": {
@@ -22531,7 +22453,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 291
+      "Index": 289
     },
     {
       "Item": {
@@ -22573,7 +22495,7 @@
         "Reachable": "Permanent",
         "Sphere": 20
       },
-      "Index": 292
+      "Index": 290
     },
     {
       "Item": {
@@ -22609,7 +22531,7 @@
         "Reachable": "Permanent",
         "Sphere": 73
       },
-      "Index": 293
+      "Index": 291
     },
     {
       "Item": {
@@ -22651,7 +22573,7 @@
         "Reachable": "Permanent",
         "Sphere": 20
       },
-      "Index": 294
+      "Index": 292
     },
     {
       "Item": {
@@ -22687,7 +22609,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 295
+      "Index": 293
     },
     {
       "Item": {
@@ -22723,7 +22645,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 296
+      "Index": 294
     },
     {
       "Item": {
@@ -22759,7 +22681,7 @@
         "Reachable": "Permanent",
         "Sphere": 1
       },
-      "Index": 297
+      "Index": 295
     },
     {
       "Item": {
@@ -22795,7 +22717,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 298
+      "Index": 296
     },
     {
       "Item": {
@@ -22831,7 +22753,7 @@
         "Reachable": "Permanent",
         "Sphere": 85
       },
-      "Index": 299
+      "Index": 297
     },
     {
       "Item": {
@@ -22867,7 +22789,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 300
+      "Index": 298
     },
     {
       "Item": {
@@ -22903,7 +22825,7 @@
         "Reachable": "Permanent",
         "Sphere": 74
       },
-      "Index": 301
+      "Index": 299
     },
     {
       "Item": {
@@ -22936,6 +22858,78 @@
         },
         "costs": [],
         "Priority": 0.739130437,
+        "Reachable": "Permanent",
+        "Sphere": 64
+      },
+      "Index": 300
+    },
+    {
+      "Item": {
+        "ItemDef": {
+          "Name": "Grimmkin_Flame",
+          "Pool": "Flame",
+          "PriceCap": 500,
+          "MajorItem": false
+        },
+        "item": {
+          "$type": "RandomizerCore.LogicItem, RandomizerCore",
+          "Name": "Grimmkin_Flame"
+        },
+        "Priority": 0.6021739,
+        "Name": "Grimmkin_Flame",
+        "Placed": "Permanent",
+        "Sphere": 75,
+        "Required": true
+      },
+      "Location": {
+        "LocationDef": {
+          "Name": "Boss_Essence-Soul_Tyrant",
+          "SceneName": "Ruins1_24",
+          "FlexibleCount": false,
+          "AdditionalProgressionPenalty": false
+        },
+        "logic": {
+          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
+          "Name": "Boss_Essence-Soul_Tyrant"
+        },
+        "costs": [],
+        "Priority": 0.510869563,
+        "Reachable": "Permanent",
+        "Sphere": 70
+      },
+      "Index": 301
+    },
+    {
+      "Item": {
+        "ItemDef": {
+          "Name": "Grimmkin_Flame",
+          "Pool": "Flame",
+          "PriceCap": 500,
+          "MajorItem": false
+        },
+        "item": {
+          "$type": "RandomizerCore.LogicItem, RandomizerCore",
+          "Name": "Grimmkin_Flame"
+        },
+        "Priority": 0.6021739,
+        "Name": "Grimmkin_Flame",
+        "Placed": "Permanent",
+        "Sphere": 75,
+        "Required": true
+      },
+      "Location": {
+        "LocationDef": {
+          "Name": "Boss_Essence-Grey_Prince_Zote",
+          "SceneName": "Room_Bretta",
+          "FlexibleCount": false,
+          "AdditionalProgressionPenalty": false
+        },
+        "logic": {
+          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
+          "Name": "Boss_Essence-Grey_Prince_Zote"
+        },
+        "costs": [],
+        "Priority": 0.380434781,
         "Reachable": "Permanent",
         "Sphere": 64
       },
@@ -22961,78 +22955,6 @@
       },
       "Location": {
         "LocationDef": {
-          "Name": "Boss_Essence-Soul_Tyrant",
-          "SceneName": "Ruins1_24",
-          "FlexibleCount": false,
-          "AdditionalProgressionPenalty": false
-        },
-        "logic": {
-          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
-          "Name": "Boss_Essence-Soul_Tyrant"
-        },
-        "costs": [],
-        "Priority": 0.510869563,
-        "Reachable": "Permanent",
-        "Sphere": 70
-      },
-      "Index": 303
-    },
-    {
-      "Item": {
-        "ItemDef": {
-          "Name": "Grimmkin_Flame",
-          "Pool": "Flame",
-          "PriceCap": 500,
-          "MajorItem": false
-        },
-        "item": {
-          "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Grimmkin_Flame"
-        },
-        "Priority": 0.6021739,
-        "Name": "Grimmkin_Flame",
-        "Placed": "Permanent",
-        "Sphere": 75,
-        "Required": true
-      },
-      "Location": {
-        "LocationDef": {
-          "Name": "Boss_Essence-Grey_Prince_Zote",
-          "SceneName": "Room_Bretta",
-          "FlexibleCount": false,
-          "AdditionalProgressionPenalty": false
-        },
-        "logic": {
-          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
-          "Name": "Boss_Essence-Grey_Prince_Zote"
-        },
-        "costs": [],
-        "Priority": 0.380434781,
-        "Reachable": "Permanent",
-        "Sphere": 64
-      },
-      "Index": 304
-    },
-    {
-      "Item": {
-        "ItemDef": {
-          "Name": "Grimmkin_Flame",
-          "Pool": "Flame",
-          "PriceCap": 500,
-          "MajorItem": false
-        },
-        "item": {
-          "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Grimmkin_Flame"
-        },
-        "Priority": 0.6021739,
-        "Name": "Grimmkin_Flame",
-        "Placed": "Permanent",
-        "Sphere": 75,
-        "Required": true
-      },
-      "Location": {
-        "LocationDef": {
           "Name": "Boss_Essence-Failed_Champion",
           "SceneName": "Crossroads_10",
           "FlexibleCount": false,
@@ -23047,7 +22969,7 @@
         "Reachable": "Permanent",
         "Sphere": 86
       },
-      "Index": 305
+      "Index": 303
     },
     {
       "Item": {
@@ -23083,7 +23005,7 @@
         "Reachable": "Permanent",
         "Sphere": 91
       },
-      "Index": 306
+      "Index": 304
     },
     {
       "Item": {
@@ -23119,7 +23041,7 @@
         "Reachable": "Permanent",
         "Sphere": 64
       },
-      "Index": 307
+      "Index": 305
     },
     {
       "Item": {
@@ -23155,7 +23077,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 308
+      "Index": 306
     },
     {
       "Item": {
@@ -23191,7 +23113,7 @@
         "Reachable": "Permanent",
         "Sphere": 64
       },
-      "Index": 309
+      "Index": 307
     },
     {
       "Item": {
@@ -23227,7 +23149,7 @@
         "Reachable": "Permanent",
         "Sphere": 86
       },
-      "Index": 310
+      "Index": 308
     },
     {
       "Item": {
@@ -23263,7 +23185,7 @@
         "Reachable": "Permanent",
         "Sphere": 91
       },
-      "Index": 311
+      "Index": 309
     },
     {
       "Item": {
@@ -23299,7 +23221,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 312
+      "Index": 310
     },
     {
       "Item": {
@@ -23335,7 +23257,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 313
+      "Index": 311
     },
     {
       "Item": {
@@ -23371,7 +23293,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 314
+      "Index": 312
     },
     {
       "Item": {
@@ -23407,7 +23329,7 @@
         "Reachable": "Permanent",
         "Sphere": 27
       },
-      "Index": 315
+      "Index": 313
     },
     {
       "Item": {
@@ -23443,7 +23365,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 316
+      "Index": 314
     },
     {
       "Item": {
@@ -23479,7 +23401,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 317
+      "Index": 315
     },
     {
       "Item": {
@@ -23515,7 +23437,7 @@
         "Reachable": "Permanent",
         "Sphere": 66
       },
-      "Index": 318
+      "Index": 316
     },
     {
       "Item": {
@@ -23551,7 +23473,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 319
+      "Index": 317
     },
     {
       "Item": {
@@ -23587,7 +23509,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 320
+      "Index": 318
     },
     {
       "Item": {
@@ -23623,7 +23545,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 321
+      "Index": 319
     },
     {
       "Item": {
@@ -23659,7 +23581,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 322
+      "Index": 320
     },
     {
       "Item": {
@@ -23695,7 +23617,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 323
+      "Index": 321
     },
     {
       "Item": {
@@ -23731,7 +23653,7 @@
         "Reachable": "Permanent",
         "Sphere": 27
       },
-      "Index": 324
+      "Index": 322
     },
     {
       "Item": {
@@ -23767,7 +23689,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 325
+      "Index": 323
     },
     {
       "Item": {
@@ -23803,7 +23725,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 326
+      "Index": 324
     },
     {
       "Item": {
@@ -23839,7 +23761,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 327
+      "Index": 325
     },
     {
       "Item": {
@@ -23875,7 +23797,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 328
+      "Index": 326
     },
     {
       "Item": {
@@ -23911,7 +23833,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 329
+      "Index": 327
     },
     {
       "Item": {
@@ -23947,7 +23869,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 330
+      "Index": 328
     },
     {
       "Item": {
@@ -23983,7 +23905,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 331
+      "Index": 329
     },
     {
       "Item": {
@@ -24019,7 +23941,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 332
+      "Index": 330
     },
     {
       "Item": {
@@ -24055,7 +23977,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 333
+      "Index": 331
     },
     {
       "Item": {
@@ -24091,7 +24013,7 @@
         "Reachable": "Permanent",
         "Sphere": 31
       },
-      "Index": 334
+      "Index": 332
     },
     {
       "Item": {
@@ -24127,7 +24049,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 335
+      "Index": 333
     },
     {
       "Item": {
@@ -24163,7 +24085,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 336
+      "Index": 334
     },
     {
       "Item": {
@@ -24199,7 +24121,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 337
+      "Index": 335
     },
     {
       "Item": {
@@ -24235,7 +24157,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 338
+      "Index": 336
     },
     {
       "Item": {
@@ -24271,7 +24193,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 339
+      "Index": 337
     },
     {
       "Item": {
@@ -24307,7 +24229,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 340
+      "Index": 338
     },
     {
       "Item": {
@@ -24343,7 +24265,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 341
+      "Index": 339
     },
     {
       "Item": {
@@ -24379,7 +24301,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 342
+      "Index": 340
     },
     {
       "Item": {
@@ -24415,7 +24337,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 343
+      "Index": 341
     },
     {
       "Item": {
@@ -24451,7 +24373,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 344
+      "Index": 342
     },
     {
       "Item": {
@@ -24487,7 +24409,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 345
+      "Index": 343
     },
     {
       "Item": {
@@ -24523,7 +24445,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 346
+      "Index": 344
     },
     {
       "Item": {
@@ -24559,7 +24481,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 347
+      "Index": 345
     },
     {
       "Item": {
@@ -24595,7 +24517,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 348
+      "Index": 346
     },
     {
       "Item": {
@@ -24631,7 +24553,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 349
+      "Index": 347
     },
     {
       "Item": {
@@ -24667,7 +24589,7 @@
         "Reachable": "Permanent",
         "Sphere": 38
       },
-      "Index": 350
+      "Index": 348
     },
     {
       "Item": {
@@ -24703,7 +24625,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 351
+      "Index": 349
     },
     {
       "Item": {
@@ -24739,7 +24661,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 352
+      "Index": 350
     },
     {
       "Item": {
@@ -24775,7 +24697,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 353
+      "Index": 351
     },
     {
       "Item": {
@@ -24811,7 +24733,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 354
+      "Index": 352
     },
     {
       "Item": {
@@ -24847,7 +24769,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 355
+      "Index": 353
     },
     {
       "Item": {
@@ -24883,7 +24805,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 356
+      "Index": 354
     },
     {
       "Item": {
@@ -24919,7 +24841,7 @@
         "Reachable": "Permanent",
         "Sphere": 74
       },
-      "Index": 357
+      "Index": 355
     },
     {
       "Item": {
@@ -24955,7 +24877,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 358
+      "Index": 356
     },
     {
       "Item": {
@@ -24991,7 +24913,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 359
+      "Index": 357
     },
     {
       "Item": {
@@ -25027,7 +24949,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 360
+      "Index": 358
     },
     {
       "Item": {
@@ -25063,7 +24985,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 361
+      "Index": 359
     },
     {
       "Item": {
@@ -25099,7 +25021,7 @@
         "Reachable": "Permanent",
         "Sphere": 54
       },
-      "Index": 362
+      "Index": 360
     },
     {
       "Item": {
@@ -25135,7 +25057,7 @@
         "Reachable": "Permanent",
         "Sphere": 90
       },
-      "Index": 363
+      "Index": 361
     },
     {
       "Item": {
@@ -25171,7 +25093,7 @@
         "Reachable": "Permanent",
         "Sphere": 8
       },
-      "Index": 364
+      "Index": 362
     },
     {
       "Item": {
@@ -25207,7 +25129,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 365
+      "Index": 363
     },
     {
       "Item": {
@@ -25249,7 +25171,7 @@
         "Reachable": "Permanent",
         "Sphere": 36
       },
-      "Index": 366
+      "Index": 364
     },
     {
       "Item": {
@@ -25291,7 +25213,7 @@
         "Reachable": "Permanent",
         "Sphere": 36
       },
-      "Index": 367
+      "Index": 365
     },
     {
       "Item": {
@@ -25327,7 +25249,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 368
+      "Index": 366
     },
     {
       "Item": {
@@ -25363,7 +25285,7 @@
         "Reachable": "Permanent",
         "Sphere": 22
       },
-      "Index": 369
+      "Index": 367
     },
     {
       "Item": {
@@ -25399,7 +25321,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 370
+      "Index": 368
     },
     {
       "Item": {
@@ -25441,7 +25363,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 371
+      "Index": 369
     },
     {
       "Item": {
@@ -25472,7 +25394,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 372
+      "Index": 370
     },
     {
       "Item": {
@@ -25508,7 +25430,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 373
+      "Index": 371
     },
     {
       "Item": {
@@ -25544,7 +25466,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 374
+      "Index": 372
     },
     {
       "Item": {
@@ -25580,7 +25502,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 375
+      "Index": 373
     },
     {
       "Item": {
@@ -25616,7 +25538,7 @@
         "Reachable": "Permanent",
         "Sphere": 43
       },
-      "Index": 376
+      "Index": 374
     },
     {
       "Item": {
@@ -25652,7 +25574,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 377
+      "Index": 375
     },
     {
       "Item": {
@@ -25694,7 +25616,7 @@
         "Reachable": "Permanent",
         "Sphere": 36
       },
-      "Index": 378
+      "Index": 376
     },
     {
       "Item": {
@@ -25736,7 +25658,7 @@
         "Reachable": "Permanent",
         "Sphere": 36
       },
-      "Index": 379
+      "Index": 377
     },
     {
       "Item": {
@@ -25767,7 +25689,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 380
+      "Index": 378
     },
     {
       "Item": {
@@ -25798,7 +25720,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 381
+      "Index": 379
     },
     {
       "Item": {
@@ -25834,7 +25756,7 @@
         "Reachable": "Permanent",
         "Sphere": 81
       },
-      "Index": 382
+      "Index": 380
     },
     {
       "Item": {
@@ -25870,7 +25792,7 @@
         "Reachable": "Permanent",
         "Sphere": 81
       },
-      "Index": 383
+      "Index": 381
     },
     {
       "Item": {
@@ -25906,7 +25828,7 @@
         "Reachable": "Permanent",
         "Sphere": 81
       },
-      "Index": 384
+      "Index": 382
     },
     {
       "Item": {
@@ -25942,7 +25864,7 @@
         "Reachable": "Permanent",
         "Sphere": 80
       },
-      "Index": 385
+      "Index": 383
     },
     {
       "Item": {
@@ -25978,7 +25900,7 @@
         "Reachable": "Permanent",
         "Sphere": 81
       },
-      "Index": 386
+      "Index": 384
     },
     {
       "Item": {
@@ -26014,7 +25936,7 @@
         "Reachable": "Permanent",
         "Sphere": 80
       },
-      "Index": 387
+      "Index": 385
     },
     {
       "Item": {
@@ -26050,7 +25972,7 @@
         "Reachable": "Permanent",
         "Sphere": 81
       },
-      "Index": 388
+      "Index": 386
     },
     {
       "Item": {
@@ -26086,7 +26008,7 @@
         "Reachable": "Permanent",
         "Sphere": 81
       },
-      "Index": 389
+      "Index": 387
     },
     {
       "Item": {
@@ -26122,7 +26044,7 @@
         "Reachable": "Permanent",
         "Sphere": 80
       },
-      "Index": 390
+      "Index": 388
     },
     {
       "Item": {
@@ -26157,6 +26079,90 @@
         "Priority": 0.8065217,
         "Reachable": "Permanent",
         "Sphere": 80
+      },
+      "Index": 389
+    },
+    {
+      "Item": {
+        "ItemDef": {
+          "Name": "Grimmkin_Flame",
+          "Pool": "Flame",
+          "PriceCap": 500,
+          "MajorItem": false
+        },
+        "item": {
+          "$type": "RandomizerCore.LogicItem, RandomizerCore",
+          "Name": "Grimmkin_Flame"
+        },
+        "Priority": 0.6021739,
+        "Name": "Grimmkin_Flame",
+        "Placed": "Permanent",
+        "Sphere": 75,
+        "Required": true
+      },
+      "Location": {
+        "LocationDef": {
+          "Name": "Iselda",
+          "SceneName": "Room_mapper",
+          "FlexibleCount": true,
+          "AdditionalProgressionPenalty": true
+        },
+        "logic": {
+          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
+          "Name": "Iselda"
+        },
+        "costs": [
+          {
+            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
+            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
+            "GeoAmount": 1
+          }
+        ],
+        "Priority": 0.308695644,
+        "Reachable": "Permanent",
+        "Sphere": 47
+      },
+      "Index": 390
+    },
+    {
+      "Item": {
+        "ItemDef": {
+          "Name": "Grimmkin_Flame",
+          "Pool": "Flame",
+          "PriceCap": 500,
+          "MajorItem": false
+        },
+        "item": {
+          "$type": "RandomizerCore.LogicItem, RandomizerCore",
+          "Name": "Grimmkin_Flame"
+        },
+        "Priority": 0.6021739,
+        "Name": "Grimmkin_Flame",
+        "Placed": "Permanent",
+        "Sphere": 75,
+        "Required": true
+      },
+      "Location": {
+        "LocationDef": {
+          "Name": "Iselda",
+          "SceneName": "Room_mapper",
+          "FlexibleCount": true,
+          "AdditionalProgressionPenalty": true
+        },
+        "logic": {
+          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
+          "Name": "Iselda"
+        },
+        "costs": [
+          {
+            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
+            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
+            "GeoAmount": 1
+          }
+        ],
+        "Priority": 0.308695644,
+        "Reachable": "Permanent",
+        "Sphere": 47
       },
       "Index": 391
     },
@@ -26457,90 +26463,6 @@
     {
       "Item": {
         "ItemDef": {
-          "Name": "Grimmkin_Flame",
-          "Pool": "Flame",
-          "PriceCap": 500,
-          "MajorItem": false
-        },
-        "item": {
-          "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Grimmkin_Flame"
-        },
-        "Priority": 0.6021739,
-        "Name": "Grimmkin_Flame",
-        "Placed": "Permanent",
-        "Sphere": 75,
-        "Required": true
-      },
-      "Location": {
-        "LocationDef": {
-          "Name": "Iselda",
-          "SceneName": "Room_mapper",
-          "FlexibleCount": true,
-          "AdditionalProgressionPenalty": true
-        },
-        "logic": {
-          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
-          "Name": "Iselda"
-        },
-        "costs": [
-          {
-            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
-            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
-            "GeoAmount": 1
-          }
-        ],
-        "Priority": 0.308695644,
-        "Reachable": "Permanent",
-        "Sphere": 47
-      },
-      "Index": 399
-    },
-    {
-      "Item": {
-        "ItemDef": {
-          "Name": "Grimmkin_Flame",
-          "Pool": "Flame",
-          "PriceCap": 500,
-          "MajorItem": false
-        },
-        "item": {
-          "$type": "RandomizerCore.LogicItem, RandomizerCore",
-          "Name": "Grimmkin_Flame"
-        },
-        "Priority": 0.6021739,
-        "Name": "Grimmkin_Flame",
-        "Placed": "Permanent",
-        "Sphere": 75,
-        "Required": true
-      },
-      "Location": {
-        "LocationDef": {
-          "Name": "Iselda",
-          "SceneName": "Room_mapper",
-          "FlexibleCount": true,
-          "AdditionalProgressionPenalty": true
-        },
-        "logic": {
-          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
-          "Name": "Iselda"
-        },
-        "costs": [
-          {
-            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
-            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
-            "GeoAmount": 1
-          }
-        ],
-        "Priority": 0.308695644,
-        "Reachable": "Permanent",
-        "Sphere": 47
-      },
-      "Index": 400
-    },
-    {
-      "Item": {
-        "ItemDef": {
           "Name": "Lore_Tablet-Path_of_Pain_Entrance",
           "Pool": "PalaceLore",
           "PriceCap": 1,
@@ -26572,7 +26494,7 @@
         "Reachable": "Permanent",
         "Sphere": 86
       },
-      "Index": 401
+      "Index": 399
     },
     {
       "Item": {
@@ -26608,7 +26530,7 @@
         "Reachable": "Permanent",
         "Sphere": 90
       },
-      "Index": 402
+      "Index": 400
     },
     {
       "Item": {
@@ -26644,7 +26566,7 @@
         "Reachable": "Permanent",
         "Sphere": 8
       },
-      "Index": 403
+      "Index": 401
     },
     {
       "Item": {
@@ -26680,7 +26602,7 @@
         "Reachable": "Permanent",
         "Sphere": 88
       },
-      "Index": 404
+      "Index": 402
     },
     {
       "Item": {
@@ -26716,7 +26638,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 405
+      "Index": 403
     },
     {
       "Item": {
@@ -26752,7 +26674,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 406
+      "Index": 404
     },
     {
       "Item": {
@@ -26788,7 +26710,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 407
+      "Index": 405
     },
     {
       "Item": {
@@ -26824,7 +26746,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 408
+      "Index": 406
     },
     {
       "Item": {
@@ -26860,7 +26782,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 409
+      "Index": 407
     },
     {
       "Item": {
@@ -26896,7 +26818,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 410
+      "Index": 408
     },
     {
       "Item": {
@@ -26932,7 +26854,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 411
+      "Index": 409
     },
     {
       "Item": {
@@ -26968,7 +26890,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 412
+      "Index": 410
     },
     {
       "Item": {
@@ -27004,7 +26926,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 413
+      "Index": 411
     },
     {
       "Item": {
@@ -27040,7 +26962,7 @@
         "Reachable": "Permanent",
         "Sphere": 25
       },
-      "Index": 414
+      "Index": 412
     },
     {
       "Item": {
@@ -27076,7 +26998,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 415
+      "Index": 413
     },
     {
       "Item": {
@@ -27112,7 +27034,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 416
+      "Index": 414
     },
     {
       "Item": {
@@ -27148,7 +27070,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 417
+      "Index": 415
     },
     {
       "Item": {
@@ -27184,7 +27106,7 @@
         "Reachable": "Permanent",
         "Sphere": 43
       },
-      "Index": 418
+      "Index": 416
     },
     {
       "Item": {
@@ -27220,7 +27142,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 419
+      "Index": 417
     },
     {
       "Item": {
@@ -27256,7 +27178,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 420
+      "Index": 418
     },
     {
       "Item": {
@@ -27292,7 +27214,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 421
+      "Index": 419
     },
     {
       "Item": {
@@ -27328,7 +27250,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 422
+      "Index": 420
     },
     {
       "Item": {
@@ -27364,7 +27286,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 423
+      "Index": 421
     },
     {
       "Item": {
@@ -27400,7 +27322,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 424
+      "Index": 422
     },
     {
       "Item": {
@@ -27436,7 +27358,7 @@
         "Reachable": "Permanent",
         "Sphere": 31
       },
-      "Index": 425
+      "Index": 423
     },
     {
       "Item": {
@@ -27472,7 +27394,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 426
+      "Index": 424
     },
     {
       "Item": {
@@ -27508,7 +27430,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 427
+      "Index": 425
     },
     {
       "Item": {
@@ -27544,7 +27466,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 428
+      "Index": 426
     },
     {
       "Item": {
@@ -27580,7 +27502,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 429
+      "Index": 427
     },
     {
       "Item": {
@@ -27616,7 +27538,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 430
+      "Index": 428
     },
     {
       "Item": {
@@ -27652,7 +27574,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 431
+      "Index": 429
     },
     {
       "Item": {
@@ -27688,7 +27610,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 432
+      "Index": 430
     },
     {
       "Item": {
@@ -27724,7 +27646,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 433
+      "Index": 431
     },
     {
       "Item": {
@@ -27760,7 +27682,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 434
+      "Index": 432
     },
     {
       "Item": {
@@ -27796,7 +27718,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 435
+      "Index": 433
     },
     {
       "Item": {
@@ -27832,7 +27754,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 436
+      "Index": 434
     },
     {
       "Item": {
@@ -27868,7 +27790,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 437
+      "Index": 435
     },
     {
       "Item": {
@@ -27904,7 +27826,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 438
+      "Index": 436
     },
     {
       "Item": {
@@ -27940,7 +27862,7 @@
         "Reachable": "Permanent",
         "Sphere": 2
       },
-      "Index": 439
+      "Index": 437
     },
     {
       "Item": {
@@ -27976,7 +27898,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 440
+      "Index": 438
     },
     {
       "Item": {
@@ -28012,7 +27934,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 441
+      "Index": 439
     },
     {
       "Item": {
@@ -28048,7 +27970,7 @@
         "Reachable": "Permanent",
         "Sphere": 62
       },
-      "Index": 442
+      "Index": 440
     },
     {
       "Item": {
@@ -28084,7 +28006,7 @@
         "Reachable": "Permanent",
         "Sphere": 62
       },
-      "Index": 443
+      "Index": 441
     },
     {
       "Item": {
@@ -28120,7 +28042,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 444
+      "Index": 442
     },
     {
       "Item": {
@@ -28156,7 +28078,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 445
+      "Index": 443
     },
     {
       "Item": {
@@ -28192,7 +28114,7 @@
         "Reachable": "Permanent",
         "Sphere": 59
       },
-      "Index": 446
+      "Index": 444
     },
     {
       "Item": {
@@ -28228,7 +28150,7 @@
         "Reachable": "Permanent",
         "Sphere": 67
       },
-      "Index": 447
+      "Index": 445
     },
     {
       "Item": {
@@ -28264,7 +28186,7 @@
         "Reachable": "Permanent",
         "Sphere": 67
       },
-      "Index": 448
+      "Index": 446
     },
     {
       "Item": {
@@ -28300,7 +28222,7 @@
         "Reachable": "Permanent",
         "Sphere": 10
       },
-      "Index": 449
+      "Index": 447
     },
     {
       "Item": {
@@ -28336,7 +28258,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 450
+      "Index": 448
     },
     {
       "Item": {
@@ -28372,7 +28294,7 @@
         "Reachable": "Permanent",
         "Sphere": 94
       },
-      "Index": 451
+      "Index": 449
     },
     {
       "Item": {
@@ -28408,7 +28330,7 @@
         "Reachable": "Permanent",
         "Sphere": 94
       },
-      "Index": 452
+      "Index": 450
     },
     {
       "Item": {
@@ -28444,7 +28366,7 @@
         "Reachable": "Permanent",
         "Sphere": 94
       },
-      "Index": 453
+      "Index": 451
     },
     {
       "Item": {
@@ -28480,7 +28402,7 @@
         "Reachable": "Permanent",
         "Sphere": 94
       },
-      "Index": 454
+      "Index": 452
     },
     {
       "Item": {
@@ -28516,7 +28438,7 @@
         "Reachable": "Permanent",
         "Sphere": 88
       },
-      "Index": 455
+      "Index": 453
     },
     {
       "Item": {
@@ -28552,7 +28474,7 @@
         "Reachable": "Permanent",
         "Sphere": 70
       },
-      "Index": 456
+      "Index": 454
     },
     {
       "Item": {
@@ -28588,7 +28510,7 @@
         "Reachable": "Permanent",
         "Sphere": 13
       },
-      "Index": 457
+      "Index": 455
     },
     {
       "Item": {
@@ -28624,7 +28546,7 @@
         "Reachable": "Permanent",
         "Sphere": 43
       },
-      "Index": 458
+      "Index": 456
     },
     {
       "Item": {
@@ -28660,7 +28582,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 459
+      "Index": 457
     },
     {
       "Item": {
@@ -28696,7 +28618,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 460
+      "Index": 458
     },
     {
       "Item": {
@@ -28732,7 +28654,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 461
+      "Index": 459
     },
     {
       "Item": {
@@ -28768,7 +28690,7 @@
         "Reachable": "Permanent",
         "Sphere": 17
       },
-      "Index": 462
+      "Index": 460
     },
     {
       "Item": {
@@ -28804,7 +28726,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 463
+      "Index": 461
     },
     {
       "Item": {
@@ -28840,7 +28762,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 464
+      "Index": 462
     },
     {
       "Item": {
@@ -28882,7 +28804,7 @@
         "Reachable": "Permanent",
         "Sphere": 1
       },
-      "Index": 465
+      "Index": 463
     },
     {
       "Item": {
@@ -28918,7 +28840,7 @@
         "Reachable": "Permanent",
         "Sphere": 5
       },
-      "Index": 466
+      "Index": 464
     },
     {
       "Item": {
@@ -28954,7 +28876,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 467
+      "Index": 465
     },
     {
       "Item": {
@@ -28990,7 +28912,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 468
+      "Index": 466
     },
     {
       "Item": {
@@ -29026,7 +28948,7 @@
         "Reachable": "Permanent",
         "Sphere": 7
       },
-      "Index": 469
+      "Index": 467
     },
     {
       "Item": {
@@ -29062,7 +28984,7 @@
         "Reachable": "Permanent",
         "Sphere": 58
       },
-      "Index": 470
+      "Index": 468
     },
     {
       "Item": {
@@ -29098,7 +29020,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 471
+      "Index": 469
     },
     {
       "Item": {
@@ -29134,7 +29056,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 472
+      "Index": 470
     },
     {
       "Item": {
@@ -29170,7 +29092,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 473
+      "Index": 471
     },
     {
       "Item": {
@@ -29206,7 +29128,7 @@
         "Reachable": "Permanent",
         "Sphere": 0
       },
-      "Index": 474
+      "Index": 472
     },
     {
       "Item": {
@@ -29242,7 +29164,7 @@
         "Reachable": "Permanent",
         "Sphere": 75
       },
-      "Index": 475
+      "Index": 473
     },
     {
       "Item": {
@@ -29278,7 +29200,7 @@
         "Reachable": "Permanent",
         "Sphere": 51
       },
-      "Index": 476
+      "Index": 474
     },
     {
       "Item": {
@@ -29309,7 +29231,7 @@
         "Reachable": "Permanent",
         "Sphere": 22
       },
-      "Index": 477
+      "Index": 475
     },
     {
       "Item": {
@@ -29340,7 +29262,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 478
+      "Index": 476
     },
     {
       "Item": {
@@ -29371,7 +29293,7 @@
         "Reachable": "Permanent",
         "Sphere": 51
       },
-      "Index": 479
+      "Index": 477
     },
     {
       "Item": {
@@ -29402,7 +29324,7 @@
         "Reachable": "Permanent",
         "Sphere": 29
       },
-      "Index": 480
+      "Index": 478
     },
     {
       "Item": {
@@ -29433,7 +29355,7 @@
         "Reachable": "Permanent",
         "Sphere": 65
       },
-      "Index": 481
+      "Index": 479
     },
     {
       "Item": {
@@ -29464,7 +29386,7 @@
         "Reachable": "Permanent",
         "Sphere": 22
       },
-      "Index": 482
+      "Index": 480
     },
     {
       "Item": {
@@ -29495,7 +29417,7 @@
         "Reachable": "Permanent",
         "Sphere": 78
       },
-      "Index": 483
+      "Index": 481
     },
     {
       "Item": {
@@ -29526,7 +29448,7 @@
         "Reachable": "Permanent",
         "Sphere": 23
       },
-      "Index": 484
+      "Index": 482
     },
     {
       "Item": {
@@ -29557,7 +29479,7 @@
         "Reachable": "Permanent",
         "Sphere": 23
       },
-      "Index": 485
+      "Index": 483
     },
     {
       "Item": {
@@ -29588,7 +29510,7 @@
         "Reachable": "Permanent",
         "Sphere": 51
       },
-      "Index": 486
+      "Index": 484
     },
     {
       "Item": {
@@ -29624,7 +29546,7 @@
         "Reachable": "Permanent",
         "Sphere": 60
       },
-      "Index": 487
+      "Index": 485
     },
     {
       "Item": {
@@ -29666,7 +29588,7 @@
         "Reachable": "Permanent",
         "Sphere": 47
       },
-      "Index": 488
+      "Index": 486
     },
     {
       "Item": {
@@ -29702,7 +29624,7 @@
         "Reachable": "Permanent",
         "Sphere": 9
       },
-      "Index": 489
+      "Index": 487
     },
     {
       "Item": {
@@ -29737,6 +29659,84 @@
         "Priority": 0.119565219,
         "Reachable": "Permanent",
         "Sphere": 75
+      },
+      "Index": 488
+    },
+    {
+      "Item": {
+        "ItemDef": {
+          "Name": "Lumafly_Escape",
+          "Pool": "JunkPitChest",
+          "PriceCap": 1,
+          "MajorItem": false
+        },
+        "item": {
+          "$type": "RandomizerCore.LogicItem, RandomizerCore",
+          "Name": "Lumafly_Escape"
+        },
+        "Priority": 0.9978261,
+        "Name": "Lumafly_Escape",
+        "Placed": "Permanent",
+        "Sphere": 95,
+        "Required": false
+      },
+      "Location": {
+        "LocationDef": {
+          "Name": "Crossroads_Stag",
+          "SceneName": "Crossroads_47",
+          "FlexibleCount": false,
+          "AdditionalProgressionPenalty": false
+        },
+        "logic": {
+          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
+          "Name": "Crossroads_Stag"
+        },
+        "costs": [
+          {
+            "$type": "RandomizerMod.RC.LogicGeoCost, RandomizerMod",
+            "CanReplenishGeoWaypoint": "Can_Replenish_Geo",
+            "GeoAmount": 50
+          }
+        ],
+        "Priority": 0.271739125,
+        "Reachable": "Permanent",
+        "Sphere": 0
+      },
+      "Index": 489
+    },
+    {
+      "Item": {
+        "ItemDef": {
+          "Name": "Crossroads_Stag",
+          "Pool": "Stag",
+          "PriceCap": 500,
+          "MajorItem": false
+        },
+        "item": {
+          "$type": "RandomizerCore.LogicItem, RandomizerCore",
+          "Name": "Crossroads_Stag"
+        },
+        "Priority": 0.6456522,
+        "Name": "Crossroads_Stag",
+        "Placed": "Permanent",
+        "Sphere": 95,
+        "Required": false
+      },
+      "Location": {
+        "LocationDef": {
+          "Name": "Soul_Totem-White_Palace_Right",
+          "SceneName": "White_Palace_15",
+          "FlexibleCount": false,
+          "AdditionalProgressionPenalty": false
+        },
+        "logic": {
+          "$type": "RandomizerCore.Logic.LogicDef, RandomizerCore",
+          "Name": "Soul_Totem-White_Palace_Right"
+        },
+        "costs": [],
+        "Priority": 0.9173913,
+        "Reachable": "Permanent",
+        "Sphere": 82
       },
       "Index": 490
     }
@@ -42386,7 +42386,7 @@
       }
     ],
     "Increments": [],
-  "StartStateLinkedTerms": [
+    "StartStateLinkedTerms": [
       "Crossroads_10[right1]",
       "Crossroads_10[right1]"
     ],
@@ -42503,10 +42503,10 @@
       "SeerPreview": "CostAndName",
       "EggShopPreview": "CostAndName"
     },
-  "StartLocationSettings": {
+    "StartLocationSettings": {
       "StartLocationType": "Random",
       "StartLocation": "MultiStart<|West of Crossroads Stag|East of Ancestral Mound|>"
-  },
+    },
     "StartItemSettings": {
       "MinimumStartGeo": 666,
       "MaximumStartGeo": 666,
